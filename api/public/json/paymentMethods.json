@@ -1,0 +1,5191 @@
+[
+    {
+        "nama": "-",
+        "tipe": "Asuransi",
+        "id": "5b6fa230e185141c34a46fbe"
+    },
+    {
+        "nama": "ABDA",
+        "tipe": "Asuransi",
+        "gambar": "abda.jpg",
+        "id": "576111c9a7b24ba905528884"
+    },
+    {
+        "nama": "ACA Insurance",
+        "tipe": "Asuransi",
+        "gambar": "54a76-logoasuransiaca.png.png",
+        "id": "59b611b8f881de33db13636c"
+    },
+    {
+        "nama": "ACPI-Cakrawala ",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6825943c41c222ef2e06e6ef"
+    },
+    {
+        "nama": "AIA Individu",
+        "tipe": "Asuransi",
+        "gambar": "aia.png",
+        "id": "576111c9a7b24ba905528870"
+    },
+    {
+        "nama": "AMP",
+        "tipe": "Asuransi",
+        "id": "5dc50fc50acbed60348c9269"
+    },
+    {
+        "nama": "AP II",
+        "tipe": "Asuransi",
+        "gambar": "ap2.jpg",
+        "id": "5a8e6c228480f63a0d298993"
+    },
+    {
+        "nama": "APLN",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "67ac614269d4187dd2314a65"
+    },
+    {
+        "nama": "AXA Mandiri",
+        "tipe": "Asuransi",
+        "id": "5b593dcf45d5bd2dabdca64b"
+    },
+    {
+        "nama": "Across Asia Assist (AAA)",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "638725cf95a4ef2f4cfde1ce"
+    },
+    {
+        "nama": "Adira Dinamika Insurance",
+        "tipe": "Asuransi",
+        "gambar": "Adira Insurance.png.png",
+        "id": "59b616d4f881de33db13637a"
+    },
+    {
+        "nama": "Admedika",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "576111c9a7b24ba905528865"
+    },
+    {
+        "nama": "Airnav",
+        "tipe": "Asuransi",
+        "gambar": "airnav.jpg",
+        "id": "5a8e6c348480f63a0d298994"
+    },
+    {
+        "nama": "Amanda",
+        "tipe": "Asuransi",
+        "hospitalId": "68b474f0a2d1230c46a84d90",
+        "id": "68faf63cb0b327feee7d111f",
+        "createdId": "67f7c76ab47e3d66dbcd62a5",
+        "createdName": "Cek Kendala",
+        "createdAt": "2025-10-24T03:45:00.594Z",
+        "updatedAt": "2025-10-24T03:45:00.594Z"
+    },
+    {
+        "nama": "Astra Buana Insurance",
+        "tipe": "Asuransi",
+        "gambar": "LOGO BARU ASURANSI ASTRA.png.png",
+        "id": "59b61562f881de33db136377"
+    },
+    {
+        "nama": "Astra Life",
+        "tipe": "Asuransi",
+        "gambar": "astralife.jpg",
+        "id": "583bd258e62ed032ec93cb28"
+    },
+    {
+        "nama": "Asuransi  Inhealth   kapitasi ",
+        "tipe": "Asuransi",
+        "id": "5f0e60410588aa53f3c1a7a4"
+    },
+    {
+        "nama": "Asuransi AXA Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "axainsurance.png",
+        "id": "576111c9a7b24ba905528869"
+    },
+    {
+        "nama": "Asuransi Allianz Life Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "allianz.jpg",
+        "id": "577267c17d6d9516128c93bf"
+    },
+    {
+        "nama": "Asuransi Avrist",
+        "tipe": "Asuransi",
+        "gambar": "avrist.jpg",
+        "id": "5783097204f2f35018758071"
+    },
+    {
+        "nama": "Asuransi Cakrawala",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc9513fdfda96d668a4e",
+        "id": "69030d16016fb864032c9022",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-30T07:00:38.214Z",
+        "updatedAt": "2025-10-30T07:00:38.214Z"
+    },
+    {
+        "nama": "Asuransi Gesa Assistance",
+        "tipe": "Asuransi",
+        "gambar": "gesaassistance.jpg",
+        "id": "5783097204f2f35018758072"
+    },
+    {
+        "nama": "Asuransi Hardlent",
+        "tipe": "Asuransi",
+        "gambar": "hardlent.jpg",
+        "id": "633fcd9f5fe233f0b1dedf1f"
+    },
+    {
+        "nama": "Asuransi Jasa Raharja",
+        "tipe": "Asuransi",
+        "gambar": "jasaraharja.png",
+        "id": "5783097204f2f35018758081"
+    },
+    {
+        "nama": "Asuransi Jaya Proteksi",
+        "tipe": "Asuransi",
+        "gambar": "partner_jaya_protek.gif.gif",
+        "id": "59b60fcff881de33db136367"
+    },
+    {
+        "nama": "Asuransi Jiwa Bumi Asih Jaya",
+        "tipe": "Asuransi",
+        "gambar": "bumiasihjaya.jpg",
+        "id": "577267c17d6d9516128c93b8"
+    },
+    {
+        "nama": "Asuransi Jiwa Bumi Putera",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfec"
+    },
+    {
+        "nama": "Asuransi Jiwa Generali",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfeb"
+    },
+    {
+        "nama": "Asuransi Jiwa Manulife Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "manulife.png",
+        "id": "577267c17d6d9516128c93af"
+    },
+    {
+        "nama": "Asuransi Jiwa Sinar Mas",
+        "tipe": "Asuransi",
+        "gambar": "asuransisinarmas.jpg",
+        "id": "577267c17d6d9516128c93b6"
+    },
+    {
+        "nama": "Asuransi Multi Artha Guna (MAG)",
+        "tipe": "Asuransi",
+        "gambar": "new-logo-mag-fairfax.png.png",
+        "id": "59b61613f881de33db136378"
+    },
+    {
+        "nama": "Asuransi Pacific International",
+        "tipe": "Asuransi",
+        "gambar": "pacific.jpg",
+        "id": "577267c17d6d9516128c93b1"
+    },
+    {
+        "nama": "Asuransi Pertalife",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfe8"
+    },
+    {
+        "nama": "Asuransi ReLife",
+        "tipe": "Asuransi",
+        "gambar": "relife.jpg",
+        "id": "5783097204f2f35018758080"
+    },
+    {
+        "nama": "Asuransi Reliance Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "reliance.png",
+        "id": "577267c17d6d9516128c93b2"
+    },
+    {
+        "nama": "Asuransi Tugu Mandiri",
+        "tipe": "Asuransi",
+        "gambar": "tugumandiri.png",
+        "id": "5783097204f2f3501875806f"
+    },
+    {
+        "nama": "Avrist Assurance",
+        "tipe": "Asuransi",
+        "gambar": "avrist_insurance.jpg.jpg",
+        "id": "59b61526f881de33db136376"
+    },
+    {
+        "nama": "BAPEL JPKM SURYA SUMIRAT",
+        "tipe": "Asuransi",
+        "gambar": "bapel.jpg",
+        "id": "62665b4b3b1034da6f0750bb"
+    },
+    {
+        "nama": "BCA Life",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6413d1aafcc6d54f33cbe778"
+    },
+    {
+        "nama": "BNI Life Insurance",
+        "tipe": "Asuransi",
+        "gambar": "bnilife.png",
+        "id": "576111c9a7b24ba90552887e"
+    },
+    {
+        "nama": "BPJS KESEHATAN",
+        "tipe": "Asuransi",
+        "id": "5b6e523cc9845313010ebef7"
+    },
+    {
+        "nama": "BPJS Prolanis",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "67a74d182591cbd434f59403"
+    },
+    {
+        "nama": "BPJS TENAGA KERJA",
+        "tipe": "Asuransi",
+        "id": "5b6e5242c9845313010ebefa"
+    },
+    {
+        "nama": "BRI LIFE Managed Care",
+        "tipe": "Asuransi",
+        "hospitalId": "68f700833ca94d5ec1f647bc",
+        "id": "69032ae40b3a9fd0f43c555f",
+        "createdId": "68f70033c35f6a5de9f7816a",
+        "createdName": "dr. Sri Hastuti, MARS",
+        "createdAt": "2025-10-30T09:07:48.044Z",
+        "updatedAt": "2025-10-30T09:07:48.044Z"
+    },
+    {
+        "nama": "BRI Life",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6703b4c424c3fcb37936d312"
+    },
+    {
+        "nama": "BRI life Medicare",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "681826ae6ab6abad2beb7786"
+    },
+    {
+        "nama": "BRIngin Life",
+        "tipe": "Asuransi",
+        "gambar": "Lowongan kerja PT AJ Bringin Jiwa Sejahtera (BRINGIN LIFE).png.png",
+        "id": "59b614a6f881de33db136375"
+    },
+    {
+        "nama": "Bali Assistance",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "68ac097593d8125c00f81199"
+    },
+    {
+        "nama": "Berdikari Insurance",
+        "tipe": "Asuransi",
+        "gambar": "asuransi-mobil-berdikari.jpg.jpg",
+        "id": "59b23c150400a42f42166195"
+    },
+    {
+        "nama": "Best Service Assistance",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "67a823829fcc3ed76315ae3f"
+    },
+    {
+        "nama": "Bosowa Periskop",
+        "tipe": "Asuransi",
+        "gambar": "Bosowa Periskop.jpg.jpg",
+        "id": "59b23b750400a42f42166193"
+    },
+    {
+        "nama": "Bpjs",
+        "tipe": "Asuransi",
+        "id": "5b6e520ec9845313010ebef2"
+    },
+    {
+        "nama": "Bumida BumiPutra",
+        "tipe": "Asuransi",
+        "gambar": "bumidabumiputra",
+        "id": "5783092704f2f3501875806c"
+    },
+    {
+        "nama": "CAR",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d72f1e3957805eb34acab8"
+    },
+    {
+        "nama": "Cahaya Medika",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "61679a3c8a29ae01d9c6b419"
+    },
+    {
+        "nama": "Commonwealth Life",
+        "tipe": "Asuransi",
+        "gambar": "9464000.jpg.jpg",
+        "id": "59b61140f881de33db13636a"
+    },
+    {
+        "nama": "Dana Sehat",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "688b4baa005cdaea4eea5f3e"
+    },
+    {
+        "nama": "Dana Sehat Muhammadiyah",
+        "tipe": "Asuransi",
+        "gambar": "danasehatmuhammadiyah.jpg",
+        "id": "63688926a494d11b6d7fc50c"
+    },
+    {
+        "nama": "Dayin Mitra",
+        "tipe": "Asuransi",
+        "gambar": "Indonesia - Dayin Mitra.jpg.jpg",
+        "id": "59b23c6b0400a42f42166196"
+    },
+    {
+        "nama": "Equity life",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfceb3300e6aa4c0fe3b2",
+        "id": "6903242e3a2817646e2117d7",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-30T08:39:10.608Z",
+        "updatedAt": "2025-10-30T08:39:10.608Z"
+    },
+    {
+        "nama": "Etiqa",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfea"
+    },
+    {
+        "nama": "FWD",
+        "tipe": "Asuransi",
+        "gambar": "fwd.jpg",
+        "id": "576111c9a7b24ba90552886e"
+    },
+    {
+        "nama": "FWD Life Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "FWD.jpg.jpg",
+        "id": "59b6164ff881de33db136379"
+    },
+    {
+        "nama": "Fullerton",
+        "tipe": "Asuransi",
+        "id": "5dc50fbd0acbed60348c9268"
+    },
+    {
+        "nama": "Fullerton TMC",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d72f1e3957805eb34acab5"
+    },
+    {
+        "nama": "GNG Healthcare",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfe9"
+    },
+    {
+        "nama": "Garda Medika",
+        "tipe": "Asuransi",
+        "gambar": "gardamedika.png",
+        "id": "578308e104f2f3501875806a"
+    },
+    {
+        "nama": "Generali Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "generali.jpg.jpg",
+        "id": "59b61455f881de33db136374"
+    },
+    {
+        "nama": "Global Excel",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc3e41ac38a8dd229e0b",
+        "id": "690047593d3fb7e0e2018725",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-28T04:32:25.136Z",
+        "updatedAt": "2025-10-28T04:32:25.136Z"
+    },
+    {
+        "nama": "Great Eastern",
+        "tipe": "Asuransi",
+        "gambar": "great_eastern.jpg",
+        "id": "583bd6f0e62ed032ec93cb34"
+    },
+    {
+        "nama": "Halodoc",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "6634529b5271b1a610b4009e"
+    },
+    {
+        "nama": "Hanhwa Life",
+        "tipe": "Asuransi",
+        "gambar": "hanhwalife.jpg",
+        "id": "576111c9a7b24ba90552886c"
+    },
+    {
+        "nama": "Health Metrics",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6865e7c20cab46265814cd29"
+    },
+    {
+        "nama": "Hilz Rescue",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6772ab4b0aaf825e15ce9338"
+    },
+    {
+        "nama": "ISM - ISOMEDIKA",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6433db5d0689aa2793d7cb89"
+    },
+    {
+        "nama": "ISOmedik",
+        "tipe": "Asuransi",
+        "gambar": "isomedik.jpg",
+        "id": "625d28fb846015677958b2c5"
+    },
+    {
+        "nama": "ITD",
+        "tipe": "Asuransi",
+        "id": "5d9552e40afa7f7bdcb8065b"
+    },
+    {
+        "nama": "ITENAS",
+        "tipe": "Asuransi",
+        "id": "5e8c2312d6170c474c0cf3d3"
+    },
+    {
+        "nama": "ITK",
+        "tipe": "Asuransi",
+        "id": "5d9552cb0afa7f7bdcb80658"
+    },
+    {
+        "nama": "ITM",
+        "tipe": "Asuransi",
+        "id": "5d9552c10afa7f7bdcb80657"
+    },
+    {
+        "nama": "ITR",
+        "tipe": "Asuransi",
+        "id": "5d9552d20afa7f7bdcb80659"
+    },
+    {
+        "nama": "ITS",
+        "tipe": "Asuransi",
+        "id": "5d9552da0afa7f7bdcb8065a"
+    },
+    {
+        "nama": "Im care 177",
+        "tipe": "Asuransi",
+        "gambar": "imcare177.jpg",
+        "id": "583bd71ae62ed032ec93cb36"
+    },
+    {
+        "nama": "InHealth",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "66a9e01549861d5d3336b2cd"
+    },
+    {
+        "nama": "InHealth Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "logo_in_health.jpg.jpg",
+        "id": "59b61370f881de33db136371"
+    },
+    {
+        "nama": "Indosurya Life",
+        "tipe": "Asuransi",
+        "gambar": "indosurya.bmp",
+        "id": "576111c9a7b24ba905528871"
+    },
+    {
+        "nama": "Inhealth Indemity",
+        "tipe": "Asuransi",
+        "gambar": "inhealth.jpg",
+        "id": "576111c9a7b24ba905528874"
+    },
+    {
+        "nama": "Inhealth Indomity",
+        "tipe": "Asuransi",
+        "gambar": "inhealth.jpg",
+        "id": "5783097204f2f35018758082"
+    },
+    {
+        "nama": "Inhiealth Indemnity",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d72f1e3957805eb34acab6"
+    },
+    {
+        "nama": "Innova Care",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "638725cf95a4ef2f4cfde1cd"
+    },
+    {
+        "nama": "Intra Asia (Syntech)",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "67be9a80e9dabcfb191dbbc3"
+    },
+    {
+        "nama": "Isomedik",
+        "tipe": "Asuransi",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576a"
+    },
+    {
+        "nama": "JAMSOSTEK",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6678d5d52ead3734f7949115"
+    },
+    {
+        "nama": "JKN-KIS",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "675a59734f9e6425816e8cc4"
+    },
+    {
+        "nama": "JPKM",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "675a596a4f9e6425816e8cc3"
+    },
+    {
+        "nama": "JPPK KLINIK",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "66d7c23d8317cf9473893da0"
+    },
+    {
+        "nama": "JPPK PEI",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "66d7c2318317cf9473893d9f"
+    },
+    {
+        "nama": "JPPK POSPOL",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "66d7c20f8317cf9473893d9d"
+    },
+    {
+        "nama": "JPPK PT PINDAD",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "66d7e8098317cf9473893dd2"
+    },
+    {
+        "nama": "JPPK RSU PINDAD",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "66d7c2218317cf9473893d9e"
+    },
+    {
+        "nama": "Jaminan Kesehatan Mahasiswa (JKM)",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6819721fa1712978b1f74b6b"
+    },
+    {
+        "nama": "Jasindo Health Care",
+        "tipe": "Asuransi",
+        "gambar": "picture4.png.png",
+        "id": "59b61182f881de33db13636b"
+    },
+    {
+        "nama": "Jiwasraya",
+        "tipe": "Asuransi",
+        "gambar": "logo baru jiwasraya.png.png",
+        "id": "59b613cdf881de33db136372"
+    },
+    {
+        "nama": "KAPITASI",
+        "tipe": "Asuransi",
+        "id": "5e5f683e14719134cc426860"
+    },
+    {
+        "nama": "Kartu Sehat",
+        "tipe": "Asuransi",
+        "id": "5e6a26ff83ac63594d90588e"
+    },
+    {
+        "nama": "Kartu Sehat Muhammadiyah",
+        "tipe": "Asuransi",
+        "gambar": "kartusehatmuhammadiyah.jpg",
+        "id": "63688926a494d11b6d7fc50d"
+    },
+    {
+        "nama": "Klinik Mabarrot Wringinanom",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "680af405964bbc4338c29abc"
+    },
+    {
+        "nama": "Krankenkasse",
+        "tipe": "Asuransi",
+        "id": "5df8a6ba8d3aa02107b02036"
+    },
+    {
+        "nama": "Kresna",
+        "tipe": "Asuransi",
+        "gambar": "kresna.jpg",
+        "id": "583bd74ee62ed032ec93cb38"
+    },
+    {
+        "nama": "LAZISMU",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "67de5f97f96ecec670d65d4f"
+    },
+    {
+        "nama": "LIPPO General Insurance",
+        "tipe": "Asuransi",
+        "gambar": "lippo.jpg",
+        "id": "576111c9a7b24ba90552887f"
+    },
+    {
+        "nama": "MAA Assurance",
+        "tipe": "Asuransi",
+        "gambar": "Logo MAA Assurance.png.png",
+        "id": "59b61298f881de33db13636e"
+    },
+    {
+        "nama": "MIH",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d72f1e3957805eb34acab7"
+    },
+    {
+        "nama": "MNC Life",
+        "tipe": "Asuransi",
+        "gambar": "mnc_life.png",
+        "id": "583bd76ce62ed032ec93cb3a"
+    },
+    {
+        "nama": "MSIG Life Insurance Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfe7"
+    },
+    {
+        "nama": "Manage Care",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d724033957805eb34aca9f"
+    },
+    {
+        "nama": "Mandiri Inhealth",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d724033957805eb34acaa0"
+    },
+    {
+        "nama": "Mandiri Inhealth Indemnity",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "63d72f1e3957805eb34acab4"
+    },
+    {
+        "nama": "Margie",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "578308e104f2f3501875806b"
+    },
+    {
+        "nama": "Media Healthcare",
+        "tipe": "Asuransi",
+        "gambar": "Media Healthcare.JPG.JPG",
+        "id": "59b23bc60400a42f42166194"
+    },
+    {
+        "nama": "Medika Plaza",
+        "tipe": "Asuransi",
+        "gambar": "medikaPlaza.jpg",
+        "id": "644f21a4ebdee57d5606391b"
+    },
+    {
+        "nama": "Medilink",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "667a258874d6382f3823b575"
+    },
+    {
+        "nama": "Meditap",
+        "tipe": "Asuransi",
+        "gambar": null,
+        "id": "64c8c1d5133fbf2322a2f239"
+    },
+    {
+        "nama": "Medlinx",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc3e41ac38a8dd229e0b",
+        "id": "690047697fe58ee14f6f2f49",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-28T04:32:41.528Z",
+        "updatedAt": "2025-10-28T04:32:41.528Z"
+    },
+    {
+        "nama": "Mega life Individu",
+        "tipe": "Asuransi",
+        "gambar": "megalife.png",
+        "id": "576111c9a7b24ba905528872"
+    },
+    {
+        "nama": "Mitra Insurance",
+        "tipe": "Asuransi",
+        "gambar": "asuransi_mitra_maparya_tbk_pt.png.png",
+        "id": "59b23e510400a42f4216619a"
+    },
+    {
+        "nama": "OJK",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc9513fdfda96d668a4e",
+        "id": "69030cf87cee4d6522b9f928",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-30T07:00:08.860Z",
+        "updatedAt": "2025-10-30T07:00:08.860Z"
+    },
+    {
+        "nama": "Orthopoint",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "663b57b09d2b9ec5d01f3ea3"
+    },
+    {
+        "nama": "Owlexa",
+        "tipe": "Asuransi",
+        "id": "5dc50fcb0acbed60348c926b"
+    },
+    {
+        "nama": "PLN Insurance",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "663452875271b1a610b4009c"
+    },
+    {
+        "nama": "PLN Sehat",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "663452935271b1a610b4009d"
+    },
+    {
+        "nama": "PT NAYAKA ERA HUSADA",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6678d5e32ead3734f7949116"
+    },
+    {
+        "nama": "PT PLN ENERGI PRIMER INDONESIA",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "66b07f71317a2713e0471bf3"
+    },
+    {
+        "nama": "PT Pinarat",
+        "tipe": "Asuransi",
+        "gambar": "Pinarat.jpg",
+        "id": "666bc89752efcfd44ba4b927"
+    },
+    {
+        "nama": "PT RAKSA INDUSTEEL",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "67caae1f88de4f24c1a3a924"
+    },
+    {
+        "nama": "PT. Plywood",
+        "tipe": "Asuransi",
+        "gambar": "plywood.jpg",
+        "id": "5a8e6c498480f63a0d298995"
+    },
+    {
+        "nama": "Pasific Cross",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfed"
+    },
+    {
+        "nama": "PaymentSuper",
+        "tipe": "Asuransi",
+        "gambar": "2702938914_243972d901_z.jpg.jpg",
+        "id": "59b6489df881de33db136392"
+    },
+    {
+        "nama": "Pertamedika",
+        "tipe": "Asuransi",
+        "gambar": null,
+        "id": "64c8c1af133fbf2322a2f238"
+    },
+    {
+        "nama": "Pertukaran Mahasiswa Merdeka (PMM)",
+        "tipe": "Asuransi",
+        "gambar": "pmm.jpg",
+        "id": "636b5edb1df96fb02da34bd4"
+    },
+    {
+        "nama": "Pindad",
+        "tipe": "Asuransi",
+        "hospitalId": "68b474f0a2d1230c46a84d90",
+        "id": "68faf628c951e9ff12e7c6d4",
+        "createdId": "67f7c76ab47e3d66dbcd62a5",
+        "createdName": "Cek Kendala",
+        "createdAt": "2025-10-24T03:44:40.200Z",
+        "updatedAt": "2025-10-24T03:44:40.200Z"
+    },
+    {
+        "nama": "Planet Swalayan",
+        "tipe": "Asuransi",
+        "gambar": "planet.jpg",
+        "id": "5a8e6c5e8480f63a0d298996"
+    },
+    {
+        "nama": "Poli Gigi drg. Agus Wibowo",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "673bfe630b1567c1b0cf840e"
+    },
+    {
+        "nama": "Prudential Life Insurance",
+        "tipe": "Asuransi",
+        "gambar": "1200px-Prudential_plc_logo.svg.png.svg",
+        "id": "59b6141af881de33db136373"
+    },
+    {
+        "nama": "RANAP BPJS",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "670f6ceb6ffb6837ae4b3ea2"
+    },
+    {
+        "nama": "Rey Asuransi",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "68948d1363b2d616302ce655"
+    },
+    {
+        "nama": "Rey insurance",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc3e41ac38a8dd229e0b",
+        "id": "6900477290f055ee7a022883",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-28T04:32:50.199Z",
+        "updatedAt": "2025-10-28T04:32:50.199Z"
+    },
+    {
+        "nama": "Rifany",
+        "tipe": "Asuransi",
+        "hospitalId": "68b474f0a2d1230c46a84d90",
+        "id": "68faf633fca226c1d1f5bdba",
+        "createdId": "67f7c76ab47e3d66dbcd62a5",
+        "createdName": "Cek Kendala",
+        "createdAt": "2025-10-24T03:44:51.607Z",
+        "updatedAt": "2025-10-24T03:44:51.607Z"
+    },
+    {
+        "nama": "Rumah Anak YPK",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6433a8b401239903123c7618"
+    },
+    {
+        "nama": "SSA",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6865e87d0cab46265814cd2f"
+    },
+    {
+        "nama": "Savitar Assistance",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "67a823749fcc3ed76315ae3e"
+    },
+    {
+        "nama": "SehatQ",
+        "tipe": "Asuransi",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576b"
+    },
+    {
+        "nama": "Sequis Life",
+        "tipe": "Asuransi",
+        "gambar": "sequislife.jpg",
+        "id": "576111c9a7b24ba905528881"
+    },
+    {
+        "nama": "Sinarmas",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc9513fdfda96d668a4e",
+        "id": "69030cd618912664fe354354",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-30T06:59:34.880Z",
+        "updatedAt": "2025-10-30T06:59:34.880Z"
+    },
+    {
+        "nama": "Sinarmas MSIG",
+        "tipe": "Asuransi",
+        "hospitalId": "684bfc9513fdfda96d668a4e",
+        "id": "69030cef1f4f8d64b654cfdd",
+        "createdId": "684bfc0206757ba9bc89eee5",
+        "createdName": "Dokter Anggi Dental Clinic",
+        "createdAt": "2025-10-30T06:59:59.542Z",
+        "updatedAt": "2025-10-30T06:59:59.542Z"
+    },
+    {
+        "nama": "Sun Life Financial Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "sunlife.jpg",
+        "id": "576111c9a7b24ba90552886b"
+    },
+    {
+        "nama": "Takaful",
+        "tipe": "Asuransi",
+        "gambar": "takaful.jpg",
+        "id": "583bd810e62ed032ec93cb46"
+    },
+    {
+        "nama": "Tirta Medika",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6720844e5779f9ae7705fef2"
+    },
+    {
+        "nama": "Tokio Marine Life Insurance",
+        "tipe": "Asuransi",
+        "gambar": "tokiomarine.jpg",
+        "id": "576111c9a7b24ba90552886a"
+    },
+    {
+        "nama": "Unika SCU",
+        "tipe": "Asuransi",
+        "gambar": "admedika.jpg",
+        "id": "662b22eb5271b1a610b40077"
+    },
+    {
+        "nama": "Vision Care Assist",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "6771fa89cc46036378b4a4ed"
+    },
+    {
+        "nama": "Wana Artha Life",
+        "tipe": "Asuransi",
+        "gambar": "C6JepWdUoAA8mZ_.jpg.jpg",
+        "id": "59b61210f881de33db13636d"
+    },
+    {
+        "nama": "Winterthur Life Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "577267c17d6d9516128c93ae"
+    },
+    {
+        "nama": "Wira Health",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "576111c9a7b24ba905528882"
+    },
+    {
+        "nama": "Yakes Pertamina",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "68e5ee42e2e3db84f10681d0"
+    },
+    {
+        "nama": "Yayasan Pondok Kasih",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "6433a8b401239903123c7617"
+    },
+    {
+        "nama": "inova care",
+        "tipe": "Asuransi",
+        "gambar": "",
+        "id": "67da3ce2c5fc40c020156116"
+    },
+    {
+        "nama": "AA International Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "aainternational.jpg",
+        "id": "577267c17d6d9516128c93bd"
+    },
+    {
+        "nama": "Asuransi Bina Dana Arta, Tbk",
+        "tipe": "Asuransi",
+        "gambar": "abda.png",
+        "id": "577267c17d6d9516128c93b7"
+    },
+    {
+        "nama": "Asuransi Jiwa Central Asia Raya",
+        "tipe": "Asuransi",
+        "gambar": "centralasiaraya.jpg",
+        "id": "577267c17d6d9516128c93b9"
+    },
+    {
+        "nama": "Asuransi Jiwa Recapital",
+        "tipe": "Asuransi",
+        "gambar": "recapital.jpg",
+        "id": "577267c17d6d9516128c93b0"
+    },
+    {
+        "nama": "Asuransi Sinar Mas",
+        "tipe": "Asuransi",
+        "gambar": "sinarmas.jpg",
+        "id": "577267c17d6d9516128c93b5"
+    },
+    {
+        "nama": "Citra International Underwriters",
+        "tipe": "Asuransi",
+        "gambar": "ciu.jpg",
+        "id": "577267c17d6d9516128c93ba"
+    },
+    {
+        "nama": "EASCO Medical ",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "577267c17d6d9516128c93bc"
+    },
+    {
+        "nama": "Equity Life Indonesia",
+        "tipe": "Asuransi",
+        "gambar": "equity.png",
+        "id": "577267c17d6d9516128c93b3"
+    },
+    {
+        "nama": "Insan Dharma Nusa (Blue Dot) ",
+        "tipe": "Asuransi",
+        "gambar": "bluedot.jpg",
+        "id": "577267c17d6d9516128c93bb"
+    },
+    {
+        "nama": "Mayapada Life ",
+        "tipe": "Asuransi",
+        "gambar": "null",
+        "id": "577267c17d6d9516128c93be"
+    },
+    {
+        "nama": "Medicom Prima",
+        "tipe": "Asuransi",
+        "gambar": "medicom.png",
+        "id": "577267c17d6d9516128c93b4"
+    },
+    {
+        "nama": "BPJS Kesehatan",
+        "tipe": "BPJS",
+        "gambar": "bpjskesehatan.jpg",
+        "id": "576111c9a7b24ba90552887b"
+    },
+    {
+        "nama": "BCA",
+        "tipe": "Kartu Debit",
+        "gambar": "admedika.jpg",
+        "id": "5b3485d51adb8e6f66ff934c"
+    },
+    {
+        "nama": "BNI",
+        "tipe": "Kartu Debit",
+        "gambar": "admedika.jpg",
+        "id": "5b3485711adb8e6f66ff9343"
+    },
+    {
+        "nama": "BRI",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "5b34857d1adb8e6f66ff9345"
+    },
+    {
+        "nama": "BTN",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "61397ed0c29417127b3d4fe2"
+    },
+    {
+        "nama": "Bank Aceh Syariah",
+        "tipe": "Kartu Debit",
+        "gambar": "null",
+        "id": "67232fbaebc00f748ca485aa"
+    },
+    {
+        "nama": "Bank BJB",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "60e40bb78db2d7167b0e1101"
+    },
+    {
+        "nama": "Bank CIMB Niaga",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "60363ac8f0dca65b4b6f1fe0"
+    },
+    {
+        "nama": "Bank Danamon",
+        "tipe": "Kartu Debit",
+        "gambar": "null",
+        "id": "63e4701dd18828314f9e7d91"
+    },
+    {
+        "nama": "Bank JATIM",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "63bb7987e177537043197c89"
+    },
+    {
+        "nama": "Bank Lainnya",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "6865e8470cab46265814cd2c"
+    },
+    {
+        "nama": "Bank MAS",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68dcdc077ea7b8b9ea253ba4"
+    },
+    {
+        "nama": "Bank MEGA",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "67ad906f30dcc5d949290f47"
+    },
+    {
+        "nama": "Bank Mandiri",
+        "tipe": "Kartu Debit",
+        "gambar": "admedika.jpg",
+        "id": "5b34844c1adb8e6f66ff9341"
+    },
+    {
+        "nama": "Bank Permata",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "63bb7987e177537043197c87"
+    },
+    {
+        "nama": "Bank Riau Kepri",
+        "tipe": "Kartu Debit",
+        "gambar": "admedika.jpg",
+        "id": "6600d66cb4b7601d5b3ed254"
+    },
+    {
+        "nama": "Bank Sampoerna",
+        "tipe": "Kartu Debit",
+        "gambar": "banksampoerna.png",
+        "id": "6447798227eeed8365766708"
+    },
+    {
+        "nama": "Bank Syariah Indonesia (BSI)",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "604adbe5c48d10ddbb7308d9"
+    },
+    {
+        "nama": "Bank banten",
+        "tipe": "Kartu Debit",
+        "gambar": "banten.jpg",
+        "id": "62624e9ea1683e6625dad869"
+    },
+    {
+        "nama": "Debit",
+        "tipe": "Kartu Debit",
+        "hospitalId": "6846983212e7c54d119a12c6",
+        "id": "68f8bc30cfc883972543f8bf",
+        "createdId": "684697bd1e4bd94e3113e768",
+        "createdName": "Wulandari ",
+        "createdAt": "2025-10-22T11:12:48.007Z",
+        "updatedAt": "2025-10-22T11:12:48.007Z"
+    },
+    {
+        "nama": "EDC",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb3339d65bf6bc0089a813",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:13.795Z",
+        "updatedAt": "2025-10-24T08:05:13.795Z"
+    },
+    {
+        "nama": "EDC BCA",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb33460c5882be96d4b793",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:26.233Z",
+        "updatedAt": "2025-10-24T08:05:26.233Z"
+    },
+    {
+        "nama": "EDC BNI",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb334c5043fd09087c55bb",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:32.996Z",
+        "updatedAt": "2025-10-24T08:05:32.996Z"
+    },
+    {
+        "nama": "EDC MANDIRI",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb33541d8689094e699d49",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:40.572Z",
+        "updatedAt": "2025-10-24T08:05:40.572Z"
+    },
+    {
+        "nama": "Maybank",
+        "tipe": "Kartu Debit",
+        "id": "6045d92399f38764404c8637"
+    },
+    {
+        "nama": "OCBC",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68872accb6f38cf71124ab42"
+    },
+    {
+        "nama": "QRIS",
+        "tipe": "Kartu Debit",
+        "gambar": "qris.jpg",
+        "id": "639170b926aef8a1b20bc3b1"
+    },
+    {
+        "nama": "QRIS BCA",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68dcdc597ea7b8b9ea253ba5"
+    },
+    {
+        "nama": "QRIS BCA",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "68ef6a2642d6d8bbf7448808"
+    },
+    {
+        "nama": "QRIS BNI",
+        "tipe": "Kartu Debit",
+        "id": "68ef33021bcaf13fd714a4d3"
+    },
+    {
+        "nama": "QRIS BRI",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "68ef6a3242d6d8bbf7448809"
+    },
+    {
+        "nama": "QRIS MANDIRI",
+        "tipe": "Kartu Debit",
+        "gambar": "",
+        "id": "68ef6a4842d6d8bbf744880a"
+    },
+    {
+        "nama": "QRIS Mandiri",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68dcdc647ea7b8b9ea253ba6"
+    },
+    {
+        "nama": "Shopee",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68f1e1d4532646ba073731f1",
+        "id": "68f9982f2020aebb4c6827fe",
+        "createdId": "68f1e171e6610aba5fd9c19d",
+        "createdName": "dr. Heny Tekno",
+        "createdAt": "2025-10-23T02:51:27.075Z",
+        "updatedAt": "2025-10-23T02:51:27.075Z"
+    },
+    {
+        "nama": "Sinarmas",
+        "tipe": "Kartu Debit",
+        "gambar": "sinarmas.jpg",
+        "id": "62624e9ea1683e6625dad86a"
+    },
+    {
+        "nama": "Sulselbar",
+        "tipe": "Kartu Debit",
+        "id": "61cbcf19e5c38eda6933cbd9"
+    },
+    {
+        "nama": "TF BCA",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb335afca226c1d1f5d23d",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:46.294Z",
+        "updatedAt": "2025-10-24T08:05:46.294Z"
+    },
+    {
+        "nama": "TF BNI ",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb3367c951e9ff12e7dbde",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:59.366Z",
+        "updatedAt": "2025-10-24T08:05:59.366Z"
+    },
+    {
+        "nama": "TF MANDIRI",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68e7213a5142b4b1ff61e44f",
+        "id": "68fb3362f097ab092bb388f0",
+        "createdId": "68e8adb600bb0d11099ed860",
+        "createdName": "Meme anggraeni., Amd. RMIK",
+        "createdAt": "2025-10-24T08:05:54.014Z",
+        "updatedAt": "2025-10-24T08:05:54.014Z"
+    },
+    {
+        "nama": "Transfer",
+        "tipe": "Kartu Debit",
+        "hospitalId": "68f0b1deeaf0d8b9ad5a78cf",
+        "id": "68faeddcbdf360ff3f0e2416",
+        "createdId": "68f0b0d81390d5b99246418e",
+        "createdName": "Axel Dental",
+        "createdAt": "2025-10-24T03:09:16.600Z",
+        "updatedAt": "2025-10-24T03:09:16.600Z"
+    },
+    {
+        "nama": "Transfer BCA",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68dcdc7b7ea7b8b9ea253ba8"
+    },
+    {
+        "nama": "Transfer BNI",
+        "tipe": "Kartu Debit",
+        "id": "68ef46d150d5f38a6f9c0e12"
+    },
+    {
+        "nama": "Transfer BRI",
+        "tipe": "Kartu Debit",
+        "hospitalId": "689ed663cfe37bad0668888f",
+        "id": "68f98cb42020aebb4c681f67",
+        "createdId": "689ed5dbb51ed49bbb6adda3",
+        "createdName": "dr. Icha",
+        "createdAt": "2025-10-23T02:02:28.697Z",
+        "updatedAt": "2025-10-23T02:02:28.697Z"
+    },
+    {
+        "nama": "Transfer Mandiri",
+        "tipe": "Kartu Debit",
+        "gambar": null,
+        "id": "68dcdc727ea7b8b9ea253ba7"
+    },
+    {
+        "nama": "Transfer b",
+        "tipe": "Kartu Debit",
+        "hospitalId": "689ed663cfe37bad0668888f",
+        "id": "68f98c9d2cdfa3bbdc517a57",
+        "createdId": "689ed5dbb51ed49bbb6adda3",
+        "createdName": "dr. Icha",
+        "createdAt": "2025-10-23T02:02:05.971Z",
+        "updatedAt": "2025-10-23T02:02:05.971Z"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Kartu Debit",
+        "hospitalId": "67b697fc61a92c539e2923a1",
+        "id": "690325bc3a2817646e211852",
+        "createdId": "67b696f503a4cc542ee02478",
+        "createdName": "Klinik Utama Bayi Jenius",
+        "createdAt": "2025-10-30T08:45:48.262Z",
+        "updatedAt": "2025-10-30T08:45:48.262Z"
+    },
+    {
+        "nama": "BCA",
+        "tipe": "Kartu Kredit",
+        "gambar": "admedika.jpg",
+        "id": "5f2bc3f9d19e998d21826f17"
+    },
+    {
+        "nama": "BNI",
+        "tipe": "Kartu Kredit",
+        "gambar": "admedika.jpg",
+        "id": "5f2bc3dad19e998d21826f15"
+    },
+    {
+        "nama": "BPJS",
+        "tipe": "Kartu Kredit",
+        "hospitalId": "68999134218c097a65179fc6",
+        "id": "690469674b80bed1853dd55e",
+        "createdId": "68b48a61e8113ac6b2b40bca",
+        "createdName": "Elisabeth Ira Puspita Chandra",
+        "createdAt": "2025-10-31T07:46:47.417Z",
+        "updatedAt": "2025-10-31T07:46:47.417Z"
+    },
+    {
+        "nama": "BRI",
+        "tipe": "Kartu Kredit",
+        "gambar": "admedika.jpg",
+        "id": "5f2bc3ead19e998d21826f16"
+    },
+    {
+        "nama": "BTN",
+        "tipe": "Kartu Kredit",
+        "hospitalId": "68fc641881b11bbbb19512ee",
+        "id": "68ff2597005c0be076a7f1f3",
+        "createdId": "68fc638446e9820e1ac225c5",
+        "createdName": "ketut ega cantika dewi",
+        "createdAt": "2025-10-27T07:56:07.887Z",
+        "updatedAt": "2025-10-27T07:56:07.887Z"
+    },
+    {
+        "nama": "Bank Aceh Syariah",
+        "tipe": "Kartu Kredit",
+        "gambar": "null",
+        "id": "67232fa1ebc00f748ca485a9"
+    },
+    {
+        "nama": "Bank BJB",
+        "tipe": "Kartu Kredit",
+        "gambar": "",
+        "id": "60e40bdc8db2d7167b0e1103"
+    },
+    {
+        "nama": "Bank Danamon",
+        "tipe": "Kartu Kredit",
+        "gambar": "null",
+        "id": "63e47b21c16ace33760455fe"
+    },
+    {
+        "nama": "Bank JATIM",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "63bb7987e177537043197c88"
+    },
+    {
+        "nama": "Bank Lainnya",
+        "tipe": "Kartu Kredit",
+        "gambar": "",
+        "id": "6865e8470cab46265814cd2b"
+    },
+    {
+        "nama": "Bank MEGA",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6819b13144c7692ddc7ac7d7"
+    },
+    {
+        "nama": "Bank Mandiri",
+        "tipe": "Kartu Kredit",
+        "gambar": "admedika.jpg",
+        "id": "5f2bc3c0d19e998d21826f14"
+    },
+    {
+        "nama": "Bank Permata",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "63bb7987e177537043197c86"
+    },
+    {
+        "nama": "Bank Sampoerna",
+        "tipe": "Kartu Kredit",
+        "gambar": "sampoerna.png",
+        "id": "6447791227eeed8365766707"
+    },
+    {
+        "nama": "Bank Syariah Indonesia (BSI)",
+        "tipe": "Kartu Kredit",
+        "gambar": "admedika.jpg",
+        "id": "604adc02c48d10ddbb731010"
+    },
+    {
+        "nama": "Bank banten",
+        "tipe": "Kartu Kredit",
+        "gambar": "banten.jpg",
+        "id": "62625ac08838c88e7d3c13cc"
+    },
+    {
+        "nama": "CareNow,",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6785c636a71f60647414794f"
+    },
+    {
+        "nama": "HSBC",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6620d7fedcf7d9cf73f7b4e9"
+    },
+    {
+        "nama": "Jenius",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6620d810dcf7d9cf73f7b4eb"
+    },
+    {
+        "nama": "Kartu kredit",
+        "tipe": "Kartu Kredit",
+        "hospitalId": "6846983212e7c54d119a12c6",
+        "id": "68f8bc45cfc883972543f8c6",
+        "createdId": "684697bd1e4bd94e3113e768",
+        "createdName": "Wulandari ",
+        "createdAt": "2025-10-22T11:13:09.449Z",
+        "updatedAt": "2025-10-22T11:13:09.449Z"
+    },
+    {
+        "nama": "Kredit",
+        "tipe": "Kartu Kredit",
+        "hospitalId": "68f0b257605824b99f87672f",
+        "id": "68faf77f333255fdaf254f1a",
+        "createdId": "68f0b0d81390d5b99246418e",
+        "createdName": "Axel Dental",
+        "createdAt": "2025-10-24T03:50:23.027Z",
+        "updatedAt": "2025-10-24T03:50:23.027Z"
+    },
+    {
+        "nama": "Kredit BCA",
+        "tipe": "Kartu Kredit",
+        "hospitalId": "68f0b257605824b99f87672f",
+        "id": "68faf78ab0b327feee7d11e9",
+        "createdId": "68f0b0d81390d5b99246418e",
+        "createdName": "Axel Dental",
+        "createdAt": "2025-10-24T03:50:34.824Z",
+        "updatedAt": "2025-10-24T03:50:34.824Z"
+    },
+    {
+        "nama": "Master Card",
+        "tipe": "Kartu Kredit",
+        "gambar": "mastercard.png",
+        "id": "576111c9a7b24ba905528868"
+    },
+    {
+        "nama": "Maybank",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6620d81adcf7d9cf73f7b4ec"
+    },
+    {
+        "nama": "OCBC",
+        "tipe": "Kartu Kredit",
+        "gambar": null,
+        "id": "6620d809dcf7d9cf73f7b4ea"
+    },
+    {
+        "nama": "QRIS BCA",
+        "tipe": "Kartu Kredit",
+        "gambar": "",
+        "id": "68ef6a7542d6d8bbf744880d"
+    },
+    {
+        "nama": "QRIS BRI",
+        "tipe": "Kartu Kredit",
+        "gambar": "",
+        "id": "68ef6a6e42d6d8bbf744880c"
+    },
+    {
+        "nama": "QRIS MANDIRI",
+        "tipe": "Kartu Kredit",
+        "gambar": "",
+        "id": "68ef6a6442d6d8bbf744880b"
+    },
+    {
+        "nama": "Sinarmas",
+        "tipe": "Kartu Kredit",
+        "gambar": "sinarmas.jpg",
+        "id": "62625ad78838c88e7d3c13cd"
+    },
+    {
+        "nama": "Visa",
+        "tipe": "Kartu Kredit",
+        "gambar": "visa.png",
+        "id": "576111c9a7b24ba905528867"
+    },
+    {
+        "nama": " Debit",
+        "tipe": "Langsung",
+        "id": "5b6e523fc9845313010ebef8"
+    },
+    {
+        "nama": " YAP",
+        "tipe": "Langsung",
+        "id": "5b6e5248c9845313010ebefb"
+    },
+    {
+        "nama": "APLN",
+        "tipe": "Langsung",
+        "id": "6483d01f839df0703c57472a"
+    },
+    {
+        "nama": "AR Non Tuna",
+        "tipe": "Langsung",
+        "id": "630c654a3263574e1c43e8bd"
+    },
+    {
+        "nama": "AR Non Tunai",
+        "tipe": "Langsung",
+        "id": "630c64d90de1c54e4d7446b5"
+    },
+    {
+        "nama": "ATM",
+        "tipe": "Langsung",
+        "id": "5c9863e3e16b4a3f48defc24"
+    },
+    {
+        "nama": "Across",
+        "tipe": "Langsung",
+        "id": "63bc3ebaaa3f14de45555eef"
+    },
+    {
+        "nama": "Admedika",
+        "tipe": "Langsung",
+        "id": "5dc5257f943f8f6687c77e76"
+    },
+    {
+        "nama": "Aplikasi",
+        "tipe": "Langsung",
+        "id": "603efc425ca2380777c7c1e2"
+    },
+    {
+        "nama": "Asura",
+        "tipe": "Langsung",
+        "id": "607008e1b60c821c56d21209"
+    },
+    {
+        "nama": "Asuransi",
+        "tipe": "Langsung",
+        "id": "5eb8cd470319ff3c16e660c3"
+    },
+    {
+        "nama": "Asuransi Garda Medika",
+        "tipe": "Langsung",
+        "id": "64abc8ee9567b7abf61fdc58"
+    },
+    {
+        "nama": "Asuransi garda",
+        "tipe": "Langsung",
+        "id": "64abc8e6d3468f67534518b1"
+    },
+    {
+        "nama": "BCA",
+        "tipe": "Langsung",
+        "id": "60d16f23447ccd64299d357e"
+    },
+    {
+        "nama": "BCA",
+        "tipe": "Langsung",
+        "id": "61b06b2a6075455e12210925"
+    },
+    {
+        "nama": "BI Admedika",
+        "tipe": "Langsung",
+        "id": "6483d03284a2e1c53ed36805"
+    },
+    {
+        "nama": "BPJS",
+        "tipe": "Langsung",
+        "id": "630c672b3bb1524e15f84b64"
+    },
+    {
+        "nama": "BPJS FASKES DR IMAS",
+        "tipe": "Langsung",
+        "id": "6316cdba671c2875cc5912dc"
+    },
+    {
+        "nama": "BPJS USG",
+        "tipe": "Langsung",
+        "id": "6678d6be2ead3734f7949117"
+    },
+    {
+        "nama": "BPJS dan PTPN IV",
+        "tipe": "Langsung",
+        "id": "674e7ce328842d950b8a8986"
+    },
+    {
+        "nama": "Bank Jatim",
+        "tipe": "Langsung",
+        "id": "633e6620fae01a11e4565eb8"
+    },
+    {
+        "nama": "Bard orde",
+        "tipe": "Langsung",
+        "id": "637c658db791c68502c18a6e"
+    },
+    {
+        "nama": "Bl",
+        "tipe": "Langsung",
+        "id": "64cf7e18f709251a546573ba"
+    },
+    {
+        "nama": "Blibli",
+        "tipe": "Langsung",
+        "id": "632d59244abed5efaf856299"
+    },
+    {
+        "nama": "Booking (BCA)",
+        "tipe": "Langsung",
+        "hospitalId": "67b697fc61a92c539e2923a1",
+        "id": "690329a83da88467391253c4",
+        "createdId": "67b696f503a4cc542ee02478",
+        "createdName": "Klinik Utama Bayi Jenius",
+        "createdAt": "2025-10-30T09:02:32.966Z",
+        "updatedAt": "2025-10-30T09:02:32.966Z"
+    },
+    {
+        "nama": "Booking (Mandiri)",
+        "tipe": "Langsung",
+        "hospitalId": "67b697fc61a92c539e2923a1",
+        "id": "69032995d6309f644b6f8b6d",
+        "createdId": "67b696f503a4cc542ee02478",
+        "createdName": "Klinik Utama Bayi Jenius",
+        "createdAt": "2025-10-30T09:02:13.663Z",
+        "updatedAt": "2025-10-30T09:02:13.663Z"
+    },
+    {
+        "nama": "Booking/DP",
+        "tipe": "Langsung",
+        "hospitalId": "67b697fc61a92c539e2923a1",
+        "id": "690325ae3952df6546e94ce5",
+        "createdId": "67b696f503a4cc542ee02478",
+        "createdName": "Klinik Utama Bayi Jenius",
+        "createdAt": "2025-10-30T08:45:34.149Z",
+        "updatedAt": "2025-10-30T08:45:34.149Z"
+    },
+    {
+        "nama": "Btn",
+        "tipe": "Langsung",
+        "id": "632d686661617eefb507ffca"
+    },
+    {
+        "nama": "Bukopin",
+        "tipe": "Langsung",
+        "id": "632d688c6d1d6befffc8c12e"
+    },
+    {
+        "nama": "CH Tunai",
+        "tipe": "Langsung",
+        "id": "62cba7e4fc049b22a3841138"
+    },
+    {
+        "nama": "Carenow",
+        "tipe": "Langsung",
+        "id": "6475fcf0d238820333a999f8"
+    },
+    {
+        "nama": "Cash",
+        "tipe": "Langsung",
+        "id": "60d16f41447ccd64299d3582"
+    },
+    {
+        "nama": "Cicilan",
+        "tipe": "Langsung",
+        "id": "61fd1221980a3633faecf677"
+    },
+    {
+        "nama": "Citibank",
+        "tipe": "Langsung",
+        "id": "632d68ff453645efe638ce02"
+    },
+    {
+        "nama": "Credit",
+        "tipe": "Langsung",
+        "id": "65e96e25e758864d1a9a9e0a",
+        "updatedAt": "2024-03-07T07:35:01.472Z"
+    },
+    {
+        "nama": "DANA by LinkAja",
+        "tipe": "Langsung",
+        "id": "5e5a59fea507b777c09a2281"
+    },
+    {
+        "nama": "DP",
+        "tipe": "Langsung",
+        "id": "6145f0da6bd6e556c59e238a"
+    },
+    {
+        "nama": "Dana",
+        "tipe": "Langsung",
+        "id": "607f0bfd0b55be4a305b4c9c"
+    },
+    {
+        "nama": "Debit",
+        "tipe": "Langsung",
+        "id": "624689e2e7cd1313576b381d"
+    },
+    {
+        "nama": "Debit BCA",
+        "tipe": "Langsung",
+        "id": "61d95f7726177f9c8663390b"
+    },
+    {
+        "nama": "Debit BRI",
+        "tipe": "Langsung",
+        "id": "63d744ec6509a41cf917d708"
+    },
+    {
+        "nama": "Debit Bank BCA",
+        "tipe": "Langsung",
+        "id": "5b6e5225c9845313010ebef4"
+    },
+    {
+        "nama": "Debit Bank BJB",
+        "tipe": "Langsung",
+        "id": "6291b66b972354f8cd9590ca"
+    },
+    {
+        "nama": "Debit Bank BNI",
+        "tipe": "Langsung",
+        "id": "619775c078ae287e1f101aa1"
+    },
+    {
+        "nama": "Debit Bank DKI",
+        "tipe": "Langsung",
+        "id": "62d287f5b1cd31cb1db00ee3"
+    },
+    {
+        "nama": "Debit Bank Hana",
+        "tipe": "Langsung",
+        "id": "62d2880c46cd40cb3f6bf33f"
+    },
+    {
+        "nama": "Debit Bank J-Trust",
+        "tipe": "Langsung",
+        "id": "62d28849e503b8cb5d1f8ddf"
+    },
+    {
+        "nama": "Debit Bank Jago",
+        "tipe": "Langsung",
+        "id": "62d287e7e503b8cb5d1f8dd6"
+    },
+    {
+        "nama": "Debit Bank Mandiri ",
+        "tipe": "Langsung",
+        "id": "5b6e521bc9845313010ebef3"
+    },
+    {
+        "nama": "Debit Bank Mega",
+        "tipe": "Langsung",
+        "id": "62d287bfb1cd31cb1db00edd"
+    },
+    {
+        "nama": "Debit Bank OCBC",
+        "tipe": "Langsung",
+        "id": "62d287d3e503b8cb5d1f8dcf"
+    },
+    {
+        "nama": "Debit Bank Permata",
+        "tipe": "Langsung",
+        "id": "62d287aebb9834caf945c06e"
+    },
+    {
+        "nama": "Debit Jenius",
+        "tipe": "Langsung",
+        "id": "62d287ddf3dd55cafa03c8cd"
+    },
+    {
+        "nama": "Debit Mandiri",
+        "tipe": "Langsung",
+        "id": "5b6e522cc9845313010ebef5"
+    },
+    {
+        "nama": "Debit bank bri",
+        "tipe": "Langsung",
+        "id": "5b6fa5cde185141c34a46fc5"
+    },
+    {
+        "nama": "Debit bni",
+        "tipe": "Langsung",
+        "id": "5ff96ffaed2c3c15f7278239"
+    },
+    {
+        "nama": "Debit bsi",
+        "tipe": "Langsung",
+        "id": "648d5a717b8b4dc514d1397b"
+    },
+    {
+        "nama": "Debit card",
+        "tipe": "Langsung",
+        "id": "5f3658f1bbdfce03ecc1b221"
+    },
+    {
+        "nama": "Debit cimb",
+        "tipe": "Langsung",
+        "id": "641849721f95f56c9175eb96"
+    },
+    {
+        "nama": "E-Voucher",
+        "tipe": "Langsung",
+        "id": "633d25c9361998410fbc667d"
+    },
+    {
+        "nama": "EDC",
+        "tipe": "Langsung",
+        "id": "5cdcd623a003e63e6b4a8805"
+    },
+    {
+        "nama": "EDC BCA",
+        "tipe": "Langsung",
+        "id": "62a147f7abca22e499c42ec5"
+    },
+    {
+        "nama": "EDC BCA Estetik",
+        "tipe": "Langsung",
+        "id": "684fef62f3bc51012d48f4dc"
+    },
+    {
+        "nama": "EDC BCA Gigi",
+        "tipe": "Langsung",
+        "id": "684fef44f3bc51012d48f4da"
+    },
+    {
+        "nama": "EDC BCA Umum",
+        "tipe": "Langsung",
+        "id": "684fef0bf3bc51012d48f4d7"
+    },
+    {
+        "nama": "EDC BNI",
+        "tipe": "Langsung",
+        "id": "60f2cf986c94d5408123dbba"
+    },
+    {
+        "nama": "EDC BRI",
+        "tipe": "Langsung",
+        "id": "62b6a77549ce06a5cbccd5b0"
+    },
+    {
+        "nama": "EDC MANDIRI",
+        "tipe": "Langsung",
+        "id": "62cbe9540433df22365b9942"
+    },
+    {
+        "nama": "EDC Mega Umum",
+        "tipe": "Langsung",
+        "id": "684fef15f3bc51012d48f4d8"
+    },
+    {
+        "nama": "Fullerton Indonesia",
+        "tipe": "Langsung",
+        "id": "5dc5258b943f8f6687c77e77"
+    },
+    {
+        "nama": "GOPAY",
+        "tipe": "Langsung",
+        "id": "61b06bd06075455e122109eb"
+    },
+    {
+        "nama": "GoApotik",
+        "tipe": "Langsung",
+        "id": "64cf7e4122c14d1a059b227a"
+    },
+    {
+        "nama": "Gopay",
+        "tipe": "Langsung",
+        "id": "5e0d8db102850d4fe5f3f669"
+    },
+    {
+        "nama": "Gopay by LinkAja",
+        "tipe": "Langsung",
+        "id": "5e5a5a1ea507b777c09a228c"
+    },
+    {
+        "nama": "Grab Merchant",
+        "tipe": "Langsung",
+        "id": "64e312fdb76629b9b89673d1"
+    },
+    {
+        "nama": "Grabmart",
+        "tipe": "Langsung",
+        "id": "649fc9b03206231abcc68864"
+    },
+    {
+        "nama": "Gratis",
+        "tipe": "Langsung",
+        "id": "640dbf7b1f81a72fdc02cbbf"
+    },
+    {
+        "nama": "Halodoc",
+        "tipe": "Langsung",
+        "id": "619e03eb1692d1598b00684e"
+    },
+    {
+        "nama": "INH",
+        "tipe": "Langsung",
+        "id": "5db277b79e1f4557a6a6fac6"
+    },
+    {
+        "nama": "ITD",
+        "tipe": "Langsung",
+        "id": "5db2779c9e1f4557a6a6fac1"
+    },
+    {
+        "nama": "ITK",
+        "tipe": "Langsung",
+        "id": "5db277a39e1f4557a6a6fac3"
+    },
+    {
+        "nama": "ITM",
+        "tipe": "Langsung",
+        "id": "5db2b49b9e1f4557a6a6fe35"
+    },
+    {
+        "nama": "ITR",
+        "tipe": "Langsung",
+        "id": "5db277a89e1f4557a6a6fac4"
+    },
+    {
+        "nama": "ITS",
+        "tipe": "Langsung",
+        "id": "5db277ac9e1f4557a6a6fac5"
+    },
+    {
+        "nama": "Indodana",
+        "tipe": "Langsung",
+        "id": "64df7117ee4ea64b1bdbb261"
+    },
+    {
+        "nama": "Inhealth Indonesia",
+        "tipe": "Langsung",
+        "id": "5dc5257a943f8f6687c77e75"
+    },
+    {
+        "nama": "Inhealth Kapitasi",
+        "tipe": "Langsung",
+        "id": "61e679261480668c7ccd704b"
+    },
+    {
+        "nama": "Inhealth i",
+        "tipe": "Langsung",
+        "id": "61e678fb6799168c75176622"
+    },
+    {
+        "nama": "JENIUS",
+        "tipe": "Langsung",
+        "id": "626581c724e185713b89237d"
+    },
+    {
+        "nama": "JPPK PE",
+        "tipe": "Langsung",
+        "id": "66978fc91c90169481fcbd2c"
+    },
+    {
+        "nama": "JPPK PT PINDAD",
+        "tipe": "Langsung",
+        "id": "66978fa71c90169481fcbd2a"
+    },
+    {
+        "nama": "JPPK RSU PINDAD",
+        "tipe": "Langsung",
+        "id": "66978fba1c90169481fcbd2b"
+    },
+    {
+        "nama": "Kartu Debit",
+        "tipe": "Langsung",
+        "id": "5ef6203422b6d548928e5377"
+    },
+    {
+        "nama": "Kartu Debit BCA",
+        "tipe": "Langsung",
+        "id": "6311b21e671c2875cc58a853"
+    },
+    {
+        "nama": "Kartu Debit Bank Lain",
+        "tipe": "Langsung",
+        "id": "64915975536d0cecd2bd8216"
+    },
+    {
+        "nama": "Kartu Debit Mandiri",
+        "tipe": "Langsung",
+        "id": "6311b23288924a75e48454f6"
+    },
+    {
+        "nama": "Kartu Kredit",
+        "tipe": "Langsung",
+        "id": "5ef6203e22b6d548928e5378"
+    },
+    {
+        "nama": "Kartu Kredit BCA",
+        "tipe": "Langsung",
+        "id": "64915a359d1bd7ed9df0d1a8"
+    },
+    {
+        "nama": "Kartu Kredit Bank Lain",
+        "tipe": "Langsung",
+        "id": "649159808eea02ed434d9116"
+    },
+    {
+        "nama": "Kartu Kredit Mandiri",
+        "tipe": "Langsung",
+        "id": "64915a5a109703ed1eb36cc8"
+    },
+    {
+        "nama": "Kartu debit BNI",
+        "tipe": "Langsung",
+        "id": "63d94e7195cbed84fdac8a53"
+    },
+    {
+        "nama": "Karyawan",
+        "tipe": "Langsung",
+        "id": "62b1393dea84487d22802746"
+    },
+    {
+        "nama": "Kas Estetik",
+        "tipe": "Langsung",
+        "id": "684fef56f3bc51012d48f4db"
+    },
+    {
+        "nama": "Kas Gigi",
+        "tipe": "Langsung",
+        "id": "684fef23f3bc51012d48f4d9"
+    },
+    {
+        "nama": "Kas Umum",
+        "tipe": "Langsung",
+        "id": "684feefff3bc51012d48f4d6"
+    },
+    {
+        "nama": "Kayawa",
+        "tipe": "Langsung",
+        "id": "62b1394b160cf27d093e82df"
+    },
+    {
+        "nama": "Klaim",
+        "tipe": "Langsung",
+        "id": "603efc3420226507821dc36c"
+    },
+    {
+        "nama": "Kredit",
+        "tipe": "Langsung",
+        "id": "624a6652fe057a317e176042"
+    },
+    {
+        "nama": "Kredit bca",
+        "tipe": "Langsung",
+        "id": "63eeec79605559f0b8e639e6"
+    },
+    {
+        "nama": "Kredit bni",
+        "tipe": "Langsung",
+        "id": "60f2cf5a6c94d5408123db92"
+    },
+    {
+        "nama": "Kredit card",
+        "tipe": "Langsung",
+        "id": "5b6e53acc9845313010ebf02"
+    },
+    {
+        "nama": "Kredivo",
+        "tipe": "Langsung",
+        "id": "62d3cadbbb9834caf945cf7f"
+    },
+    {
+        "nama": "Lain",
+        "tipe": "Langsung",
+        "id": "649159508eea02ed434d910f"
+    },
+    {
+        "nama": "Lainnya",
+        "tipe": "Langsung",
+        "id": "633e5e85f5c64f413a9f7666"
+    },
+    {
+        "nama": "Langsung",
+        "tipe": "Langsung",
+        "id": "613334cc09e61f754a8b3392"
+    },
+    {
+        "nama": "LinkAja",
+        "tipe": "Langsung",
+        "id": "5e5a4fc3a507b777c09a20e8"
+    },
+    {
+        "nama": "Linkaha",
+        "tipe": "Langsung",
+        "id": "5e2fa938c25f254cf220d68c"
+    },
+    {
+        "nama": "MEDICAL CHECK UP",
+        "tipe": "Langsung",
+        "id": "6678d6db2ead3734f7949119"
+    },
+    {
+        "nama": "MNC",
+        "tipe": "Langsung",
+        "id": "632d6998e99ec6efcd7fbf66"
+    },
+    {
+        "nama": "Mastercard",
+        "tipe": "Langsung",
+        "id": "63edc394c8629be6626f21e5"
+    },
+    {
+        "nama": "Mnc",
+        "tipe": "Langsung",
+        "id": "632d6894c7005deff9f06403"
+    },
+    {
+        "nama": "Muamalat",
+        "tipe": "Langsung",
+        "id": "632d68d34abed5efaf856535"
+    },
+    {
+        "nama": "Muamalat Admedika",
+        "tipe": "Langsung",
+        "id": "6483d03d0efefa63e9186aff"
+    },
+    {
+        "nama": "Non Tunai",
+        "tipe": "Langsung",
+        "id": "5dc50f630acbed60348c9254"
+    },
+    {
+        "nama": "Non tunai ",
+        "tipe": "Langsung",
+        "id": "628c7c797503d7532a204453"
+    },
+    {
+        "nama": "OCBC",
+        "tipe": "Langsung",
+        "id": "62d28791df8af6cb24ced86e"
+    },
+    {
+        "nama": "OCBC NISP",
+        "tipe": "Langsung",
+        "id": "64e3130f32acccb9eec07240"
+    },
+    {
+        "nama": "OVO by LinkAja",
+        "tipe": "Langsung",
+        "id": "5e5a5a34a507b777c09a228d"
+    },
+    {
+        "nama": "OneSmile",
+        "tipe": "Langsung",
+        "id": "642a909ac9f49364c9393d4c"
+    },
+    {
+        "nama": "Ovo",
+        "tipe": "Langsung",
+        "id": "5dba7bcb3ce03613d04a4082"
+    },
+    {
+        "nama": "Ovo",
+        "tipe": "Langsung",
+        "id": "5e2fa930c25f254cf220d68b"
+    },
+    {
+        "nama": "Owlexa",
+        "tipe": "Langsung",
+        "id": "5dc52592943f8f6687c77e78"
+    },
+    {
+        "nama": "PAYLATTER",
+        "tipe": "Langsung",
+        "id": "64ce218abb11121aa9a8e103"
+    },
+    {
+        "nama": "POSPOL",
+        "tipe": "Langsung",
+        "id": "66978fd41c90169481fcbd2d"
+    },
+    {
+        "nama": "PRODIA",
+        "tipe": "Langsung",
+        "id": "6481902403fc40c53744b3b3"
+    },
+    {
+        "nama": "PT ",
+        "tipe": "Langsung",
+        "id": "60a5de64cf41ac4a1859df9a"
+    },
+    {
+        "nama": "Paket Hotel",
+        "tipe": "Langsung",
+        "id": "61cd338651a482bddc8e0ee0"
+    },
+    {
+        "nama": "Paket Perusahaan",
+        "tipe": "Langsung",
+        "id": "61caa74c93e38a99aee6e98c"
+    },
+    {
+        "nama": "Paylater",
+        "tipe": "Langsung",
+        "id": "64d9d0d0b9eced86f98a075c"
+    },
+    {
+        "nama": "Permata bank",
+        "tipe": "Langsung",
+        "id": "624d6244ca1844b6a852864c"
+    },
+    {
+        "nama": "Perusahaan",
+        "tipe": "Langsung",
+        "id": "6434f886ede5eb3232916e46"
+    },
+    {
+        "nama": "Perusahan",
+        "tipe": "Langsung",
+        "id": "61cadce3ccf1d29993da9410"
+    },
+    {
+        "nama": "Pribadi",
+        "tipe": "Langsung",
+        "id": "5b742a592a9d8034e5a92a7c"
+    },
+    {
+        "nama": "Pribadi tunai",
+        "tipe": "Langsung",
+        "id": "65e05e01bc5005c2eb306413",
+        "updatedAt": "2024-02-29T10:35:45.453Z"
+    },
+    {
+        "nama": "QRI",
+        "tipe": "Langsung",
+        "id": "63219d2b754622a8f98b750a"
+    },
+    {
+        "nama": "QRIS",
+        "tipe": "Langsung",
+        "id": "60f2cf9e6c94d5408123dbbd"
+    },
+    {
+        "nama": "QRIS - BRI ",
+        "tipe": "Langsung",
+        "id": "63fae5cb70776aacca326b40"
+    },
+    {
+        "nama": "QRIS BCA ",
+        "tipe": "Langsung",
+        "id": "62b6a74e88036ea5f5cc23d6"
+    },
+    {
+        "nama": "QRIS BJB",
+        "tipe": "Langsung",
+        "id": "63219d43fb284da92a59b89d"
+    },
+    {
+        "nama": "QRIS BNI",
+        "tipe": "Langsung",
+        "id": "6405e7693c6d71f9f5a68add"
+    },
+    {
+        "nama": "QRIS BRI",
+        "tipe": "Langsung",
+        "id": "632041aed52180a93cd21ed8"
+    },
+    {
+        "nama": "QRIS BSI",
+        "tipe": "Langsung",
+        "id": "64cae60b86e854f19b3437e1"
+    },
+    {
+        "nama": "QRIS BTN Syariah",
+        "tipe": "Langsung",
+        "id": "66a0a340b4babf5103156e77"
+    },
+    {
+        "nama": "QRIS DANA",
+        "tipe": "Langsung",
+        "id": "61fd12093552dc33d8997544"
+    },
+    {
+        "nama": "QRIS MANDIRI",
+        "tipe": "Langsung",
+        "id": "6316cda6d4ae92760365fc30"
+    },
+    {
+        "nama": "Qr bca",
+        "tipe": "Langsung",
+        "id": "64184951b43d146c6387b4a0"
+    },
+    {
+        "nama": "Qr cimb",
+        "tipe": "Langsung",
+        "id": "6418495a5934b13648c41fe0"
+    },
+    {
+        "nama": "Qris ",
+        "tipe": "Langsung",
+        "id": "64abc8cf522e23ac4a04af6b"
+    },
+    {
+        "nama": "Qris Cimb",
+        "tipe": "Langsung",
+        "id": "645b1aa04da2c7a7db2a35f4"
+    },
+    {
+        "nama": "RAPID TEST",
+        "tipe": "Langsung",
+        "id": "6678d6f42ead3734f794911b"
+    },
+    {
+        "nama": "Resep",
+        "tipe": "Langsung",
+        "id": "64ab81852a3ed9abfd9ac719"
+    },
+    {
+        "nama": "SCAN BCA",
+        "tipe": "Langsung",
+        "id": "60f2cfb06c94d5408123dbca"
+    },
+    {
+        "nama": "Shinhan",
+        "tipe": "Langsung",
+        "id": "632d68b076a61eefc788086f"
+    },
+    {
+        "nama": "Shopee",
+        "tipe": "Langsung",
+        "id": "60bdc4b3411865294de3064c"
+    },
+    {
+        "nama": "Shopeepay",
+        "tipe": "Langsung",
+        "id": "60bdc4c8411865294de3065b"
+    },
+    {
+        "nama": "Sinar Mas",
+        "tipe": "Langsung",
+        "id": "632d68f301cea3efe0783c6a"
+    },
+    {
+        "nama": "T-cash by LinkAja",
+        "tipe": "Langsung",
+        "id": "5e5a5a4ca507b777c09a228f"
+    },
+    {
+        "nama": "TCash",
+        "tipe": "Langsung",
+        "id": "5b6db89050d8cc0c5d02efd6"
+    },
+    {
+        "nama": "TCash",
+        "tipe": "Langsung",
+        "id": "5b5936a86a455f2c62f5d279"
+    },
+    {
+        "nama": "TF",
+        "tipe": "Langsung",
+        "id": "62f898b6e14d62a357488994"
+    },
+    {
+        "nama": "TOKOPEDIA",
+        "tipe": "Langsung",
+        "id": "63bbd1beaa3f14de4555471c"
+    },
+    {
+        "nama": "TOPED",
+        "tipe": "Langsung",
+        "id": "63bbd1aa791d54df2cf857b3"
+    },
+    {
+        "nama": "TRAS",
+        "tipe": "Langsung",
+        "id": "63d6509680604d1cc1a02c35"
+    },
+    {
+        "nama": "TUNAI (MCU SCG)",
+        "tipe": "Langsung",
+        "id": "6678d70e2ead3734f794911d"
+    },
+    {
+        "nama": "TUNAI (USG)",
+        "tipe": "Langsung",
+        "id": "6678d6e82ead3734f794911a"
+    },
+    {
+        "nama": "Tansfer ",
+        "tipe": "Langsung",
+        "id": "6413f08e6e2be436b4b6a900"
+    },
+    {
+        "nama": "Ticket.com",
+        "tipe": "Langsung",
+        "id": "61ca9c8e93e38a99aee6e855"
+    },
+    {
+        "nama": "Tidak Tunai",
+        "tipe": "Langsung",
+        "id": "5ca5a7e1e7380e27a6fb55d9"
+    },
+    {
+        "nama": "Tikt",
+        "tipe": "Langsung",
+        "id": "64db1ebf667eeaaed79a8f6d"
+    },
+    {
+        "nama": "Tiktok Shop",
+        "tipe": "Langsung",
+        "id": "64db1ece49a529aed199ceb1"
+    },
+    {
+        "nama": "Tranfer BCA",
+        "tipe": "Langsung",
+        "id": "60e29826d69ae751aeb0e179"
+    },
+    {
+        "nama": "Trans M",
+        "tipe": "Langsung",
+        "id": "648848d9d1aefee77f07d6ed"
+    },
+    {
+        "nama": "Transfer",
+        "tipe": "Langsung",
+        "id": "5cdcd61da003e63e6b4a8804"
+    },
+    {
+        "nama": "Transfer ATM",
+        "tipe": "Langsung",
+        "id": "60e2995cd69ae751aeb0e1fb"
+    },
+    {
+        "nama": "Transfer BANK JATENG",
+        "tipe": "Langsung",
+        "id": "6316ce17dcc1ed75b4b8a167"
+    },
+    {
+        "nama": "Transfer BCA",
+        "tipe": "Langsung",
+        "id": "60f2cfdf6c94d5408123dc03"
+    },
+    {
+        "nama": "Transfer BCA Berobat",
+        "tipe": "Langsung",
+        "id": "603efbed46b7f2075691c060"
+    },
+    {
+        "nama": "Transfer BCA Swab",
+        "tipe": "Langsung",
+        "id": "603efc0319971c074b6d3fbe"
+    },
+    {
+        "nama": "Transfer BCA Syariah",
+        "tipe": "Langsung",
+        "id": "649ff316838218279ffc8fe6"
+    },
+    {
+        "nama": "Transfer BNI",
+        "tipe": "Langsung",
+        "id": "5fe1c3a44c9a19413767b44d"
+    },
+    {
+        "nama": "Transfer BRI",
+        "tipe": "Langsung",
+        "id": "5e41387b7b91cc35ccf06d75"
+    },
+    {
+        "nama": "Transfer BSI",
+        "tipe": "Langsung",
+        "id": "6290cae49da627d6759688c0"
+    },
+    {
+        "nama": "Transfer Bank",
+        "tipe": "Langsung",
+        "id": "61cadd155191dc99b465fe0e"
+    },
+    {
+        "nama": "Transfer Bank BCA",
+        "tipe": "Langsung",
+        "id": "5d23f9f83292584a316cf847"
+    },
+    {
+        "nama": "Transfer Bank BJB",
+        "tipe": "Langsung",
+        "id": "6291b6775fbc66f91b0f85c4"
+    },
+    {
+        "nama": "Transfer Bank BNI",
+        "tipe": "Langsung",
+        "id": "619b7cb878ae287e1f119aa6"
+    },
+    {
+        "nama": "Transfer Bank BRI",
+        "tipe": "Langsung",
+        "id": "619b7cc578ae287e1f119ab6"
+    },
+    {
+        "nama": "Transfer Bank Mandiri",
+        "tipe": "Langsung",
+        "id": "60e2984bd69ae751aeb0e17d"
+    },
+    {
+        "nama": "Transfer Bank Syariah Indonesia",
+        "tipe": "Langsung",
+        "id": "60e29878d69ae751aeb0e187"
+    },
+    {
+        "nama": "Transfer Dana",
+        "tipe": "Langsung",
+        "id": "6291b67d7fece3f90a056c5e"
+    },
+    {
+        "nama": "Transfer Danamon",
+        "tipe": "Langsung",
+        "id": "639ed490bc5e70d7290a7353"
+    },
+    {
+        "nama": "Transfer Mandiri",
+        "tipe": "Langsung",
+        "id": "5d23f9eb3292584a316cf846"
+    },
+    {
+        "nama": "Transfer Mandiri (dr. Andina)",
+        "tipe": "Langsung",
+        "hospitalId": "68e35b6edda75322e269024c",
+        "id": "690083525a10ef159e2715d4",
+        "createdId": "68e62eebdeafd6eab1dfc697",
+        "createdName": "Muhammad Ma'ruf A",
+        "createdAt": "2025-10-28T08:48:18.742Z",
+        "updatedAt": "2025-10-28T08:48:18.742Z"
+    },
+    {
+        "nama": "Transfer Mandiri Berobat",
+        "tipe": "Langsung",
+        "id": "603efc158e2e37075d8eee96"
+    },
+    {
+        "nama": "Transfer Mandiri Swab",
+        "tipe": "Langsung",
+        "id": "603efc298b85720740230cd8"
+    },
+    {
+        "nama": "Transfer Maybank",
+        "tipe": "Langsung",
+        "id": "6045d95199f38764404c8639"
+    },
+    {
+        "nama": "Transfer Mbanking",
+        "tipe": "Langsung",
+        "id": "60e298b1d69ae751aeb0e19c"
+    },
+    {
+        "nama": "Transfer OVO",
+        "tipe": "Langsung",
+        "id": "6291b6845fbc66f91b0f85c6"
+    },
+    {
+        "nama": "Transfer QR ",
+        "tipe": "Langsung",
+        "id": "6291b698ad113cf8c7b7102a"
+    },
+    {
+        "nama": "Transfer QRIS",
+        "tipe": "Langsung",
+        "id": "649ff326fc09221ae5f39080"
+    },
+    {
+        "nama": "Transfer ShopeePay",
+        "tipe": "Langsung",
+        "id": "6291b68b5fbc66f91b0f85c7"
+    },
+    {
+        "nama": "Transfer bank nagari",
+        "tipe": "Langsung",
+        "id": "6290caf4f5fed6d691f3a75d"
+    },
+    {
+        "nama": "Transfer cimb",
+        "tipe": "Langsung",
+        "id": "64a51c9dddf14fed38173124"
+    },
+    {
+        "nama": "Travelo",
+        "tipe": "Langsung",
+        "id": "600a626be46dfe05e95163aa"
+    },
+    {
+        "nama": "Traveloka",
+        "tipe": "Langsung",
+        "id": "600a627be46dfe05e95163b8"
+    },
+    {
+        "nama": "Tun",
+        "tipe": "Langsung",
+        "id": "64034072fae7d4f9ddf4914d"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5b6e520dc9845313010ebef1"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5b6e531fc9845313010ebeff"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5b6fa434e185141c34a46fc3"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5badf46354b67a4fe17b9977"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5c2c6327db2333548671b431"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Langsung",
+        "id": "5ecc87aaa3712b1bb089bd56"
+    },
+    {
+        "nama": "Tunai Poli Gigi",
+        "tipe": "Langsung",
+        "id": "680ed9f75a687e1fad1f4bfe"
+    },
+    {
+        "nama": "Tunai Poli Kebidanan",
+        "tipe": "Langsung",
+        "id": "680eda2d5a687e1fad1f4c00"
+    },
+    {
+        "nama": "Tunai Poli Umum",
+        "tipe": "Langsung",
+        "id": "680eda245a687e1fad1f4bff"
+    },
+    {
+        "nama": "Tunai, ",
+        "tipe": "Langsung",
+        "id": "5b6e5383c9845313010ebf01"
+    },
+    {
+        "nama": "Tunai/BPJS",
+        "tipe": "Langsung",
+        "id": "64c8e4379cd5d3bc3c26dd73"
+    },
+    {
+        "nama": "UMUM",
+        "tipe": "Langsung",
+        "id": "63e2206d9e26c72400c01716"
+    },
+    {
+        "nama": "USG",
+        "tipe": "Langsung",
+        "id": "6678d7022ead3734f794911c"
+    },
+    {
+        "nama": "USG (KLAIM)",
+        "tipe": "Langsung",
+        "id": "6678d6cd2ead3734f7949118"
+    },
+    {
+        "nama": "Uob",
+        "tipe": "Langsung",
+        "id": "632d6873c7005deff9f063f9"
+    },
+    {
+        "nama": "V",
+        "tipe": "Langsung",
+        "id": "61f7bd9b4fb4c30d1f556d1b"
+    },
+    {
+        "nama": "Visa",
+        "tipe": "Langsung",
+        "id": "63edc389c8629be6626f21e4"
+    },
+    {
+        "nama": "Voucher HDmall",
+        "tipe": "Langsung",
+        "id": "62405c9ae75df74232cd9084"
+    },
+    {
+        "nama": "Voucher Lakupon",
+        "tipe": "Langsung",
+        "id": "5ef6202a22b6d548928e5376"
+    },
+    {
+        "nama": "Voucher Online Shop",
+        "tipe": "Langsung",
+        "id": "623005430443a0db7b21330a"
+    },
+    {
+        "nama": "Voucher RuangMom",
+        "tipe": "Langsung",
+        "id": "61f7bdae8e74c50d40b0c8fc"
+    },
+    {
+        "nama": "Voucher Sehatqu",
+        "tipe": "Langsung",
+        "id": "5ef6201722b6d548928e5375"
+    },
+    {
+        "nama": "Voucher Teman Bumil",
+        "tipe": "Langsung",
+        "id": "5ef61fff22b6d548928e5374"
+    },
+    {
+        "nama": "YKKBI",
+        "tipe": "Langsung",
+        "id": "6483d01a0efefa63e9186aea"
+    },
+    {
+        "nama": "Yap",
+        "tipe": "Langsung",
+        "id": "5b627f64ab53437cda04148f"
+    },
+    {
+        "nama": "Youtap",
+        "tipe": "Langsung",
+        "id": "637da5798d053b84b4042e98"
+    },
+    {
+        "nama": "Agung perkasa ekspressindo",
+        "tipe": "Perusahaan",
+        "id": "5b6e53d4c9845313010ebf03"
+    },
+    {
+        "nama": "Alodokter",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576e"
+    },
+    {
+        "nama": "Ari Canti Health Care (ACHC)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6731c65c65a77e2a1fbdfac5"
+    },
+    {
+        "nama": "Asrama Aspix",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6384193d61ac0b936e8563f1"
+    },
+    {
+        "nama": "Asrama Marget",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "61bc0356637922e0b25b1355"
+    },
+    {
+        "nama": "Asuransi",
+        "tipe": "Perusahaan",
+        "id": "5defb83889c44d72f0af0263"
+    },
+    {
+        "nama": "Ayam Kremes Balut Pandan",
+        "tipe": "Perusahaan",
+        "id": "5ba63b8fda57ea1e43c6e2e1"
+    },
+    {
+        "nama": "BNI LIFE",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68a2982555c98a25b8ec8f37"
+    },
+    {
+        "nama": "BOB",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "576111c9a7b24ba905528883"
+    },
+    {
+        "nama": "BOB PT. BSP – Pertama Hulu",
+        "tipe": "Perusahaan",
+        "gambar": "bop.png",
+        "id": "57726992e2c9696a12715471"
+    },
+    {
+        "nama": "BPJS Kesehatan",
+        "tipe": "Perusahaan",
+        "id": "5c342d7ae1a182086bb15590"
+    },
+    {
+        "nama": "BPJS Ketenagakerjaan",
+        "tipe": "Perusahaan",
+        "gambar": "bpjs_ketenagakerjaan.jpeg",
+        "id": "583bd342e62ed032ec93cb2c"
+    },
+    {
+        "nama": "BPR",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66a9dff849861d5d3336b2cc"
+    },
+    {
+        "nama": "BRILife",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66d569492544dddc93cd50c1"
+    },
+    {
+        "nama": "BSA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef7ac48d10ddbb9b10df"
+    },
+    {
+        "nama": "Bakrie Telecom",
+        "tipe": "Perusahaan",
+        "gambar": "bakrietelecom.jpg",
+        "id": "5783093f04f2f3501875806e"
+    },
+    {
+        "nama": "Balai Litbang",
+        "tipe": "Perusahaan",
+        "id": "61ee03f387a5d9c2cd5556f2"
+    },
+    {
+        "nama": "Bank AGRO",
+        "tipe": "Perusahaan",
+        "gambar": "bankagro.jpg",
+        "id": "577639a904f2f35018757f5b"
+    },
+    {
+        "nama": "Bank Bukopin",
+        "tipe": "Perusahaan",
+        "gambar": "bankbukopin.jpg",
+        "id": "577639a904f2f35018757f5c"
+    },
+    {
+        "nama": "Bank CIMB Niaga",
+        "tipe": "Perusahaan",
+        "gambar": "bankcimbniaga.png",
+        "id": "577639a904f2f35018757f60"
+    },
+    {
+        "nama": "Bank Central Asia",
+        "tipe": "Perusahaan",
+        "gambar": "bankcentralasia.png",
+        "id": "577639a904f2f35018757f5a"
+    },
+    {
+        "nama": "Bank Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "BI.jpg",
+        "id": "57726992e2c9696a12715472"
+    },
+    {
+        "nama": "Bank Mandiri",
+        "tipe": "Perusahaan",
+        "gambar": "bankmandiri.jpg",
+        "id": "577639a904f2f35018757f5d"
+    },
+    {
+        "nama": "Bank Mandiri Syariah",
+        "tipe": "Perusahaan",
+        "gambar": "bankmandirisyariah.png",
+        "id": "577639a904f2f35018757f61"
+    },
+    {
+        "nama": "Bank Rakyat Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "bankrakyatindonesia.jpg",
+        "id": "577639a904f2f35018757f5f"
+    },
+    {
+        "nama": "Bank Riau Kepri",
+        "tipe": "Perusahaan",
+        "gambar": "bankriaukepri.png",
+        "id": "577639a904f2f35018757f59"
+    },
+    {
+        "nama": "Bank Tabungan Negara",
+        "tipe": "Perusahaan",
+        "gambar": "banktabungannegara.png",
+        "id": "577639a904f2f35018757f5e"
+    },
+    {
+        "nama": "Biro Klasifikasi Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "biro_klasifikasi_indonesia_bki.png",
+        "id": "583bd288e62ed032ec93cb2a"
+    },
+    {
+        "nama": "Blibli",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "6865e8470cab46265814cd2d"
+    },
+    {
+        "nama": "Bpjs",
+        "tipe": "Perusahaan",
+        "id": "5b6e5333c9845313010ebf00"
+    },
+    {
+        "nama": "CMLJ",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a55770"
+    },
+    {
+        "nama": "COB BPJS PTPN",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6752d066fb2738dffbc9b596"
+    },
+    {
+        "nama": "CV BOSTON",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63d72ed23957805eb34acab2"
+    },
+    {
+        "nama": "CV DWIGUNA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d52f2ead3734f794910c"
+    },
+    {
+        "nama": "CV OKTA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d54c2ead3734f794910e"
+    },
+    {
+        "nama": "CV. BOSTON",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9641"
+    },
+    {
+        "nama": "CV. PATRIA",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9649"
+    },
+    {
+        "nama": "CareNow",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "6865e8470cab46265814cd2e"
+    },
+    {
+        "nama": "Cemerlang Abadi",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "675a595b4f9e6425816e8cc2"
+    },
+    {
+        "nama": "Coca-cola indonesia",
+        "tipe": "Perusahaan",
+        "id": "5e1210a3acf4186badf710e7"
+    },
+    {
+        "nama": "Cv Mutif",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576c"
+    },
+    {
+        "nama": "Derajat",
+        "tipe": "Perusahaan",
+        "id": "5e5f71d414719134cc426be4"
+    },
+    {
+        "nama": "Emp",
+        "tipe": "Perusahaan",
+        "id": "5b6e540ec9845313010ebf07"
+    },
+    {
+        "nama": "GO APOTEK",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "682409d4ff56564c83fcf1b9"
+    },
+    {
+        "nama": "GP 500",
+        "tipe": "Perusahaan",
+        "id": "5e5f71c114719134cc426bdd"
+    },
+    {
+        "nama": "GRAHA SEKAR KENCANA UNIT PT APLUS PACIFIC - PSr. KEMIS",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68e602f1e2e3db84f1068214"
+    },
+    {
+        "nama": "GREAT APPAREL INDONESIA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d53d2ead3734f794910d"
+    },
+    {
+        "nama": "Generali",
+        "tipe": "Perusahaan",
+        "gambar": "generali.jpg",
+        "id": "583bd6d4e62ed032ec93cb32"
+    },
+    {
+        "nama": "Gratis Karyawan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "675a59524f9e6425816e8cc1"
+    },
+    {
+        "nama": "HD Mall",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576f"
+    },
+    {
+        "nama": "HDI FAMILY COMPANIES INDONESIA",
+        "tipe": "Perusahaan",
+        "gambar": "hdi.png",
+        "id": "576111c9a7b24ba905528879"
+    },
+    {
+        "nama": "Haleyora",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef34c48d10ddbb9afbf6"
+    },
+    {
+        "nama": "Halodoc",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "5fbdc5d883e4db5a19f00b99"
+    },
+    {
+        "nama": "Hamara",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63d72ed23957805eb34acab3"
+    },
+    {
+        "nama": "Happy puppi pekanbaru",
+        "tipe": "Perusahaan",
+        "id": "5e1210f0acf4186badf710fc"
+    },
+    {
+        "nama": "Harris Hotel",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6254cbec1e91b3f01de9fe4d"
+    },
+    {
+        "nama": "Harvent",
+        "tipe": "Perusahaan",
+        "id": "5e5f71dd14719134cc426bee"
+    },
+    {
+        "nama": "Honestdoc",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a5576d"
+    },
+    {
+        "nama": "Hotel Angkasa Garden",
+        "tipe": "Perusahaan",
+        "id": "5ba63b7fda57ea1e43c6e2e0"
+    },
+    {
+        "nama": "Hotel Grand Mercure",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "62416347163eb4e3406ad617"
+    },
+    {
+        "nama": "Hyundai",
+        "tipe": "Perusahaan",
+        "id": "5b6e53e4c9845313010ebf04"
+    },
+    {
+        "nama": "ICON+",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "576111c9a7b24ba90552886d"
+    },
+    {
+        "nama": "IKS KSP SANTHI SEDANA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6753e0640728e02059ef6cfb"
+    },
+    {
+        "nama": "Imigrasi",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "62416347163eb4e3406ad615"
+    },
+    {
+        "nama": "Indodana",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "638725cf95a4ef2f4cfde1cf"
+    },
+    {
+        "nama": "Indogrosir",
+        "tipe": "Perusahaan",
+        "id": "5b6e53f4c9845313010ebf05"
+    },
+    {
+        "nama": "Indrapura Pacific Cross",
+        "tipe": "Perusahaan",
+        "gambar": "A.jpg.jpg",
+        "id": "59b23fc90400a42f4216619c"
+    },
+    {
+        "nama": "Indrapura Pacific Cross",
+        "tipe": "Perusahaan",
+        "gambar": "A.jpg.jpg",
+        "id": "59b23fca0400a42f4216619d"
+    },
+    {
+        "nama": "Indrapura Pacific Cross",
+        "tipe": "Perusahaan",
+        "gambar": "A.jpg.jpg",
+        "id": "59b241b80400a42f4216619e"
+    },
+    {
+        "nama": "Infomedia Solusi Humanika",
+        "tipe": "Perusahaan",
+        "gambar": "infomedia.png",
+        "id": "576111c9a7b24ba905528877"
+    },
+    {
+        "nama": "International Sos",
+        "tipe": "Perusahaan",
+        "gambar": "internationalsos.png",
+        "id": "5783093f04f2f3501875806d"
+    },
+    {
+        "nama": "Intl Organitation Migration",
+        "tipe": "Perusahaan",
+        "gambar": "iom.png",
+        "id": "5783097204f2f35018758073"
+    },
+    {
+        "nama": "JD.ID",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "633d27edb7109e815176a296"
+    },
+    {
+        "nama": "JNE",
+        "tipe": "Perusahaan",
+        "id": "5e5f6e7c14719134cc426a97"
+    },
+    {
+        "nama": "KLINIK DHP",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6232aba2fd482ac5ab7a55f3"
+    },
+    {
+        "nama": "KLOOK",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60cbf20dece3dc5d384dfb0b"
+    },
+    {
+        "nama": "KLOOK",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60cbf28a6da6bab2a5929b26"
+    },
+    {
+        "nama": "KPBS Tanggungan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66a9dfdc49861d5d3336b2ca"
+    },
+    {
+        "nama": "KPBS non Tanggungan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66a9dfec49861d5d3336b2cb"
+    },
+    {
+        "nama": "KUD Danau Balai Lestari Kotobaru",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60af1aa1c48d10ddbb04d412"
+    },
+    {
+        "nama": "Kampoeng Ikan Resto",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "629ad706a43a41f5b47a3ca5"
+    },
+    {
+        "nama": "Karyawan",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a55772"
+    },
+    {
+        "nama": "Karyawan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68de41fd45afbba975fe5277"
+    },
+    {
+        "nama": "Karyawan HTBSPM",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "675a59474f9e6425816e8cc0"
+    },
+    {
+        "nama": "Kemenag (Balai Diklat Keagamaan) Rawa Kuning",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "621d8e9d98b9e38bdabffb68"
+    },
+    {
+        "nama": "KlikDokter",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "62416347163eb4e3406ad613"
+    },
+    {
+        "nama": "Klinik Apotek Annafis",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68649d53b0dd93012851de1e"
+    },
+    {
+        "nama": "Klinik Gigi WBI",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63e1fd7beb85f50c587212af"
+    },
+    {
+        "nama": "Klinik Jalur Farma (IGD)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68e0a91b30ca11704e039cba"
+    },
+    {
+        "nama": "Klinik Pratama Santo Yosef",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63842b156fb4ed641e98a449"
+    },
+    {
+        "nama": "Klinik Pratama UMP Tambaksari",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "621d8ec598b9e38bdabffb6a"
+    },
+    {
+        "nama": "Klinik Umum WBI",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63e1fd7beb85f50c587212ae"
+    },
+    {
+        "nama": "Klinik swasta",
+        "tipe": "Perusahaan",
+        "id": "5b6fa229e185141c34a46fbd"
+    },
+    {
+        "nama": "Kopelindo Yabinstra",
+        "tipe": "Perusahaan",
+        "gambar": "kopelindoyabinstra.jpg",
+        "id": "576111c9a7b24ba905528876"
+    },
+    {
+        "nama": "Kopi Kina Pegawai",
+        "tipe": "Perusahaan",
+        "hospitalId": "68f0b1deeaf0d8b9ad5a78cf",
+        "id": "68faedf981b11bbbb194aa89",
+        "createdId": "68f0b0d81390d5b99246418e",
+        "createdName": "Axel Dental",
+        "createdAt": "2025-10-24T03:09:45.079Z",
+        "updatedAt": "2025-10-24T03:09:45.079Z"
+    },
+    {
+        "nama": "Kuttab",
+        "tipe": "Perusahaan",
+        "id": "5e5f71e614719134cc426bf1"
+    },
+    {
+        "nama": "LKC corner",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "686cd63bae12efa1d5bef4de"
+    },
+    {
+        "nama": "LPK Yumnaa",
+        "tipe": "Perusahaan",
+        "id": "60a5e4c61d16b3972c1f618d"
+    },
+    {
+        "nama": "Lazismu",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "666a72e2c7ba7126adb2ac2e"
+    },
+    {
+        "nama": "MBS Bandongan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66976bae992d398719e79fc6"
+    },
+    {
+        "nama": "MI MAFATIKHUL ULUM",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c6691c8c553458b23bf"
+    },
+    {
+        "nama": "MI NU BANAT",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c1f91c8c553458b23b8"
+    },
+    {
+        "nama": "MI NU NAWA KARTIKA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c4b91c8c553458b23bc"
+    },
+    {
+        "nama": "MI ROHDATUS SIBYAN",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c8191c8c553458b23c2"
+    },
+    {
+        "nama": "MIE SP",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5582ead3734f794910f"
+    },
+    {
+        "nama": "MTS NU BANAT",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c2891c8c553458b23b9"
+    },
+    {
+        "nama": "MTS ROHDATUS SIBYAN",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c8991c8c553458b23c3"
+    },
+    {
+        "nama": "MTU",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef70c48d10ddbb9b0c19"
+    },
+    {
+        "nama": "MWC NU Wringinanom",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67d8c9008ff1d47d82166786"
+    },
+    {
+        "nama": "Mahanaim",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67f79a8dce75b2f0b0817cdf"
+    },
+    {
+        "nama": "Mahasiswa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68de41f545afbba975fe5276"
+    },
+    {
+        "nama": "Mandiri Inhealth",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6604cb0176e64f8111ecb051"
+    },
+    {
+        "nama": "Masjid Timoho",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66976bcc992d398719e79fc8"
+    },
+    {
+        "nama": "Medicaboo",
+        "tipe": "Perusahaan",
+        "id": "5b6db97d36566b0cfd08eb9a"
+    },
+    {
+        "nama": "Medicare",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "63e21e13a4571ecc77a55771"
+    },
+    {
+        "nama": "Member Dompet Dhuafa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "679b59036fd19f184062134e"
+    },
+    {
+        "nama": "Mister Aladin",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "600f98975ba7f541d16d55ce"
+    },
+    {
+        "nama": "Mustahik",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "686412c968df9b54efdc54d9"
+    },
+    {
+        "nama": "NTT Data",
+        "tipe": "Perusahaan",
+        "gambar": "ntt_data.png",
+        "id": "583bd77fe62ed032ec93cb3c"
+    },
+    {
+        "nama": "OVO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60b75203c48d10ddbb9980e6"
+    },
+    {
+        "nama": "Omsa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68afbf0b117090881dd663c1"
+    },
+    {
+        "nama": "PASTI JAYA MOTOR",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d51c2ead3734f794910b"
+    },
+    {
+        "nama": "PAUD ROHMATUL UMMAH",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c7891c8c553458b23c1"
+    },
+    {
+        "nama": "PAYM Bandongan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66976bda992d398719e79fc9"
+    },
+    {
+        "nama": "PB Batu Kareta",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66c464ed02f9e35a1530d067"
+    },
+    {
+        "nama": "PD. Murni Plastik",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368cd7a099e28c0b10cf77"
+    },
+    {
+        "nama": "PESANTREN BABUSSALAM",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "68ecea842aa59ff55366f661"
+    },
+    {
+        "nama": "PESANTREN DARUL AMAN",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "669f823bfd1a43f2c6dc8af6"
+    },
+    {
+        "nama": "PKP PENABUR",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6895dfdf57103f8be059670b"
+    },
+    {
+        "nama": "PRIMA SNACK CENTRE",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d50c2ead3734f794910a"
+    },
+    {
+        "nama": "PRIMA SNACK DEPO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5672ead3734f7949110"
+    },
+    {
+        "nama": "PT Antareja Mahada Makmur",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "669f34cefd1a43f2c6dc8aef"
+    },
+    {
+        "nama": "PT BAS",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c7f1bc4f6f944ba3626d90"
+    },
+    {
+        "nama": "PT Mencari Cinta Sejati",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "66ab3805fd859dd9ef0c0f36",
+        "updatedAt": "2024-08-01T07:23:49.738Z"
+    },
+    {
+        "nama": "PT PLN EPI",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "68ecea842aa59ff55366f660"
+    },
+    {
+        "nama": "PT Permodalan Nasional Madani (PNM)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "637dd49b9f94a4498ed942c3"
+    },
+    {
+        "nama": "PT SILGA PERKASA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5922ead3734f7949113"
+    },
+    {
+        "nama": "PT SIS",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf964a"
+    },
+    {
+        "nama": "PT SUPRA NATAMI UTAMA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5a22ead3734f7949114"
+    },
+    {
+        "nama": "PT Socfin Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667bbb132db6b12e3d4b7a76"
+    },
+    {
+        "nama": "PT. ABC",
+        "tipe": "Perusahaan",
+        "id": "5c2460e2f6be18326b1866b4"
+    },
+    {
+        "nama": "PT. ADMEDIKA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667678537d0de4569756339e"
+    },
+    {
+        "nama": "PT. AGARINDO BOGATAMA",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "667678917d0de4569756339f"
+    },
+    {
+        "nama": "PT. AI",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf963e"
+    },
+    {
+        "nama": "PT. ANGSA DAYA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667678aa7d0de456975633a0"
+    },
+    {
+        "nama": "PT. APLUS PACIFIC",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679317d0de456975633a5"
+    },
+    {
+        "nama": "PT. ARKT",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "646b1bcbd82297ead74c8b2b"
+    },
+    {
+        "nama": "PT. ASIAN AGRI",
+        "tipe": "Perusahaan",
+        "gambar": "pt_asianagri.png",
+        "id": "5776418504f2f3501875805b"
+    },
+    {
+        "nama": "PT. Adhi Karya",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60caaef6ece3dc5d38fe5a78"
+    },
+    {
+        "nama": "PT. Amanah Umat Mulia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "621d8ed098b9e38bdabffb6b"
+    },
+    {
+        "nama": "PT. Aneka Sarivita",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce499dd34af78adbc2695"
+    },
+    {
+        "nama": "PT. Angkasa Pura",
+        "tipe": "Perusahaan",
+        "gambar": "pt_angkasapura.png",
+        "id": "578308e104f2f35018758062"
+    },
+    {
+        "nama": "PT. Asri Karya Lestari",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368f05a099e28c0b10cf8b"
+    },
+    {
+        "nama": "PT. Astra International Tbk – Isuzu",
+        "tipe": "Perusahaan",
+        "gambar": "astraisuzu.jpg",
+        "id": "57726992e2c9696a12715470"
+    },
+    {
+        "nama": "PT. Astra Otoparts, Tbk",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368dafa099e28c0b10cf7b"
+    },
+    {
+        "nama": "PT. Asuransi Perisai Listrik Nasional",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "65fd4c22b4b7601d5b3ed250"
+    },
+    {
+        "nama": "PT. BIB",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf963f"
+    },
+    {
+        "nama": "PT. BIG GOLDEN BELL",
+        "tipe": "Perusahaan",
+        "id": "60a5e4a51d16b3972c1f618b"
+    },
+    {
+        "nama": "PT. BIMA CIPTA ABADI",
+        "tipe": "Perusahaan",
+        "gambar": "gambar.png",
+        "id": "667678c57d0de456975633a1"
+    },
+    {
+        "nama": "PT. BIMA CIPTA ABADI",
+        "tipe": "Perusahaan",
+        "gambar": "gambar.png",
+        "id": "667678e37d0de456975633a2"
+    },
+    {
+        "nama": "PT. BINA PERTIWI",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9640"
+    },
+    {
+        "nama": "PT. BIOPLAST UNGGUL",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667678fb7d0de456975633a3"
+    },
+    {
+        "nama": "PT. Bakrie Telecom, Tbk",
+        "tipe": "Perusahaan",
+        "gambar": "bakrietelecom.jpg",
+        "id": "57726992e2c9696a1271546a"
+    },
+    {
+        "nama": "PT. Bandang Rezeky Lestari",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f3501875807a"
+    },
+    {
+        "nama": "PT. Bank Mandiri Cabang A. Yani",
+        "tipe": "Perusahaan",
+        "gambar": "mandiri.jpg",
+        "id": "57726992e2c9696a12715469"
+    },
+    {
+        "nama": "PT. Bellsonica Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e5aa099e28c0b10cf83"
+    },
+    {
+        "nama": "PT. Bina Pitri Jaya",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f35018758070"
+    },
+    {
+        "nama": "PT. Budi Rides Cemerlang",
+        "tipe": "Perusahaan",
+        "gambar": "budiridescemerlang.png",
+        "id": "5783097204f2f35018758079"
+    },
+    {
+        "nama": "PT. Bukit Asam",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63fc6e1a0dfa347967ac7ab7"
+    },
+    {
+        "nama": "PT. Bumi Resource Mandiri",
+        "tipe": "Perusahaan",
+        "gambar": "pt_bumiresources.jpg",
+        "id": "5783097204f2f3501875807b"
+    },
+    {
+        "nama": "PT. CK",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9642"
+    },
+    {
+        "nama": "PT. CKDU 07",
+        "tipe": "Perusahaan",
+        "gambar": "gambar.png",
+        "id": "667679ce7d0de456975633ac"
+    },
+    {
+        "nama": "PT. CLS",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9643"
+    },
+    {
+        "nama": "PT. COWAY",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "61aee42561634f026d65d27e"
+    },
+    {
+        "nama": "PT. Centratama Menara Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "5e688390c855ac47c8c2732c"
+    },
+    {
+        "nama": "PT. Chevron Pacific Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "cpi.png",
+        "id": "57726992e2c9696a12715464"
+    },
+    {
+        "nama": "PT. Chingluh",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66a0a59bc65a18111d806220"
+    },
+    {
+        "nama": "PT. Contromatic Prima Mandiri",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368de9a099e28c0b10cf7f"
+    },
+    {
+        "nama": "PT. DCA",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9644"
+    },
+    {
+        "nama": "PT. DIL",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9645"
+    },
+    {
+        "nama": "PT. DOSNI ROHA",
+        "tipe": "Perusahaan",
+        "gambar": "pt_dosniroha.png",
+        "id": "5776418504f2f3501875805c"
+    },
+    {
+        "nama": "PT. DOT Indonesia",
+        "tipe": "Perusahaan",
+        "hospitalId": "66c4533393d88e6e7602348b",
+        "id": "6904216c2ffea46c9a566b26",
+        "createdId": "66c4528193d88e6e7602304f",
+        "createdName": "Sakinah Anibras",
+        "createdAt": "2025-10-31T02:39:40.346Z",
+        "updatedAt": "2025-10-31T02:39:40.346Z"
+    },
+    {
+        "nama": "PT. DUTA PRIMA PLASINDO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6676798d7d0de456975633a9"
+    },
+    {
+        "nama": "PT. Dachin Etech Global",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368ea7a099e28c0b10cf87"
+    },
+    {
+        "nama": "PT. Daho Packing Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368ee6a099e28c0b10cf8a"
+    },
+    {
+        "nama": "PT. EDI",
+        "tipe": "Perusahaan",
+        "gambar": "edi.jpg",
+        "id": "576111c9a7b24ba90552887d"
+    },
+    {
+        "nama": "PT. EDS Manufacturing Indonesia (PEMI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce3e1dd34af78adbc2691"
+    },
+    {
+        "nama": "PT. EDS Manufacturing Indonesia - AW ( PT. PEMI-AW )",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce41edd34af78adbc2692"
+    },
+    {
+        "nama": "PT. EST",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9646"
+    },
+    {
+        "nama": "PT. Eagle Nice Indonesia (ENI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66f3b2588c40337fe95ac349"
+    },
+    {
+        "nama": "PT. Emudah Fulfillment Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368ec3a099e28c0b10cf89"
+    },
+    {
+        "nama": "PT. Emudah Media Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368eb7a099e28c0b10cf88"
+    },
+    {
+        "nama": "PT. Epson Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfee"
+    },
+    {
+        "nama": "PT. Fastel Sarana Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "5e6883cac855ac47c8c2732e"
+    },
+    {
+        "nama": "PT. Federal International Finance",
+        "tipe": "Perusahaan",
+        "gambar": "fif.png",
+        "id": "57726992e2c9696a1271546b"
+    },
+    {
+        "nama": "PT. GUE",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "65f3eac4164209ca1839b323",
+        "updatedAt": "2024-03-15T06:29:24.995Z"
+    },
+    {
+        "nama": "PT. Gapura Angkasa",
+        "tipe": "Perusahaan",
+        "gambar": "pt_gapuraangkasa.jpg",
+        "id": "5783097204f2f3501875807f"
+    },
+    {
+        "nama": "PT. Garudafood",
+        "tipe": "Perusahaan",
+        "gambar": "pt_garudafood.jpg",
+        "id": "578308e104f2f35018758067"
+    },
+    {
+        "nama": "PT. Golden Roof Polimer",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67ce81dd43b4a47e9644d3c3"
+    },
+    {
+        "nama": "PT. Golden Roof Polymer",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce4a9dd34af78adbc2696"
+    },
+    {
+        "nama": "PT. Grand Dragon Transport",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68a2ac9d33f1c17368575fa9"
+    },
+    {
+        "nama": "PT. Grandpuri Mintra International",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e0da099e28c0b10cf80"
+    },
+    {
+        "nama": "PT. Gressindo Mandiri Sukses",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66a773a8c122c2b2d2226e9f"
+    },
+    {
+        "nama": "PT. Gunbuster Nickel Industry (GNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c12a5fd22b851a99cff026"
+    },
+    {
+        "nama": "PT. Gunbuster Nickel Industry (GNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c52aeeb817152ff6876d2b"
+    },
+    {
+        "nama": "PT. HAMDANI",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "669223ebceb3811d6fe79d59"
+    },
+    {
+        "nama": "PT. HAR",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66922402ceb3811d6fe79d5b"
+    },
+    {
+        "nama": "PT. HEXA PRIMA PERSADA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679a87d0de456975633aa"
+    },
+    {
+        "nama": "PT. HYDRORAYA ADHI PERKASA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679e47d0de456975633ad"
+    },
+    {
+        "nama": "PT. Hexindo Adiperkasa",
+        "tipe": "Perusahaan",
+        "gambar": "pt_hexindoadiperkasa.png",
+        "id": "578308e104f2f35018758068"
+    },
+    {
+        "nama": "PT. Hutama Cahya Langgeng",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f3501875807d"
+    },
+    {
+        "nama": "PT. Hyundai Motor Manufacturing Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e31a099e28c0b10cf81"
+    },
+    {
+        "nama": "PT. INDO AGAR FOOD",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679497d0de456975633a6"
+    },
+    {
+        "nama": "PT. INDOCEMENT",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66fe5a95be824b6c2ce63180"
+    },
+    {
+        "nama": "PT. ISOMEDIK",
+        "tipe": "Perusahaan",
+        "gambar": "gambar.png",
+        "id": "667679f97d0de456975633ae"
+    },
+    {
+        "nama": "PT. ISTU",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66922418ceb3811d6fe79d5d"
+    },
+    {
+        "nama": "PT. Indah Kiat Pulp AND Paper",
+        "tipe": "Perusahaan",
+        "gambar": "indakiat.jpg",
+        "id": "5783097204f2f35018758074"
+    },
+    {
+        "nama": "PT. Indofood",
+        "tipe": "Perusahaan",
+        "gambar": "pt_indofood.jpg",
+        "id": "578308e104f2f35018758066"
+    },
+    {
+        "nama": "PT. Indojaya Agronusa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f3501875807c"
+    },
+    {
+        "nama": "PT. Indokomas Buana Perkasa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e7aa099e28c0b10cf85"
+    },
+    {
+        "nama": "PT. Indotruck Utama",
+        "tipe": "Perusahaan",
+        "gambar": "indotruck.png",
+        "id": "57726992e2c9696a1271546e"
+    },
+    {
+        "nama": "PT. Indovision",
+        "tipe": "Perusahaan",
+        "gambar": "pt_indovision.jpg",
+        "id": "5783097204f2f3501875807e"
+    },
+    {
+        "nama": "PT. Inter Aneka Lestari Kimia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce487dd34af78adbc2694"
+    },
+    {
+        "nama": "PT. Intera Lestari Polimer",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce471dd34af78adbc2693"
+    },
+    {
+        "nama": "PT. Ivo Mas Tunggal",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "578308e104f2f35018758061"
+    },
+    {
+        "nama": "PT. JAGA",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "66a8999142a8203681772930",
+        "updatedAt": "2024-07-30T07:43:13.017Z"
+    },
+    {
+        "nama": "PT. Job Pertamina Talisman Jambi Merang",
+        "tipe": "Perusahaan",
+        "gambar": "pertaminatalisman.png",
+        "id": "576111c9a7b24ba90552886f"
+    },
+    {
+        "nama": "PT. Johan Sentosa",
+        "tipe": "Perusahaan",
+        "id": "5e2faceec25f254cf220d80a"
+    },
+    {
+        "nama": "PT. Joyson Safety System Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368d9fa099e28c0b10cf7a"
+    },
+    {
+        "nama": "PT. KILAU CAHAYA BERLIAN",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "676144642226c55afdaa6722"
+    },
+    {
+        "nama": "PT. KMMB",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9647"
+    },
+    {
+        "nama": "PT. KORINDO HEAVY INDUSTRY",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66b57d9d6c32df37e39a6212"
+    },
+    {
+        "nama": "PT. KWARSA INDAH MURNI",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66e15114f94a682abbdbff5f"
+    },
+    {
+        "nama": "PT. Kharisma",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "62416347163eb4e3406ad616"
+    },
+    {
+        "nama": "PT. LCM",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf9648"
+    },
+    {
+        "nama": "PT. Leoco Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368dcaa099e28c0b10cf7d"
+    },
+    {
+        "nama": "PT. MEK",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67d2e7a963ec888f9c915a3a"
+    },
+    {
+        "nama": "PT. Mac Sarana Djaya",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "5e6883b5c855ac47c8c2732d"
+    },
+    {
+        "nama": "PT. Mandiri Jaya Utama",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f35018758077"
+    },
+    {
+        "nama": "PT. Mazinger Nickel Industry (MNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c12a8dd22b851a99cff029"
+    },
+    {
+        "nama": "PT. Mazinger Nickel Industry (MNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c52b0bb817152ff6876d2e"
+    },
+    {
+        "nama": "PT. Medika Plaza",
+        "tipe": "Perusahaan",
+        "id": "68c0d2cd1bf53b805a306d02"
+    },
+    {
+        "nama": "PT. Meka",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "578308e104f2f35018758065"
+    },
+    {
+        "nama": "PT. Mipcon Prima Industri",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6371c396a051741efa886251"
+    },
+    {
+        "nama": "PT. Multi Nabati Asahan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68a3843a2e60334889b285cb"
+    },
+    {
+        "nama": "PT. Multi Nabati Sulawesi",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "65f932e7b4b7601d5b3ed231",
+        "updatedAt": "2024-03-15T06:29:24.995Z"
+    },
+    {
+        "nama": "PT. Muri Agung Abadi",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368d95a099e28c0b10cf79"
+    },
+    {
+        "nama": "PT. NAYAKA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67d2e7a963ec888f9c915a39"
+    },
+    {
+        "nama": "PT. NHK KBU Seating",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368f13a099e28c0b10cf8c"
+    },
+    {
+        "nama": "PT. Nadesico Nickel Industry (NNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c12a6bd22b851a99cff027"
+    },
+    {
+        "nama": "PT. Nusa Lima Medika",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "674c69bdaaa3b2773dba8a46"
+    },
+    {
+        "nama": "PT. Nusantara Regas",
+        "tipe": "Perusahaan",
+        "gambar": "nusantararegas.jpg",
+        "id": "576111c9a7b24ba905528873"
+    },
+    {
+        "nama": "PT. Ohkuma Industries Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368d12a099e28c0b10cf78"
+    },
+    {
+        "nama": "PT. PADASA ENAM NUSANTARA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5776418504f2f3501875805d"
+    },
+    {
+        "nama": "PT. PANATA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6692240cceb3811d6fe79d5c"
+    },
+    {
+        "nama": "PT. PESONA KHATULISTIWA NUSANTARA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67d2e7a963ec888f9c915a38"
+    },
+    {
+        "nama": "PT. PETRUS SEJAHTERA MANDIRI DIV DPP",
+        "tipe": "Perusahaan",
+        "hospitalId": "65afe91bd1ea1151dcfe4d06",
+        "id": "68fc3358b15df54c94c21d4d",
+        "createdId": "61e4e75a8355b48c58077664",
+        "createdName": "Farabi",
+        "createdAt": "2025-10-25T02:18:00.576Z",
+        "updatedAt": "2025-10-25T02:18:00.576Z"
+    },
+    {
+        "nama": "PT. PJB UMRO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "623331670a3665ea9defc241"
+    },
+    {
+        "nama": "PT. PJB UPHT GRESIK",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "6232aa55fd482ac5ab7a55f2"
+    },
+    {
+        "nama": "PT. PLN Cabang Pekanbaru",
+        "tipe": "Perusahaan",
+        "gambar": "pln.jpg",
+        "id": "57726992e2c9696a12715466"
+    },
+    {
+        "nama": "PT. PLN Prokiting",
+        "tipe": "Perusahaan",
+        "gambar": "pt_perusahaanlistriknegara.png",
+        "id": "578308e104f2f35018758069"
+    },
+    {
+        "nama": "PT. PLN Wilayah Riau",
+        "tipe": "Perusahaan",
+        "gambar": "pln.jpg",
+        "id": "57726992e2c9696a12715465"
+    },
+    {
+        "nama": "PT. Patra SK",
+        "tipe": "Perusahaan",
+        "gambar": "patrask.png",
+        "id": "576111c9a7b24ba905528878"
+    },
+    {
+        "nama": "PT. Pharos, Tbk",
+        "tipe": "Perusahaan",
+        "gambar": "pt_pharosindonesia.png",
+        "id": "578308e104f2f35018758063"
+    },
+    {
+        "nama": "PT. Powertek Indo Asia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368ddea099e28c0b10cf7e"
+    },
+    {
+        "nama": "PT. RAKSA INDUSTEEL",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68f8c2afd0f8ab6817bb1239"
+    },
+    {
+        "nama": "PT. Rajawali Nusindo",
+        "tipe": "Perusahaan",
+        "gambar": "pt_rajawalinusindo.png",
+        "id": "578308e104f2f35018758064"
+    },
+    {
+        "nama": "PT. Riau Andalan Pulp and Paper",
+        "tipe": "Perusahaan",
+        "gambar": "rapp.jpg",
+        "id": "5783097204f2f35018758075"
+    },
+    {
+        "nama": "PT. Riau Anugrah Sentosa",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "5783097204f2f35018758078"
+    },
+    {
+        "nama": "PT. SALIM",
+        "tipe": "Perusahaan",
+        "gambar": "salim.jpg",
+        "id": "576111c9a7b24ba90552887a"
+    },
+    {
+        "nama": "PT. SAS",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67d2e7a963ec888f9c915a3b"
+    },
+    {
+        "nama": "PT. SGMW Motor Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e4ea099e28c0b10cf82"
+    },
+    {
+        "nama": "PT. SUPRABAKTI MANDIRI",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679797d0de456975633a8"
+    },
+    {
+        "nama": "PT. SYMPHOS ELECTRIC",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6676795f7d0de456975633a7"
+    },
+    {
+        "nama": "PT. Sanei Machine Services Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e87a099e28c0b10cf86"
+    },
+    {
+        "nama": "PT. Satya Amerta Havenport (SAH)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c52b02b817152ff6876d2d"
+    },
+    {
+        "nama": "PT. Sejin Global Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668ce4bfdd34af78adbc2697"
+    },
+    {
+        "nama": "PT. Sharp Electronics Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "sharp.jpg",
+        "id": "57726992e2c9696a12715467"
+    },
+    {
+        "nama": "PT. Stardust Estate Investment (SEI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c12a50d22b851a99cff025"
+    },
+    {
+        "nama": "PT. Stardust Estate Investment (SEI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c52ae5b817152ff6876d2a"
+    },
+    {
+        "nama": "PT. Steel Indah",
+        "tipe": "Perusahaan",
+        "id": "620debb555942ac26269bda3"
+    },
+    {
+        "nama": "PT. Sucofindo",
+        "tipe": "Perusahaan",
+        "gambar": "SUCOFINDO.jpg",
+        "id": "57726992e2c9696a1271546d"
+    },
+    {
+        "nama": "PT. Suka Fajar, Ltd",
+        "tipe": "Perusahaan",
+        "gambar": "sukafajar.jpg",
+        "id": "57726992e2c9696a12715468"
+    },
+    {
+        "nama": "PT. Sumber Cipta Multiniaga",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6679022595fce1d1ca75f52b"
+    },
+    {
+        "nama": "PT. Sumber Daya Energi",
+        "tipe": "Perusahaan",
+        "id": "68d3aa7f34251ab356791cc2"
+    },
+    {
+        "nama": "PT. Sumur Pandanwangi Hanau",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66f62a85f6d082ea7910b2af"
+    },
+    {
+        "nama": "PT. TPM",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf964b"
+    },
+    {
+        "nama": "PT. TRIMO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "669223f6ceb3811d6fe79d5a"
+    },
+    {
+        "nama": "PT. TUNAS ANDALAN SUKSES",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "667679bb7d0de456975633ab"
+    },
+    {
+        "nama": "PT. Takenaka IndonesiaAdhi-Acset KSO",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368e6ea099e28c0b10cf84"
+    },
+    {
+        "nama": "PT. Tasik Raja",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66bc0ed4d67ace5c4457148a"
+    },
+    {
+        "nama": "PT. Teknologi Media Medika",
+        "tipe": "Perusahaan",
+        "id": "5df8a5a98d3aa02107b01ff8"
+    },
+    {
+        "nama": "PT. Tirta Investama (AQUA)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bff0"
+    },
+    {
+        "nama": "PT. Tokki Engineering",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67be9a66e9dabcfb191dbbc2"
+    },
+    {
+        "nama": "PT. Trakindo Utama",
+        "tipe": "Perusahaan",
+        "gambar": "pt_trakindoutama.jpg",
+        "id": "578308e104f2f3501875805f"
+    },
+    {
+        "nama": "PT. Tugu Pratama Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "tugupratama.png",
+        "id": "576111c9a7b24ba905528875"
+    },
+    {
+        "nama": "PT. UT",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "64182da9632468562baf964c"
+    },
+    {
+        "nama": "PT. Unilever Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "unilever.png",
+        "id": "57726992e2c9696a1271546c"
+    },
+    {
+        "nama": "PT. United Tractors",
+        "tipe": "Perusahaan",
+        "gambar": "UnitedTractror.jpg",
+        "id": "57726992e2c9696a1271546f"
+    },
+    {
+        "nama": "PT. Waskita Jaya",
+        "tipe": "Perusahaan",
+        "gambar": "waskita.jpg",
+        "id": "5783097204f2f35018758076"
+    },
+    {
+        "nama": "PT. Yamazaki Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68368dbaa099e28c0b10cf7c"
+    },
+    {
+        "nama": "PT. ZHI XING INDONESIA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6676791a7d0de456975633a4"
+    },
+    {
+        "nama": "PT.ASN (ASINUSA)",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "602b3045c121d21845b75ae8"
+    },
+    {
+        "nama": "PT.Indo Pacific",
+        "tipe": "Perusahaan",
+        "id": "60a5e02e1d16b3972c1f6189"
+    },
+    {
+        "nama": "PT.MPE",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67be9a52e9dabcfb191dbbc1"
+    },
+    {
+        "nama": "PTPN IV",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "674c69c4aaa3b2773dba8a47"
+    },
+    {
+        "nama": "PTPN V",
+        "tipe": "Perusahaan",
+        "gambar": "ptpn5.jpg",
+        "id": "576111c9a7b24ba90552887c"
+    },
+    {
+        "nama": "PURA UKS",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0afe91c8c553458b23b6"
+    },
+    {
+        "nama": "Paket Poli Umum",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6818269e6ab6abad2beb7785"
+    },
+    {
+        "nama": "Pan Pacific",
+        "tipe": "Perusahaan",
+        "gambar": "Pan-Pacific-Logo-1.jpg.jpg",
+        "id": "59b612e9f881de33db136370"
+    },
+    {
+        "nama": "Papper lunch",
+        "tipe": "Perusahaan",
+        "id": "5e1210c2acf4186badf710e9"
+    },
+    {
+        "nama": "Pegadaian",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef51c48d10ddbb9b00fa"
+    },
+    {
+        "nama": "Pelindo",
+        "tipe": "Perusahaan",
+        "id": "5b6e53fec9845313010ebf06"
+    },
+    {
+        "nama": "Perkebunan Sawit H. Irsal",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "60af1ab2c48d10ddbb04db48"
+    },
+    {
+        "nama": "Pertamina",
+        "tipe": "Perusahaan",
+        "gambar": "pertamina.jpg",
+        "id": "583bd7a2e62ed032ec93cb3e"
+    },
+    {
+        "nama": "Pertamina",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef63c48d10ddbb9b0877"
+    },
+    {
+        "nama": "Perusahaan PPA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "63d72ed23957805eb34acab1"
+    },
+    {
+        "nama": "Pesantren",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68de420545afbba975fe5278"
+    },
+    {
+        "nama": "Petrochina International Jabung",
+        "tipe": "Perusahaan",
+        "gambar": null,
+        "id": "6864133768df9b54efdc54db"
+    },
+    {
+        "nama": "Pimpinan Daerah Muhammadiyah",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "666a72d5c7ba7126adb2ac2d"
+    },
+    {
+        "nama": "Poli Gigi drg. Agus Wibowo",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "673bfe6a0b1567c1b0cf840f"
+    },
+    {
+        "nama": "Pribadi School",
+        "tipe": "Perusahaan",
+        "id": "5e5f71f014719134cc426bf6"
+    },
+    {
+        "nama": "Prosehat",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6254cbec1e91b3f01de9fe4c"
+    },
+    {
+        "nama": "Pt abc",
+        "tipe": "Perusahaan",
+        "id": "5f1fc4dc04268503465b9583"
+    },
+    {
+        "nama": "QRIS",
+        "tipe": "Perusahaan",
+        "hospitalId": "6846983212e7c54d119a12c6",
+        "id": "68f8bc60de51b896e6c2b9d1",
+        "createdId": "684697bd1e4bd94e3113e768",
+        "createdName": "Wulandari ",
+        "createdAt": "2025-10-22T11:13:36.732Z",
+        "updatedAt": "2025-10-22T11:13:36.732Z"
+    },
+    {
+        "nama": "RA & TK BANAT",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c1691c8c553458b23b7"
+    },
+    {
+        "nama": "RAPP",
+        "tipe": "Perusahaan",
+        "id": "5b593f2545d5bd2dabdca64c"
+    },
+    {
+        "nama": "RS Darmo",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "61d6c8462e5901e41e09a54b"
+    },
+    {
+        "nama": "RS. KARYA MEDIKA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bfef"
+    },
+    {
+        "nama": "Rasapala",
+        "tipe": "Perusahaan",
+        "gambar": "rasapala.jpg",
+        "id": "583bd7b8e62ed032ec93cb40"
+    },
+    {
+        "nama": "SD IT Al Kautsar",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68649d53b0dd93012851de21"
+    },
+    {
+        "nama": "SD UNGGULAN MUSLIMAT NU",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c9191c8c553458b23c4"
+    },
+    {
+        "nama": "SEMEN JAWA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5762ead3734f7949111"
+    },
+    {
+        "nama": "SH Equal Surya Husada (SHHC)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6731c403073288c077a1bff1"
+    },
+    {
+        "nama": "SIT Ar Rahman",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68649d53b0dd93012851de20"
+    },
+    {
+        "nama": "SMA AL MA'RUF",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c3c91c8c553458b23bb"
+    },
+    {
+        "nama": "SMK MUTU Bandongan",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66976bbe992d398719e79fc7"
+    },
+    {
+        "nama": "SMK NU MA'ARIF",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c5f91c8c553458b23be"
+    },
+    {
+        "nama": "SMP AL MA'RUF",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c3291c8c553458b23ba"
+    },
+    {
+        "nama": "SMP NU NAWA KARTIKA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c5691c8c553458b23bd"
+    },
+    {
+        "nama": "Sampoerna",
+        "tipe": "Perusahaan",
+        "gambar": "sampoerna.jpg",
+        "id": "583bd7e2e62ed032ec93cb42"
+    },
+    {
+        "nama": "Sanggar Tari Rahayu Derwati",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68b02729d2dbb632e0b3a446"
+    },
+    {
+        "nama": "SehatQ",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "600567a883e4db5a19918307"
+    },
+    {
+        "nama": "Seminari PP",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "675a593f4f9e6425816e8cbf"
+    },
+    {
+        "nama": "Setia Guna Sejati",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "633ea9d2ddbda0ff31b3bc65"
+    },
+    {
+        "nama": "Shinsei Denshi Indonesia",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "633ea9d2ddbda0ff31b3bc63"
+    },
+    {
+        "nama": "Shusi tei",
+        "tipe": "Perusahaan",
+        "id": "5e1210b3acf4186badf710e8"
+    },
+    {
+        "nama": "Sion Bio Medika",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68e0bfc3177e5b42bcb6589e"
+    },
+    {
+        "nama": "Sister Company",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "5fbdc5e683e4db5a19f00e1b"
+    },
+    {
+        "nama": "Skn group",
+        "tipe": "Perusahaan",
+        "id": "5b6e5426c9845313010ebf08"
+    },
+    {
+        "nama": "Student one",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "686cd63bae12efa1d5bef4df"
+    },
+    {
+        "nama": "Suprima Mitra Adihusada",
+        "tipe": "Perusahaan",
+        "gambar": "tirtamedicallogo.jpg.jpg",
+        "id": "59b610c5f881de33db136369"
+    },
+    {
+        "nama": "Surveyor",
+        "tipe": "Perusahaan",
+        "gambar": "surveyor.jpg",
+        "id": "583bd7f5e62ed032ec93cb44"
+    },
+    {
+        "nama": "Sushi tei",
+        "tipe": "Perusahaan",
+        "id": "5e121196acf4186badf71183"
+    },
+    {
+        "nama": "TAMBANG SEMEN JAWA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6678d5842ead3734f7949112"
+    },
+    {
+        "nama": "TCK",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "603eef44c48d10ddbb9aff4e"
+    },
+    {
+        "nama": "TK CAHAYA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "660e0c7091c8c553458b23c0"
+    },
+    {
+        "nama": "TTLC Nasmoco Transport Karawang",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "633ea9d2ddbda0ff31b3bc64"
+    },
+    {
+        "nama": "Telkom",
+        "tipe": "Perusahaan",
+        "id": "5b729833bdd39c2e7b66895b"
+    },
+    {
+        "nama": "Ticket.com",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6005004683e4db5a1971ac97"
+    },
+    {
+        "nama": "Traktor Nusantara",
+        "tipe": "Perusahaan",
+        "gambar": "traknus.png",
+        "id": "583bd842e62ed032ec93cb48"
+    },
+    {
+        "nama": "Traveloka",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "5f7171384e747603d9ac028c"
+    },
+    {
+        "nama": "Tumerus Jaya Propertindo",
+        "tipe": "Perusahaan",
+        "gambar": "",
+        "id": "68f5a3759fb655b0be303c7e"
+    },
+    {
+        "nama": "UIRA",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "576111c9a7b24ba905528880"
+    },
+    {
+        "nama": "UMP JKM",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "64bf416724d025ac44e47d84"
+    },
+    {
+        "nama": "UMRI HEALTH",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68e5d0e9adee7c40292d4a29"
+    },
+    {
+        "nama": "UV Partner",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "635617a666a21d80c8561c48"
+    },
+    {
+        "nama": "Ultra Voucher",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "635617a666a21d80c8561c47"
+    },
+    {
+        "nama": "Unika SCU",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "662b22f95271b1a610b40078"
+    },
+    {
+        "nama": "Unistar ",
+        "tipe": "Perusahaan",
+        "id": "5e12111dacf4186badf7117c"
+    },
+    {
+        "nama": "Universitas Kristen Petra",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "668f8e0b58bc47ca57654db6"
+    },
+    {
+        "nama": "Universitas Muhammadiyah Purwokerto",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "621d8eb998b9e38bdabffb69"
+    },
+    {
+        "nama": "Universitas Muhammadiyah Tasikmalaya",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68da2bd4cedad34af7608c0c"
+    },
+    {
+        "nama": "VEDC",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "62416347163eb4e3406ad614"
+    },
+    {
+        "nama": "Value Stream",
+        "tipe": "Perusahaan",
+        "id": "5e5f71cb14719134cc426be1"
+    },
+    {
+        "nama": "Voucher Lakupon",
+        "tipe": "Perusahaan",
+        "id": "5efde35a7d09e318296da119"
+    },
+    {
+        "nama": "Voucher Sehatqu",
+        "tipe": "Perusahaan",
+        "id": "5efde3637d09e318296da11a"
+    },
+    {
+        "nama": "Voucher Teman Bumil",
+        "tipe": "Perusahaan",
+        "id": "5efde3467d09e318296da116"
+    },
+    {
+        "nama": "Waskita Karya",
+        "tipe": "Perusahaan",
+        "id": "5b6e52c7c9845313010ebefe"
+    },
+    {
+        "nama": "Waste 4 change",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "686cd63bae12efa1d5bef4e0"
+    },
+    {
+        "nama": "Yauma Pusat",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "68649d53b0dd93012851de1f"
+    },
+    {
+        "nama": "Yayasan Bina Qur'ani",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "66cd478d359dfa80b7b483cf"
+    },
+    {
+        "nama": "Yayasan Fitrah Insani Sejahtera (YFIS) Diskon",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6683a5e33c4623cc3dc80428"
+    },
+    {
+        "nama": "Yayasan Fitrah Insani Sejahtera (YFIS) Full Cover",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6683a5d63c4623cc3dc80427"
+    },
+    {
+        "nama": "Yayasan Insantama",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "666a72c8c7ba7126adb2ac2c"
+    },
+    {
+        "nama": "Yayasan Kesehatan Pertamina",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "6604cae576e64f8111ecb050"
+    },
+    {
+        "nama": "Yayasan Tarakanita",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "61bc033b637922e0b25b1353"
+    },
+    {
+        "nama": "⁠⁠PT. Nadesico Nickel Industry (NNI)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c52af9b817152ff6876d2c"
+    },
+    {
+        "nama": "⁠⁠PT. Satya Amerta Havenport (SAH)",
+        "tipe": "Perusahaan",
+        "gambar": "null",
+        "id": "67c12a79d22b851a99cff028"
+    },
+    {
+        "nama": "PT. Agung Automall",
+        "tipe": "Perusahaan",
+        "gambar": "pt_agungautomall.jpg",
+        "id": "578308e104f2f35018758060"
+    },
+    {
+        "nama": "PESANTREN",
+        "tipe": "Tunai",
+        "gambar": null,
+        "id": "68d73695a9ac56a24202f84e"
+    },
+    {
+        "nama": "Transfer BCA PT BHP",
+        "tipe": "Tunai",
+        "gambar": "",
+        "id": "68ef6ab042d6d8bbf744880e"
+    },
+    {
+        "nama": "Tunai",
+        "tipe": "Tunai",
+        "gambar": "rupiah.png",
+        "id": "576111c9a7b24ba905528866"
+    }
+]

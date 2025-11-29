@@ -1,0 +1,1625 @@
+[
+    {
+        "nama": "Dokter Gigi",
+        "nama_en": "Dentist",
+        "spesialis": [
+            {
+                "nama": "Dokter Gigi Umum",
+                "nama_en": "General Dentist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Bedah Mulut",
+                "nama_en": "Oral Surgery Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Konservasi Gigi",
+                "nama_en": "Dental Conservation Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Kedokteran Gigi Anak",
+                "nama_en": "Children's Dentistry Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Ortodonsia",
+                "nama_en": "Orthodentist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Periodonsia",
+                "nama_en": "Periodontist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Penyakit Mulut",
+                "nama_en": "Oral Diseases Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Prostodensia",
+                "nama_en": "Prostodensia Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            },
+            {
+                "nama": "Dokter Gigi Spesialis Radiologi Kedokteran Gigi",
+                "nama_en": "Radiology Specialist Dentistry",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "nama": "Dokter Hewan",
+        "nama_en": "Vet",
+        "spesialis": [
+            {
+                "nama": "Dokter Hewan Umum",
+                "nama_en": "General Vet",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Farmakologi Klinik dan Anestesiologi Veteriner",
+                "nama_en": "Clinical Pharmacology Specialist veterinarian and Veterinary Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Parasitologi Klinik Veteriner",
+                "nama_en": "Specialist Veterinary Clinical Parasitology",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Bedah dan Bedah Plastik Hewan",
+                "nama_en": "Specialist Veterinary and Plastic animal surgery",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Hewan Ternak Besar",
+                "nama_en": "Veterinarian Large Livestock Health Specialists",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Hewan Ternak Kecil",
+                "nama_en": "Veterinarians Small Animals Health Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Manajemen Kesehatan Unggas",
+                "nama_en": "Specialist Poultry Health Management",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Ikan",
+                "nama_en": "Fish Health Specialist ",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Obstetri dan Ginekologi Hewan",
+                "nama_en": "Obstetrics and Gynecology Animal Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kepala dan Leher Hewan",
+                "nama_en": "Head and Neck animal Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Penyakit Hewan Kesayangan Mamalia",
+                "nama_en": "Pet Mammals Disease Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Penyakit Hewan Kesayangan Reptil dan Amphibi",
+                "nama_en": "Pet reptiles and Amphibians disease specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Penyakit Hewan Kesayangan Unggas",
+                "nama_en": "Animal Disease Specialist Veterinarian Pet Poultry",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Manajemen Kebun Binatang dan Kesehatan Satwa Liar",
+                "nama_en": "Management Zoo and Wildlife Health Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Emergensi Medis dan Perawatan Kritis Hewan",
+                "nama_en": "Civil defence emergency medical and critical care Animals specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Kulit, Bulu, Rambut, dan Kelamin Hewan",
+                "nama_en": "Specialist skin, Fur, hair, and Animal Sex",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Radiologi, Alat-Alat Diagnostik dan Teknologi Veteriner",
+                "nama_en": "Radiology, Diagnostic tools and Veterinary Technology Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Patologi Anatomi Veteriner",
+                "nama_en": "Veterinary Anatomical Pathology Specialists",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Konservasi Medik Veteriner dan Medikolegal Veteriner",
+                "nama_en": "Medical and Medikolegal veterinary specialist ",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kamparasi Nutrisi Klinik dan Pakan Hewan",
+                "nama_en": "Nutrition clinics and Animal feed specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Perilaku Hewan",
+                "nama_en": "Animal Behavior Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Genetik Dan Pemuliaan Hewan",
+                "nama_en": "Animal Breeding And Genetics Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Bedah Orthopedi Hewan dan Rehabilitasi Medik Veteriner",
+                "nama_en": "Specialist surgical Orthopedi animal and Veterinary Medical rehabilitation",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Epidemologi dan Kedokteran Hewan Pencegahan",
+                "nama_en": "Veterinary Prevention and Epidemology Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Masyarakat Veteriner",
+                "nama_en": "Veterinary Public Health Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Mikrobiologi Klinik Veteriner",
+                "nama_en": "Microbiology Veterinary Clinic Specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Akupuntur dan Pengobatan Alternatif Hewan",
+                "nama_en": "Acupuncture and Alternative animals medicine specialist",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Hewan Laboratorium",
+                "nama_en": "Animal Health Laboratory Specialists",
+                "subspesialis": []
+            },
+            {
+                "nama": "Dokter Hewan Spesialis Kesehatan Anak Hewan dan Ilmu Bedah Anak Hewan",
+                "nama_en": "Animal Health and Pediatric Surgery Animal Science Specialist",
+                "subspesialis": []
+            }
+        ]
+    },
+    {
+        "nama": "Fisioterapis",
+        "nama_en": "Physiotherapist",
+        "spesialis": []
+    },
+    {
+        "nama": "Psikolog",
+        "nama_en": "Psychologist",
+        "spesialis": []
+    },
+    {
+        "nama": "Sinshe",
+        "nama_en": "Sinshe",
+        "spesialis": []
+    },
+    {
+        "nama": "Ahli Chiropractic",
+        "nama_en": "Chiropractic Expert",
+        "spesialis": []
+    },
+    {
+        "nama": "Okupasi Terapi",
+        "nama_en": "Occupational Therapy",
+        "spesialis": []
+    },
+    {
+        "nama": "Bidan",
+        "nama_en": "Nurse",
+        "spesialis": []
+    },
+    {
+        "nama": "Ahli Kecantikan",
+        "nama_en": "Beautician",
+        "spesialis": []
+    },
+    {
+        "nama": "Tenaga Teknis Kefarmasian",
+        "nama_en": "Pharmacy Technical Staff",
+        "spesialis": []
+    },
+    {
+        "nama": "Perawat Gigi",
+        "nama_en": "Dentist",
+        "spesialis": []
+    },
+    {
+        "nama": "Rekam Medis",
+        "nama_en": "Medical Record",
+        "spesialis": []
+    },
+    {
+        "nama": "Ahli Gizi",
+        "nama_en": "Nutritionist",
+        "spesialis": []
+    },
+    {
+        "nama": "Pelatih Fisik",
+        "nama_en": "Physical Trainer",
+        "spesialis": []
+    },
+    {
+        "nama": "Kedokteran Fisik dan Rehabilitasi",
+        "nama_en": "Physical Medicine and Rehabilitation",
+        "spesialis": []
+    },
+    {
+        "nama": "Radiografer",
+        "nama_en": "Radiographer",
+        "spesialis": []
+    },
+    {
+        "nama": "Terapis Wicara",
+        "nama_en": "Speech Therapist",
+        "spesialis": []
+    },
+    {
+        "nama": "Pedagog",
+        "nama_en": "Pedagogue",
+        "spesialis": []
+    },
+    {
+        "nama": "Terapis Klinik Kecantikan",
+        "nama_en": "Beautician",
+        "spesialis": []
+    },
+    {
+        "nama": "Dokter",
+        "nama_en": "Doctor",
+        "spesialis": [
+            {
+                "nama": "Dokter Umum",
+                "nama_en": "General Practitioner",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 0,
+                    "title_indo": "GP",
+                    "title_eng": "GP",
+                    "desc_indo": "GENERAL PRACTITIONER",
+                    "desc_eng": "GENERAL PRACTITIONER"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Anak",
+                "nama_en": "Pediatrician",
+                "subspesialis": [
+                    {
+                        "nama": "Perinatologi",
+                        "nama_en": "Perinatology"
+                    },
+                    {
+                        "nama": "Gastro-Hepatologi",
+                        "nama_en": "Gastro-Hepatologi"
+                    },
+                    {
+                        "nama": "Neurologi",
+                        "nama_en": "Neurology"
+                    },
+                    {
+                        "nama": "Kardiologi",
+                        "nama_en": "Cardiology"
+                    },
+                    {
+                        "nama": "Pulmonologi/Respirologi",
+                        "nama_en": "Pulmonology/Respirologi"
+                    },
+                    {
+                        "nama": "Endokrinologi",
+                        "nama_en": "Endocrinology"
+                    },
+                    {
+                        "nama": "Hematologi dan Onkologi",
+                        "nama_en": "Hematology and Oncology"
+                    },
+                    {
+                        "nama": "Nefrologi",
+                        "nama_en": "Nephrology"
+                    },
+                    {
+                        "nama": "Infeksi Tropis",
+                        "nama_en": "Tropical Infections"
+                    },
+                    {
+                        "nama": "Alergi Imunologi",
+                        "nama_en": "Allergy Immunology"
+                    },
+                    {
+                        "nama": "Nutrisi Metabolik",
+                        "nama_en": "Metabolic Nutrition"
+                    },
+                    {
+                        "nama": "Pediatri Sosial (Tumbuh Kembang)",
+                        "nama_en": "Social Paediatrics (Growing Hibiscus)"
+                    },
+                    {
+                        "nama": "Pediatri Gawat Darurat",
+                        "nama_en": "Paediatric Emergencies"
+                    },
+                    {
+                        "nama": "Kesehatan Remaja",
+                        "nama_en": "Teenage Health"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Pelayanan Pediatri Intensif",
+                        "nama_en": "Paediatric Intensive Services"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 1,
+                    "title_indo": "Sp.A",
+                    "title_eng": "PED",
+                    "desc_indo": "Spesialis Anak",
+                    "desc_eng": "PEDIATRICIAN"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Anestesiologi dan Terapi Intensif",
+                "nama_en": "Specialist Anesthesiology and Intensive Therapy",
+                "subspesialis": [
+                    {
+                        "nama": "Perawatan Intensif",
+                        "nama_en": "Intensive Care"
+                    },
+                    {
+                        "nama": "Anestesi Kardiovaskular",
+                        "nama_en": "Cardiovascular Anesthesia"
+                    },
+                    {
+                        "nama": "Manajemen Nyeri",
+                        "nama_en": "Pain Management"
+                    },
+                    {
+                        "nama": "Anestesi Regional dan Intervensi",
+                        "nama_en": "Regional anesthesia and intervention"
+                    },
+                    {
+                        "nama": "Neuroanestesi",
+                        "nama_en": "Neuroanesthesia"
+                    },
+                    {
+                        "nama": "Anestesi Pediatri",
+                        "nama_en": "Pediatric Anesthesia"
+                    },
+                    {
+                        "nama": "Anestesi Obstetri",
+                        "nama_en": "Obstetric Anesthesia"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultan"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 2,
+                    "title_indo": "Sp.An",
+                    "title_eng": "ANE",
+                    "desc_indo": "Spesialis Anestesiologi dan Terapi Intensif",
+                    "desc_eng": "ANESTHESIOLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Umum",
+                "nama_en": "Surgeon",
+                "subspesialis": [
+                    {
+                        "nama": "Bedah Digestif",
+                        "nama_en": "Surgical Digestif"
+                    },
+                    {
+                        "nama": "Onkologi",
+                        "nama_en": "Oncology"
+                    },
+                    {
+                        "nama": "Bedah Vaskular",
+                        "nama_en": "Vascular Surgery"
+                    },
+                    {
+                        "nama": "Bedah Kepala Leher",
+                        "nama_en": "Head Neck Surgery"
+                    },
+                    {
+                        "nama": "Trauma",
+                        "nama_en": "Traumatology"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultans"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 5,
+                    "title_indo": "Sp.B",
+                    "title_eng": "SUR",
+                    "desc_indo": "Spesialis Bedah",
+                    "desc_eng": "SURGEON"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Anak",
+                "nama_en": "Pediatric Surgeon",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 6,
+                    "title_indo": "Sp.BA",
+                    "title_eng": "CS-PDS",
+                    "desc_indo": "Spesialis Bedah Anak",
+                    "desc_eng": "PEDIATRIC SURGEON"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Plastik Rekonstruksi dan Estetik",
+                "nama_en": "Plastic Surgeon",
+                "subspesialis": [
+                    {
+                        "nama": "Kraniofasial",
+                        "nama_en": "Kraniofasial"
+                    },
+                    {
+                        "nama": "Bedah Mikro",
+                        "nama_en": "Micro Surgery"
+                    },
+                    {
+                        "nama": "Bedah Tangan",
+                        "nama_en": "Hand Surgery"
+                    },
+                    {
+                        "nama": "Luka Bakar",
+                        "nama_en": "Burns"
+                    },
+                    {
+                        "nama": "Rekonstruksi Pasca Ablasi Tumor",
+                        "nama_en": "Post-war Reconstruction Of Tumor Ablation"
+                    },
+                    {
+                        "nama": "Bedah Genitalia Eksterna",
+                        "nama_en": "Externa Genitalia Surgery"
+                    },
+                    {
+                        "nama": "Bedah Estetika",
+                        "nama_en": "Aesthetic Surgery"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 8,
+                    "title_indo": "Sp.BP-RE",
+                    "title_eng": "PS",
+                    "desc_indo": "Spesialis Bedah Plastik Rekonstruksi dan Estetik",
+                    "desc_eng": "PLASTIC SURGEON"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Syaraf",
+                "nama_en": "Neurosurgeon",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 9,
+                    "title_indo": "Sp.BS",
+                    "title_eng": "NS",
+                    "desc_indo": "Spesialis Bedah Saraf",
+                    "desc_eng": "NEURO SURGEON"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Ortopedi dan Traumatologi",
+                "nama_en": "Orthopedic",
+                "subspesialis": [
+                    {
+                        "nama": "Tulang belakang",
+                        "nama_en": "Spine"
+                    },
+                    {
+                        "nama": "Bedah Tangan",
+                        "nama_en": "Hand Surgery"
+                    },
+                    {
+                        "nama": "Bedah Bahu dan Siku",
+                        "nama_en": "Shoulder and Elbow Surgery"
+                    },
+                    {
+                        "nama": "Rekonstruksi Sendi Total(Artoplasti)",
+                        "nama_en": "Total Joint Reconstruction (Artoplasti)"
+                    },
+                    {
+                        "nama": "Ortopedi Anak",
+                        "nama_en": "Children's Orthopedic"
+                    },
+                    {
+                        "nama": "Bedah Kaki dan Pergelangan Kaki(Pediatri)",
+                        "nama_en": "Foot and ankle surgery (Paediatrics)"
+                    },
+                    {
+                        "nama": "Onkologi Muskuloskeletal",
+                        "nama_en": "Musculoskeletal Oncology"
+                    },
+                    {
+                        "nama": "Bedah Kedokteran Olahraga",
+                        "nama_en": "Surgical Sports Medicine"
+                    },
+                    {
+                        "nama": "Trauma Ortopedi",
+                        "nama_en": "Orthopedic Traumatology"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 31,
+                    "title_indo": "Sp.OT",
+                    "title_eng": "SUR",
+                    "desc_indo": "Spesialis Bedah Orthopaedi dan Traumatologi",
+                    "desc_eng": "SURGEON(OTOPEDY & TRAUMATOLOGY SURGERY)"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Bedah Thorak dan Kardiovaskular",
+                "nama_en": "Thoracic and Cardiovascular surgery specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 10,
+                    "title_indo": "Sp.BTKV",
+                    "title_eng": "Sp.BTKV",
+                    "desc_indo": "Spesialis Bedah Toraks dan Kardiovaskular",
+                    "desc_eng": "Spesialis Bedah Toraks dan Kardiovaskular"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Forensik dan Medikolegal",
+                "nama_en": "Forensic and Medikolegal Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Forensik Klinik",
+                        "nama_en": "Forensic Clinic"
+                    },
+                    {
+                        "nama": "Patologi Forensik",
+                        "nama_en": "Forensic Pathology"
+                    },
+                    {
+                        "nama": "Medikolegal",
+                        "nama_en": "Medikolegal"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 11,
+                    "title_indo": "Sp.F",
+                    "title_eng": "SpF",
+                    "desc_indo": "Spesialis Kedokteran Forensik & Medikolegal",
+                    "desc_eng": "FORENSIC"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Farmakologi Klinik",
+                "nama_en": "Clinical Pharmacology Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 12,
+                    "title_indo": "Sp.FK",
+                    "title_eng": "Sp.FK",
+                    "desc_indo": "Spesialis Farmakologi Klinik",
+                    "desc_eng": "Spesialis Farmakologi Klinik"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Jantung dan Pembuluh Darah",
+                "nama_en": "Cardiologist",
+                "subspesialis": [
+                    {
+                        "nama": "Kardiologi Intervensi",
+                        "nama_en": "Interventional Cardiology"
+                    },
+                    {
+                        "nama": "Ekokardiografi",
+                        "nama_en": "Echocardiography"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Aritmia",
+                        "nama_en": "Arrhythmia"
+                    },
+                    {
+                        "nama": "Kardiologi Nuklir dan Pencitraan Kardiovaskular",
+                        "nama_en": "Nuclear Cardiology and Cardiovascular Imaging"
+                    },
+                    {
+                        "nama": "Kardiologi Olahraga",
+                        "nama_en": "Sports Cardiology"
+                    },
+                    {
+                        "nama": "Kardiologi Prevensi dan Rehabilitasi Kardiovaskular",
+                        "nama_en": "Cardiology and Cardiovascular Rehabilitation Prevensi"
+                    },
+                    {
+                        "nama": "Kardiologi Klinik",
+                        "nama_en": "Cardiology Clinic"
+                    },
+                    {
+                        "nama": "Kardiologi Pediatrik dan Penyakit Jantung Bawaan",
+                        "nama_en": "Pediatric cardiology and Congenital heart disease"
+                    },
+                    {
+                        "nama": "Kardiologi Intensif dan Kegawatan Kardiovaskular",
+                        "nama_en": "The intensive cardiology and Urgent Cardiovascular"
+                    },
+                    {
+                        "nama": "Kedokteran Vaskular",
+                        "nama_en": "Vascular Medicine"
+                    },
+                    {
+                        "nama": "Kardiologi Intervensi",
+                        "nama_en": "Interventional Cardiology"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 14,
+                    "title_indo": "Sp.Jp",
+                    "title_eng": "IM-CD",
+                    "desc_indo": "Spesialis Jantung dan Pembuluh Darah",
+                    "desc_eng": "CARDIOLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Fisik dan Rehabilitasi Medik",
+                "nama_en": "Physical Medicine and Rehabilitation Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultan"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 15,
+                    "title_indo": "Sp.KFR",
+                    "title_eng": "PMR",
+                    "desc_indo": "Spesialis Kedokteran Fisik dan Rehabilitasi",
+                    "desc_eng": "MEDICAL REHABILITATION"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kedokteran Jiwa",
+                "nama_en": "Psychiatrist",
+                "subspesialis": [
+                    {
+                        "nama": "Neuropsikiatri dan Psikometri",
+                        "nama_en": "Neuropsikiatri and Psikometri"
+                    },
+                    {
+                        "nama": "Psikoterapi",
+                        "nama_en": "Psychotherapy"
+                    },
+                    {
+                        "nama": "Psikiatri Anak dan Remaja",
+                        "nama_en": "Child and Adolescent psychiatry"
+                    },
+                    {
+                        "nama": "Psikiatri Geriatri",
+                        "nama_en": "Geriatric Psychiatry"
+                    },
+                    {
+                        "nama": "Psikiatri Adiksi",
+                        "nama_en": "Psychiatry Adiksi"
+                    },
+                    {
+                        "nama": "Psikiatri Konsultasi Liaison",
+                        "nama_en": "Psychiatry Consultation Liaison"
+                    },
+                    {
+                        "nama": "Psikiatri Forensik",
+                        "nama_en": "Forensic Psychiatry"
+                    },
+                    {
+                        "nama": "Psikiatri Komunitas, Rehabilitasi Psikiatri dan Trauma Psikososial",
+                        "nama_en": "Community Psychiatry, psychiatric rehabilitation and Psychosocial Trauma"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 18,
+                    "title_indo": "Sp.KJ",
+                    "title_eng": "PSY",
+                    "desc_indo": "Spesialis Kedokteran Jiwa atau Psikiatri",
+                    "desc_eng": "PSYCHIATRIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kulit dan Kelamin",
+                "nama_en": "Dermatologist",
+                "subspesialis": [
+                    {
+                        "nama": "Tumor dan Bedah Kulit",
+                        "nama_en": "Tumors and Skin Surgery"
+                    },
+                    {
+                        "nama": "Dermatologi Kosmetik",
+                        "nama_en": "Cosmetic Dermatology"
+                    },
+                    {
+                        "nama": "Alergi Imunologi",
+                        "nama_en": "Allergy Immunology"
+                    },
+                    {
+                        "nama": "Dermatomikologi",
+                        "nama_en": "Dermatomikology"
+                    },
+                    {
+                        "nama": "Infeksi Menular Seksual",
+                        "nama_en": "Sexually Transmitted Infections"
+                    },
+                    {
+                        "nama": "Dermatologi Anak",
+                        "nama_en": "Children's Dermatology"
+                    },
+                    {
+                        "nama": "Divisi Morbus Hansen",
+                        "nama_en": "Division of Morbus Hansen"
+                    },
+                    {
+                        "nama": "Divisi Patologi Anatomi",
+                        "nama_en": "Division Of Anatomical Pathology"
+                    },
+                    {
+                        "nama": "Dermatologi Umum",
+                        "nama_en": "General Dermatology"
+                    },
+                    {
+                        "nama": "Dermatologi Laser",
+                        "nama_en": "Laser Dermatologists"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 20,
+                    "title_indo": "Sp.KK",
+                    "title_eng": "D",
+                    "desc_indo": "Spesialis Penyakit Kulit dan Kelamin",
+                    "desc_eng": "DERMATOLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Mata",
+                "nama_en": "Ophtalmologist",
+                "subspesialis": [
+                    {
+                        "nama": "Kornea dan Bedah Refraktif",
+                        "nama_en": "Corneal and Refraktif Surgery"
+                    },
+                    {
+                        "nama": "Infeksi dan Immunologi",
+                        "nama_en": "Infection and Immunologi"
+                    },
+                    {
+                        "nama": "Vitreo-Retina",
+                        "nama_en": "Vitreous-Retina"
+                    },
+                    {
+                        "nama": "Strabismus",
+                        "nama_en": "Strabismus"
+                    },
+                    {
+                        "nama": "Neuro oftamologi",
+                        "nama_en": "Neurooftamology"
+                    },
+                    {
+                        "nama": "Glaukoma",
+                        "nama_en": "Glaucoma"
+                    },
+                    {
+                        "nama": "Pediatrik Oftalmologi",
+                        "nama_en": "Pediatric Ophthalmology"
+                    },
+                    {
+                        "nama": "Refraksi",
+                        "nama_en": "Refraction"
+                    },
+                    {
+                        "nama": "Rekonstruksi",
+                        "nama_en": "Reconstruction"
+                    },
+                    {
+                        "nama": "Onkologi Mata",
+                        "nama_en": "Eye Oncology"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 25,
+                    "title_indo": "Sp.M",
+                    "title_eng": "O",
+                    "desc_indo": "Spesialis Mata",
+                    "desc_eng": "OPHTHALMOLOGY"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Mikrobiologi Klinik",
+                "nama_en": "Clinical Microbiology Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Mikrobiologi Umum",
+                        "nama_en": "General Microbiology"
+                    },
+                    {
+                        "nama": "Imunologi",
+                        "nama_en": "Immunology"
+                    },
+                    {
+                        "nama": "Biologi Molekuler",
+                        "nama_en": "Molecular Biology"
+                    },
+                    {
+                        "nama": "Antibiotika",
+                        "nama_en": "Antibiotics"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 26,
+                    "title_indo": "Sp.MK",
+                    "title_eng": "PA-CM",
+                    "desc_indo": "Spesialis Mikrobiologi Klinik",
+                    "desc_eng": "MICROBIOLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kebidanan dan Kandungan",
+                "nama_en": "Obstetrician",
+                "subspesialis": [
+                    {
+                        "nama": "Onkologi",
+                        "nama_en": "Oncology"
+                    },
+                    {
+                        "nama": "Fertilitas Endokrinologi Reproduksi",
+                        "nama_en": "Reproductive Endocrinology Fertility"
+                    },
+                    {
+                        "nama": "Fetomatrenal",
+                        "nama_en": "Fetomatrenal"
+                    },
+                    {
+                        "nama": "Uroginekologi Rekonstruksi",
+                        "nama_en": "Urogynaecology Reconstruction"
+                    },
+                    {
+                        "nama": "Obstetri Ginekologi Sosial",
+                        "nama_en": "Obstetrics Gynecology Social"
+                    },
+                    {
+                        "nama": "Kesehatan Reproduksi",
+                        "nama_en": "Reproductive Health"
+                    },
+                    {
+                        "nama": "Ginekologi Spesialistik",
+                        "nama_en": "Gynecology Including Specialised"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Konsultan Tumor Kandungan",
+                        "nama_en": "Gyne Oncologist Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 27,
+                    "title_indo": "Sp.OG",
+                    "title_eng": "OBG",
+                    "desc_indo": "Spesialis Obstetri & Ginekologi",
+                    "desc_eng": "OBSTETRY GYNECOLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Paru",
+                "nama_en": "Pulomonologist",
+                "subspesialis": [
+                    {
+                        "nama": "Infeksi Paru",
+                        "nama_en": "Pulmonary Infections"
+                    },
+                    {
+                        "nama": "Onkologi Paru dan Mediastinum",
+                        "nama_en": "Oncology Lung and Mediastinum"
+                    },
+                    {
+                        "nama": "Pulmonologi Intervensi dan Gawat Nafas",
+                        "nama_en": "Pulmonology and Critical Interventions Breath"
+                    },
+                    {
+                        "nama": "Asma dan PPOK",
+                        "nama_en": "Asthma and COPD"
+                    },
+                    {
+                        "nama": "Penyakit Paru Kerja dan Lingkungan",
+                        "nama_en": "Pulmonary Work disease and Environment"
+                    },
+                    {
+                        "nama": "Imunologi Respirasi",
+                        "nama_en": "Respiratory Immunology"
+                    },
+                    {
+                        "nama": "Faal Paru Klinik",
+                        "nama_en": "Faal Pulmonary Clinic"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 102,
+                    "title_indo": "Sp.PD-KP",
+                    "title_eng": "INT",
+                    "desc_indo": "Pulmonologi",
+                    "desc_eng": "Pulmonologist"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Parasitologi Klinik",
+                "nama_en": "Clinical Parasitology Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Helmintologi",
+                        "nama_en": "Helmintology"
+                    },
+                    {
+                        "nama": "Protozoologi (Protozoa Usus & Malaria)",
+                        "nama_en": "Protozoologi (Intestinal Protozoa & Malaria)"
+                    },
+                    {
+                        "nama": "Entomologi",
+                        "nama_en": "Entomologists"
+                    },
+                    {
+                        "nama": "Mikologi",
+                        "nama_en": "Mycology"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 33,
+                    "title_indo": "Sp.ParK",
+                    "title_eng": "Sp.ParK",
+                    "desc_indo": "Spesialis Parasitologi Klinik",
+                    "desc_eng": "Spesialis Parasitologi Klinik"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Patologi Anatomi",
+                "nama_en": "Anatomic Pathology Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Patologi Kulit",
+                        "nama_en": "The Pathology Of The Skin"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 35,
+                    "title_indo": "Sp.PA",
+                    "title_eng": "SpPA",
+                    "desc_indo": "Spesialis Patologi Anatomi",
+                    "desc_eng": "PATHOLOGY ANATOMICAL SPECIALIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Penyakit Dalam",
+                "nama_en": "Internist",
+                "subspesialis": [
+                    {
+                        "nama": "Ginjal Hipertensi",
+                        "nama_en": "Renal Hypertension"
+                    },
+                    {
+                        "nama": "Kardiovaskular",
+                        "nama_en": "Cardiovascular"
+                    },
+                    {
+                        "nama": "Hematologi-Onkologi Medik",
+                        "nama_en": "Hematology-Medical Oncology"
+                    },
+                    {
+                        "nama": "Alergi-Imunologi Klinik",
+                        "nama_en": "Allergy-Immunology Clinic"
+                    },
+                    {
+                        "nama": "Gastroenterologi-Hepatologi",
+                        "nama_en": "Gastroenterology-Hepatology"
+                    },
+                    {
+                        "nama": "Geriatri",
+                        "nama_en": "Geriatri"
+                    },
+                    {
+                        "nama": "Hepatologi",
+                        "nama_en": "Hepatology"
+                    },
+                    {
+                        "nama": "Endokrin-Metabolik-Diabetes",
+                        "nama_en": "Metabolic-Endocrine-Diabetes"
+                    },
+                    {
+                        "nama": "Psikosomatik",
+                        "nama_en": "Psychosomatic"
+                    },
+                    {
+                        "nama": "Pulmonologi",
+                        "nama_en": "Pulmonology"
+                    },
+                    {
+                        "nama": "Reumatologi",
+                        "nama_en": "Rheumatologists"
+                    },
+                    {
+                        "nama": "Penyakit Tropik-Infeksi",
+                        "nama_en": "Tropical Diseases-Infections"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Intensive Care",
+                        "nama_en": "Intensive Care"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 36,
+                    "title_indo": "Sp.PD",
+                    "title_eng": "INTERNIST",
+                    "desc_indo": "Spesialis Penyakit Dalam",
+                    "desc_eng": "INTERNIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Patologi Klinik",
+                "nama_en": "Clinical Pathology Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Hematologi dan Hemostasis",
+                        "nama_en": "Hematology and Hemostasis"
+                    },
+                    {
+                        "nama": "Kardiovaskular",
+                        "nama_en": "Cardiovascular"
+                    },
+                    {
+                        "nama": "Bank Darah dan Transfusi",
+                        "nama_en": "Blood Bank and Transfusion"
+                    },
+                    {
+                        "nama": "Infeksi dan Penyakit Tropik",
+                        "nama_en": "Infections and Tropical Diseases"
+                    },
+                    {
+                        "nama": "Metabolik-Endokrin",
+                        "nama_en": "Metabolic-Endocrine"
+                    },
+                    {
+                        "nama": "Alergi-Imunologi",
+                        "nama_en": "Allergy-Immunology"
+                    },
+                    {
+                        "nama": "Onkologi",
+                        "nama_en": "Oncology"
+                    },
+                    {
+                        "nama": "Respirasi",
+                        "nama_en": "Respiration"
+                    },
+                    {
+                        "nama": "Urologi",
+                        "nama_en": "Urology"
+                    },
+                    {
+                        "nama": "Gastroentero Hepatologi",
+                        "nama_en": "Hepatology Gastroentero"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 37,
+                    "title_indo": "Sp.PK",
+                    "title_eng": "SpPK",
+                    "desc_indo": "Spesialis Patologi Klinik",
+                    "desc_eng": "CLINICAL PATHOLOGY SPECIALIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Radiologi",
+                "nama_en": "Radiologist",
+                "subspesialis": [
+                    {
+                        "nama": "Imaging Payudara",
+                        "nama_en": "Breast Imaging"
+                    },
+                    {
+                        "nama": "Neuroradiologi",
+                        "nama_en": "Neuroradiologi"
+                    },
+                    {
+                        "nama": "Radiologi Intervensional dan Kardiovaskular",
+                        "nama_en": "Radiology and cardiovascular Intervensional"
+                    },
+                    {
+                        "nama": "Radiologi Muskuloskeletal",
+                        "nama_en": "Musculoskeletal Radiology"
+                    },
+                    {
+                        "nama": "Radiologi Traktus Digistivus",
+                        "nama_en": "Radiology Traktus Digistivus"
+                    },
+                    {
+                        "nama": "Kedokteran Nuklir",
+                        "nama_en": "Nuclear Medicine"
+                    },
+                    {
+                        "nama": "Radiologi Anak",
+                        "nama_en": "Child Radiology"
+                    },
+                    {
+                        "nama": "Radiologi Kepala dan Leher",
+                        "nama_en": "Head and neck Radiology"
+                    },
+                    {
+                        "nama": "Radiologi Toraks",
+                        "nama_en": "Thoracic Radiology"
+                    },
+                    {
+                        "nama": "Radiologi Traktus Urinarus dan Genital",
+                        "nama_en": "Radiology Traktus Urinarus and Genital"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Pediatri Sosial (Tumbuh Kembang)",
+                        "nama_en": "Social Paediatrics (Growing Hibiscus)"
+                    },
+                    {
+                        "nama": "Pediatri Gawat Darurat",
+                        "nama_en": "Paediatric Emergencies"
+                    },
+                    {
+                        "nama": "Kesehatan Remaja",
+                        "nama_en": "Teenage Health"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    },
+                    {
+                        "nama": "Pelayanan Pediatri Intensif",
+                        "nama_en": "Paediatric Intensive Services"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 40,
+                    "title_indo": "Sp.Rad",
+                    "title_eng": "R",
+                    "desc_indo": "Spesialis Radiologi",
+                    "desc_eng": "RADIOLOGY"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Saraf",
+                "nama_en": "Neurologist",
+                "subspesialis": [
+                    {
+                        "nama": "Serebrovaskular, Neurosonologi dan Neurologi Intervensi",
+                        "nama_en": "Cerebrovascular disease, Neurology and Neurosonologi Intervention"
+                    },
+                    {
+                        "nama": "Neurotrauma",
+                        "nama_en": "Neurotrauma"
+                    },
+                    {
+                        "nama": "Neuroinfeksi dan Imunologi",
+                        "nama_en": "Neuroinfection and Immunology"
+                    },
+                    {
+                        "nama": "Epilepsi",
+                        "nama_en": "Epilepsy"
+                    },
+                    {
+                        "nama": "Neurofisiologi Klinis",
+                        "nama_en": "Clinical Neurophysiology"
+                    },
+                    {
+                        "nama": "Neuromuskular, Saraf Perifer",
+                        "nama_en": "The Peripheral Nerves, Neuromuscular"
+                    },
+                    {
+                        "nama": "Neuro Behaviour",
+                        "nama_en": "Neuro Behaviour"
+                    },
+                    {
+                        "nama": "Neurogeriatri",
+                        "nama_en": "Neurogeriatri"
+                    },
+                    {
+                        "nama": "Neuroestorasi",
+                        "nama_en": "Neuroestorasi"
+                    },
+                    {
+                        "nama": "Neuro-oftalmologi",
+                        "nama_en": "Neuro-ophthalmologists"
+                    },
+                    {
+                        "nama": "Neuro-otologi",
+                        "nama_en": "Neuro-otology"
+                    },
+                    {
+                        "nama": "Neuro-intensif",
+                        "nama_en": "Neuro-Intensive"
+                    },
+                    {
+                        "nama": "Neuropediatri",
+                        "nama_en": "Neuropediatrics"
+                    },
+                    {
+                        "nama": "Neurokomunitasi",
+                        "nama_en": "Neurokomunitasi"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 42,
+                    "title_indo": "Sp.S",
+                    "title_eng": "PN-N",
+                    "desc_indo": "Spesialis Saraf",
+                    "desc_eng": "NEUROLOGY"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis THT-KL",
+                "nama_en": "ENT Specialist",
+                "subspesialis": [
+                    {
+                        "nama": "Otologi",
+                        "nama_en": "Otology"
+                    },
+                    {
+                        "nama": "Neurotologi",
+                        "nama_en": "Neurotologi"
+                    },
+                    {
+                        "nama": "Rinologi",
+                        "nama_en": "Rinologi"
+                    },
+                    {
+                        "nama": "Laringo-Faringologi",
+                        "nama_en": "Laringo-Faringologi"
+                    },
+                    {
+                        "nama": "Onkologi Kepala Leher",
+                        "nama_en": "Head Neck Oncology"
+                    },
+                    {
+                        "nama": "Plastik Rekonstruksi",
+                        "nama_en": "Plastic Reconstruction"
+                    },
+                    {
+                        "nama": "Bronkoesofagologi",
+                        "nama_en": "Bronkoesofagologi"
+                    },
+                    {
+                        "nama": "Alergi Imunologi",
+                        "nama_en": "Allergy Immunology"
+                    },
+                    {
+                        "nama": "THT Komunitas",
+                        "nama_en": "ENT Community"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 115,
+                    "title_indo": "Sp.THT-KL(K)",
+                    "title_eng": "ENT",
+                    "desc_indo": "Onkologi Kepala Leher",
+                    "desc_eng": "Oncology"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Urologi",
+                "nama_en": "Urologist",
+                "subspesialis": [
+                    {
+                        "nama": "Urologi Anak",
+                        "nama_en": "Children's Urology"
+                    },
+                    {
+                        "nama": "Tumor Urologi",
+                        "nama_en": "Urological Tumors"
+                    },
+                    {
+                        "nama": "Urologi Wanita",
+                        "nama_en": "Female Urology"
+                    },
+                    {
+                        "nama": "urologi Andrologi",
+                        "nama_en": "Urology Andrology"
+                    },
+                    {
+                        "nama": "Batu Saluran Kemih",
+                        "nama_en": "Urinary Tract Stones"
+                    },
+                    {
+                        "nama": "Prostat",
+                        "nama_en": "Prostate"
+                    },
+                    {
+                        "nama": "Urologi Rekonstruksi",
+                        "nama_en": "Urological Reconstruction"
+                    },
+                    {
+                        "nama": "Gangguan Fungsi Berkemih",
+                        "nama_en": "Impaired Urinary Function"
+                    },
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 44,
+                    "title_indo": "Sp.U",
+                    "title_eng": "U",
+                    "desc_indo": "Spesialis Urologi",
+                    "desc_eng": "UROLOGY"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Gizi Klinik",
+                "nama_en": "Clinical Nutrition Specialist",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 13,
+                    "title_indo": "Sp.GK",
+                    "title_eng": "Sp.GK",
+                    "desc_indo": "Spesialis Gizi Klinik",
+                    "desc_eng": "Spesialis Gizi Klinik"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kedokteran Okupasi (Kerja)",
+                "nama_en": "Occupational Medicine Specialists",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 28,
+                    "title_indo": "Sp.Ok",
+                    "title_eng": "OCC",
+                    "desc_indo": "Spesialis Kedokteran Okupasi",
+                    "desc_eng": "OCCUPATIONAL MEDICINE SPECIALIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Emergency Medic (Kedaruratan Medik)",
+                "nama_en": "Specialist Emergency Medic",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 59,
+                    "title_indo": "Sp.A(K)",
+                    "title_eng": "PED",
+                    "desc_indo": "Pediatri Gawat Darurat",
+                    "desc_eng": "Pediatrician Emergency Medicine"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Andrologi",
+                "nama_en": "Andrologist",
+                "subspesialis": [
+                    {
+                        "nama": "Konsultan",
+                        "nama_en": "Consultant"
+                    }
+                ],
+                "d2dSpecialist": {
+                    "id": 3,
+                    "title_indo": "Sp.And",
+                    "title_eng": "AND",
+                    "desc_indo": "Spesialis Andrologi",
+                    "desc_eng": "ANDROLOGIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Akupuntur",
+                "nama_en": "Acupuncture Specialist",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 4,
+                    "title_indo": "Sp.Ak",
+                    "title_eng": "Sp.Ak",
+                    "desc_indo": "Spesialis Akupunktur Klinik",
+                    "desc_eng": "Spesialis Akupunktur Klinik"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kedokteran Olahraga",
+                "nama_en": "Sports Medicine Specialist Doctor",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 23,
+                    "title_indo": "Sp.KO",
+                    "title_eng": "SPORTS",
+                    "desc_indo": "Spesialis Kedokteran Olahraga",
+                    "desc_eng": "SPORTS MEDICINE SPECIALIST"
+                }
+            },
+            {
+                "nama": "Dokter Spesialis Kedokteran Keluarga Layanan Primer",
+                "nama_en": "Spesialis Kedokteran Keluarga Layanan Primery",
+                "subspesialis": [],
+                "d2dSpecialist": {
+                    "id": 123,
+                    "title_indo": "Sp.KKLP",
+                    "title_eng": "Sp.KKLP",
+                    "desc_indo": "Spesialis Kedokteran Keluarga Layanan Primer",
+                    "desc_eng": "Spesialis Kedokteran Keluarga Layanan Primery"
+                }
+            }
+        ]
+    },
+    {
+        "nama": "Terapis Perilaku",
+        "nama_en": "Behavioral Therapist",
+        "spesialis": []
+    },
+    {
+        "nama": "Terapis Remedial",
+        "nama_en": "Remedial Therapist",
+        "spesialis": []
+    },
+    {
+        "nama": "IT",
+        "nama_en": "IT",
+        "spesialis": []
+    },
+    {
+        "nama": "Beautican",
+        "nama_en": "Beautican",
+        "spesialis": []
+    },
+    {
+        "nama": "Apoteker",
+        "nama_en": "Apoteker",
+        "spesialis": []
+    },
+    {
+        "nama": "Analis",
+        "nama_en": "Analis",
+        "spesialis": []
+    },
+    {
+        "nama": "Perawat",
+        "nama_en": "Perawat",
+        "spesialis": []
+    }
+]
