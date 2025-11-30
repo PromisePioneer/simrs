@@ -22,10 +22,20 @@ trait ModuleAccess
         }
 
         if ($user->hasRole('Super Admin')) {
-            return Module::whereNull('parent_id')
+            $modules = Module::whereNull('parent_id')
                 ->orderBy('order')
                 ->with(['permissions', 'childrenRecursive.permissions'])
                 ->get();
+
+            // Convert to array format
+            return $modules->map(function ($module) {
+                if (isset($module->childrenRecursive)) {
+                    $module->children_recursive = $module->childrenRecursive->values()->toArray();
+                } else {
+                    $module->children_recursive = [];
+                }
+                return $module;
+            });
         }
 
         if (!$user->tenant || !$user->tenant->hasActiveSubscription()) {
@@ -35,7 +45,6 @@ trait ModuleAccess
         $plan = $user->tenant->getCurrentPlan();
         $userPermissions = PermissionRepository::getPermissionsByUser($user);
 
-        // Get modules yang allowed di tenant's plan
         $planModuleIds = $plan->modules()
             ->where('plan_module.is_accessible', true)
             ->pluck('modules.id')
@@ -46,14 +55,52 @@ trait ModuleAccess
             ->orderBy('order')
             ->with(['childrenRecursive' => function ($query) use ($planModuleIds) {
                 $query->whereIn('id', $planModuleIds)->orderBy('order');
-            }])
+            }, 'permissions', 'childrenRecursive.permissions'])
             ->get(['id', 'name', 'route', 'parent_id', 'icon', 'order'])
             ->filter(function ($module) use ($userPermissions) {
                 return static::hasAccessToModule($module, $userPermissions);
             })
             ->map(function ($module) use ($userPermissions) {
-                return static::filterModuleChildren($module, $userPermissions);
-            });
+                $filtered = static::filterModuleChildren($module, $userPermissions);
+
+                // Ensure children_recursive is always an array
+                if (isset($filtered->childrenRecursive)) {
+                    $filtered->children_recursive = $filtered->childrenRecursive->values()->toArray();
+                    unset($filtered->childrenRecursive);
+                } elseif (isset($filtered->children_recursive)) {
+                    // If it's already children_recursive but as collection/object
+                    if (is_object($filtered->children_recursive) && method_exists($filtered->children_recursive, 'values')) {
+                        $filtered->children_recursive = $filtered->children_recursive->values()->toArray();
+                    } elseif (is_object($filtered->children_recursive) || (is_array($filtered->children_recursive) && !array_is_list($filtered->children_recursive))) {
+                        $filtered->children_recursive = array_values((array)$filtered->children_recursive);
+                    }
+                } else {
+                    $filtered->children_recursive = [];
+                }
+
+                return $filtered;
+            })
+            ->values();
+    }
+
+    protected static function filterModuleChildren($module, array $userPermissions)
+    {
+        if (!isset($module->childrenRecursive) || $module->childrenRecursive->isEmpty()) {
+            $module->children_recursive = [];
+            return $module;
+        }
+
+        $filteredChildren = $module->childrenRecursive
+            ->filter(function ($child) use ($userPermissions) {
+                return static::hasAccessToModule($child, $userPermissions);
+            })
+            ->values() // This ensures sequential array [0, 1, 2...]
+            ->toArray();
+
+        $module->children_recursive = $filteredChildren;
+        unset($module->childrenRecursive);
+
+        return $module;
     }
 
     protected static function hasAccessToModule($module, $userPermissions): bool
@@ -73,32 +120,6 @@ trait ModuleAccess
         }
 
         return false;
-    }
-
-
-    protected static function filterModuleChildren($module, $userPermissions)
-    {
-        if ($module->childrenRecursive->isNotEmpty()) {
-            $module->setRelation(
-                'childrenRecursive',
-                $module->childrenRecursive
-                    ->filter(function ($child) use ($userPermissions) {
-                        return static::hasAccessToModule($child, $userPermissions);
-                    })
-                    ->map(function ($child) use ($userPermissions) {
-                        return static::filterModuleChildren($child, $userPermissions);
-                    })
-            );
-        }
-
-        if ($module->permissions) {
-            $module->setRelation(
-                'permissions',
-                $module->permissions->whereIn('name', $userPermissions)->select('uuid', 'name')
-            );
-        }
-
-        return $module;
     }
 
 }

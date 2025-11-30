@@ -20,7 +20,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     {
         $query = $this->permission->orderBy('name');
 
-        if ($filters['search']) {
+        if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');
         }
 

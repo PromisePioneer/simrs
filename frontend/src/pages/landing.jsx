@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 
 import Navbar from "@/components/landing/navbar.jsx";
 import Hero from "@/components/landing/hero.jsx";
@@ -7,7 +7,6 @@ import '../assets/css/landing.css';
 import DeviceMockup from "@/components/landing/device-mockup.jsx";
 import Testimonial from "@/components/landing/testimonial.jsx";
 import Pricing from "@/components/landing/pricing.jsx";
-import Faq from "@/components/landing/faq.jsx";
 import Contact from "@/components/landing/contact.jsx";
 import Footer from "@/components/landing/footer.jsx";
 
@@ -37,7 +36,7 @@ function Landing() {
             e.preventDefault();
             const target = document.querySelector(e.currentTarget.getAttribute("href"));
             if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
+                target.scrollIntoView({behavior: "smooth"});
             }
         };
 
@@ -60,9 +59,8 @@ function Landing() {
             <Hero/>
             <Featured/>
             <DeviceMockup/>
-            <Testimonial/>
+            {/*<Testimonial/>*/}
             <Pricing/>
-            <Faq/>
             <Contact/>
             <Footer/>
         </>

@@ -178,15 +178,6 @@ function Users() {
                                 required
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="guard_name">Guard Name</Label>
-                            <Input
-                                id="guard_name"
-                                placeholder="sanctum"
-                                value={formData.guard_name}
-                                onChange={(e) => setFormData({...formData, guard_name: e.target.value})}
-                            />
-                        </div>
                     </div>
                 </Modal>
 
@@ -208,15 +199,6 @@ function Users() {
                                 value={formData.name}
                                 onChange={(e) => setFormData({...formData, name: e.target.value})}
                                 required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="edit-guard_name">Guard Name</Label>
-                            <Input
-                                id="edit-guard_name"
-                                placeholder="sanctum"
-                                value={formData.guard_name}
-                                onChange={(e) => setFormData({...formData, guard_name: e.target.value})}
                             />
                         </div>
                     </div>

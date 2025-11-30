@@ -1,13 +1,7 @@
 import {create} from "zustand/react";
 import apiCall from "@/services/apiCall.js";
 import {
-    BookOpen,
-    Bot,
-    Frame,
     House,
-    Map,
-    PieChart,
-    Settings2,
     SquareTerminal,
     Database,
     CalendarDays,
@@ -51,14 +45,11 @@ export const useSidebarStore = create((set, get) => ({
         }
     },
     getIconFromSvg: (iconString) => {
-        if (!iconString) return SquareTerminal; // Default icon
-
-        // Direct mapping from component string to icon
+        if (!iconString) return SquareTerminal;
         if (iconMap[iconString]) {
             return iconMap[iconString];
         }
 
-        // Fallback to default icon
         return SquareTerminal;
     },
     transformAllMenuData: (menuData, currentPath) => {

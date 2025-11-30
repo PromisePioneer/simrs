@@ -187,7 +187,6 @@ export function NavUser({user}) {
                     </DropdownMenu>
                 </SidebarMenuItem>
             </SidebarMenu>
-x
             <Dialog open={pricingOpen} onOpenChange={setPricingOpen}>
                 <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[90vh] overflow-y-auto p-8">
                     <DialogHeader>

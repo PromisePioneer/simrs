@@ -11,12 +11,11 @@ export const useRoleCrud = () => {
     const [selectedRole, setSelectedRole] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
-        guard_name: "sanctum"
     });
 
     // Create handlers
     const handleOpenCreateModal = () => {
-        setFormData({name: "", guard_name: "sanctum"});
+        setFormData({name: ""});
         setIsCreateModalOpen(true);
     };
 
@@ -30,7 +29,7 @@ export const useRoleCrud = () => {
         if (result.success) {
             toast.success("Role created successfully");
             setIsCreateModalOpen(false);
-            fetchRoles(1);
+            await fetchRoles(1);
             return true;
         } else {
             toast.error(result.message || "Failed to create role");
@@ -43,7 +42,6 @@ export const useRoleCrud = () => {
         setSelectedRole(role);
         setFormData({
             name: role.name,
-            guard_name: role.guard_name
         });
         setIsEditModalOpen(true);
     };
@@ -54,11 +52,13 @@ export const useRoleCrud = () => {
             return;
         }
 
+        console.log(selectedRole.uuid);
+
         const result = await updateRole(selectedRole.uuid, formData);
         if (result.success) {
             toast.success("Role updated successfully");
             setIsEditModalOpen(false);
-            fetchRoles(currentPage);
+            await fetchRoles(currentPage);
             return true;
         } else {
             toast.error(result.message || "Failed to update role");
@@ -77,7 +77,7 @@ export const useRoleCrud = () => {
         if (result.success) {
             toast.success("Role deleted successfully");
             setIsDeleteModalOpen(false);
-            fetchRoles(currentPage);
+            await fetchRoles(currentPage);
             return true;
         } else {
             toast.error(result.message || "Failed to delete role");
@@ -105,6 +105,7 @@ export const useRoleCrud = () => {
         setIsEditModalOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
+        setSelectedRole,
         selectedRole,
         formData,
         setFormData,

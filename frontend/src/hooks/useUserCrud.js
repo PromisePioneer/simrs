@@ -10,11 +10,10 @@ export const useUserCrud = () => {
     const [selectedUser, setSelectedRole] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
-        guard_name: "sanctum"
     });
 
     const handleOpenCreateModal = () => {
-        setFormData({name: "", guard_name: "sanctum"});
+        setFormData({name: ""});
         setIsCreateModalOpen(true);
     };
 
@@ -39,7 +38,6 @@ export const useUserCrud = () => {
         setSelectedRole(role);
         setFormData({
             name: role.name,
-            guard_name: role.guard_name
         });
         setIsEditModalOpen(true);
     };

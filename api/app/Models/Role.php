@@ -7,7 +7,9 @@ use App\Traits\Tenant\TenantManager;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 use Spatie\Permission\Models\Role as SpatieRole;
+use Spatie\Permission\PermissionRegistrar;
 
 
 class Role extends SpatieRole
@@ -31,6 +33,7 @@ class Role extends SpatieRole
     {
         static::addGlobalScope(new TenantScope());
     }
+
 
     public function tenant(): BelongsTo
     {

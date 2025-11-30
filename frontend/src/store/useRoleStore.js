@@ -1,12 +1,14 @@
 import {create} from "zustand";
 import apiCall from "@/services/apiCall.js";
+import {toast} from "sonner";
 
 export const useRoleStore = create((set, get) => ({
     isLoading: false,
     error: null,
     roleData: null,
     search: "",
-
+    permissionsData: null,
+    roleValue: null,
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
@@ -41,7 +43,53 @@ export const useRoleStore = create((set, get) => ({
             });
         }
     },
-
+    showRole: async (roleUuid) => {
+        set({isLoading: true, error: null});
+        try {
+            const response = await apiCall.get(`/api/v1/roles/${roleUuid}`);
+            set({
+                roleValue: response.data,
+                isLoading: false,
+                error: null
+            });
+        } catch (e) {
+            set({
+                error: e,
+                isLoading: false
+            });
+        }
+    },
+    assignPermissions: async (selectedRole, permissionUuids) => {
+        set({isLoading: true});
+        try {
+            const response = await apiCall.put(`/api/v1/roles/${selectedRole.uuid}`, {
+                permissions: permissionUuids,
+                name: selectedRole.name,
+            });
+            toast.success("Permissions assigned successfully");
+            return response.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Failed to assign permissions");
+            throw error;
+        } finally {
+            set({isLoading: false});
+        }
+    },
+    fetchPermissions: async () => {
+        try {
+            const response = await apiCall.get("/api/v1/permissions");
+            set({
+                permissionsData: response.data,
+                isLoading: false,
+                error: null
+            });
+        } catch (e) {
+            set({
+                error: e,
+                isLoading: false
+            });
+        }
+    },
     createRole: async (roleData) => {
         set({isLoading: true, error: null});
         try {
@@ -65,6 +113,8 @@ export const useRoleStore = create((set, get) => ({
             set({isLoading: false, error: null});
             return {success: true};
         } catch (e) {
+
+            console.log(e);
             const errorMessage = e.response?.data?.message || "Failed to update role";
             set({
                 error: errorMessage,
@@ -75,7 +125,6 @@ export const useRoleStore = create((set, get) => ({
     },
 
     deleteRole: async (uuid) => {
-        console.log(uuid);
         set({isLoading: true, error: null});
         try {
             await apiCall.delete(`/api/v1/roles/${uuid}`);

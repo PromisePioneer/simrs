@@ -4,7 +4,6 @@ namespace App\Services\Master\General\UserManagement\Role\Repository;
 
 use App\Models\Role as SpatieRole;
 use App\Services\Master\General\UserManagement\Role\Interface\RoleInterface;
-use Illuminate\Support\Str;
 
 class RoleRepository implements RoleInterface
 {
@@ -17,7 +16,7 @@ class RoleRepository implements RoleInterface
 
     public function getRoles(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->with('tenant')->orderBy('name');
+        $query = $this->model->with('tenant')->whereNot('name', 'Super Admin')->orderBy('name');
 
         if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');
@@ -42,7 +41,7 @@ class RoleRepository implements RoleInterface
 
     public function update(string $id, array $data = []): object
     {
-        $role = $this->model->findById($id);
+        $role = $this->findById($id);
         $role->fill($data);
         $role->save();
         return $role;

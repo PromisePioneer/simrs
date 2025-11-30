@@ -36,6 +36,8 @@ class ModuleService
         $userPermissions = PermissionRepository::getPermissionsByUser($user);
         $roleName = $user->roles->first()?->name;
 
+
+
         if ($user->hasRole('Super Admin')) {
             return $this->moduleRepository->getModules(
                 roleName: $roleName,

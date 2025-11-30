@@ -1,4 +1,5 @@
 import {Button} from "@/components/ui/button.jsx";
+import {Link} from "react-router-dom";
 
 function Hero() {
     return (
@@ -25,10 +26,13 @@ function Hero() {
                             </p>
 
                             <div className="flex flex-wrap gap-4">
-                                <Button
-                                    className=" text-white px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-2xl"
-                                size={13}>
-                                    Mulai Uji Coba Gratis
+                                <Button asChild
+                                        className=" text-white px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-2xl"
+                                        size={13}>
+
+                                    <Link to="/register">
+                                        Mulai Uji Coba Gratis
+                                    </Link>
                                 </Button>
                                 <button
                                     className="glass px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-lg flex items-center space-x-2">
@@ -36,7 +40,7 @@ function Hero() {
                                         <path
                                             d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
                                     </svg>
-                                    <span>Tonton Demo</span>
+                                    <span>Coming Soon!</span>
                                 </button>
                             </div>
                         </div>

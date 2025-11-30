@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import {create} from "zustand";
 import apiCall from "@/services/apiCall.js";
 
 export const useAuthStore = create((set, get) => ({
@@ -9,6 +9,50 @@ export const useAuthStore = create((set, get) => ({
     userData: null,
     authError: null,
     isEmailUnverified: false,
+    register: async (formData) => {
+        set({loading: true, error: null});
+        try {
+            await apiCall.get("/sanctum/csrf-cookie");
+
+            await apiCall.post('/register', {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                password_confirmation: formData.password_confirmation,
+                phone: formData.phone,
+                tenant_name: formData.tenant_name,
+                tenant_type: formData.tenant_type
+            });
+
+            // Fetch user data after successful registration
+            const userResponse = await apiCall.get("api/v1/me");
+            sessionStorage.setItem("loggedIn", "true");
+
+            set({
+                loggedIn: true,
+                userData: userResponse.data,
+                loading: false,
+                error: null,
+                isEmailUnverified: userResponse.data.email_verified_at === null
+            });
+
+            return {success: true, data: userResponse.data};
+        } catch (error) {
+            const errorData = error.response?.data?.errors ||
+                error.response?.data?.message ||
+                "Pendaftaran gagal";
+
+            set({
+                loading: false,
+                error: errorData,
+                loggedIn: false,
+                isEmailUnverified: false
+            });
+
+            return {success: false, error: errorData};
+        }
+    },
+
     login: async (email, password) => {
         set({loading: true, error: null});
         try {
@@ -17,15 +61,13 @@ export const useAuthStore = create((set, get) => ({
             const userResponse = await apiCall.get("api/v1/me");
             sessionStorage.setItem("loggedIn", "true");
 
-
             set({
                 loggedIn: true,
                 userData: userResponse.data,
                 loading: false,
                 error: null,
-                isEmailUnverified: userResponse.data.email_verified_at === null ? true : false
+                isEmailUnverified: userResponse.data.email_verified_at === null
             });
-
 
             return {success: true, data: userResponse.data};
         } catch (error) {
@@ -45,7 +87,7 @@ export const useAuthStore = create((set, get) => ({
             set({
                 userData: response.data,
                 isLoading: false,
-                isEmailUnverified: response.data.email_verified_at === null ? true : false
+                isEmailUnverified: response.data.email_verified_at === null
             });
 
             return response.data;

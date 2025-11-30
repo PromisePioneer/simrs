@@ -25,6 +25,7 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
+        setPermissionsTeamId(auth()->user()->tenant_id);
         $this->authorize('view', Role::class);
         $roles = $this->roleService->getRoles($request);
         return response()->json($roles);
@@ -47,6 +48,7 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
+
         $this->authorize('update', $role);
 
         $roles = $this->roleService->update($request, $role);

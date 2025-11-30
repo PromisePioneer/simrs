@@ -20,7 +20,7 @@ import {
     SidebarFooter,
     SidebarHeader,
 } from "@/components/ui/sidebar"
-import {useSidebarStore} from "@/store/sidebarStore.js";
+import {useSidebarStore} from "@/store/useSidebarStore.js";
 import {useEffect, useMemo, useState} from "react";
 import {ChevronRight} from "lucide-react";
 import {
@@ -43,11 +43,27 @@ export function AppSidebar({...props}) {
 
     useEffect(() => {
         fetchMenu();
-    }, [fetchMenu]);
+    }, []);
+
 
     const allMenuItems = useMemo(() => {
-        return transformAllMenuData(menuData, currentPath);
-    }, [menuData, currentPath]);
+        const transformed = transformAllMenuData(menuData, currentPath);
+
+        // Convert children_recursive object to array if needed
+        return transformed.map(item => {
+            let items = item.items;
+
+            // If items is an object (not null, not array), convert to array
+            if (items && typeof items === 'object' && !Array.isArray(items)) {
+                items = Object.values(items);
+            }
+
+            return {
+                ...item,
+                items: items && items.length > 0 ? items : null
+            };
+        });
+    }, [menuData, currentPath, transformAllMenuData]);
 
     const filteredMenuItems = useMemo(() => {
         if (!searchQuery.trim()) {

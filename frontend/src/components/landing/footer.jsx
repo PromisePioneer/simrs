@@ -1,4 +1,29 @@
+import {useEffect, useState} from "react";
+
 function Footer() {
+    const [displayText, setDisplayText] = useState('');
+    const [isTyping, setIsTyping] = useState(true);
+    const text = "Zyntera";
+
+    useEffect(() => {
+        let currentIndex = 0;
+
+        if (isTyping) {
+            const typingInterval = setInterval(() => {
+                if (currentIndex < text.length) {
+                    setDisplayText(text.substring(0, currentIndex + 1));
+                    currentIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    setIsTyping(false);
+                }
+            }, 150);
+
+            return () => clearInterval(typingInterval);
+        }
+    }, [isTyping, text]);
+
+
     return (
         <>
             <footer className="glass-strong border-t border-white/20 py-12 px-6">
@@ -7,10 +32,14 @@ function Footer() {
                         <div>
                             <div className="flex items-center space-x-2 mb-4">
                                 <div
-                                    className=" bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-xl flex items-center justify-center shadow-lg">
-                                    <img src="src/assets/zyntera.png" alt="company_logo" className="w-20 h-20"/>
+                                    className="  rounded-xl flex items-center justify-center">
+                                    <div
+                                        className="text-5xl font-extrabold bg-clip-text text-teal-500 min-w-[220px]"
+                                    >
+                                        {displayText}
+                                        <span className="inline-block ml-1 h-12 w-1 bg-teal-500 animate-blink"></span>
+                                    </div>
                                 </div>
-                                <span className="text-2xl font-bold gradient-text">Zyntera</span>
                             </div>
                         </div>
 
