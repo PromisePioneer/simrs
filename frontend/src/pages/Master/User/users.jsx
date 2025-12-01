@@ -9,7 +9,7 @@ import {useUserStore} from "@/store/useUserStore.js";
 import {useEffect, useState} from "react";
 import {Avatar, AvatarImage} from "@/components/ui/avatar.jsx";
 import {AvatarFallback} from "@radix-ui/react-avatar";
-import {Link} from "react-router-dom";
+import {Link} from "@tanstack/react-router";
 import {useRoleCrud} from "@/hooks/useRoleCrud.js";
 import {getInitials} from "@/hooks/use-helpers.js";
 import Modal from "@/components/common/modal.jsx";
