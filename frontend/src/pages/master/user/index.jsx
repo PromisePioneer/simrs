@@ -38,10 +38,10 @@ function UserPage() {
         handlePageChange,
     } = useUserCrud();
 
-    useEffect(() => {
-        fetchUsers(currentPage);
-    }, [currentPage, search]);
 
+    useEffect(() => {
+        fetchUsers({page: currentPage, search});
+    }, [currentPage, search]);
     const getRoleBadgeVariant = (roleName) => {
         const role = roleName?.toLowerCase();
         if (role?.includes('super admin')) return 'destructive';

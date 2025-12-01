@@ -11,36 +11,34 @@ export const useUserStore = create((set, get) => ({
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
-    fetchUsers: async (currentPage = 1) => {
+    fetchUsers: async ({page = 1, search = ""} = {}) => {
         set({isLoading: true, error: null});
-        try {
-            const {search} = get();
 
+        try {
             const params = {
-                page: currentPage,
+                page,
                 per_page: 20,
             };
 
-
-            if (search && search.trim() !== "") {
-                params.search = search;
+            if (search.trim() !== "") {
+                params.search = search.trim();
             }
 
-            const response = await apiCall.get(`/api/v1/users`, {
-                params: params
-            });
+            const response = await apiCall.get(`/api/v1/users`, {params});
 
-
-            set({
+            set((state) => ({
+                ...state,
                 userData: response.data,
-                isLoading: false,
                 error: null
-            });
+            }));
+
         } catch (e) {
             set({
-                error: e,
-                isLoading: false
+                error: e?.response?.data?.message || e.message || "Error fetching users"
             });
+
+        } finally {
+            set({isLoading: false});
         }
     },
     createUser: async (userData) => {
