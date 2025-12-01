@@ -1,7 +1,7 @@
 import Layout from "@/pages/dashboard/layout.jsx";
 import {useEffect, useState, useMemo, useCallback} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
-import {useRoleCrud} from "@/hooks/useRoleCrud.js";
+import {useRole} from "@/hooks/use-role.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Label} from "@/components/ui/label.jsx";
@@ -23,16 +23,21 @@ function RolePage() {
     const {
         fetchRoles,
         fetchPermissions,
-        showRole,
         roleData,
         permissionsData,
         isLoading,
         search,
-        setSearch,
         roleValue,
-        assignPermissions
     } = useRoleStore();
+
+
     const {
+        isModalLoading,
+        permissionSearch,
+        selectedPermissions,
+        setSelectedPermissions,
+        isPermissionModalOpen,
+        setIsPermissionModalOpen,
         isCreateModalOpen,
         setIsCreateModalOpen,
         isEditModalOpen,
@@ -40,9 +45,14 @@ function RolePage() {
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         selectedRole,
-        setSelectedRole,
         formData,
         setFormData,
+        currentPage,
+
+        handlePermissionSearch,
+        handleAssignPermissions,
+        handleSearch,
+        handlePageChange,
         handleOpenCreateModal,
         handleCreate,
         handleOpenEditModal,
@@ -50,13 +60,8 @@ function RolePage() {
         handleOpenDeleteModal,
         handleDelete,
 
-    } = useRoleCrud();
+    } = useRole();
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
-    const [selectedPermissions, setSelectedPermissions] = useState([]);
-    const [permissionSearch, setPermissionSearch] = useState("");
-    const [isModalLoading, setIsModalLoading] = useState(false);
 
     useEffect(() => {
         if (isPermissionModalOpen && roleValue?.permissions) {
@@ -85,53 +90,6 @@ function RolePage() {
         {header: "Created At", className: "w-[150px]"},
         {header: "Actions", className: "w-[180px] text-right"},
     ];
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-    const handleSearch = (searchValue) => {
-        setSearch(searchValue);
-        setCurrentPage(1);
-    };
-
-    const handlePermissionToggle = useCallback((permissionUuid) => {
-        setSelectedPermissions(prev => {
-            if (prev.includes(permissionUuid)) {
-                return prev.filter(id => id !== permissionUuid);
-            } else {
-                return [...prev, permissionUuid];
-            }
-        });
-    }, []);
-
-    const handleAssignPermissions = async () => {
-        try {
-            await assignPermissions(selectedRole, selectedPermissions);
-            setIsPermissionModalOpen(false);
-            await fetchRoles(currentPage);
-        } catch (error) {
-            console.error("Failed to assign permissions:", error);
-        }
-    };
-
-    const handleOpenPermissionModal = async (role) => {
-        setIsModalLoading(true);
-        setSelectedRole(role);
-
-        try {
-            await showRole(role.uuid);
-            setIsPermissionModalOpen(true);
-        } catch (error) {
-            console.error("Failed to fetch role details:", error);
-        } finally {
-            setIsModalLoading(false);
-        }
-    };
-
-    const handlePermissionSearch = useCallback((value) => {
-        setPermissionSearch(value);
-    }, []);
 
     const renderRow = (role, index) => {
         const isGlobalRole = role.tenant_id === null;
@@ -431,14 +389,6 @@ function RolePage() {
                             />
                             <p className="text-xs text-muted-foreground">
                                 Choose a descriptive name for this role
-                            </p>
-                        </div>
-                        <div className="space-y-2.5">
-                            <Label htmlFor="guard_name" className="text-sm font-semibold">
-                                Guard Name
-                            </Label>
-                            <p className="text-xs text-muted-foreground">
-                                The authentication guard (default: sanctum)
                             </p>
                         </div>
                     </div>

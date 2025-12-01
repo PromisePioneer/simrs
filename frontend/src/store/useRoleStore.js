@@ -12,7 +12,6 @@ export const useRoleStore = create((set, get) => ({
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
-
     fetchRoles: async (currentPage = 1) => {
         set({isLoading: true, error: null});
         try {

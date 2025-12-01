@@ -87,7 +87,6 @@ export const useAuthStore = create((set, get) => ({
             set({
                 userData: response.data,
                 isLoading: false,
-                isEmailUnverified: response.data.email_verified_at === null
             });
 
             return response.data;

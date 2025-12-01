@@ -3,14 +3,36 @@ import {toast} from "sonner";
 import {useUserStore} from "@/store/useUserStore.js";
 
 export const useUserCrud = () => {
-    const {createUser, updateUser, deleteUser, fetchUsers} = useUserStore();
+    const {createUser, updateUser, deleteUser, fetchUsers, setSearch} = useUserStore();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [selectedUser, setSelectedRole] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
     });
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const columns = () => {
+        return [
+            {header: "No", className: "w-[80px]"},
+            {header: "Nama", className: ""},
+            {header: "role", className: ""},
+            {header: "Telepon", className: ""},
+            {header: "Alamat", className: ""},
+            {header: "Actions", className: "text-right"},
+        ];
+    }
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleSearch = (searchValue) => {
+        setSearch(searchValue);
+        setCurrentPage(1);
+    };
+
 
     const handleOpenCreateModal = () => {
         setFormData({name: ""});
@@ -19,67 +41,69 @@ export const useUserCrud = () => {
 
     const handleCreate = async () => {
         if (!formData.name.trim()) {
-            toast.error("role name is required");
+            toast.error("User name is required");
             return;
         }
 
         const result = await createUser(formData);
         if (result.success) {
-            toast.success("role created successfully");
+            toast.success("User created successfully");
             setIsCreateModalOpen(false);
-            fetchUsers(1);
+            fetchUsers(currentPage);
             return true;
         } else {
-            toast.error(result.message || "Failed to create role");
+            toast.error(result.message || "Failed to create user");
             return false;
         }
     };
-    const handleOpenEditModal = (role) => {
-        setSelectedRole(role);
+
+    const handleOpenEditModal = (user) => {
+        setSelectedUser(user);
         setFormData({
-            name: role.name,
+            name: user.name,
         });
         setIsEditModalOpen(true);
     };
 
-    const handleEdit = async (currentPage) => {
+    const handleEdit = async () => {
         if (!formData.name.trim()) {
-            toast.error("role name is required");
+            toast.error("User name is required");
             return;
         }
 
         const result = await updateUser(selectedUser.id, formData);
         if (result.success) {
-            toast.success("role updated successfully");
+            toast.success("User updated successfully");
             setIsEditModalOpen(false);
             fetchUsers(currentPage);
             return true;
         } else {
-            toast.error(result.message || "Failed to update role");
+            toast.error(result.message || "Failed to update user");
             return false;
         }
     };
 
-    // Delete handlers
-    const handleOpenDeleteModal = (role) => {
-        setSelectedRole(role);
+    const handleOpenDeleteModal = (user) => {
+        setSelectedUser(user);
         setIsDeleteModalOpen(true);
     };
 
-    const handleDelete = async (currentPage) => {
+    const handleDelete = async () => {
         const result = await deleteUser(selectedUser.id);
         if (result.success) {
-            toast.success("role deleted successfully");
+            toast.success("User deleted successfully");
             setIsDeleteModalOpen(false);
             fetchUsers(currentPage);
             return true;
         } else {
-            toast.error(result.message || "Failed to delete role");
+            toast.error(result.message || "Failed to delete user");
             return false;
         }
     };
 
     return {
+        currentPage,
+        setCurrentPage,
         isCreateModalOpen,
         setIsCreateModalOpen,
         isEditModalOpen,
@@ -89,12 +113,14 @@ export const useUserCrud = () => {
         selectedUser,
         formData,
         setFormData,
-
+        columns,
         handleOpenCreateModal,
         handleCreate,
         handleOpenEditModal,
         handleEdit,
         handleOpenDeleteModal,
         handleDelete,
+        handlePageChange,
+        handleSearch
     };
 };

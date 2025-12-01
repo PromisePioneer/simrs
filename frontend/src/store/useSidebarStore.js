@@ -31,17 +31,21 @@ export const useSidebarStore = create((set, get) => ({
     error: null,
     menuData: [],
     fetchMenu: async () => {
+        const cached = localStorage.getItem('menuData');
+        if (cached) {
+            set({menuData: JSON.parse(cached), isLoading: false});
+            return JSON.parse(cached);
+        }
+
         set({isLoading: true});
         try {
             const response = await apiCall.get('/api/v1/modules');
-            set({
-                menuData: response.data,
-                isLoading: false,
-            });
-
+            set({menuData: response.data, isLoading: false});
+            localStorage.setItem('menuData', JSON.stringify(response.data));
             return response.data;
         } catch (e) {
-            console.log(e)
+            console.error(e);
+            set({isLoading: false, error: e});
         }
     },
     getIconFromSvg: (iconString) => {

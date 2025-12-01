@@ -19,7 +19,7 @@ class RoleRepository implements RoleInterface
         $query = $this->model->with('tenant')->whereNot('name', 'Super Admin')->orderBy('name');
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {

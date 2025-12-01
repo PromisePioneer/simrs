@@ -53,33 +53,30 @@ function Landing() {
 
     return (
         <>
-            {/* Navbar tidak perlu animasi fade-in */}
             <Navbar/>
 
-            {/* Tambahkan class fade-in dan style untuk delay */}
-            <div className="fade-in" style={{ '--delay': '0.1s' }}>
+            <div className="fade-in" style={{'--delay': '0.1s'}}>
                 <Hero/>
             </div>
 
-            <div className="fade-in" style={{ '--delay': '0.2s' }}>
+            <div className="fade-in" style={{'--delay': '0.2s'}}>
                 <Featured/>
             </div>
 
-            <div className="fade-in" style={{ '--delay': '0.3s' }}>
+            <div className="fade-in" style={{'--delay': '0.3s'}}>
                 <DeviceMockup/>
             </div>
 
             {/*<Testimonial/>*/}
 
-            <div className="fade-in" style={{ '--delay': '0.4s' }}>
+            <div className="fade-in" style={{'--delay': '0.4s'}}>
                 <Pricing/>
             </div>
 
-            <div className="fade-in" style={{ '--delay': '0.5s' }}>
+            <div className="fade-in" style={{'--delay': '0.5s'}}>
                 <Contact/>
             </div>
 
-            {/* Footer biasanya tidak perlu animasi */}
             <Footer/>
         </>
     );

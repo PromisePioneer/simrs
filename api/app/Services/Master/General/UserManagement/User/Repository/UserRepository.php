@@ -27,7 +27,8 @@ class UserRepository implements UserRepositoryInterface
         $query = User::query();
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%' . strtolower($filters['search']) . '%')
+                ->orWhere('email', 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {

@@ -2,23 +2,19 @@ import {useEffect} from 'react';
 import {Loader2, Mail, Building2, UserCircle, ShieldCheck} from 'lucide-react';
 import Layout from "@/pages/dashboard/layout.jsx";
 import {useUserStore} from "@/store/useUserStore.js";
-import {useParams} from "react-router";
+import {useParams} from "@tanstack/react-router";
 import {Badge} from "@/components/ui/badge.jsx";
 import {getInitials} from "@/hooks/use-helpers.js";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
 import {Card} from "@/components/ui/card.jsx";
 import {Label} from "@/components/ui/label.jsx";
+import {useSearch} from "@tanstack/react-router";
 
 
-function User() {
+function UserDetail() {
     const {isLoading, showUser, userValue} = useUserStore();
-    const {id} = useParams();
+    const {id} = useParams({from: '/_protected/master/user/$id'});
 
-    useEffect(() => {
-        if (id) {
-            showUser(id);
-        }
-    }, [id, showUser]);
 
     if (isLoading) {
         return (
@@ -121,4 +117,4 @@ function User() {
     );
 }
 
-export default User;
+export default UserDetail;

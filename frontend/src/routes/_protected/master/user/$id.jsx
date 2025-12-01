@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
-import User from '@/pages/master/User/detail/user.jsx';
+import {createFileRoute, redirect} from '@tanstack/react-router';
+import UserDetail from "@/pages/master/user/detail/index.jsx";
 
 export const Route = createFileRoute('/_protected/master/user/$id')({
-    component: User,
+    component: UserDetail,
 });

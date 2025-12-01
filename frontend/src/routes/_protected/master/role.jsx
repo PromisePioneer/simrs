@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router';
-import Index from '@/pages/master/role/index.jsx';
+import RolePage from "@/pages/master/role/index.jsx";
 
 export const Route = createFileRoute('/_protected/master/role')({
-    component: Index,
+    component: RolePage,
 });

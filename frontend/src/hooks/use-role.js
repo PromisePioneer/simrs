@@ -1,9 +1,9 @@
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {toast} from "sonner";
 
-export const useRoleCrud = () => {
-    const {createRole, updateRole, deleteRole, fetchRoles} = useRoleStore();
+export const useRole = () => {
+    const {setSearch, createRole, updateRole, deleteRole, fetchRoles} = useRoleStore();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -12,8 +12,12 @@ export const useRoleCrud = () => {
     const [formData, setFormData] = useState({
         name: "",
     });
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
+    const [selectedPermissions, setSelectedPermissions] = useState([]);
+    const [permissionSearch, setPermissionSearch] = useState("");
+    const [isModalLoading, setIsModalLoading] = useState(false);
 
-    // Create handlers
     const handleOpenCreateModal = () => {
         setFormData({name: ""});
         setIsCreateModalOpen(true);
@@ -37,7 +41,6 @@ export const useRoleCrud = () => {
         }
     };
 
-    // Edit handlers
     const handleOpenEditModal = (role) => {
         setSelectedRole(role);
         setFormData({
@@ -98,7 +101,61 @@ export const useRoleCrud = () => {
 
     }
 
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleSearch = (searchValue) => {
+        setSearch(searchValue);
+        setCurrentPage(1);
+    };
+
+    const handlePermissionToggle = useCallback((permissionUuid) => {
+        setSelectedPermissions(prev => {
+            if (prev.includes(permissionUuid)) {
+                return prev.filter(id => id !== permissionUuid);
+            } else {
+                return [...prev, permissionUuid];
+            }
+        });
+    }, []);
+
+    const handleAssignPermissions = async () => {
+        try {
+            await assignPermissions(selectedRole, selectedPermissions);
+            setIsPermissionModalOpen(false);
+            await fetchRoles(currentPage);
+        } catch (error) {
+            console.error("Failed to assign permissions:", error);
+        }
+    };
+
+    const handleOpenPermissionModal = async (role) => {
+        setIsModalLoading(true);
+        setSelectedRole(role);
+
+        try {
+            await showRole(role.uuid);
+            setIsPermissionModalOpen(true);
+        } catch (error) {
+            console.error("Failed to fetch role details:", error);
+        } finally {
+            setIsModalLoading(false);
+        }
+    };
+
+    const handlePermissionSearch = useCallback((value) => {
+        setPermissionSearch(value);
+    }, []);
+
     return {
+        isModalLoading,
+        permissionSearch,
+        selectedPermissions,
+        setSelectedPermissions,
+        isPermissionModalOpen,
+        setIsPermissionModalOpen,
         isCreateModalOpen,
         setIsCreateModalOpen,
         isEditModalOpen,
@@ -110,7 +167,12 @@ export const useRoleCrud = () => {
         formData,
         setFormData,
         columns,
+        currentPage,
 
+        handlePermissionSearch,
+        handleAssignPermissions,
+        handleSearch,
+        handlePageChange,
         handleOpenCreateModal,
         handleCreate,
         handleOpenEditModal,

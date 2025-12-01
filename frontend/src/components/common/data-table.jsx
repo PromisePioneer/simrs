@@ -11,6 +11,7 @@ import {
     Search,
     X
 } from "lucide-react";
+import {Spinner} from "@/components/ui/spinner.jsx";
 
 function DataTable({
                        title,
@@ -109,9 +110,7 @@ function DataTable({
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="text-center py-8">
                                         <div className="flex items-center justify-center gap-2">
-                                            <div
-                                                className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                                            <span>Loading...</span>
+                                            <Spinner className="h-10 w-10"/>
                                         </div>
                                     </TableCell>
                                 </TableRow>

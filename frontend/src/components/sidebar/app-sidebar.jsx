@@ -151,7 +151,7 @@ export function AppSidebar({...props}) {
                                             defaultOpen={item.isOpen}
                                             className="group/collapsible"
                                         >
-                                            <SidebarMenuItem>
+                                            <SidebarMenuItem className="pb-2">
                                                 <CollapsibleTrigger asChild>
                                                     <SidebarMenuButton
                                                         tooltip={item.title}
@@ -200,7 +200,7 @@ export function AppSidebar({...props}) {
                                 }
 
                                 return (
-                                    <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuItem key={item.title} className="pb-2">
                                         <SidebarMenuButton
                                             asChild
                                             tooltip={item.title}

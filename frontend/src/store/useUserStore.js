@@ -21,13 +21,15 @@ export const useUserStore = create((set, get) => ({
                 per_page: 20,
             };
 
+
             if (search && search.trim() !== "") {
                 params.search = search;
             }
 
-            const response = await apiCall.get("/api/v1/users", {
+            const response = await apiCall.get(`/api/v1/users`, {
                 params: params
             });
+
 
             set({
                 userData: response.data,
