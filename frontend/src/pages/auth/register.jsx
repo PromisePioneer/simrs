@@ -504,7 +504,7 @@ function Register() {
                     <div className="mt-6 text-center">
                         <p className="text-gray-600 dark:text-gray-400">
                             Sudah punya akun?{" "}
-                            <Link to="/login"
+                            <Link to="/auth/login"
                                   className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium transition-colors">
                                 Masuk sekarang
                             </Link>
