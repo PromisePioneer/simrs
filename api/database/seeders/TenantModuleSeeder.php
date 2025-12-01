@@ -56,25 +56,25 @@ class TenantModuleSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'master',
+                'name' => 'Master',
                 'parent_id' => null,
                 'order' => 2,
                 'icon' => '<Database />',
                 'route' => null,
                 'permissions' => [
-                    'Melihat master',
+                    'Melihat Master',
                 ],
                 'children' => [
                     [
-                        'name' => 'role Management',
+                        'name' => 'Role Management',
                         'order' => 1,
                         'icon' => null,
                         'route' => '/master/role',
                         'permissions' => [
-                            'Melihat role Management',
-                            'Menambahkan role Management',
-                            'Mengubah role Management',
-                            'Menghapus role Management',
+                            'Melihat Role Management',
+                            'Menambahkan Role Management',
+                            'Mengubah Role Management',
+                            'Menghapus Role Management',
                         ]
                     ],
                     [
@@ -390,10 +390,10 @@ class TenantModuleSeeder extends Seeder
 
         $permissions = [
             'Melihat Dashboard',
-            'Melihat role',
-            'Menambahkan role',
-            'Mengubah role',
-            'Menghapus role',
+            'Melihat Role',
+            'Menambahkan Role',
+            'Mengubah Role',
+            'Menghapus Role',
             'Melihat User Management',
             'Menambahkan User Management',
             'Mengubah User Management',
