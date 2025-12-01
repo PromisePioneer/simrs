@@ -61,7 +61,7 @@ class UserRequest extends FormRequest
             'email.required' => 'Email tidak boleh kosong',
             'phone.required' => 'Telepon tidak boleh kosong',
             'address.required' => 'Alamat tidak boleh kosong',
-            'roles.required' => 'Role tidak boleh kosong',
+            'roles.required' => 'role tidak boleh kosong',
             'str_active_period.required' => 'Tanggal Periode STR tidak boleh kosong',
             'sip_active_period.required' => 'Tanggal Periode SIP tidak boleh kosong',
         ];

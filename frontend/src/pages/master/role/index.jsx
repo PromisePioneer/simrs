@@ -1,4 +1,4 @@
-import Layout from "@/pages/Dashboard/layout.jsx";
+import Layout from "@/pages/dashboard/layout.jsx";
 import {useEffect, useState, useMemo, useCallback} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {useRoleCrud} from "@/hooks/useRoleCrud.js";
@@ -19,7 +19,7 @@ import {
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 
-function RoleManagement() {
+function RolePage() {
     const {
         fetchRoles,
         fetchPermissions,
@@ -79,7 +79,7 @@ function RoleManagement() {
 
     const columns = [
         {header: "No", className: "w-[80px]"},
-        {header: "Role Name", className: "min-w-[200px]"},
+        {header: "role Name", className: "min-w-[200px]"},
         {header: "Type", className: "w-[120px]"},
         {header: "Guard", className: "w-[120px]"},
         {header: "Created At", className: "w-[150px]"},
@@ -515,4 +515,4 @@ function RoleManagement() {
     );
 }
 
-export default RoleManagement;
+export default RolePage;

@@ -39,7 +39,7 @@ class RoleController extends Controller
     {
         $this->authorize('create', Role::class);
         $data = $this->roleService->store($request);
-        return $this->successResponse($data, 'Role created successfully.');
+        return $this->successResponse($data, 'role created successfully.');
     }
 
 
@@ -52,7 +52,7 @@ class RoleController extends Controller
         $this->authorize('update', $role);
 
         $roles = $this->roleService->update($request, $role);
-        return $this->successResponse($roles, 'Role updated successfully.');
+        return $this->successResponse($roles, 'role updated successfully.');
     }
 
 
@@ -68,6 +68,6 @@ class RoleController extends Controller
     public function destroy(Role $role): JsonResponse
     {
         Role::where('uuid', $role->uuid)->delete();
-        return $this->successResponse($role, 'Role deleted successfully.');
+        return $this->successResponse($role, 'role deleted successfully.');
     }
 }

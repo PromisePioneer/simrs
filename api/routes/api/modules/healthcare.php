@@ -21,7 +21,7 @@ Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('visit-lists', VisitListController::class);
 Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 
-// Master Data
+// master Data
 Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
 Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
 Route::apiResource('payment-methods', PaymentMethodController::class);

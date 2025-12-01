@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                 ->first();
 
             if (!$role) {
-                dump("Role Owner belum ada untuk tenant {$tenant->id}");
+                dump("role Owner belum ada untuk tenant {$tenant->id}");
                 continue;
             }
 

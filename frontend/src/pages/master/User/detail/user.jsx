@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {Loader2, Mail, Building2, UserCircle, ShieldCheck} from 'lucide-react';
-import Layout from "@/pages/Dashboard/layout.jsx";
+import Layout from "@/pages/dashboard/layout.jsx";
 import {useUserStore} from "@/store/useUserStore.js";
 import {useParams} from "react-router";
 import {Badge} from "@/components/ui/badge.jsx";

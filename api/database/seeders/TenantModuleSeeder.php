@@ -46,35 +46,35 @@ class TenantModuleSeeder extends Seeder
 
         $modules = [
             [
-                'name' => 'Index',
+                'name' => 'Dashboard',
                 'parent_id' => null,
                 'order' => 1,
                 'icon' => "<House />",
                 'route' => '/dashboard',
                 'permissions' => [
-                    'Melihat Index',
+                    'Melihat Dashboard',
                 ]
             ],
             [
-                'name' => 'Master',
+                'name' => 'master',
                 'parent_id' => null,
                 'order' => 2,
                 'icon' => '<Database />',
                 'route' => null,
                 'permissions' => [
-                    'Melihat Master',
+                    'Melihat master',
                 ],
                 'children' => [
                     [
-                        'name' => 'Role Management',
+                        'name' => 'role Management',
                         'order' => 1,
                         'icon' => null,
                         'route' => '/master/role',
                         'permissions' => [
-                            'Melihat Role Management',
-                            'Menambahkan Role Management',
-                            'Mengubah Role Management',
-                            'Menghapus Role Management',
+                            'Melihat role Management',
+                            'Menambahkan role Management',
+                            'Mengubah role Management',
+                            'Menghapus role Management',
                         ]
                     ],
                     [
@@ -389,11 +389,11 @@ class TenantModuleSeeder extends Seeder
         }
 
         $permissions = [
-            'Melihat Index',
-            'Melihat Role',
-            'Menambahkan Role',
-            'Mengubah Role',
-            'Menghapus Role',
+            'Melihat Dashboard',
+            'Melihat role',
+            'Menambahkan role',
+            'Mengubah role',
+            'Menghapus role',
             'Melihat User Management',
             'Menambahkan User Management',
             'Mengubah User Management',
@@ -418,7 +418,7 @@ class TenantModuleSeeder extends Seeder
             'Menambahkan Lembaga Pendaftaran',
             'Mengubah Lembaga Pendaftaran',
             'Menghapus Lembaga Pendaftaran',
-            'Melihat Master',
+            'Melihat master',
             'Melihat Tipe Pembayaran',
             'Menambahkan Tipe Pembayaran',
             'Mengubah Tipe Metode Pembayaran',

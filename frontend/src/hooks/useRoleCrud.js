@@ -21,13 +21,13 @@ export const useRoleCrud = () => {
 
     const handleCreate = async () => {
         if (!formData.name.trim()) {
-            toast.error("Role name is required");
+            toast.error("role name is required");
             return;
         }
 
         const result = await createRole(formData);
         if (result.success) {
-            toast.success("Role created successfully");
+            toast.success("role created successfully");
             setIsCreateModalOpen(false);
             await fetchRoles(1);
             return true;
@@ -48,7 +48,7 @@ export const useRoleCrud = () => {
 
     const handleEdit = async (currentPage) => {
         if (!formData.name.trim()) {
-            toast.error("Role name is required");
+            toast.error("role name is required");
             return;
         }
 
@@ -56,7 +56,7 @@ export const useRoleCrud = () => {
 
         const result = await updateRole(selectedRole.uuid, formData);
         if (result.success) {
-            toast.success("Role updated successfully");
+            toast.success("role updated successfully");
             setIsEditModalOpen(false);
             await fetchRoles(currentPage);
             return true;
@@ -75,7 +75,7 @@ export const useRoleCrud = () => {
     const handleDelete = async (currentPage) => {
         const result = await deleteRole(selectedRole.uuid);
         if (result.success) {
-            toast.success("Role deleted successfully");
+            toast.success("role deleted successfully");
             setIsDeleteModalOpen(false);
             await fetchRoles(currentPage);
             return true;
@@ -90,7 +90,7 @@ export const useRoleCrud = () => {
         return [
             {header: "No", className: "w-[80px]"},
             {header: "Nama", className: ""},
-            {header: "Role", className: ""},
+            {header: "role", className: ""},
             {header: "Telepon", className: ""},
             {header: "Alamat", className: ""},
             {header: "Actions", className: "text-right"},

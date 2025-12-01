@@ -11,11 +11,11 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            "Melihat Menu Master",
+            "Melihat Menu master",
 
-            "Melihat Role",
-            "Menambahkan Role",
-            "Ubah Role",
+            "Melihat role",
+            "Menambahkan role",
+            "Ubah role",
 
             'Melihat Pengguna',
             'Menambahkan Pengguna',

@@ -53,7 +53,7 @@ it('return paginated users', function () {
 //        'tenant_id' => $tenant->id
 //    ]);
 //
-//    Role::factory()->create([
+//    role::factory()->create([
 //        'name' => 'Owner',
 //        'guard_name' => 'web',
 //    ]);

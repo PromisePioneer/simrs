@@ -1,4 +1,4 @@
-import Layout from "@/pages/Dashboard/layout.jsx"
+import Layout from "@/pages/dashboard/layout.jsx"
 import {useAuthStore} from "@/store/authStore.js"
 import {useState} from "react"
 import {
@@ -95,8 +95,8 @@ function DashboardPage() {
     return (
         <Layout>
             <ContentHeader
-                title="Index"
-                description="Index"
+                title="Dashboard"
+                description="Dashboard"
             />
             <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
                 <p className="text-lg font-bold uppercase">

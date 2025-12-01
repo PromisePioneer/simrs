@@ -19,13 +19,13 @@ export const useUserCrud = () => {
 
     const handleCreate = async () => {
         if (!formData.name.trim()) {
-            toast.error("Role name is required");
+            toast.error("role name is required");
             return;
         }
 
         const result = await createUser(formData);
         if (result.success) {
-            toast.success("Role created successfully");
+            toast.success("role created successfully");
             setIsCreateModalOpen(false);
             fetchUsers(1);
             return true;
@@ -44,13 +44,13 @@ export const useUserCrud = () => {
 
     const handleEdit = async (currentPage) => {
         if (!formData.name.trim()) {
-            toast.error("Role name is required");
+            toast.error("role name is required");
             return;
         }
 
         const result = await updateUser(selectedUser.id, formData);
         if (result.success) {
-            toast.success("Role updated successfully");
+            toast.success("role updated successfully");
             setIsEditModalOpen(false);
             fetchUsers(currentPage);
             return true;
@@ -69,7 +69,7 @@ export const useUserCrud = () => {
     const handleDelete = async (currentPage) => {
         const result = await deleteUser(selectedUser.id);
         if (result.success) {
-            toast.success("Role deleted successfully");
+            toast.success("role deleted successfully");
             setIsDeleteModalOpen(false);
             fetchUsers(currentPage);
             return true;
