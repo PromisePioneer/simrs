@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import Navbar from "@/components/landing/navbar.jsx";
 import Hero from "@/components/landing/hero.jsx";
 import Featured from "@/components/landing/featured.jsx";
-import '../assets/css/landing.css';
+import '../assets/css/landing.css'; // Pastikan file ini terhubung
 import DeviceMockup from "@/components/landing/device-mockup.jsx";
 import Pricing from "@/components/landing/pricing.jsx";
 import Contact from "@/components/landing/contact.jsx";
@@ -12,7 +12,6 @@ import Footer from "@/components/landing/footer.jsx";
 function Landing() {
 
     useEffect(() => {
-
         const observerOptions = {
             root: null,
             rootMargin: "0px",
@@ -54,13 +53,33 @@ function Landing() {
 
     return (
         <>
+            {/* Navbar tidak perlu animasi fade-in */}
             <Navbar/>
-            <Hero/>
-            <Featured/>
-            <DeviceMockup/>
+
+            {/* Tambahkan class fade-in dan style untuk delay */}
+            <div className="fade-in" style={{ '--delay': '0.1s' }}>
+                <Hero/>
+            </div>
+
+            <div className="fade-in" style={{ '--delay': '0.2s' }}>
+                <Featured/>
+            </div>
+
+            <div className="fade-in" style={{ '--delay': '0.3s' }}>
+                <DeviceMockup/>
+            </div>
+
             {/*<Testimonial/>*/}
-            <Pricing/>
-            <Contact/>
+
+            <div className="fade-in" style={{ '--delay': '0.4s' }}>
+                <Pricing/>
+            </div>
+
+            <div className="fade-in" style={{ '--delay': '0.5s' }}>
+                <Contact/>
+            </div>
+
+            {/* Footer biasanya tidak perlu animasi */}
             <Footer/>
         </>
     );
