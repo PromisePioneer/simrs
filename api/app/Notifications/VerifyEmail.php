@@ -29,7 +29,7 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
     protected function verificationUrl($notifiable): string
     {
         return URL::temporarySignedRoute(
-            'verification.verify',
+            'verification.verify.jsx',
             Carbon::now()->addMinutes(60),
             ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->email)]
         );

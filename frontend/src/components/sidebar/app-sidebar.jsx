@@ -28,7 +28,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation} from "@tanstack/react-router";
 import {NavUser} from "@/components/sidebar/nav-user.jsx";
 import {useAuthStore} from "@/store/authStore.js";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
@@ -49,11 +49,8 @@ export function AppSidebar({...props}) {
     const allMenuItems = useMemo(() => {
         const transformed = transformAllMenuData(menuData, currentPath);
 
-        // Convert children_recursive object to array if needed
         return transformed.map(item => {
             let items = item.items;
-
-            // If items is an object (not null, not array), convert to array
             if (items && typeof items === 'object' && !Array.isArray(items)) {
                 items = Object.values(items);
             }

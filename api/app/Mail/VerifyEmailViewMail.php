@@ -26,7 +26,7 @@ class VerifyEmailViewMail extends Mailable
     protected function generateVerificationUrl($user): string
     {
         $temporarySignedUrl = URL::temporarySignedRoute(
-            'verification.verify',
+            'verification.verify.jsx',
             Carbon::now()->addMinutes(60),
             [
                 'id' => $user->getKey(),
@@ -43,7 +43,7 @@ class VerifyEmailViewMail extends Mailable
 
         $frontend = config('app.frontend_url');
 
-        return $frontend . '/email/verify?' . http_build_query($queryArray);
+        return $frontend . '/email/verify.jsx?' . http_build_query($queryArray);
     }
 
 

@@ -25,8 +25,8 @@ apiCall.interceptors.response.use(
         if (error.response?.status === 401) {
             sessionStorage.removeItem("loggedIn");
 
-            if (!window.location.pathname.includes('/login')) {
-                window.location.href = '/login';
+            if (!window.location.pathname.includes('/auth/login')) {
+                window.location.href = '/auth/login';
             }
         }
         return Promise.reject(error);

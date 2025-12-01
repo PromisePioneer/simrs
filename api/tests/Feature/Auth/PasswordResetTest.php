@@ -1,5 +1,5 @@
 <?php
-// tests/Feature/Auth/PasswordResetTest.php
+// tests/Feature/auth/PasswordResetTest.php
 
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\ResetPassword;

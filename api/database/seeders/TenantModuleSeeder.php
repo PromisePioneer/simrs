@@ -46,13 +46,13 @@ class TenantModuleSeeder extends Seeder
 
         $modules = [
             [
-                'name' => 'Dashboard',
+                'name' => 'Index',
                 'parent_id' => null,
                 'order' => 1,
                 'icon' => "<House />",
                 'route' => '/dashboard',
                 'permissions' => [
-                    'Melihat Dashboard',
+                    'Melihat Index',
                 ]
             ],
             [
@@ -389,7 +389,7 @@ class TenantModuleSeeder extends Seeder
         }
 
         $permissions = [
-            'Melihat Dashboard',
+            'Melihat Index',
             'Melihat Role',
             'Menambahkan Role',
             'Mengubah Role',

@@ -5,7 +5,6 @@ import Hero from "@/components/landing/hero.jsx";
 import Featured from "@/components/landing/featured.jsx";
 import '../assets/css/landing.css';
 import DeviceMockup from "@/components/landing/device-mockup.jsx";
-import Testimonial from "@/components/landing/testimonial.jsx";
 import Pricing from "@/components/landing/pricing.jsx";
 import Contact from "@/components/landing/contact.jsx";
 import Footer from "@/components/landing/footer.jsx";

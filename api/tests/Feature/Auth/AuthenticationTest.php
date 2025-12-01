@@ -1,5 +1,5 @@
 <?php
-// tests/Feature/Auth/AuthenticationTest.php
+// tests/Feature/auth/AuthenticationTest.php
 
 use App\Models\User;
 

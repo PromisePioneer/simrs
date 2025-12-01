@@ -1,10 +1,9 @@
-import Layout from "@/pages/Dashboard/Layout.jsx"
+import Layout from "@/pages/Dashboard/layout.jsx"
 import {useAuthStore} from "@/store/authStore.js"
 import {useState} from "react"
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -13,11 +12,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import apiCall from "@/services/apiCall.js"
 import {toast} from "sonner"
-import {Button} from "@/components/ui/button.jsx";
-import Pricing from "@/components/pricing/pricing.jsx";
-import ContentHeader from "@/components/ui/content-header.jsx"; // Import the Pricing component
+import ContentHeader from "@/components/ui/content-header.jsx";
 
-function Dashboard() {
+function DashboardPage() {
     const {userData, isLoading, isEmailUnverified} = useAuthStore();
     const [sending, setSending] = useState(false);
 
@@ -66,10 +63,6 @@ function Dashboard() {
                         </AlertDialogHeader>
 
                         <AlertDialogFooter>
-                            <AlertDialogCancel onClick={() => window.location.href = '/dashboard'}>
-                                Go Back
-                            </AlertDialogCancel>
-
                             <AlertDialogAction
                                 disabled={sending}
                                 onClick={handleResendEmail}
@@ -102,16 +95,16 @@ function Dashboard() {
     return (
         <Layout>
             <ContentHeader
-                title="Dashboard"
-                description="Dashboard"
+                title="Index"
+                description="Index"
             />
             <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
                 <p className="text-lg font-bold uppercase">
-                    👋hai {userData.name} kontol
+                    👋hai {userData.name}
                 </p>
             </div>
         </Layout>
     )
 }
 
-export default Dashboard;
+export default DashboardPage;

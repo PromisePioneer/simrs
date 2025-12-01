@@ -53,7 +53,7 @@ export function NavUser({user}) {
         try {
             await logout();
             toast.success("Logged out successfully");
-            window.location.href = '/login';
+            window.location.href = '/auth/login';
         } catch (error) {
             console.log(error);
             toast.error("Failed to logout");

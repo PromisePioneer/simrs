@@ -6,7 +6,7 @@ import {Separator} from "@/components/ui/separator";
 import {Checkbox} from "@/components/ui/checkbox";
 import {useState, useEffect} from "react";
 import {Eye, EyeOff, Headset, Shield, Users, Zap, Building} from "lucide-react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "@tanstack/react-router";
 import {useAuthStore} from "@/store/authStore"; // Import the auth store
 
 function Register() {

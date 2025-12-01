@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button.jsx";
-import {Link} from "react-router-dom";
+import {Link} from '@tanstack/react-router'
 import {useState, useEffect} from "react";
 
 function Navbar() {
@@ -54,7 +54,7 @@ function Navbar() {
 
                         <div className="flex items-center space-x-4">
                             <Link
-                                to="/login"
+                                to="/auth/login"
                                 className="hidden md:block text-gray-700 hover:text-cyan-600 transition font-medium"
                             >
                                 Masuk
@@ -63,7 +63,7 @@ function Navbar() {
                                 asChild
                                 className="text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
                             >
-                                <Link to="/register">Mulai</Link>
+                                <Link to="/auth/register">Mulai</Link>
                             </Button>
                         </div>
                     </div>

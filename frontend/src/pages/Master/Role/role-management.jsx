@@ -1,4 +1,4 @@
-import Layout from "@/pages/Dashboard/Layout.jsx";
+import Layout from "@/pages/Dashboard/layout.jsx";
 import {useEffect, useState, useMemo, useCallback} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {useRoleCrud} from "@/hooks/useRoleCrud.js";

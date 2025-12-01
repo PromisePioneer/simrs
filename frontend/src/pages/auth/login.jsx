@@ -5,9 +5,9 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Separator} from "@/components/ui/separator.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from '@tanstack/react-router'
 import {useAuthStore} from "@/store/authStore.js";
-import {Eye, EyeOff, Heart, Shield, Users, Zap} from "lucide-react";
+import {Eye, EyeOff, Users} from "lucide-react";
 
 function Login() {
     const {login, loading, error, loggedIn} = useAuthStore();
@@ -325,8 +325,8 @@ function Login() {
                     <div className="mt-6 text-center">
                         <p className="text-gray-600 dark:text-gray-400">
                             Belum punya akun?{" "}
-                            <Link to="/register"
-                                className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium transition-colors">
+                            <Link to="/auth/register"
+                                  className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium transition-colors">
                                 Daftar sekarang
                             </Link>
                         </p>

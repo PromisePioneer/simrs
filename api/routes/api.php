@@ -36,8 +36,8 @@ require __DIR__ . '/api/region.php';
 */
 Route::prefix('email')
     ->group(function () {
-        Route::get('/verify', [EmailVerificationController::class, 'verify'])
-            ->name('api.verification.verify');
+        Route::get('/verify.jsx', [EmailVerificationController::class, 'verify'])
+            ->name('api.verification.verify.jsx');
 
         Route::post('/verification-notification', [EmailVerificationController::class, 'resend'])
             ->middleware(['auth:sanctum', 'throttle:6,1'])

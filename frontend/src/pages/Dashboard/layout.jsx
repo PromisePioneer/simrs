@@ -13,7 +13,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {useLocation, Link} from "react-router-dom"
+import {useLocation, Link} from "@tanstack/react-router"
 
 export default function Layout({children}) {
     const location = useLocation();

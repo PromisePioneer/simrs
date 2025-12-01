@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button.jsx";
-import {Link} from "react-router-dom";
+import {Link} from '@tanstack/react-router'
 
 function Hero() {
     return (
