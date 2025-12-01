@@ -175,7 +175,7 @@ function Login() {
                                         <Button
                                             type="submit"
                                             disabled={loading}
-                                            className="w-full bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                                            className="w-full hover:from-teal-700 hover:to-blue-700 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                                         >
                                             {loading ? (
                                                 <span className="flex items-center justify-center">
@@ -198,7 +198,7 @@ function Login() {
 
                         {/* Illustration Section */}
                         <div
-                            className="md:w-1/2 p-8 sm:p-12 bg-gradient-to-br from-teal-600 to-blue-700 relative overflow-hidden">
+                            className="md:w-1/2 p-8 sm:p-12 bg-teal-600 relative overflow-hidden">
                             {/* Background Pattern */}
                             <div className="absolute inset-0 opacity-10">
                                 <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern"></div>
@@ -258,19 +258,19 @@ function Login() {
                                         <div className="text-sm font-semibold  mb-3">Aktivitas Pasien</div>
                                         <div className="flex items-end justify-between h-32 space-x-2">
                                             <div
-                                                className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar animate-pulse"
+                                                className="flex-1 bg-teal-600 rounded-lg chart-bar animate-pulse"
                                                 style={{height: '60%', animationDelay: '0.1s'}}></div>
                                             <div
                                                 className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar animate-pulse"
                                                 style={{height: '85%', animationDelay: '0.2s'}}></div>
                                             <div
-                                                className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar animate-pulse"
+                                                className="flex-1 bg-teal-600 rounded-lg chart-bar animate-pulse"
                                                 style={{height: '70%', animationDelay: '0.3s'}}></div>
                                             <div
                                                 className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar animate-pulse"
                                                 style={{height: '95%', animationDelay: '0.4s'}}></div>
                                             <div
-                                                className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar animate-pulse"
+                                                className="flex-1 bg-teal-600 rounded-lg chart-bar animate-pulse"
                                                 style={{height: '75%', animationDelay: '0.5s'}}></div>
                                             <div
                                                 className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar animate-pulse"
@@ -283,7 +283,7 @@ function Login() {
                                     className="absolute -right-8 top-20 glass-strong rounded-2xl p-4 shadow-xl hero-float-delay w-56 bg-white/10 backdrop-blur-md border border-white/20">
                                     <div className="flex items-center space-x-3">
                                         <div
-                                            className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-xl flex items-center justify-center">
+                                            className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
                                             <Users className="w-6 h-6 "/>
                                         </div>
                                         <div>
@@ -301,7 +301,7 @@ function Login() {
                                     className="absolute -left-8 bottom-20 glass-strong rounded-2xl p-4 shadow-xl hero-float w-64 bg-white/10 backdrop-blur-md border border-white/20">
                                     <div className="flex items-start space-x-3">
                                         <div
-                                            className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-cyan-400 rounded-full flex items-center justify-center">
+                                            className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
                                             <svg className="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
