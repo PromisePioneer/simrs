@@ -4,6 +4,7 @@ import {toast} from "sonner";
 
 export const useRoleStore = create((set, get) => ({
     isLoading: false,
+    permissionModalLoading: false,
     error: null,
     roleData: null,
     search: "",
@@ -12,15 +13,19 @@ export const useRoleStore = create((set, get) => ({
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
-    fetchRoles: async (currentPage = 1) => {
+    fetchRoles: async ({page = 1, perPage = null} = {}) => {
         set({isLoading: true, error: null});
         try {
             const {search} = get();
 
             const params = {
-                page: currentPage,
-                per_page: 20,
+                page: page,
             };
+
+
+            if (perPage) {
+                params.per_page = perPage;
+            }
 
             if (search && search.trim() !== "") {
                 params.search = search;
@@ -43,7 +48,7 @@ export const useRoleStore = create((set, get) => ({
         }
     },
     showRole: async (roleUuid) => {
-        set({isLoading: true, error: null});
+        set({error: null});
         try {
             const response = await apiCall.get(`/api/v1/roles/${roleUuid}`);
             set({
@@ -54,7 +59,6 @@ export const useRoleStore = create((set, get) => ({
         } catch (e) {
             set({
                 error: e,
-                isLoading: false
             });
         }
     },

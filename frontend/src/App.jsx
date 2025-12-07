@@ -14,7 +14,7 @@ function App() {
                     <Spinner className="size-12"/>
                 </div>
             )}
-                <RouterProvider router={router}/>
+            <RouterProvider router={router}/>
         </>
     );
 }

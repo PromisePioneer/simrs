@@ -7,6 +7,8 @@ use App\Http\Requests\RegistrationInstitutionRequest;
 use App\Models\RegistrationInstitution;
 use App\Services\Master\General\RegistrationInstitution\Service\RegistrationInstitutionService;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RegistrationInstitutionController extends Controller
@@ -21,7 +23,11 @@ class RegistrationInstitutionController extends Controller
         $this->registrationInstitutionService = new RegistrationInstitutionService();
     }
 
-    public function index(Request $request)
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(Request $request): JsonResponse
     {
         $this->authorize('view', RegistrationInstitution::class);
         $data = $this->registrationInstitutionService->getAllInstitutes($request);
@@ -29,7 +35,10 @@ class RegistrationInstitutionController extends Controller
     }
 
 
-    public function store(RegistrationInstitutionRequest $request)
+    /**
+     * @throws AuthorizationException
+     */
+    public function store(RegistrationInstitutionRequest $request): JsonResponse
     {
         $this->authorize('create', RegistrationInstitution::class);
         $data = $this->registrationInstitutionService->getAllInstitutes($request);
@@ -37,14 +46,21 @@ class RegistrationInstitutionController extends Controller
     }
 
 
-    public function show(RegistrationInstitution $registrationInstitution)
+    /**
+     * @throws AuthorizationException
+     */
+
+    public function show(RegistrationInstitution $registrationInstitution): JsonResponse
     {
         $this->authorize('view', $registrationInstitution);
         return response()->json($registrationInstitution);
     }
 
 
-    public function update(RegistrationInstitutionRequest $request, RegistrationInstitution $registrationInstitution)
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(RegistrationInstitutionRequest $request, RegistrationInstitution $registrationInstitution): JsonResponse
     {
         $this->authorize('update', $registrationInstitution);
         $data = $this->registrationInstitutionService->update($registrationInstitution->id, $request);
@@ -52,7 +68,10 @@ class RegistrationInstitutionController extends Controller
     }
 
 
-    public function destroy(RegistrationInstitution $registrationInstitution)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(RegistrationInstitution $registrationInstitution): JsonResponse
     {
         $this->authorize('delete', $registrationInstitution);
         $data = $this->registrationInstitutionService->destroy($registrationInstitution->id);

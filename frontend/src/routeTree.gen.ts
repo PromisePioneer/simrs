@@ -17,6 +17,8 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedMasterRoleRouteImport } from './routes/_protected/master/role'
 import { Route as ProtectedMasterUserIndexRouteImport } from './routes/_protected/master/user/index'
+import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
+import { Route as ProtectedMasterUserCreateRouteImport } from './routes/_protected/master/user/create'
 import { Route as ProtectedMasterUserIdRouteImport } from './routes/_protected/master/user/$id'
 
 const ProtectedRoute = ProtectedRouteImport.update({
@@ -59,6 +61,18 @@ const ProtectedMasterUserIndexRoute =
     path: '/master/user/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedMasterModuleIndexRoute =
+  ProtectedMasterModuleIndexRouteImport.update({
+    id: '/master/module/',
+    path: '/master/module/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedMasterUserCreateRoute =
+  ProtectedMasterUserCreateRouteImport.update({
+    id: '/master/user/create',
+    path: '/master/user/create',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedMasterUserIdRoute = ProtectedMasterUserIdRouteImport.update({
   id: '/master/user/$id',
   path: '/master/user/$id',
@@ -73,6 +87,8 @@ export interface FileRoutesByFullPath {
   '/email/verify': typeof EmailVerifyRoute
   '/master/role': typeof ProtectedMasterRoleRoute
   '/master/user/$id': typeof ProtectedMasterUserIdRoute
+  '/master/user/create': typeof ProtectedMasterUserCreateRoute
+  '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRoutesByTo {
@@ -83,6 +99,8 @@ export interface FileRoutesByTo {
   '/email/verify': typeof EmailVerifyRoute
   '/master/role': typeof ProtectedMasterRoleRoute
   '/master/user/$id': typeof ProtectedMasterUserIdRoute
+  '/master/user/create': typeof ProtectedMasterUserCreateRoute
+  '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRoutesById {
@@ -95,6 +113,8 @@ export interface FileRoutesById {
   '/email/verify': typeof EmailVerifyRoute
   '/_protected/master/role': typeof ProtectedMasterRoleRoute
   '/_protected/master/user/$id': typeof ProtectedMasterUserIdRoute
+  '/_protected/master/user/create': typeof ProtectedMasterUserCreateRoute
+  '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
   '/_protected/master/user/': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRouteTypes {
@@ -107,6 +127,8 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/master/role'
     | '/master/user/$id'
+    | '/master/user/create'
+    | '/master/module'
     | '/master/user'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -117,6 +139,8 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/master/role'
     | '/master/user/$id'
+    | '/master/user/create'
+    | '/master/module'
     | '/master/user'
   id:
     | '__root__'
@@ -128,6 +152,8 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/_protected/master/role'
     | '/_protected/master/user/$id'
+    | '/_protected/master/user/create'
+    | '/_protected/master/module/'
     | '/_protected/master/user/'
   fileRoutesById: FileRoutesById
 }
@@ -197,6 +223,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterUserIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/master/module/': {
+      id: '/_protected/master/module/'
+      path: '/master/module'
+      fullPath: '/master/module'
+      preLoaderRoute: typeof ProtectedMasterModuleIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/master/user/create': {
+      id: '/_protected/master/user/create'
+      path: '/master/user/create'
+      fullPath: '/master/user/create'
+      preLoaderRoute: typeof ProtectedMasterUserCreateRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/master/user/$id': {
       id: '/_protected/master/user/$id'
       path: '/master/user/$id'
@@ -211,6 +251,8 @@ interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedMasterRoleRoute: typeof ProtectedMasterRoleRoute
   ProtectedMasterUserIdRoute: typeof ProtectedMasterUserIdRoute
+  ProtectedMasterUserCreateRoute: typeof ProtectedMasterUserCreateRoute
+  ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
   ProtectedMasterUserIndexRoute: typeof ProtectedMasterUserIndexRoute
 }
 
@@ -218,6 +260,8 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedMasterRoleRoute: ProtectedMasterRoleRoute,
   ProtectedMasterUserIdRoute: ProtectedMasterUserIdRoute,
+  ProtectedMasterUserCreateRoute: ProtectedMasterUserCreateRoute,
+  ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,
   ProtectedMasterUserIndexRoute: ProtectedMasterUserIndexRoute,
 }
 

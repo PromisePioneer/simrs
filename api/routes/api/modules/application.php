@@ -18,7 +18,12 @@ Route::prefix('subscriptions')->group(function () {
     });
 });
 
-Route::apiResource('modules', ModuleController::class);
+
+Route::prefix('modules')->group(function () {
+    Route::apiResource('/', ModuleController::class);
+    Route::put('/updated-module', [ModuleController::class, 'updatedModule']);
+});
+
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('permissions', PermissionController::class);
 Route::apiResource('users', UserController::class);

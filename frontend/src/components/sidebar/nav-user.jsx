@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/dialog.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Check} from "lucide-react";
+import Pricing from "@/components/pricing/pricing.jsx";
 
 export function NavUser({user}) {
     const {isMobile} = useSidebar()
@@ -189,79 +190,7 @@ export function NavUser({user}) {
             </SidebarMenu>
             <Dialog open={pricingOpen} onOpenChange={setPricingOpen}>
                 <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[90vh] overflow-y-auto p-8">
-                    <DialogHeader>
-                        <DialogTitle className="text-3xl font-bold text-center">Choose the right plan for your
-                            team</DialogTitle>
-                        <DialogDescription className="text-center text-base pt-2">
-                            All plans include a free trial. Cancel anytime.
-                        </DialogDescription>
-                    </DialogHeader>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
-                        {plans.map((plan) => (
-                            <div
-                                key={plan.name}
-                                className={`relative rounded-lg border-2 p-6 flex flex-col ${
-                                    plan.popular
-                                        ? 'border-teal-600 shadow-lg'
-                                        : 'border-gray-200'
-                                }`}
-                            >
-                                {plan.popular && (
-                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                                        <span
-                                            className="bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                            MOST POPULAR
-                                        </span>
-                                    </div>
-                                )}
-
-                                <div className="mb-4">
-                                    <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                                    <div className="flex items-baseline gap-1 mb-2">
-                                        <span className="text-4xl font-bold">{plan.price}</span>
-                                        <span className="text-gray-500 text-sm">/ {plan.period}</span>
-                                    </div>
-                                    <p className="text-sm text-gray-600 min-h-[48px]">{plan.description}</p>
-                                </div>
-
-                                <ul className="space-y-3 mb-6 flex-grow">
-                                    {plan.features.map((feature, index) => (
-                                        <li key={index} className="flex items-start gap-2">
-                                            <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5"/>
-                                            <span className="text-sm">{feature}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                <Button
-                                    variant={plan.buttonVariant}
-                                    className={`w-full ${
-                                        plan.buttonVariant === 'default'
-                                            ? 'bg-teal-600 hover:bg-teal-700'
-                                            : 'border-2 hover:bg-gray-50'
-                                    }`}
-                                >
-                                    {plan.buttonText}
-                                </Button>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="border-t pt-4">
-                        <p className="text-center text-sm text-gray-600">
-                            Need more than 100 users? <a href="#" className="text-teal-600 hover:underline font-medium">Contact
-                            sales</a> for Enterprise pricing
-                        </p>
-                    </div>
-
-                    <DialogFooter className="sm:justify-center">
-                        <DialogClose asChild>
-                            <Button type="button" variant="ghost">
-                                Close
-                            </Button>
-                        </DialogClose>
-                    </DialogFooter>
+                    <Pricing/>
                 </DialogContent>
             </Dialog>
         </>

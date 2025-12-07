@@ -63,6 +63,8 @@ class UserController extends Controller
         $this->authorize('view', $user);
         $user->load('tenant:id,name');
         $user->load('roles:uuid,name');
+        $user->load('str:id,name');
+        $user->load('sip:id,name');
         return response()->json($user);
     }
 

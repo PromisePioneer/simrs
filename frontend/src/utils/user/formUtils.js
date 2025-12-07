@@ -1,0 +1,33 @@
+export const getDefaultFormValues = () => ({
+    name: '',
+    email: '',
+    password: '',
+    str_institution_id: '',
+    str_registration_number: '',
+    str_active_period: null,
+    sip_institution_id: '',
+    sip_registration_number: '',
+    sip_active_period: null,
+    phone: '',
+    address: '',
+    signature: null,
+    profile_picture: null,
+    roles: [],
+});
+
+export const formatUserDataForForm = (userValue) => ({
+    name: userValue.name || '',
+    email: userValue.email || '',
+    password: userValue.password || '',
+    phone: userValue.phone || '',
+    address: userValue.address || '',
+    str_institution_id: userValue.str_institution_id || '',
+    str_registration_number: userValue.str_registration_number || '',
+    str_active_period: userValue.str_active_period ? new Date(userValue.str_active_period) : null,
+    sip_institution_id: userValue.sip_institution_id || '',
+    sip_registration_number: userValue.sip_registration_number || '',
+    sip_active_period: userValue.sip_active_period ? new Date(userValue.sip_active_period) : null,
+    roles: userValue.roles?.map(r => r.name) || [],
+    signature: userValue.signature || null,
+    profile_picture: userValue.profile_picture || null,
+});

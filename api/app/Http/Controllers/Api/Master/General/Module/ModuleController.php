@@ -7,6 +7,7 @@ use App\Http\Requests\ModuleRequest;
 use App\Models\Module;
 use App\Services\Master\General\Modules\Service\ModuleService;
 use App\Traits\ApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -22,14 +23,14 @@ class ModuleController extends Controller
         $this->moduleService = new ModuleService();
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         $data = $this->moduleService->getModules();
         return response()->json($data);
     }
 
 
-    public function data(Request $request)
+    public function data(Request $request): JsonResponse
     {
         return response()->json($this->moduleService->getPaginatedModules($request));
     }
@@ -38,14 +39,14 @@ class ModuleController extends Controller
     /**
      * @throws Throwable
      */
-    public function store(ModuleRequest $request)
+    public function store(ModuleRequest $request): JsonResponse
     {
         $modules = $this->moduleService->store($request);
         return $this->successResponse($modules, 'Module created successfully.');
     }
 
 
-    public function show(Module $module)
+    public function show(Module $module): JsonResponse
     {
         $module->load('permissions');
         return response()->json($module);
@@ -54,9 +55,16 @@ class ModuleController extends Controller
     /**
      * @throws Throwable
      */
-    public function update(ModuleRequest $request, Module $module)
+    public function update(ModuleRequest $request, Module $module): JsonResponse
     {
         $modules = $this->moduleService->update($request, $module);
+        return $this->successResponse($modules, 'Module updated successfully.');
+    }
+
+
+    public function updatedModule(Request $request): JsonResponse
+    {
+        $modules = $this->moduleService->updatedModule($request);
         return $this->successResponse($modules, 'Module updated successfully.');
     }
 
@@ -64,7 +72,7 @@ class ModuleController extends Controller
     /**
      * @throws Throwable
      */
-    public function destroy(Module $module)
+    public function destroy(Module $module): JsonResponse
     {
         $this->moduleService->destroy($module);
     }

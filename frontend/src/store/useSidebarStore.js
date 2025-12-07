@@ -1,82 +1,96 @@
-import {create} from "zustand/react";
+import {create} from "zustand";
 import apiCall from "@/services/apiCall.js";
-import {
-    House,
-    SquareTerminal,
-    Database,
-    CalendarDays,
-    Contact,
-    Clipboard,
-    ShoppingCart,
-    Hospital,
-    File,
-    Settings
-} from "lucide-react";
+import * as LucideIcons from 'lucide-react';
 
-const iconMap = {
-    '<House />': House,
-    '<Database />': Database,
-    '<CalendarDays />': CalendarDays,
-    '<Contact />': Contact,
-    '<Clipboard />': Clipboard,
-    '<ShoppingCart />': ShoppingCart,
-    '<Hospital />': Hospital,
-    '<File />': File,
-    '<Settings />': Settings,
-};
 
 export const useSidebarStore = create((set, get) => ({
-    loading: false,
     isLoading: false,
     error: null,
-    menuData: [],
+    menuData: null,
+    isOpen: true,
+
+    // Toggle sidebar
+    toggleSidebar: () => {
+        set((state) => ({isOpen: !state.isOpen}));
+    },
+
+    // Set sidebar state
+    setSidebarOpen: (isOpen) => {
+        set({isOpen});
+    },
+
+    // Fetch menu from API
     fetchMenu: async () => {
-        const cached = localStorage.getItem('menuData');
-        if (cached) {
-            set({menuData: JSON.parse(cached), isLoading: false});
-            return JSON.parse(cached);
-        }
-
-        set({isLoading: true});
+        set({isLoading: true, error: null});
         try {
-            const response = await apiCall.get('/api/v1/modules');
-            set({menuData: response.data, isLoading: false});
-            localStorage.setItem('menuData', JSON.stringify(response.data));
-            return response.data;
-        } catch (e) {
-            console.error(e);
-            set({isLoading: false, error: e});
-        }
-    },
-    getIconFromSvg: (iconString) => {
-        if (!iconString) return SquareTerminal;
-        if (iconMap[iconString]) {
-            return iconMap[iconString];
-        }
+            const response = await apiCall.get("/api/v1/modules");
+            const menuData = response.data;
 
-        return SquareTerminal;
+            // Save to localStorage
+            localStorage.setItem('menuData', JSON.stringify(menuData));
+
+            set({
+                menuData: menuData,
+                isLoading: false,
+                error: null
+            });
+
+            return menuData;
+        } catch (e) {
+            set({
+                error: e,
+                isLoading: false
+            });
+            throw e;
+        }
     },
+
+    // Load menu from localStorage
+    loadMenuFromStorage: () => {
+        try {
+            const storedMenu = localStorage.getItem('menuData');
+            if (storedMenu) {
+                const menuData = JSON.parse(storedMenu);
+                set({menuData});
+                return menuData;
+            }
+            return null;
+        } catch (e) {
+            console.error('Error loading menu from storage:', e);
+            return null;
+        }
+    },
+
+
+    // Refresh menu (fetch new data and update localStorage)
+    refreshMenu: async () => {
+        return await get().fetchMenu();
+    },
+
+    // Clear menu data
+    clearMenu: () => {
+        localStorage.removeItem('menuData');
+        set({menuData: null});
+    },
+
+    // Transform menu data for display
     transformAllMenuData: (menuData, currentPath) => {
         if (!menuData || !Array.isArray(menuData)) return [];
 
-        return menuData.map(item => {
+        const transformItem = (item) => {
             const hasChildren = item.children_recursive && item.children_recursive.length > 0;
-            const children = hasChildren ? item.children_recursive.map(child => ({
-                title: child.name,
-                url: child.route || "#",
-            })) : null;
-
-            const isCurrentPage = item.route === currentPath;
-            const hasActiveChild = children?.some(child => child.url === currentPath);
-
             return {
                 title: item.name,
-                url: item.route || "#",
-                icon: get().getIconFromSvg(item.icon),
-                isActive: isCurrentPage,
-                isOpen: hasActiveChild || isCurrentPage,
-                items: children
+                url: item.route || '#',
+                icon: LucideIcons[item.icon] || LucideIcons.Menu,
+                isActive: item.route === currentPath,
+                isOpen: false,
+                items: hasChildren
+                    ? item.children_recursive.map(child => transformItem(child))
+                    : null
             };
-        });
-    }
+        };
+
+        return menuData.map(item => transformItem(item));
+    },
 }));

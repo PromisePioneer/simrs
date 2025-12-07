@@ -37,7 +37,6 @@ class ModuleService
         $roleName = $user->roles->first()?->name;
 
 
-
         if ($user->hasRole('Super Admin')) {
             return $this->moduleRepository->getModules(
                 roleName: $roleName,
@@ -86,6 +85,68 @@ class ModuleService
 
             return $module->load('permissions');
         });
+    }
+
+    public function updatedModule(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $requestModuleIds = collect($request->modules)
+                ->filter(fn($m) => !str_starts_with($m['id'], 'new-'))
+                ->pluck('id')
+                ->toArray();
+
+            // Delete modules that are not in the request
+            Module::whereNotIn('id', $requestModuleIds)->delete();
+
+            $newModules = [];
+            $existingModules = [];
+
+            // Separate new and existing modules
+            foreach ($request->modules as $moduleData) {
+                if (str_starts_with($moduleData['id'], 'new-')) {
+                    $newModules[] = $moduleData;
+                } else {
+                    $existingModules[] = $moduleData;
+                }
+            }
+
+            // Bulk create new modules
+            foreach ($newModules as $moduleData) {
+                Module::create([
+                    'name' => $moduleData['name'],
+                    'route' => $moduleData['route'],
+                    'parent_id' => $moduleData['parent_id'],
+                    'icon' => $moduleData['icon'],
+                    'order' => $moduleData['order'],
+                ]);
+            }
+
+            // Bulk update existing modules
+            foreach ($existingModules as $moduleData) {
+                Module::where('id', $moduleData['id'])->update([
+                    'name' => $moduleData['name'],
+                    'route' => $moduleData['route'],
+                    'parent_id' => $moduleData['parent_id'],
+                    'icon' => $moduleData['icon'],
+                    'order' => $moduleData['order'],
+                ]);
+            }
+
+            DB::commit();
+
+            return Module::with(['permissions', 'childrenRecursive.permissions'])
+                ->whereNull('parent_id')
+                ->orderBy('order')
+                ->get();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'message' => 'Failed to update modules',
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
 

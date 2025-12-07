@@ -3,7 +3,7 @@ import {useRoleStore} from "@/store/useRoleStore.js";
 import {toast} from "sonner";
 
 export const useRole = () => {
-    const {setSearch, createRole, updateRole, deleteRole, fetchRoles} = useRoleStore();
+    const {setSearch, createRole, updateRole, deleteRole, fetchRoles, assignPermissions, showRole} = useRoleStore();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -179,5 +179,7 @@ export const useRole = () => {
         handleEdit,
         handleOpenDeleteModal,
         handleDelete,
+        handleOpenPermissionModal,
+        handlePermissionToggle
     };
 };

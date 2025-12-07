@@ -1,37 +1,25 @@
 import Layout from "@/pages/dashboard/layout.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {Pencil, Plus, Shield, Trash2, Mail, Phone, MapPin, UserCircle, Verified, MailCheck} from "lucide-react";
+import {Pencil, Plus, Shield, Trash2, Phone, MapPin, MailCheck, MailWarning} from "lucide-react";
 import DataTable from "@/components/common/data-table.jsx";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Badge} from "@/components/ui/badge.jsx";
-import {useUserStore} from "@/store/useUserStore.js";
+import {useUserStore} from "@/store/user/useUserStore.js";
 import {useEffect} from "react";
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar.jsx";
 import {Link} from "@tanstack/react-router";
 import {getInitials} from "@/hooks/use-helpers.js";
 import Modal from "@/components/common/modal.jsx";
-import {Label} from "@/components/ui/label.jsx";
-import {Input} from "@/components/ui/input.jsx";
 import {useUserCrud} from "@/hooks/useUserCrud.js";
 
 function UserPage() {
     const {fetchUsers, isLoading, userData, search} = useUserStore();
     const {
         currentPage,
-        isCreateModalOpen,
-        setIsCreateModalOpen,
-        isEditModalOpen,
-        setIsEditModalOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         selectedUser,
-        formData,
-        setFormData,
-        handleOpenCreateModal,
-        handleCreate,
-        handleOpenEditModal,
-        handleEdit,
         handleOpenDeleteModal,
         handleDelete,
         handleSearch,
@@ -87,8 +75,9 @@ function UserPage() {
                             {user.name}
                         </Link>
                         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            {user.email_verified_at ? <MailCheck className="w-4 h-4 text-teal-600"/> :
-                                <MailWarning className="w-4 h-4 text-amber-400"/>}
+                            {user.email_verified_at
+                                ? <MailCheck className="w-4 h-4 text-teal-600"/>
+                                : <MailWarning className="w-4 h-4 text-amber-400"/>}
                             <span className="font-mono">{user.email}</span>
                         </div>
                     </div>
@@ -133,14 +122,15 @@ function UserPage() {
             </TableCell>
 
             <TableCell className="text-right">
-                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                        onClick={() => handleOpenEditModal(user)}
+                <div className="flex justify-end gap-1 ">
+                    <Button asChild
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
                     >
-                        <Pencil className="h-4 w-4"/>
+                        <Link to={"/master/user/" + user.id}>
+                            <Pencil className="h-4 w-4"/>
+                        </Link>
                     </Button>
                     <Button
                         variant="ghost"
@@ -164,13 +154,12 @@ function UserPage() {
                         title="User Management"
                         description="Manajemen Pengguna Kelola dan atur anggota tim Anda"
                     />
-                    <Button
-                        className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={handleOpenCreateModal}
-                    >
-                        <Plus className="w-4 h-4"/>
-                        Add New User
-                    </Button>
+                    <Link to="/master/user/create">
+                        <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow">
+                            <Plus className="w-4 h-4"/>
+                            Add New User
+                        </Button>
+                    </Link>
                 </div>
                 {/* Data Table */}
                 <DataTable
@@ -196,68 +185,12 @@ function UserPage() {
                     showSearch={true}
                 />
 
-                {/* Create Modal */}
-                <Modal
-                    open={isCreateModalOpen}
-                    onOpenChange={setIsCreateModalOpen}
-                    title="Create New User"
-                    description="Add a new user to your team"
-                    onSubmit={handleCreate}
-                    submitText="Create User"
-                    isLoading={isLoading}
-                >
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="name" className="flex items-center gap-2">
-                                <UserCircle className="h-4 w-4"/>
-                                User Name *
-                            </Label>
-                            <Input
-                                id="name"
-                                placeholder="Enter user name"
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                required
-                                className="focus:ring-2 focus:ring-primary/20"
-                            />
-                        </div>
-                    </div>
-                </Modal>
-
-                {/* Edit Modal */}
-                <Modal
-                    open={isEditModalOpen}
-                    onOpenChange={setIsEditModalOpen}
-                    title="Edit User"
-                    description={`Update information for ${selectedUser?.name}`}
-                    onSubmit={() => handleEdit()}
-                    submitText="Update User"
-                    isLoading={isLoading}
-                >
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="edit-name" className="flex items-center gap-2">
-                                <UserCircle className="h-4 w-4"/>
-                                User Name *
-                            </Label>
-                            <Input
-                                id="edit-name"
-                                placeholder="Enter user name"
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                required
-                                className="focus:ring-2 focus:ring-primary/20"
-                            />
-                        </div>
-                    </div>
-                </Modal>
-
                 {/* Delete Modal */}
                 <Modal
                     open={isDeleteModalOpen}
                     onOpenChange={setIsDeleteModalOpen}
                     title="Delete User"
-                    description="This action cannot be undone. This will permanently delete the user account."
+                    description="Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus akun pengguna secara permanen."
                     onSubmit={() => handleDelete()}
                     submitText="Delete"
                     type="danger"
@@ -270,7 +203,7 @@ function UserPage() {
                             </div>
                             <div>
                                 <p className="text-sm font-medium mb-1">
-                                    You are about to delete:
+                                    Anda akan menghapus:
                                 </p>
                                 <p className="text-sm font-semibold text-destructive">
                                     {selectedUser?.name}

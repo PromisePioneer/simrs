@@ -31,20 +31,61 @@ import {
 import {Link, useLocation} from "@tanstack/react-router";
 import {NavUser} from "@/components/sidebar/nav-user.jsx";
 import {useAuthStore} from "@/store/authStore.js";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
 import {Input} from "@/components/ui/input.jsx";
 
 export function AppSidebar({...props}) {
     const {userData} = useAuthStore();
-    const {fetchMenu, menuData, transformAllMenuData} = useSidebarStore();
+    const {fetchMenu, menuData, transformAllMenuData, loadMenuFromStorage} = useSidebarStore();
     const location = useLocation();
     const currentPath = location.pathname;
     const [searchQuery, setSearchQuery] = useState("");
 
+    // Load menu on component mount
     useEffect(() => {
-        fetchMenu();
+        // First, try to load from localStorage
+        const cachedMenu = loadMenuFromStorage();
+
+        // Then fetch fresh data from API
+        fetchMenu().catch(error => {
+            console.error('Failed to fetch menu:', error);
+            // If fetch fails and we have cached data, we're still good
+        });
     }, []);
 
+    // Listen for storage events (when other tabs update localStorage)
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'menuData' && e.newValue) {
+                // Reload menu from localStorage when it changes
+                loadMenuFromStorage();
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, [loadMenuFromStorage]);
+
+    // Custom event listener for same-tab updates
+    useEffect(() => {
+        const handleMenuUpdate = () => {
+            loadMenuFromStorage();
+        };
+
+        window.addEventListener('menuUpdated', handleMenuUpdate);
+
+        return () => {
+            window.removeEventListener('menuUpdated', handleMenuUpdate);
+        };
+    }, [loadMenuFromStorage]);
+
+    const isPathActive = (menuUrl, currentPath) => {
+        if (!menuUrl || !currentPath) return false;
+        if (menuUrl === currentPath) return true;
+        return currentPath.startsWith(menuUrl + "/");
+    };
 
     const allMenuItems = useMemo(() => {
         const transformed = transformAllMenuData(menuData, currentPath);
@@ -64,7 +105,15 @@ export function AppSidebar({...props}) {
 
     const filteredMenuItems = useMemo(() => {
         if (!searchQuery.trim()) {
-            return allMenuItems;
+            return allMenuItems.map(item => {
+                const hasActiveChild = item.items?.some(child =>
+                    isPathActive(child.url, location.pathname)
+                );
+                return {
+                    ...item,
+                    isOpen: hasActiveChild || item.isOpen
+                };
+            });
         }
 
         const query = searchQuery.toLowerCase();
@@ -90,7 +139,7 @@ export function AppSidebar({...props}) {
                 return null;
             })
             .filter(Boolean);
-    }, [allMenuItems, searchQuery]);
+    }, [allMenuItems, searchQuery, location.pathname]);
 
     return (
         <Sidebar collapsible="icon" {...props}>
@@ -99,11 +148,7 @@ export function AppSidebar({...props}) {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
-                                <Avatar className="w-10 h-10">
-                                    <AvatarImage src="https://github.com/shadcn.png"/>
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <p className="text-xl font-bold text-teal-500">Zyntera</p>
+                                <p className="text-2xl font-bold text-teal-500">Zyntera</p>
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -111,7 +156,7 @@ export function AppSidebar({...props}) {
 
                 {/* Search Input */}
                 <div className="px-3 py-2">
-                    <div className="relative">
+                    <div className={props.collapsible ? "relative" : "hidden"}>
                         <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
                         <Input
                             type="text"
@@ -155,14 +200,14 @@ export function AppSidebar({...props}) {
                                                 <CollapsibleTrigger asChild>
                                                     <SidebarMenuButton
                                                         tooltip={item.title}
-                                                        isActive={item.isActive || item.items?.some(child => child.url === location.pathname)}
+                                                        isActive={item.isActive || item.items?.some(child => isPathActive(child.url, location.pathname))}
                                                     >
                                                         {Icon && <Icon/>}
                                                         <span
                                                             className={
                                                                 item.isActive
                                                                 ||
-                                                                item.items?.some(child => child.url === location.pathname) ? "font-bold text-teal-600" : ""}
+                                                                item.items?.some(child => isPathActive(child.url, location.pathname)) ? "font-bold text-teal-600" : ""}
                                                         >
                                                         {item.title}
                                                         </span>
@@ -174,7 +219,7 @@ export function AppSidebar({...props}) {
                                                 <CollapsibleContent>
                                                     <SidebarMenuSub>
                                                         {item.items.map((subItem) => {
-                                                            const isSubItemActive = location.pathname === subItem.url;
+                                                            const isSubItemActive = isPathActive(subItem.url, location.pathname);
 
                                                             return (
                                                                 <SidebarMenuSubItem key={subItem.title}>
@@ -199,16 +244,18 @@ export function AppSidebar({...props}) {
                                     );
                                 }
 
+                                const isItemActive = isPathActive(item.url, location.pathname);
+
                                 return (
                                     <SidebarMenuItem key={item.title} className="pb-2">
                                         <SidebarMenuButton
                                             asChild
                                             tooltip={item.title}
-                                            isActive={item.isActive}
+                                            isActive={isItemActive}
                                         >
                                             <Link to={item.url}>
                                                 {Icon && <Icon/>}
-                                                <span className={item.isActive ? "font-bold" : ""}>
+                                                <span className={isItemActive ? "font-bold" : ""}>
                                                     {item.title}
                                                 </span>
                                             </Link>

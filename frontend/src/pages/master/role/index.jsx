@@ -59,7 +59,8 @@ function RolePage() {
         handleEdit,
         handleOpenDeleteModal,
         handleDelete,
-
+        handleOpenPermissionModal,
+        handlePermissionToggle
     } = useRole();
 
 
@@ -71,7 +72,7 @@ function RolePage() {
     }, [roleValue, isPermissionModalOpen]);
 
     useEffect(() => {
-        fetchRoles(currentPage);
+        fetchRoles({page: currentPage, perPage: 20});
         fetchPermissions();
     }, [currentPage, search]);
 
@@ -84,7 +85,7 @@ function RolePage() {
 
     const columns = [
         {header: "No", className: "w-[80px]"},
-        {header: "role Name", className: "min-w-[200px]"},
+        {header: "Nama", className: "min-w-[200px]"},
         {header: "Type", className: "w-[120px]"},
         {header: "Guard", className: "w-[120px]"},
         {header: "Created At", className: "w-[150px]"},
@@ -143,24 +144,28 @@ function RolePage() {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-9 w-9 p-0 hover:bg-blue-500/10 hover:text-blue-600"
-                                        onClick={() => handleOpenPermissionModal(role)}
-                                        disabled={isModalLoading}
-                                    >
-                                        {isModalLoading ? (
-                                            <div
-                                                className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                        ) : (
-                                            <Settings className="h-4 w-4"/>
-                                        )}
-                                    </Button>
+                                    <div
+                                        className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                            onClick={() => handleOpenPermissionModal(role)}
+                                            disabled={isModalLoading}
+                                        >
+                                            {isModalLoading ? (
+                                                <div
+                                                    className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                                            ) : (
+                                                <Settings className="h-4 w-4"/>
+                                            )}
+                                        </Button>
+                                    </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Assign Permissions</p>
                                 </TooltipContent>
+
                             </Tooltip>
 
                             {canModify && (
@@ -230,11 +235,11 @@ function RolePage() {
                                 <Users className="w-6 h-6 text-primary"/>
                             </div>
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                                <h1 className="text-3xl font-bold tracking-tight text-teal-500">
                                     Role Management
                                 </h1>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Manage system and tenant roles with permissions
+                                    Peran sistem
                                 </p>
                             </div>
                         </div>
@@ -250,29 +255,27 @@ function RolePage() {
                 </div>
 
                 {/* Data Table */}
-                <div className="bg-card rounded-xl border shadow-sm">
-                    <DataTable
-                        title="All Roles"
-                        description="Manage and organize user roles across the system"
-                        columns={columns}
-                        data={roleData?.data}
-                        isLoading={isLoading}
-                        pagination={roleData ? {
-                            from: roleData.from,
-                            to: roleData.to,
-                            total: roleData.total,
-                            current_page: roleData.current_page,
-                            last_page: roleData.last_page
-                        } : null}
-                        onPageChange={handlePageChange}
-                        onSearch={handleSearch}
-                        searchPlaceholder="Search roles..."
-                        emptyStateIcon={Shield}
-                        emptyStateText="No roles found"
-                        renderRow={renderRow}
-                        showSearch={true}
-                    />
-                </div>
+                <DataTable
+                    title="Role Data"
+                    description="Kelola dan atur peran pengguna di seluruh sistem"
+                    columns={columns}
+                    data={roleData?.data}
+                    isLoading={isLoading}
+                    pagination={roleData ? {
+                        from: roleData.from,
+                        to: roleData.to,
+                        total: roleData.total,
+                        current_page: roleData.current_page,
+                        last_page: roleData.last_page
+                    } : null}
+                    onPageChange={handlePageChange}
+                    onSearch={handleSearch}
+                    searchPlaceholder="Search roles..."
+                    emptyStateIcon={Shield}
+                    emptyStateText="No roles found"
+                    renderRow={renderRow}
+                    showSearch={true}
+                />
 
                 {/* Assign Permissions Modal */}
                 <Modal

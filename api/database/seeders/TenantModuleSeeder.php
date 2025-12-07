@@ -49,7 +49,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Dashboard',
                 'parent_id' => null,
                 'order' => 1,
-                'icon' => "<House />",
+                'icon' => "House",
                 'route' => '/dashboard',
                 'permissions' => [
                     'Melihat Dashboard',
@@ -59,7 +59,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Master',
                 'parent_id' => null,
                 'order' => 2,
-                'icon' => '<Database />',
+                'icon' => 'Database',
                 'route' => null,
                 'permissions' => [
                     'Melihat Master',
@@ -140,7 +140,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Rawat Jalan',
                 'parent_id' => null,
                 'order' => 3,
-                'icon' => '<CalendarDays />',
+                'icon' => 'CalendarDays',
                 'route' => '/outpatient',
                 'permissions' => [
                     'Melihat Rawat Jalan',
@@ -151,7 +151,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Pendaftaran',
                 'parent_id' => null,
                 'order' => 4,
-                'icon' => '<Contact />',
+                'icon' => 'Contact',
                 'route' => '/registration',
                 'permissions' => [
                     'Melihat Registrasi',
@@ -199,7 +199,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Electronic Medical Record',
                 'parent_id' => null,
                 'order' => 5,
-                'icon' => '<Clipboard />',
+                'icon' => 'Clipboard',
                 'route' => '/electronic-medical-record',
                 'permissions' => [
                     'Melihat Electronic Medical Record',
@@ -209,7 +209,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Kasir',
                 'parent_id' => null,
                 'order' => 6,
-                'icon' => '<ShoppingCart />',
+                'icon' => 'ShoppingCart',
                 'route' => '/cashier',
                 'permissions' => [
                     'Melihat Kasir',
@@ -239,7 +239,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Profile',
                 'parent_id' => null,
                 'order' => 7,
-                'icon' => '<Hospital />',
+                'icon' => 'Hospital',
                 'route' => '/profile',
                 'permissions' => [
                     'Melihat Profile',
@@ -290,7 +290,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Office',
                 'parent_id' => null,
                 'order' => 8,
-                'icon' => '<File />',
+                'icon' => 'File',
                 'route' => '/office',
                 'permissions' => [
                     'Melihat Office',
@@ -300,7 +300,7 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Setting',
                 'parent_id' => null,
                 'order' => 9,
-                'icon' => '<Settings />',
+                'icon' => 'Settings',
                 'route' => '/setting',
                 'permissions' => [
                     'Melihat Setting',

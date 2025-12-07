@@ -152,6 +152,18 @@ class User extends Authenticatable
         return $this->degrees()->where('degrees.type', 'suffix');
     }
 
+
+    public function str(): HasOne
+    {
+        return $this->hasOne(RegistrationInstitution::class, 'id', 'str_institution_id');
+    }
+
+
+    public function sip(): HasOne
+    {
+        return $this->hasOne(RegistrationInstitution::class, 'id', 'sip_institution_id');
+    }
+
     public function getFullNameWithDegreesAttribute(): string
     {
         $prefix = $this->prefixes->pluck('name')->join(' ');

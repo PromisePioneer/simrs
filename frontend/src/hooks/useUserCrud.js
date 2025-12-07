@@ -1,17 +1,18 @@
 import {useState} from "react";
 import {toast} from "sonner";
-import {useUserStore} from "@/store/useUserStore.js";
+import {useUserStore} from "@/store/user/useUserStore.js";
+import {useNavigate} from "@tanstack/react-router";
 
 export const useUserCrud = () => {
     const {createUser, updateUser, deleteUser, fetchUsers, setSearch} = useUserStore();
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
     });
     const [currentPage, setCurrentPage] = useState(1);
+
+    const navigate = useNavigate();
 
     const columns = () => {
         return [
@@ -36,56 +37,35 @@ export const useUserCrud = () => {
 
     const handleOpenCreateModal = () => {
         setFormData({name: ""});
-        setIsCreateModalOpen(true);
     };
 
-    const handleCreate = async () => {
-        if (!formData.name.trim()) {
-            toast.error("User name is required");
-            return;
-        }
-
+    const handleCreate = async (formData) => {
         const result = await createUser(formData);
         if (result.success) {
             toast.success("User created successfully");
-            setIsCreateModalOpen(false);
-            fetchUsers(currentPage);
-            return true;
+            await navigate({
+                to: "/master/user"
+            });
         } else {
             toast.error(result.message || "Failed to create user");
             return false;
         }
     };
 
-    const handleOpenEditModal = (user) => {
-        setSelectedUser(user);
-        setFormData({
-            name: user.name,
-        });
-        setIsEditModalOpen(true);
-    };
-
-    const handleEdit = async () => {
-        if (!formData.name.trim()) {
-            toast.error("User name is required");
-            return;
-        }
-
-        const result = await updateUser(selectedUser.id, formData);
+    const handleEdit = async (id, data) => {
+        console.log();
+        const result = await updateUser(id, data);
         if (result.success) {
             toast.success("User updated successfully");
-            setIsEditModalOpen(false);
-            fetchUsers(currentPage);
+            await fetchUsers(currentPage);
+            await navigate({
+                to: "/master/user"
+            });
             return true;
         } else {
             toast.error(result.message || "Failed to update user");
             return false;
         }
-    };
-
-    const handleOpenDeleteModal = (user) => {
-        setSelectedUser(user);
-        setIsDeleteModalOpen(true);
     };
 
     const handleDelete = async () => {
@@ -101,24 +81,24 @@ export const useUserCrud = () => {
         }
     };
 
+
+    const handleOpenDeleteModal = (user) => {
+        setSelectedUser(user);
+        setIsDeleteModalOpen(true);
+    };
+
     return {
         currentPage,
         setCurrentPage,
-        isCreateModalOpen,
-        setIsCreateModalOpen,
-        isEditModalOpen,
-        setIsEditModalOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         selectedUser,
         formData,
+        handleOpenDeleteModal,
         setFormData,
         columns,
-        handleOpenCreateModal,
         handleCreate,
-        handleOpenEditModal,
         handleEdit,
-        handleOpenDeleteModal,
         handleDelete,
         handlePageChange,
         handleSearch
