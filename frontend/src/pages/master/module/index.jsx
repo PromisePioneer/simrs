@@ -21,13 +21,14 @@ function ModulePage() {
         }
     };
 
+
     return (
         <Layout>
             <div className="container mx-auto p-4">
-                <ModuleDragDropMenu
+                {moduleData && <ModuleDragDropMenu
                     initialModules={moduleData}
                     onSave={handleSave}
-                />
+                />}
             </div>
         </Layout>
     )

@@ -93,10 +93,10 @@ export const useRoleStore = create((set, get) => ({
             });
         }
     },
-    createRole: async (roleData) => {
+    createRole: async (data) => {
         set({isLoading: true, error: null});
         try {
-            await apiCall.post("/api/v1/roles", roleData);
+            await apiCall.post("/api/v1/roles", data);
             set({isLoading: false, error: null});
             return {success: true};
         } catch (e) {
@@ -109,10 +109,10 @@ export const useRoleStore = create((set, get) => ({
         }
     },
 
-    updateRole: async (uuid, roleData) => {
+    updateRole: async (data) => {
         set({isLoading: true, error: null});
         try {
-            await apiCall.put(`/api/v1/roles/${uuid}`, roleData);
+            await apiCall.put(`/api/v1/roles/${get().roleValue.uuid}`, data);
             set({isLoading: false, error: null});
             return {success: true};
         } catch (e) {

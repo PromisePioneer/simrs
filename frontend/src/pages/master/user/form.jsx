@@ -73,7 +73,6 @@ function UserForm(opts) {
         init();
     }, [id]);
 
-    // Sync form with user data
     useUserFormDataSync(userValue, reset, setPreviewImage, setPreviewSignature);
 
     // Form submission

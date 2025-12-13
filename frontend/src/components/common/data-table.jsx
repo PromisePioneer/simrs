@@ -31,7 +31,6 @@ function DataTable({
     const [currentPage, setCurrentPage] = useState(1);
     const [searchInput, setSearchInput] = useState("");
 
-    // Debounce search input
     useEffect(() => {
         if (!onSearch) return;
 

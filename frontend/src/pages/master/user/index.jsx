@@ -110,7 +110,7 @@ function UserPage() {
             <TableCell>
                 {user.address ? (
                     <div className="flex items-start gap-2 text-sm max-w-[250px]">
-                        <MapPin className="h-3.5 w-3.5 text-muted-foreground mt-0.5 flex-shrink-0"/>
+                        <MapPin className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0"/>
                         <span className="line-clamp-2 text-muted-foreground">{user.address}</span>
                     </div>
                 ) : (
@@ -168,7 +168,6 @@ function UserPage() {
                     columns={columns()}
                     data={userData?.data}
                     isLoading={isLoading}
-                    currentPage={currentPage}
                     pagination={userData ? {
                         from: userData.from,
                         to: userData.to,

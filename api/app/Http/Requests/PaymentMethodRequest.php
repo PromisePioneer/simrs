@@ -28,4 +28,14 @@ class PaymentMethodRequest extends FormRequest
             'name' => ['required', 'string', Rule::unique('payment_methods', 'name')->ignore($this->route('paymentMethod'))],
         ];
     }
+
+
+    public function messages(): array
+    {
+        return [
+            'payment_method_type_id.required' => 'Jenis metode pembayaran wajib diisi.',
+            'name.required' => 'Nama metode pembayaran wajib diisi.',
+            'name.unique' => 'Nama metode pembayaran sudah terdaftar.',
+        ];
+    }
 }

@@ -1,5 +1,5 @@
 import Layout from "@/pages/dashboard/layout.jsx";
-import {useEffect, useState, useMemo, useCallback} from "react";
+import {useEffect, useMemo} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {useRole} from "@/hooks/use-role.js";
 import {Button} from "@/components/ui/button.jsx";
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
+import {useForm} from "react-hook-form";
 
 function RolePage() {
     const {
@@ -30,32 +31,26 @@ function RolePage() {
         roleValue,
     } = useRoleStore();
 
-
     const {
         isModalLoading,
         permissionSearch,
         selectedPermissions,
+        isModalFormOpen,
+        setIsModalFormOpen,
         setSelectedPermissions,
         isPermissionModalOpen,
         setIsPermissionModalOpen,
-        isCreateModalOpen,
-        setIsCreateModalOpen,
-        isEditModalOpen,
-        setIsEditModalOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         selectedRole,
-        formData,
-        setFormData,
         currentPage,
 
         handlePermissionSearch,
         handleAssignPermissions,
         handleSearch,
         handlePageChange,
-        handleOpenCreateModal,
+        handleOpenModalForm,
         handleCreate,
-        handleOpenEditModal,
         handleEdit,
         handleOpenDeleteModal,
         handleDelete,
@@ -63,6 +58,29 @@ function RolePage() {
         handlePermissionToggle
     } = useRole();
 
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {errors, isSubmitting}
+    } = useForm({
+        mode: "all",
+        reValidateMode: "onChange",
+        defaultValues: {
+            name: ""
+        }
+    });
+
+
+    useEffect(() => {
+        if (roleValue) {
+            reset({
+                name: roleValue.name || ""
+            });
+        } else {
+            reset();
+        }
+    }, [roleValue, reset]);
 
     useEffect(() => {
         if (isPermissionModalOpen && roleValue?.permissions) {
@@ -75,6 +93,7 @@ function RolePage() {
         fetchRoles({page: currentPage, perPage: 20});
         fetchPermissions();
     }, [currentPage, search]);
+
 
     const filteredPermissions = useMemo(() => {
         if (!permissionsData) return [];
@@ -91,6 +110,14 @@ function RolePage() {
         {header: "Created At", className: "w-[150px]"},
         {header: "Actions", className: "w-[180px] text-right"},
     ];
+
+    const onSubmit = async (data) => {
+        if (!roleValue) {
+            await handleCreate(data);
+        } else {
+            await handleEdit(data);
+        }
+    };
 
     const renderRow = (role, index) => {
         const isGlobalRole = role.tenant_id === null;
@@ -165,57 +192,56 @@ function RolePage() {
                                 <TooltipContent>
                                     <p>Assign Permissions</p>
                                 </TooltipContent>
-
                             </Tooltip>
 
-                            {canModify && (
-                                <>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                                onClick={() => handleOpenEditModal(role)}
-                                            >
-                                                <Pencil className="h-4 w-4"/>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Edit Role</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                                onClick={() => handleOpenDeleteModal(role)}
-                                            >
-                                                <Trash2 className="h-4 w-4"/>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Delete Role</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </>
-                            )}
-
-                            {!canModify && (
+                            {/*{canModify && (*/}
+                            <>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <div className="flex items-center justify-center h-9 px-3">
-                                            <Lock className="h-4 w-4 text-muted-foreground"/>
-                                        </div>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                            onClick={() => handleOpenModalForm(role)}
+                                        >
+                                            <Pencil className="h-4 w-4"/>
+                                        </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>System roles cannot be modified</p>
+                                        <p>Edit Role</p>
                                     </TooltipContent>
                                 </Tooltip>
-                            )}
+
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                            onClick={() => handleOpenDeleteModal(role)}
+                                        >
+                                            <Trash2 className="h-4 w-4"/>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Delete Role</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </>
+                            {/*)}*/}
+
+                            {/*{!canModify && (*/}
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center justify-center h-9 px-3">
+                                        <Lock className="h-4 w-4 text-muted-foreground"/>
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>System roles cannot be modified</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            {/*)}*/}
                         </TooltipProvider>
                     </div>
                 </TableCell>
@@ -246,7 +272,7 @@ function RolePage() {
                     </div>
                     <Button
                         className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={handleOpenCreateModal}
+                        onClick={() => handleOpenModalForm()}
                         size="lg"
                     >
                         <Plus className="w-4 h-4"/>
@@ -369,61 +395,37 @@ function RolePage() {
 
                 {/* Create Modal */}
                 <Modal
-                    open={isCreateModalOpen}
-                    onOpenChange={setIsCreateModalOpen}
+                    open={isModalFormOpen}
+                    onOpenChange={setIsModalFormOpen}
                     title="Create New Role"
                     description="Add a new role with specific permissions to your system"
-                    onSubmit={handleCreate}
+                    onSubmit={handleSubmit(onSubmit)}
                     submitText="Create Role"
                     isLoading={isLoading}
                 >
-                    <div className="space-y-5 py-2">
-                        <div className="space-y-2.5">
-                            <Label htmlFor="name" className="text-sm font-semibold">
-                                Role Name <span className="text-destructive">*</span>
-                            </Label>
-                            <Input
-                                id="name"
-                                placeholder="e.g., Content Manager"
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                required
-                                className="h-11"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                Choose a descriptive name for this role
+                    <div className="space-y-2.5">
+                        <Label htmlFor="name" className="text-sm font-semibold">
+                            Role Name <span className="text-destructive">*</span>
+                        </Label>
+                        <Input
+                            id="name"
+                            name="name"
+                            placeholder="e.g., Content Manager"
+                            {...register("name", {
+                                required: "Nama tidak boleh kosong",
+                            })}
+                            className="h-11"
+                        />
+                        {errors.name && (
+                            <p className="text-xs text-destructive">
+                                {errors.name.message}
                             </p>
-                        </div>
+                        )}
+                        <p className="text-xs text-muted-foreground">
+                            Choose a descriptive name for this role
+                        </p>
                     </div>
                 </Modal>
-
-                {/* Edit Modal */}
-                <Modal
-                    open={isEditModalOpen}
-                    onOpenChange={setIsEditModalOpen}
-                    title="Edit Role"
-                    description={`Update details for: ${selectedRole?.name}`}
-                    onSubmit={() => handleEdit(currentPage)}
-                    submitText="Update Role"
-                    isLoading={isLoading}
-                >
-                    <div className="space-y-5 py-2">
-                        <div className="space-y-2.5">
-                            <Label htmlFor="edit-name" className="text-sm font-semibold">
-                                Role Name <span className="text-destructive">*</span>
-                            </Label>
-                            <Input
-                                id="edit-name"
-                                placeholder="e.g., Content Manager"
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                required
-                                className="h-11"
-                            />
-                        </div>
-                    </div>
-                </Modal>
-
                 {/* Delete Modal */}
                 <Modal
                     open={isDeleteModalOpen}

@@ -1,12 +1,11 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useState} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {toast} from "sonner";
 
 export const useRole = () => {
     const {setSearch, createRole, updateRole, deleteRole, fetchRoles, assignPermissions, showRole} = useRoleStore();
 
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isModalFormOpen, setIsModalFormOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState(null);
     const [formData, setFormData] = useState({
@@ -18,22 +17,19 @@ export const useRole = () => {
     const [permissionSearch, setPermissionSearch] = useState("");
     const [isModalLoading, setIsModalLoading] = useState(false);
 
-    const handleOpenCreateModal = () => {
-        setFormData({name: ""});
-        setIsCreateModalOpen(true);
+    const handleOpenModalForm = async (role = null) => {
+        if (role) {
+            await showRole(role.uuid);
+        }
+        setIsModalFormOpen(true);
     };
 
-    const handleCreate = async () => {
-        if (!formData.name.trim()) {
-            toast.error("role name is required");
-            return;
-        }
-
-        const result = await createRole(formData);
+    const handleCreate = async (data) => {
+        const result = await createRole(data);
         if (result.success) {
             toast.success("role created successfully");
-            setIsCreateModalOpen(false);
-            await fetchRoles(1);
+            setIsModalFormOpen(false);
+            await fetchRoles({page: 1, perPage: 20});
             return true;
         } else {
             toast.error(result.message || "Failed to create role");
@@ -41,27 +37,12 @@ export const useRole = () => {
         }
     };
 
-    const handleOpenEditModal = (role) => {
-        setSelectedRole(role);
-        setFormData({
-            name: role.name,
-        });
-        setIsEditModalOpen(true);
-    };
-
-    const handleEdit = async (currentPage) => {
-        if (!formData.name.trim()) {
-            toast.error("role name is required");
-            return;
-        }
-
-        console.log(selectedRole.uuid);
-
-        const result = await updateRole(selectedRole.uuid, formData);
+    const handleEdit = async (data) => {
+        const result = await updateRole(data);
         if (result.success) {
             toast.success("role updated successfully");
-            setIsEditModalOpen(false);
-            await fetchRoles(currentPage);
+            setIsModalFormOpen(false);
+            await fetchRoles({page: 1, perPage: 20});
             return true;
         } else {
             toast.error(result.message || "Failed to update role");
@@ -156,10 +137,8 @@ export const useRole = () => {
         setSelectedPermissions,
         isPermissionModalOpen,
         setIsPermissionModalOpen,
-        isCreateModalOpen,
-        setIsCreateModalOpen,
-        isEditModalOpen,
-        setIsEditModalOpen,
+        isModalFormOpen,
+        setIsModalFormOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         setSelectedRole,
@@ -173,9 +152,8 @@ export const useRole = () => {
         handleAssignPermissions,
         handleSearch,
         handlePageChange,
-        handleOpenCreateModal,
+        handleOpenModalForm,
         handleCreate,
-        handleOpenEditModal,
         handleEdit,
         handleOpenDeleteModal,
         handleDelete,
