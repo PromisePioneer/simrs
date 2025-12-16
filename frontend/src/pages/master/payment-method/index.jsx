@@ -2,64 +2,51 @@ import Layout from "@/pages/dashboard/layout.jsx";
 import {usePaymentMethodStore} from "@/store/usePaymentMethodStore";
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button.jsx";
-import {Pencil, Plus, Trash2, CreditCard, ChevronsUpDown, Check, Calendar as CalendarIcon} from "lucide-react";
+import {Pencil, Plus, Trash2, CreditCard, ChevronsUpDown, Check,} from "lucide-react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import DataTable from "@/components/common/data-table.jsx";
 import Modal from "@/components/common/modal.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {usePaymentMethod} from "@/hooks/use-payment-method.js";
 import {Controller, useForm} from "react-hook-form";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.jsx";
 import {cn} from "@/lib/utils.js";
-import {format} from "date-fns";
-import {Calendar} from "@/components/ui/calendar.jsx";
 
 function PaymentMethodPage() {
     const {
         paymentMethodLoading,
-        paymentMethodTypeLoading,
-        submitLoading,
-        fetchPaymentMethodType,
         paymentMethodTypes,
+        paymentMethodValue,
         fetchPaymentMethods,
+        fetchPaymentMethodType,
         paymentMethods,
+        setPaymentMethodValue,
+        createPaymentMethod,
+        updatePaymentMethod,
+        openModal,
+        setOpenModal,
+        openDeleteModal,
+        setOpenDeleteModal,
+        setSearch,
+        search,
+        currentPage,
+        setCurrentPage,
+        deletePaymentMethod,
+        columns,
     } = usePaymentMethodStore();
 
-    const {
-        isModalLoading,
-        isModalFormOpen,
-        setIsModalFormOpen,
-        isDeleteModalOpen,
-        setIsDeleteModalOpen,
-        setSelectedRole,
-        selectedRole,
-        columns,
-        currentPage,
-
-
-        handlePageChange,
-        handleOpenModalForm,
-        handleCreate,
-        handleEdit,
-        handleOpenDeleteModal,
-        handleSearch,
-        handleDelete,
-    } = usePaymentMethod();
-
     useEffect(() => {
-        fetchPaymentMethods({page: currentPage, perPage: 20});
-    }, [currentPage]);
+        fetchPaymentMethods({perPage: 20, search});
+        fetchPaymentMethodType();
+    }, [currentPage, search]);
 
     // form
     const {
         register,
         handleSubmit,
         control,
-        watch,
-        setValue,
         reset,
         formState: {errors, isSubmitting}
     } = useForm({
@@ -71,9 +58,38 @@ function PaymentMethodPage() {
         }
     });
 
+    useEffect(() => {
+        if (paymentMethodValue && !openDeleteModal) {
+            reset({
+                name: paymentMethodValue.name || "",
+                payment_method_type_id: paymentMethodValue.payment_method_type_id || ""
+            })
+        } else {
+            reset({
+                name: "",
+                payment_method_type_id: ""
+            });
+        }
+    }, [paymentMethodValue, reset]);
+
+    useEffect(() => {
+        if (!openModal) {
+            reset({
+                name: "",
+                payment_method_type_id: ""
+            });
+            if (setPaymentMethodValue) {
+                setPaymentMethodValue(null);
+            }
+        }
+    }, [openModal, reset]);
 
     const onSubmit = async (data) => {
-        await handleCreate(data);
+        if (paymentMethodValue) {
+            await updatePaymentMethod(paymentMethodValue.id, data);
+        } else {
+            await createPaymentMethod(data);
+        }
     };
 
 
@@ -113,7 +129,7 @@ function PaymentMethodPage() {
                                         variant="ghost"
                                         size="sm"
                                         className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        onClick={() => handleOpenModalForm(paymentMethod)}>
+                                        onClick={() => setOpenModal(true, paymentMethod.id)}>
                                         <Pencil className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
@@ -127,7 +143,7 @@ function PaymentMethodPage() {
                                         variant="ghost"
                                         size="sm"
                                         className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                        onClick={() => handleOpenDeleteModal(paymentMethod)}>
+                                        onClick={() => setOpenDeleteModal(true, paymentMethod.id)}>
                                         <Trash2 className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
@@ -145,17 +161,16 @@ function PaymentMethodPage() {
     return (
         <Layout>
             <div className="space-y-6 p-6">
-                {/* Header Section */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
                     <div className="space-y-1">
                         <div className="flex items-center gap-3">
                             <div
                                 className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
-                                <CreditCard className="w-6 h-6 text-primary"/> {/* Changed icon */}
+                                <CreditCard className="w-6 h-6 text-primary"/>
                             </div>
                             <div>
                                 <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                    Payment Method Management
+                                    Metode pembayaran
                                 </h1>
                                 <p className="text-sm text-muted-foreground mt-1">
                                     Metode pembayaran sistem
@@ -165,11 +180,11 @@ function PaymentMethodPage() {
                     </div>
                     <Button
                         className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={handleOpenModalForm}
+                        onClick={() => setOpenModal(true)}
                         size="lg"
                     >
                         <Plus className="w-4 h-4"/>
-                        Add New Payment Method
+                        Tambah Metode Pembayaran
                     </Button>
                 </div>
 
@@ -187,8 +202,10 @@ function PaymentMethodPage() {
                         current_page: paymentMethods.current_page,
                         last_page: paymentMethods.last_page
                     } : null}
-                    onPageChange={handlePageChange}
-                    onSearch={handleSearch}
+                    onPageChange={setCurrentPage}
+                    currentPage={currentPage}
+                    onSearch={setSearch}
+                    search={search}
                     searchPlaceholder="Search payment methods..."
                     emptyStateIcon={CreditCard}
                     emptyStateText="No payment methods found"
@@ -197,13 +214,13 @@ function PaymentMethodPage() {
                 />
 
                 <Modal
-                    open={isModalFormOpen}
-                    onOpenChange={setIsModalFormOpen}
-                    title="Create New Payment Method"
-                    description="Add a new payment method to your system"
+                    open={openModal}
+                    onOpenChange={setOpenModal}
+                    title={paymentMethodValue ? "Edit Payment Method" : "Create New Payment Method"}
+                    description={paymentMethodValue ? "Update payment method information" : "Add a new payment method to your system"}
                     onSubmit={handleSubmit(onSubmit)}
-                    submitText="Create Payment Method"
-                    isLoading={submitLoading}
+                    submitText={paymentMethodValue ? "Update Payment Method" : "Create Payment Method"}
+                    isLoading={isSubmitting}
                 >
                     <div className="space-y-5 py-2">
                         <div className="space-y-2.5">
@@ -247,7 +264,7 @@ function PaymentMethodPage() {
                                                 >
                                                     {field.value
                                                         ? paymentMethodTypes.find((str) => str.id === field.value)?.name
-                                                        : "Pilih lembaga..."}
+                                                        : "Pilih tipe metode pembayaran..."}
                                                     <ChevronsUpDown className="opacity-50"/>
                                                 </Button>
                                             </PopoverTrigger>
@@ -291,11 +308,11 @@ function PaymentMethodPage() {
                 </Modal>
 
                 <Modal
-                    open={isDeleteModalOpen}
-                    onOpenChange={setIsDeleteModalOpen}
+                    open={openDeleteModal}
+                    onOpenChange={setOpenDeleteModal}
                     title="Delete Payment Method"
                     description="This action cannot be undone. This will permanently delete the payment method."
-                    onSubmit={() => handleDelete(currentPage)}
+                    onSubmit={() => deletePaymentMethod(currentPage)}
                     submitText="Delete Payment Method"
                     type="danger"
                     isLoading={paymentMethodLoading}
@@ -316,7 +333,7 @@ function PaymentMethodPage() {
                                     <p className="text-sm text-muted-foreground">
                                         You are about to delete the payment method:{" "}
                                         <span className="font-semibold text-foreground">
-                                            {selectedRole?.name}
+                                            {paymentMethodValue?.name}
                                         </span>
                                     </p>
                                 </div>

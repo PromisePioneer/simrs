@@ -4,6 +4,7 @@ namespace App\Services\Master\General\PaymentMethod\Repository;
 
 use App\Models\PaymentMethod;
 use App\Services\Master\General\PaymentMethod\Interface\PaymentMethodRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 {
@@ -20,8 +21,8 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
         if (!empty($filters['search'])) {
             $query->whereHas('paymentMethodType', function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['search'] . '%');
-            })->orWhere('name', 'like', '%' . $filters['search'] . '%');
+                $query->where(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%');
+            })->orWhere(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {
@@ -41,7 +42,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update(string $id, array $data = []): ?object
+    public function update(string $id, array $data): ?object
     {
         $paymentMethods = $this->model->findOrFail($id);
         $paymentMethods->fill($data);

@@ -7,6 +7,7 @@ use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use App\Services\Master\General\PaymentMethod\Service\PaymentMethodService;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,9 @@ class PaymentMethodController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(PaymentMethodRequest $request): JsonResponse
     {
         $this->authorize('create', PaymentMethod::class);
@@ -37,6 +41,9 @@ class PaymentMethodController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(PaymentMethod $paymentMethod): JsonResponse
     {
         $this->authorize('view', $paymentMethod);
@@ -44,6 +51,9 @@ class PaymentMethodController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(PaymentMethodRequest $request, PaymentMethod $paymentMethod): JsonResponse
     {
         $this->authorize('update', $paymentMethod);
@@ -52,6 +62,9 @@ class PaymentMethodController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(PaymentMethod $paymentMethod): JsonResponse
     {
         $this->authorize('delete', $paymentMethod);

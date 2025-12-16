@@ -13,6 +13,8 @@ class PaymentMethod extends Model
     /** @use HasFactory<PaymentMethodFactory> */
     use HasFactory, HasUuids;
 
+    protected $primaryKey = 'id';
+
     protected $table = 'payment_methods';
     protected $fillable = [
         'name',

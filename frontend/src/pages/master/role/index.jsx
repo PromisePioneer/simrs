@@ -194,54 +194,54 @@ function RolePage() {
                                 </TooltipContent>
                             </Tooltip>
 
-                            {/*{canModify && (*/}
-                            <>
+                            {canModify && (
+                                <>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                                onClick={() => handleOpenModalForm(role)}
+                                            >
+                                                <Pencil className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Edit Role</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                                onClick={() => handleOpenDeleteModal(role)}
+                                            >
+                                                <Trash2 className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Delete Role</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </>
+                            )}
+
+                            {!canModify && (
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => handleOpenModalForm(role)}
-                                        >
-                                            <Pencil className="h-4 w-4"/>
-                                        </Button>
+                                        <div className="flex items-center justify-center h-9 px-3">
+                                            <Lock className="h-4 w-4 text-muted-foreground"/>
+                                        </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>Edit Role</p>
+                                        <p>System roles cannot be modified</p>
                                     </TooltipContent>
                                 </Tooltip>
-
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => handleOpenDeleteModal(role)}
-                                        >
-                                            <Trash2 className="h-4 w-4"/>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Delete Role</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </>
-                            {/*)}*/}
-
-                            {/*{!canModify && (*/}
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div className="flex items-center justify-center h-9 px-3">
-                                        <Lock className="h-4 w-4 text-muted-foreground"/>
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>System roles cannot be modified</p>
-                                </TooltipContent>
-                            </Tooltip>
-                            {/*)}*/}
+                            )}
                         </TooltipProvider>
                     </div>
                 </TableCell>

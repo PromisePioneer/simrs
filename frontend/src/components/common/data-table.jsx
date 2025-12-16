@@ -21,40 +21,15 @@ function DataTable({
                        isLoading,
                        pagination,
                        onPageChange,
+                       currentPage,
                        onSearch,
+                       search,
                        searchPlaceholder = "Search...",
                        emptyStateIcon: EmptyIcon,
                        emptyStateText = "No data found",
                        renderRow,
                        showSearch = true
                    }) {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchInput, setSearchInput] = useState("");
-
-    useEffect(() => {
-        if (!onSearch) return;
-
-        const delaySearch = setTimeout(() => {
-            onSearch(searchInput);
-            if (currentPage !== 1) {
-                setCurrentPage(1);
-            }
-        }, 500);
-
-        return () => clearTimeout(delaySearch);
-    }, [searchInput]);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        if (onPageChange) {
-            onPageChange(page);
-        }
-    };
-
-    const handleClearSearch = () => {
-        setSearchInput("");
-    };
-
     return (
         <Card className="mt-4">
             <CardHeader>
@@ -73,13 +48,13 @@ function DataTable({
                             <Input
                                 type="text"
                                 placeholder={searchPlaceholder}
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
+                                value={search}
+                                onChange={(e) => onSearch(e.target.value)}
                                 className="pl-10 pr-10"
                             />
-                            {searchInput && (
+                            {search && (
                                 <button
-                                    onClick={handleClearSearch}
+                                    // onClick={handleClearSearch}
                                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                 >
                                     <X className="h-4 w-4"/>
@@ -121,8 +96,8 @@ function DataTable({
                                         <div className="flex flex-col items-center gap-2 text-muted-foreground">
                                             {EmptyIcon && <EmptyIcon className="h-8 w-8"/>}
                                             <span>
-                                                {searchInput
-                                                    ? `${emptyStateText} untuk "${searchInput}"`
+                                                {search
+                                                    ? `${emptyStateText} untuk "${search}"`
                                                     : emptyStateText
                                                 }
                                             </span>
@@ -145,7 +120,7 @@ function DataTable({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handlePageChange(1)}
+                                onClick={() => onPageChange(1)}
                                 disabled={currentPage === 1}
                                 className="h-8 w-8 p-0"
                             >
@@ -155,7 +130,7 @@ function DataTable({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handlePageChange(currentPage - 1)}
+                                onClick={() => onPageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
                                 className="h-8 w-8 p-0"
                             >
@@ -180,7 +155,7 @@ function DataTable({
                                                 <Button
                                                     variant={currentPage === page ? "default" : "outline"}
                                                     size="sm"
-                                                    onClick={() => handlePageChange(page)}
+                                                    onClick={() => onPageChange(page)}
                                                     className="h-8 w-8 p-0"
                                                 >
                                                     {page}
@@ -193,7 +168,7 @@ function DataTable({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handlePageChange(currentPage + 1)}
+                                onClick={() => onPageChange(currentPage + 1)}
                                 disabled={currentPage === pagination.last_page}
                                 className="h-8 w-8 p-0"
                             >
@@ -203,7 +178,7 @@ function DataTable({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handlePageChange(pagination.last_page)}
+                                onClick={() => onPageChange(pagination.last_page)}
                                 disabled={currentPage === pagination.last_page}
                                 className="h-8 w-8 p-0"
                             >

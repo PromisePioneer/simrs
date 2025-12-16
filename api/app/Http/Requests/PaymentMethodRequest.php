@@ -23,9 +23,14 @@ class PaymentMethodRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'payment_method_type_id' => ['required', 'string', Rule::exists('payment_method_types', 'id')],
-            'name' => ['required', 'string', Rule::unique('payment_methods', 'name')->ignore($this->route('paymentMethod'))],
+            'name' => [
+                'required',
+                Rule::unique('payment_methods', 'name')
+                    ->ignore($this->route('payment_method'))
+            ],
         ];
     }
 
