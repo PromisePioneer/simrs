@@ -131,6 +131,7 @@ export const usePaymentMethodStore = create((set, get) => ({
         try {
             await apiCall.put(`/api/v1/payment-methods/${id}`, data);
             toast.success("Berhasil menyimpan perubahan.");
+            await get().fetchPaymentMethods({perPage: 20});
             set({error: null, openModal: false});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");

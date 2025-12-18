@@ -4,6 +4,7 @@ namespace App\Services\Master\General\Degree\Repository;
 
 use App\Models\Degree;
 use App\Services\Master\General\Degree\Interface\DegreeRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class DegreeRepository implements DegreeRepositoryInterface
 {
@@ -22,7 +23,8 @@ class DegreeRepository implements DegreeRepositoryInterface
         }
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%')
+                ->orWhere(DB::raw('LOWER(type)'), 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {

@@ -7,6 +7,7 @@ use App\Http\Requests\DegreeRequest;
 use App\Models\Degree;
 use App\Services\Master\General\Degree\Service\DegreeService;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,9 @@ class DegreeController extends Controller
         $this->degreeService = new DegreeService();
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index(Request $request): JsonResponse
     {
         $this->authorize('view', Degree::class);
@@ -30,6 +34,9 @@ class DegreeController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(DegreeRequest $request): JsonResponse
     {
         $this->authorize('create', Degree::class);
@@ -38,6 +45,9 @@ class DegreeController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(Degree $degree): JsonResponse
     {
         $this->authorize('view', $degree);
@@ -45,6 +55,9 @@ class DegreeController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(DegreeRequest $request, Degree $degree): JsonResponse
     {
         $this->authorize('update', $degree);
@@ -53,6 +66,9 @@ class DegreeController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Degree $degree): JsonResponse
     {
         $this->authorize('update', Degree::class);

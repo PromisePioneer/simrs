@@ -36,7 +36,7 @@ class DegreeService
     public function update(DegreeRequest $request, Degree $degree): object
     {
         $data = $request->validated();
-        return $this->degreeRepository->update($data, $degree->id);
+        return $this->degreeRepository->update($degree->id, $data);
     }
 
 
