@@ -4,6 +4,7 @@ namespace App\Services\Master\General\RegistrationInstitution\Repository;
 
 use App\Models\RegistrationInstitution;
 use App\Services\Master\General\RegistrationInstitution\Interface\RegistrationInstitutionRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationInstitutionRepository implements RegistrationInstitutionRepositoryInterface
 {
@@ -21,7 +22,8 @@ class RegistrationInstitutionRepository implements RegistrationInstitutionReposi
         $query = $this->model->orderBy('name');
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where(DB::raw('LOWER(name)'), 'like', '%' . $filters['search'] . '%')
+                ->orWhere(DB::raw('LOWER(type)'), 'like', '%' . $filters['search'] . '%');
         }
 
 

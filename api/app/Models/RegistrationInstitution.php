@@ -12,6 +12,9 @@ class RegistrationInstitution extends Model
     /** @use HasFactory<RegistrationInstitutionFactory> */
     use HasUuids, HasFactory;
 
+
+    protected $primaryKey = 'id';
+
     protected $table = 'registration_institutions';
     protected $fillable = [
         'name',

@@ -14,37 +14,27 @@ import Modal from "@/components/common/modal.jsx";
 import {useUserCrud} from "@/hooks/useUserCrud.js";
 
 function UserPage() {
-    const {fetchUsers, isLoading, userData, search} = useUserStore();
+    const {fetchUsers, isLoading, userData, search, columns, currentPage, setCurrentPage} = useUserStore();
+
     const {
-        currentPage,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
         selectedUser,
         handleOpenDeleteModal,
         handleDelete,
         handleSearch,
-        handlePageChange,
     } = useUserCrud();
 
 
     useEffect(() => {
-        fetchUsers({page: currentPage, search});
-    }, [currentPage, search]);
+        fetchUsers({perPage: 20});
+    }, [search]);
     const getRoleBadgeVariant = (roleName) => {
         const role = roleName?.toLowerCase();
         if (role?.includes('super admin')) return 'destructive';
         if (role?.includes('owner')) return 'de+fault';
         return 'outline';
     };
-
-    const columns = () => [
-        {header: "No", className: "w-[60px]"},
-        {header: "User", className: "min-w-[280px]"},
-        {header: "Role", className: "w-[140px]"},
-        {header: "Telepon", className: "min-w-[200px]"},
-        {header: "Alamat", className: "min-w-[200px]"},
-        {header: "Actions", className: "text-right w-[120px]"},
-    ];
 
     const renderRow = (user, index) => (
         <TableRow key={user.id} className="group hover:bg-muted/50 transition-colors">
@@ -175,7 +165,8 @@ function UserPage() {
                         current_page: userData.current_page,
                         last_page: userData.last_page
                     } : null}
-                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    onPageChange={setCurrentPage}
                     onSearch={handleSearch}
                     searchPlaceholder="Search users by name or email..."
                     emptyStateIcon={Shield}

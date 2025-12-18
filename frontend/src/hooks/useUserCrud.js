@@ -14,16 +14,7 @@ export const useUserCrud = () => {
 
     const navigate = useNavigate();
 
-    const columns = () => {
-        return [
-            {header: "No", className: "w-[80px]"},
-            {header: "Nama", className: ""},
-            {header: "role", className: ""},
-            {header: "Telepon", className: ""},
-            {header: "Alamat", className: ""},
-            {header: "Actions", className: "text-right"},
-        ];
-    }
+
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -96,7 +87,6 @@ export const useUserCrud = () => {
         formData,
         handleOpenDeleteModal,
         setFormData,
-        columns,
         handleCreate,
         handleEdit,
         handleDelete,

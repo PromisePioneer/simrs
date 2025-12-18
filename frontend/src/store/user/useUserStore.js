@@ -8,18 +8,37 @@ export const useUserStore = create((set, get) => ({
     userData: null,
     search: "",
     userValue: null,
+    currentPage: 1,
+    columns: () => {
+        return [
+            {header: "No", className: "w-[60px]"},
+            {header: "User", className: "min-w-[280px]"},
+            {header: "Role", className: "w-[140px]"},
+            {header: "Telepon", className: "min-w-[200px]"},
+            {header: "Alamat", className: "min-w-[200px]"},
+            {header: "Actions", className: "text-right w-[120px]"},
+        ];
+    },
+    setCurrentPage: (page) => {
+        set({currentPage: page});
+    },
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
-    fetchUsers: async ({page = 1, search = ""} = {}) => {
+    fetchUsers: async ({perPage = null} = {}) => {
         set({isLoading: true, error: null});
 
         try {
+
             const params = {
-                page,
-                per_page: 20,
+                page: get().currentPage,
             };
 
+            if (perPage) {
+                params.per_page = perPage;
+            }
+
+            const {search} = get();
             if (search.trim() !== "") {
                 params.search = search.trim();
             }

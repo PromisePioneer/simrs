@@ -63,7 +63,7 @@ class RegistrationInstitutionController extends Controller
     public function update(RegistrationInstitutionRequest $request, RegistrationInstitution $registrationInstitution): JsonResponse
     {
         $this->authorize('update', $registrationInstitution);
-        $data = $this->registrationInstitutionService->update($registrationInstitution->id, $request);
+        $data = $this->registrationInstitutionService->update($request, $registrationInstitution->id);
         return $this->successResponse($data, 'Registration institution updated successfully.');
     }
 

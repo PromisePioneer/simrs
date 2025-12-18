@@ -17,6 +17,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedMasterRoleRouteImport } from './routes/_protected/master/role'
 import { Route as ProtectedMasterUserIndexRouteImport } from './routes/_protected/master/user/index'
+import { Route as ProtectedMasterRegistrationInstitutionsIndexRouteImport } from './routes/_protected/master/registration-institutions/index'
 import { Route as ProtectedMasterPaymentMethodIndexRouteImport } from './routes/_protected/master/payment-method/index'
 import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
 import { Route as ProtectedMasterUserCreateRouteImport } from './routes/_protected/master/user/create'
@@ -62,6 +63,12 @@ const ProtectedMasterUserIndexRoute =
     path: '/master/user/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedMasterRegistrationInstitutionsIndexRoute =
+  ProtectedMasterRegistrationInstitutionsIndexRouteImport.update({
+    id: '/master/registration-institutions/',
+    path: '/master/registration-institutions/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedMasterPaymentMethodIndexRoute =
   ProtectedMasterPaymentMethodIndexRouteImport.update({
     id: '/master/payment-method/',
@@ -97,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/master/payment-method': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/master/registration-institutions': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRoutesByTo {
@@ -110,6 +118,7 @@ export interface FileRoutesByTo {
   '/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/master/payment-method': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/master/registration-institutions': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRoutesById {
@@ -125,6 +134,7 @@ export interface FileRoutesById {
   '/_protected/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
   '/_protected/master/payment-method/': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/_protected/master/registration-institutions/': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/_protected/master/user/': typeof ProtectedMasterUserIndexRoute
 }
 export interface FileRouteTypes {
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/master/user/create'
     | '/master/module'
     | '/master/payment-method'
+    | '/master/registration-institutions'
     | '/master/user'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/master/user/create'
     | '/master/module'
     | '/master/payment-method'
+    | '/master/registration-institutions'
     | '/master/user'
   id:
     | '__root__'
@@ -167,6 +179,7 @@ export interface FileRouteTypes {
     | '/_protected/master/user/create'
     | '/_protected/master/module/'
     | '/_protected/master/payment-method/'
+    | '/_protected/master/registration-institutions/'
     | '/_protected/master/user/'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterUserIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/master/registration-institutions/': {
+      id: '/_protected/master/registration-institutions/'
+      path: '/master/registration-institutions'
+      fullPath: '/master/registration-institutions'
+      preLoaderRoute: typeof ProtectedMasterRegistrationInstitutionsIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/master/payment-method/': {
       id: '/_protected/master/payment-method/'
       path: '/master/payment-method'
@@ -274,6 +294,7 @@ interface ProtectedRouteChildren {
   ProtectedMasterUserCreateRoute: typeof ProtectedMasterUserCreateRoute
   ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
   ProtectedMasterPaymentMethodIndexRoute: typeof ProtectedMasterPaymentMethodIndexRoute
+  ProtectedMasterRegistrationInstitutionsIndexRoute: typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   ProtectedMasterUserIndexRoute: typeof ProtectedMasterUserIndexRoute
 }
 
@@ -285,6 +306,8 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,
   ProtectedMasterPaymentMethodIndexRoute:
     ProtectedMasterPaymentMethodIndexRoute,
+  ProtectedMasterRegistrationInstitutionsIndexRoute:
+    ProtectedMasterRegistrationInstitutionsIndexRoute,
   ProtectedMasterUserIndexRoute: ProtectedMasterUserIndexRoute,
 }
 
