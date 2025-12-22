@@ -7,12 +7,12 @@ const apiCall = axios.create({
 });
 
 export const asset = (path) => {
-    return `http://localhost:8000/storage/${path}`;
+    return `${import.meta.env.VITE_ASSET_URL}/${path}`;
 };
 
 export const assets = (path) =>
     axios.create({
-        baseURL: `http://localhost:8000/storage/${path}`,
+        baseURL: `${import.meta.env.VITE_ASSET_URL}/${path}`,
         withCredentials: true,
         withXSRFToken: true,
     });
