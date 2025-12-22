@@ -169,30 +169,34 @@ function RolePage() {
                 <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
                         <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div
-                                        className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => handleOpenPermissionModal(role)}
-                                            disabled={isModalLoading}
-                                        >
-                                            {isModalLoading ? (
-                                                <div
-                                                    className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                            ) : (
-                                                <Settings className="h-4 w-4"/>
-                                            )}
-                                        </Button>
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Assign Permissions</p>
-                                </TooltipContent>
-                            </Tooltip>
+                            {
+                                canModify && (
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <div
+                                                className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                                    onClick={() => handleOpenPermissionModal(role)}
+                                                    disabled={isModalLoading}
+                                                >
+                                                    {isModalLoading ? (
+                                                        <div
+                                                            className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                                                    ) : (
+                                                        <Settings className="h-4 w-4"/>
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Assign Permissions</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )
+                            }
 
                             {canModify && (
                                 <>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Patient;
 use App\Models\PatientPaymentMethod;
 use App\Models\PatientAddress;
+use App\Models\PaymentMethod;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -22,7 +23,6 @@ class PatientSeeder extends Seeder
         $genders = ['pria', 'wanita'];
         $religions = ['islam', 'protestan', 'katholik', 'hindu', 'budha', 'konghucu'];
         $bloodTypes = ['a+', 'a-', 'b+', 'b-', 'ab+', 'ab-', 'o+', 'o-'];
-        $paymentMethods = ['cash', 'asuransi', 'perusahaan', 'lainnya', 'bpjs_kesehatan'];
 
         $cities = ['Jakarta', 'Bandung', 'Surabaya', 'Medan', 'Semarang', 'Pekanbaru', 'Yogyakarta'];
         $jobs = ['Karyawan Swasta', 'PNS', 'Wiraswasta', 'Mahasiswa', 'Ibu Rumah Tangga', 'Dokter', 'Guru'];
@@ -41,7 +41,6 @@ class PatientSeeder extends Seeder
             $city = $provinces[$province][array_rand($provinces[$province])];
 
             $patient = Patient::create([
-                'id' => Str::uuid()->toString(),
                 'tenant_id' => $tenantId,
                 'full_name' => $this->generateName($gender),
                 'medical_record_number' => 'MR' . date('Ymd') . str_pad($index, 4, '0', STR_PAD_LEFT),
@@ -58,11 +57,10 @@ class PatientSeeder extends Seeder
                 'profile_picture' => null,
             ]);
 
-            $paymentMethod = $paymentMethods[array_rand($paymentMethods)];
+            $paymentMethod = PaymentMethod::inRandomOrder()->first()->id;
             PatientPaymentMethod::create([
                 'patient_id' => $patient->id,
-                'payment_method' => $paymentMethod,
-                'bpjs_number' => $paymentMethod === 'bpjs_kesehatan' ? '0001' . rand(10000000, 99999999) : null,
+                'payment_method_id' => $paymentMethod,
             ]);
 
             PatientAddress::create([

@@ -46,7 +46,7 @@ class PatientRequest extends FormRequest
                     ->ignore($this->route('patient'))
             ],
             'date_of_consultation' => ['nullable', 'date', 'date_format:Y-m-d'],
-            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'profile_picture' => ['nullable', 'mimes:jpeg,png,jpg', 'max:2048'],
             'payment_methods' => ['required', 'array'],
             'payment_methods.*.payment_method' => ['required', Rule::in(['cash', 'asuransi', 'perusahaan', 'lainnya', 'bpjs_kesehatan'])],
             'addresses' => ['array'],

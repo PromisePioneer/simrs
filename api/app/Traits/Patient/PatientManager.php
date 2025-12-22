@@ -14,9 +14,9 @@ trait PatientManager
         if ($latestMedicalRecordNumber) {
             $number = (int)substr($latestMedicalRecordNumber, 3);
             $number++;
-            return $tenant->code . str_pad($number, 4, '0', STR_PAD_LEFT);
+            return $tenant?->code ?? "EMR-" . str_pad($number, 4, '0', STR_PAD_LEFT);
         }
 
-        return $tenant->code . str_pad(1, 4, '0', STR_PAD_LEFT);
+        return $tenant?->code ?? "EMR-" . str_pad(1, 4, '0', STR_PAD_LEFT);
     }
 }

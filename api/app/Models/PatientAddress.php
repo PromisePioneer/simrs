@@ -11,7 +11,10 @@ class PatientAddress extends Model
 
     use HasUuids;
 
+
+    protected $primaryKey = 'id';
     protected $table = 'patient_address';
+    public $timestamps = false;
 
     protected $fillable = [
         'patient_id',

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TenantSeeder::class,
             PaymentMethodTypeSeeder::class,
             PaymentMethodSeeder::class,
+            PatientSeeder::class,
             RoleSeeder::class,
             DegreeSeeder::class,
             TenantModuleSeeder::class,

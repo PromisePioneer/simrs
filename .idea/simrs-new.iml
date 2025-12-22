@@ -144,6 +144,11 @@
       <excludeFolder url="file://$MODULE_DIR$/api/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/api/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/_laravel_idea" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/bacon/bacon-qr-code" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/dasprid/enum" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/laravel/fortify" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/pragmarx/google2fa" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

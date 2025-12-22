@@ -15,7 +15,6 @@ import {
 
 export default function UserGeneralInfoSection({register, control, errors, isEditMode, roleData}) {
 
-    console.log(roleData);
     return (
         <Card>
             <CardHeader>

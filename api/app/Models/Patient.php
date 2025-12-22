@@ -12,6 +12,7 @@ class Patient extends TenantScopeBaseModel
 {
     use HasUuids, HasFactory;
 
+    protected $primaryKey = 'id';
     protected $table = 'patients';
     protected $fillable = [
         'full_name',

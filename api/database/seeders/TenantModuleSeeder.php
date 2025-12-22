@@ -301,7 +301,7 @@ class TenantModuleSeeder extends Seeder
                 'parent_id' => null,
                 'order' => 9,
                 'icon' => 'Settings',
-                'route' => '/setting',
+                'route' => '/settings',
                 'permissions' => [
                     'Melihat Setting',
                 ]

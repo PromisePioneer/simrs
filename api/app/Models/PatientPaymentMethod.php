@@ -10,7 +10,11 @@ class PatientPaymentMethod extends Model
 {
     use HasUuids;
 
+
+    protected $primaryKey = 'id';
     protected $table = 'patient_payment_methods';
+    public $timestamps = false;
+
     protected $fillable = [
         'patient_id',
         'payment_method',
