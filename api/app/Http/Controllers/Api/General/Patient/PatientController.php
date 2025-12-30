@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\General\Patient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
-use App\Services\Master\General\Patient\PatientService;
+use App\Services\Master\General\Patient\Service\PatientService;
 use App\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -47,12 +47,8 @@ class PatientController extends Controller
     public function show(Patient $patient): JsonResponse
     {
         $patient->load([
-            'paymentMethods' => function ($query) {
-                $query->orderBy('created_at', 'DESC');
-            },
-            'addresses' => function ($query) {
-                $query->orderBy('created_at', 'DESC');
-            }
+            'paymentMethods',
+            'addresses'
         ]);
         return response()->json($patient);
     }

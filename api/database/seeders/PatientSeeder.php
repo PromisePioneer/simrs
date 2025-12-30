@@ -6,6 +6,7 @@ use App\Models\Patient;
 use App\Models\PatientPaymentMethod;
 use App\Models\PatientAddress;
 use App\Models\PaymentMethod;
+use App\Models\PaymentMethodType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -57,10 +58,12 @@ class PatientSeeder extends Seeder
                 'profile_picture' => null,
             ]);
 
-            $paymentMethod = PaymentMethod::inRandomOrder()->first()->id;
+            $paymentMethodType = PaymentMethodType::inRandomOrder()->first();
+
             PatientPaymentMethod::create([
                 'patient_id' => $patient->id,
-                'payment_method_id' => $paymentMethod,
+                'payment_method_type_id' => $paymentMethodType->id,
+                'bpjs_number' => rand(0, 1) ? 'BPJS' . rand(1000000, 9999999) : null,
             ]);
 
             PatientAddress::create([

@@ -23,6 +23,7 @@ class PatientRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'full_name' => ['required'],
             'medical_record_number' => [
@@ -47,8 +48,8 @@ class PatientRequest extends FormRequest
             ],
             'date_of_consultation' => ['nullable', 'date', 'date_format:Y-m-d'],
             'profile_picture' => ['nullable', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'payment_methods' => ['required', 'array'],
-            'payment_methods.*.payment_method' => ['required', Rule::in(['cash', 'asuransi', 'perusahaan', 'lainnya', 'bpjs_kesehatan'])],
+            'payment_methods' => ['array'],
+            'payment_methods.*.payment_method_type_id' => ['required'],
             'addresses' => ['array'],
             'addresses.*.address' => ['required'],
             'addresses.*.province' => ['required'],
@@ -82,8 +83,8 @@ class PatientRequest extends FormRequest
             'date_of_consultation.date_format' => 'Format tanggal lahir tidak valid! Format: yyyy-mm-dd.',
             'date_of_consultation.date' => 'Format tanggal lahir tidak valid.',
             'payment_methods.array' => 'Format data tidak valid.',
-            'payment_methods.*.payment_method.required' => 'Metode pembayaran wajib diisi.',
-            'payment_methods.*.payment_method.in' => 'Metode pembayaran tidak valid.',
+            'payment_methods.*.payment_method_type_id.required' => 'Metode pembayaran wajib diisi.',
+            'payment_methods.*.payment_method_type_id.in' => 'Metode pembayaran tidak valid.',
             'payment_methods.*.bpjs_number.required' => 'BPJS tidak boleh kosong, jika memilih metode pembayaran BPJS kesehatan.',
             'payment_methods.*.bpjs_number.unique' => 'BPJS kesehatan sudah terdaftar.',
             'profile_picture.image' => 'Format gambar tidak valid.',

@@ -1,20 +1,3 @@
-export const getDefaultFormValues = () => ({
-    name: '',
-    email: '',
-    password: '',
-    str_institution_id: '',
-    str_registration_number: '',
-    str_active_period: null,
-    sip_institution_id: '',
-    sip_registration_number: '',
-    sip_active_period: null,
-    phone: '',
-    address: '',
-    signature: null,
-    profile_picture: null,
-    roles: [],
-});
-
 export const formatUserDataForForm = (userValue) => ({
     name: userValue.name || '',
     email: userValue.email || '',

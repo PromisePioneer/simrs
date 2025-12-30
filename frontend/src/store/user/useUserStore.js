@@ -27,7 +27,6 @@ export const useUserStore = create((set, get) => ({
     },
     fetchUsers: async ({perPage = null} = {}) => {
         set({isLoading: true, error: null});
-
         try {
 
             const params = {
@@ -75,10 +74,10 @@ export const useUserStore = create((set, get) => ({
             return {success: false, message: errorMessage};
         }
     },
-    updateUser: async (uuid, roleData) => {
+    updateUser: async (uuid, data) => {
         set({isLoading: true, error: null});
         try {
-            await apiCall.put(`/api/v1/users/${uuid}`, roleData);
+            await apiCall.put(`/api/v1/users/${uuid}`, data);
             set({isLoading: false, error: null});
             return {success: true};
         } catch (e) {

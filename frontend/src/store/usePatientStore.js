@@ -1,4 +1,4 @@
-import {create} from "zustand/react";
+import {create} from "zustand";
 import apiCall from "@/services/apiCall.js";
 import {toast} from "sonner";
 
@@ -12,79 +12,66 @@ export const usePatientStore = create((set, get) => ({
     openDeleteModal: false,
     patientValue: null,
     patientValueLoading: false,
-    setOpenModal: (openModal, id) => {
-        set({openModal: openModal})
-    },
-    setOpenDeleteModal: (openDeleteModal, id) => {
-        set({openDeleteModal: openDeleteModal})
-    },
-    setSearch: (searchValue) => {
-        set({search: searchValue});
-    },
-    setCurrentPage: (page) => {
-        set({currentPage: page});
-    },
-    columns: () => {
-        return [
-            {header: "No", className: "w-[80px]"},
-            {header: "Nama", className: ""},
-            {header: "No Telepon", className: ""},
-            {header: "Actions", className: "text-right"},
-        ];
-    },
+    previewImage: null,
+
+    setOpenModal: (openModal) => set({openModal}),
+    setOpenDeleteModal: (openDeleteModal) => set({openDeleteModal}),
+    setPreviewImage: (reader = null) => set({previewImage: reader}),
+    setSearch: (search) => set({search}),
+    setCurrentPage: (page) => set({currentPage: page}),
+
+    columns: () => ([
+        {header: "No", className: "w-[80px]"},
+        {header: "Nama"},
+        {header: "No Telepon"},
+        {header: "Actions", className: "text-right"},
+    ]),
+
     fetchPatients: async ({perPage = null} = {}) => {
         set({isLoading: true, error: null});
         try {
-            const {search} = get();
+            const {search, currentPage} = get();
+            const params = {page: currentPage};
 
-            const params = {
-                page: get().currentPage,
-            };
-            if (perPage) {
-                params.per_page = perPage;
-            }
+            if (perPage) params.per_page = perPage;
+            if (search?.trim()) params.search = search;
 
-            if (search && search.trim() !== "") {
-                params.search = search;
-            }
-            const response = await apiCall.get('/api/v1/patients', {params});
-            set({
-                isLoading: false,
-                patients: response.data
-            })
-
+            const response = await apiCall.get("/api/v1/patients", {params});
+            set({patients: response.data, isLoading: false});
         } catch (e) {
-            set({
-                error: e.data.message
-            });
+            set({isLoading: false, error: e.response?.data?.message});
             toast.error(get().error || "Operasi Gagal");
         }
     },
+
     createPatient: async (data) => {
         try {
-            await apiCall.post('/api/v1/patients', data);
+            await apiCall.post("/api/v1/patients", data);
             toast.success("Berhasil menambahkan pasien baru.");
-            await get().fetchPatients({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
+
     showPatient: async (id) => {
-        set({patientValueLoading: true, error: null})
         try {
             const response = await apiCall.get(`/api/v1/patients/${id}`);
-            set({patientValue: response.data, patientValueLoading: false, error: null});
+            set({patientValue: response.data, patientValueLoading: false});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
+
     updatePatient: async (id, data) => {
         try {
-            await apiCall.post(`/api/v1/patients/${id}`, data);
+            data.delete('medical_record_number');
+            await apiCall.put(`/api/v1/patients/${id}`, data);
             toast.success("Berhasil mengubah pasien.");
-            await get().fetchPatients({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
-    }
+    },
 }));

@@ -47,14 +47,14 @@ return new class extends Migration {
 
 
         Schema::create('patient_payment_methods', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('patient_id')->index()->constrained('patients')->cascadeOnDelete();
-            $table->foreignUuid('payment_method_id')->index()->constrained('payment_methods')->cascadeOnDelete();
+            $table->foreignUuid('patient_id')->nullable()->constrained('patients')->cascadeOnDelete();
+            $table->foreignUuid('payment_method_type_id')->nullable()->constrained('payment_method_types')->cascadeOnDelete();
+            $table->string('bpjs_number')->nullable();
+            $table->primary(['patient_id']);
         });
 
 
         Schema::create('patient_address', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->foreignUuid('patient_id')->index()->constrained('patients')->cascadeOnDelete();
             $table->text('address')->nullable();
             $table->string('province')->nullable();
@@ -62,7 +62,8 @@ return new class extends Migration {
             $table->string('subdistrict')->nullable();
             $table->string('ward')->nullable();
             $table->string('postal_code')->nullable();
-            $table->timestamps();
+
+            $table->primary(['patient_id']);
         });
     }
 

@@ -14,6 +14,8 @@ class Patient extends TenantScopeBaseModel
 
     protected $primaryKey = 'id';
     protected $table = 'patients';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'full_name',
         'tenant_id',
@@ -34,7 +36,7 @@ class Patient extends TenantScopeBaseModel
 
     public function paymentMethods(): HasMany
     {
-        return $this->hasMany(PatientPaymentMethod::class, 'patient_id');
+        return $this->hasMany(PatientPaymentMethod::class, 'patient_id', 'id');
     }
 
 

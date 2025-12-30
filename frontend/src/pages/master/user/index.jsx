@@ -12,9 +12,18 @@ import {Link} from "@tanstack/react-router";
 import {getInitials} from "@/hooks/use-helpers.js";
 import Modal from "@/components/common/modal.jsx";
 import {useUserCrud} from "@/hooks/useUserCrud.js";
+import {asset} from "@/services/apiCall.js";
 
 function UserPage() {
-    const {fetchUsers, isLoading, userData, search, columns, currentPage, setCurrentPage} = useUserStore();
+    const {
+        fetchUsers,
+        isLoading,
+        userData,
+        search,
+        columns,
+        currentPage,
+        setCurrentPage
+    } = useUserStore();
 
     const {
         isDeleteModalOpen,
@@ -28,7 +37,8 @@ function UserPage() {
 
     useEffect(() => {
         fetchUsers({perPage: 20});
-    }, [search]);
+    }, [search, currentPage]);
+
     const getRoleBadgeVariant = (roleName) => {
         const role = roleName?.toLowerCase();
         if (role?.includes('super admin')) return 'destructive';
@@ -47,7 +57,7 @@ function UserPage() {
                     <Avatar className="h-11 w-11 ring-2 ring-background shadow-md">
                         {user.profile_picture ? (
                             <AvatarImage
-                                src={user.profile_picture}
+                                src={asset(user.profile_picture)}
                                 alt={user.name}
                                 className="object-cover"
                             />
@@ -165,8 +175,8 @@ function UserPage() {
                         current_page: userData.current_page,
                         last_page: userData.last_page
                     } : null}
-                    currentPage={currentPage}
                     onPageChange={setCurrentPage}
+                    currentPage={currentPage}
                     onSearch={handleSearch}
                     searchPlaceholder="Search users by name or email..."
                     emptyStateIcon={Shield}

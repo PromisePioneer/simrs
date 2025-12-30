@@ -15,9 +15,26 @@ import UserGeneralInfoSection from "@/components/user/form-sections/general-info
 import UserSTRInfoSection from "@/components/user/form-sections/str-info.jsx";
 import UserSIPInfoSection from "@/components/user/form-sections/sip-info.jsx";
 import UserMediaSection from "@/components/user/form-sections/media.jsx";
-import {getDefaultFormValues} from "@/utils/user/formUtils.js";
 import {useImagePreview} from "@/hooks/useImagePreview.js";
-import {useUserFormDataSync} from "@/hooks/user/useUserFormDataSync.js";
+import {asset} from "@/services/apiCall.js";
+
+// Helper function to format user data for form
+const formatUserDataForForm = (userData) => ({
+    name: userData.name || '',
+    email: userData.email || '',
+    password: userData.password || '',
+    phone: userData.phone || '',
+    address: userData.address || '',
+    str_institution_id: userData.str_institution_id || '',
+    str_registration_number: userData.str_registration_number || '',
+    str_active_period: userData.str_active_period ? new Date(userData.str_active_period) : null,
+    sip_institution_id: userData.sip_institution_id || '',
+    sip_registration_number: userData.sip_registration_number || '',
+    sip_active_period: userData.sip_active_period ? new Date(userData.sip_active_period) : null,
+    roles: userData.roles?.map(r => r.name) || [],
+    signature: userData.signature || null,
+    profile_picture: userData.profile_picture || null,
+});
 
 function UserForm(opts) {
     const {id} = useParams(opts);
@@ -37,11 +54,12 @@ function UserForm(opts) {
         watch,
         setValue,
         reset,
+        getValues,
         formState: {errors, isSubmitting}
     } = useForm({
         mode: "all",
         reValidateMode: "onChange",
-        defaultValues: getDefaultFormValues()
+        defaultValues: formatUserDataForForm({})
     });
 
     // Custom hooks for image preview
@@ -60,27 +78,55 @@ function UserForm(opts) {
 
     // Initialize data
     useEffect(() => {
+        fetchRoles()
+        fetchInstitutions({type: "str"});
+        fetchInstitutions({type: "sip"})
         const init = async () => {
-            await Promise.all([
-                fetchInstitutions({type: "str"}),
-                fetchInstitutions({type: "sip"}),
-                fetchRoles()
-            ]);
             if (isEditMode) {
                 await showUser(id);
             }
         };
         init();
-    }, [id]);
+    }, [id, isEditMode, fetchInstitutions, fetchRoles, showUser]);
 
-    useUserFormDataSync(userValue, reset, setPreviewImage, setPreviewSignature);
+    // Update form when user data is loaded
+    useEffect(() => {
+        if (isEditMode && userValue) {
+            reset(formatUserDataForForm(userValue));
+
+            if (userValue.profile_picture) {
+                setPreviewImage(asset(userValue.profile_picture));
+            }
+            if (userValue.signature) {
+                setPreviewSignature(userValue.signature);
+            }
+        }
+    }, [userValue, isEditMode, reset, setPreviewImage, setPreviewSignature]);
 
     // Form submission
     const onSubmit = async (data) => {
+
+        let formData = new FormData();
+
+        const specialFields = ['roles']
+        Object.keys(data).forEach(key => {
+            if (!specialFields.includes(key) && data[key]) {
+                formData.append(key, data[key]);
+            }
+        });
+
+
+        if (data.roles && Array.isArray(data.roles)) {
+            data.roles.forEach(role => {
+                formData.append('roles[]', role);
+            });
+        }
+
+
         if (isEditMode) {
-            await handleEdit(id, data);
+            await handleEdit(id, formData);
         } else {
-            await handleCreate(data);
+            await handleCreate(formData);
         }
     };
 

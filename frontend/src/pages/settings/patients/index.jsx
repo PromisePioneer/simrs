@@ -2,12 +2,15 @@ import SettingPage from "@/pages/settings/index.jsx";
 import {usePatientStore} from "@/store/usePatientStore.js";
 import {UserRoundCog, Plus, Pencil, Trash2} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
-import {useForm} from "react-hook-form";
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import DataTable from "@/components/common/data-table.jsx";
 import {Link} from "@tanstack/react-router";
+import {asset, assets} from "@/services/apiCall.js";
+import {Avatar} from "@radix-ui/react-avatar";
+import {AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
+import {getInitials} from "@/hooks/use-helpers.js";
 
 function PatientPage() {
 
@@ -17,12 +20,7 @@ function PatientPage() {
         patients,
         currentPage,
         setCurrentPage,
-        openModal,
         setOpenModal,
-        createPatient,
-        showPatient,
-        patientValue,
-        patientValueLoading,
         columns,
         search,
         setSearch
@@ -34,86 +32,82 @@ function PatientPage() {
     }, [currentPage, search]);
 
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        reset,
-        formState: {errors, isSubmitting}
-    } = useForm(
-        {
-            mode: "all",
-            reValidateMode: "onChange",
-        }
-    );
-
-    const onSubmit = async (data) => {
-        //
-    }
-
-
     const renderRow = (patient, index) => {
         return (<TableRow key={patient.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {patients.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                    </div>
-                    <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">
+                <TableCell className="font-medium text-muted-foreground">
+                    {patients.from + index}
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-15 w-15 ring-2 ring-background shadow-md overflow-hidden rounded-full">
+                            {patient.profile_picture ? (
+                                <AvatarImage
+                                    src={asset(patient.profile_picture)}
+                                    alt={patient.name}
+                                    className="object-cover"
+                                />
+                            ) : (
+                                <AvatarFallback className="bg-teal-600 text-white font-semibold">
+                                    {getInitials(patient.full_name)}
+                                </AvatarFallback>
+                            )}
+                        </Avatar>
+                        <div className="flex flex-col gap-1">
+                            <p>
                                 {patient.full_name}
-                            </span>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
                                 {patient.phone}
                             </span>
+                        </div>
                     </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        onClick={() => setOpenModal(true, patient.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Edit Payment Method</p>
-                                </TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                        onClick={() => setOpenDeleteModal(true, patient.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Delete Payment Method</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>);
+                </TableCell>
+                <TableCell className="text-right">
+                    <div className="flex justify-end gap-1">
+                        <TooltipProvider>
+                            <>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button asChild
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                        >
+                                            <Link to={"/settings/patients/" + patient.id}>
+                                                <Pencil className="h-4 w-4"/>
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Edit Payment Method</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                            onClick={() => setOpenDeleteModal(true, patient.id)}>
+                                            <Trash2 className="h-4 w-4"/>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Delete Payment Method</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </>
+                        </TooltipProvider>
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
     };
 
 

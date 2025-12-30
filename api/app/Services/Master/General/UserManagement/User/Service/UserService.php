@@ -54,6 +54,7 @@ class UserService
                 );
             }
 
+
             if ($request->hasFile('profile_picture')) {
                 $data['profile_picture'] = $this->fileUploadService->handle(
                     propertyName: 'profile_picture',
@@ -101,6 +102,7 @@ class UserService
     public function update(UserRequest $request, User $user): array
     {
         return DB::transaction(function () use ($user, $request) {
+
             $data = $request->validated();
 
             if ($request->hasFile('signature')) {

@@ -46,7 +46,7 @@ class UserRequest extends FormRequest
             'degrees' => ['nullable'],
             'degrees.*.id' => ['string', Rule::exists('degrees', 'id')],
             'signature' => ['nullable'],
-            'profile_picture' => ['nullable'],
+            'profile_picture' => ['required', 'image'],
             'doctor_schedule' => ['nullable', 'json'],
             'doctor_schedule.*.*.start' => ['date_format:H:i'],
             'doctor_schedule.*.*.end' => ['date_format:H:i', 'after:doctor_schedule.*.*.start'],

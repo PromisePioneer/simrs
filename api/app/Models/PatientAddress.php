@@ -12,7 +12,7 @@ class PatientAddress extends Model
     use HasUuids;
 
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'patient_id';
     protected $table = 'patient_address';
     public $timestamps = false;
 
