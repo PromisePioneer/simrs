@@ -27,6 +27,7 @@ export const usePatientStore = create((set, get) => ({
         {header: "No", className: "w-[80px]"},
         {header: "Nama"},
         {header: "No Telepon"},
+        {header: "Tgl Terakhir Konsultasi"},
         {header: "Actions", className: "text-right"},
     ]),
 

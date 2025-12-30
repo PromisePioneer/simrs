@@ -22,17 +22,14 @@ function UserPage() {
         search,
         columns,
         currentPage,
-        setCurrentPage
+        setCurrentPage,
+        openDeleteModal,
+        setOpenDeleteModal,
+        userValue,
+        deleteUser,
+        openDeleteModalLoading,
+        setSearch
     } = useUserStore();
-
-    const {
-        isDeleteModalOpen,
-        setIsDeleteModalOpen,
-        selectedUser,
-        handleOpenDeleteModal,
-        handleDelete,
-        handleSearch,
-    } = useUserCrud();
 
 
     useEffect(() => {
@@ -42,7 +39,7 @@ function UserPage() {
     const getRoleBadgeVariant = (roleName) => {
         const role = roleName?.toLowerCase();
         if (role?.includes('super admin')) return 'destructive';
-        if (role?.includes('owner')) return 'de+fault';
+        if (role?.includes('owner')) return 'default';
         return 'outline';
     };
 
@@ -136,7 +133,7 @@ function UserPage() {
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
-                        onClick={() => handleOpenDeleteModal(user)}
+                        onClick={() => setOpenDeleteModal(user.id)}
                     >
                         <Trash2 className="h-4 w-4"/>
                     </Button>
@@ -177,7 +174,7 @@ function UserPage() {
                     } : null}
                     onPageChange={setCurrentPage}
                     currentPage={currentPage}
-                    onSearch={handleSearch}
+                    onSearch={setSearch}
                     searchPlaceholder="Search users by name or email..."
                     emptyStateIcon={Shield}
                     emptyStateText="No users found"
@@ -187,14 +184,14 @@ function UserPage() {
 
                 {/* Delete Modal */}
                 <Modal
-                    open={isDeleteModalOpen}
-                    onOpenChange={setIsDeleteModalOpen}
+                    open={openDeleteModal}
+                    onOpenChange={setOpenDeleteModal}
                     title="Delete User"
                     description="Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus akun pengguna secara permanen."
-                    onSubmit={() => handleDelete()}
+                    onSubmit={deleteUser}
                     submitText="Delete"
+                    isLoading={openDeleteModalLoading}
                     type="danger"
-                    isLoading={isLoading}
                 >
                     <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
                         <div className="flex items-start gap-3">
@@ -206,10 +203,10 @@ function UserPage() {
                                     Anda akan menghapus:
                                 </p>
                                 <p className="text-sm font-semibold text-destructive">
-                                    {selectedUser?.name}
+                                    {userValue?.name}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-2">
-                                    {selectedUser?.email}
+                                    {userValue?.email}
                                 </p>
                             </div>
                         </div>

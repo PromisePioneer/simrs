@@ -33,7 +33,7 @@ function SettingPage({children}) {
     return (
         <>
             <Layout>
-                <Card className="mb-20 mt-4 p-0">
+                <Card className="mb-10 mt-4 p-0">
                     <div className="grid grid-cols-1">
                         <div className="flex items-start justify-start gap-3 p-3">
                             <NavigationMenu>

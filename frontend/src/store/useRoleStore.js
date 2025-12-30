@@ -6,7 +6,7 @@ export const useRoleStore = create((set, get) => ({
         isLoading: false,
         permissionModalLoading: false,
         error: null,
-        roleData: null,
+        roleData: [],
         search: "",
         permissionsData: null,
         roleValue: null,
@@ -68,7 +68,8 @@ export const useRoleStore = create((set, get) => ({
                 if (search?.trim()) params.search = search;
 
                 const response = await apiCall.get("/api/v1/roles", {params});
-                set({roleData: response.data, isLoading: false});
+                const rolesArray = Array.isArray(response.data) ? response.data : response.data.data;
+                set({roleData: rolesArray || [], isLoading: false});
             } catch (e) {
                 set({
                     error: e,

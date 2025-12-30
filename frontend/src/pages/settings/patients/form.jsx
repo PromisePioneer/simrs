@@ -1,7 +1,7 @@
 import Layout from "@/pages/dashboard/layout.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowLeft, Save} from "lucide-react";
+import {ArrowLeft, Save, User} from "lucide-react";
 import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {useEffect} from "react";
 import {useForm} from "react-hook-form";
@@ -253,6 +253,7 @@ function PatientForm(opts) {
                             paymentMethodTypes={paymentMethodTypes}
                             watch={watch}
                         />
+
 
                         <div className="flex justify-end gap-4">
                             <Link to="/settings/patients">

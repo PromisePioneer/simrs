@@ -87,7 +87,7 @@ function UserForm(opts) {
             }
         };
         init();
-    }, [id, isEditMode, fetchInstitutions, fetchRoles, showUser]);
+    }, [id, isEditMode, fetchInstitutions, showUser]);
 
     // Update form when user data is loaded
     useEffect(() => {
@@ -186,6 +186,9 @@ function UserForm(opts) {
                             handleFileChange={handleFileChange}
                             removeImage={removeImage}
                         />
+
+
+
 
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-4">

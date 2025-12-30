@@ -4,18 +4,18 @@ namespace App\Services\Master\General\UserManagement\User\Repository;
 
 use App\Models\User;
 use App\Services\Master\General\UserManagement\User\Interface\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
 
-    protected User $user;
+    protected User $model;
 
     public function __construct()
     {
-        $this->user = new User();
+        $this->model = new User();
     }
 
 
@@ -24,11 +24,11 @@ class UserRepository implements UserRepositoryInterface
         ?int  $perPage = null
     ): Collection|LengthAwarePaginator
     {
-        $query = User::query();
+        $query = $this->model->query();
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . strtolower($filters['search']) . '%')
-                ->orWhere('email', 'like', '%' . strtolower($filters['search']) . '%');
+            $query->where(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%')
+                ->orWhere(DB::raw('LOWER(email)'), 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {
@@ -40,7 +40,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function findById(string $id): ?User
     {
-        $user = $this->user->with(['permissions'])->findOrFail($id);
+        $user = $this->model->with(['permissions'])->findOrFail($id);
         if ($user->roles()->count() === 1) {
             $user->roles = $user->roles->first();
         }
@@ -50,7 +50,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
-    public function search(Builder $query, $keyword): void
+    public function search(object $query, string $keyword): void
     {
         $query->where('name', 'LIKE', '%' . $keyword . '%');
     }
@@ -64,7 +64,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function update(string $id, array $data = []): object
     {
-        $user = $this->user->findOrFail($id);
+        $user = $this->model->findOrFail($id);
         $user->fill($data);
         $user->save();
 
@@ -73,7 +73,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function destroy(string $id): object
     {
-        $user = $this->user->findOrFail($id);
+        $user = $this->model->findOrFail($id);
         $user->delete();
         return $user;
     }

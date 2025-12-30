@@ -138,7 +138,7 @@ export default function UserGeneralInfoSection({register, control, errors, isEdi
                                     </MultiSelectTrigger>
                                     <MultiSelectContent>
                                         <MultiSelectGroup>
-                                            {roleData && roleData?.map((role) => (
+                                            {roleData?.map((role) => (
                                                 <MultiSelectItem key={role.uuid} value={role.name}>
                                                     {role.name}
                                                 </MultiSelectItem>

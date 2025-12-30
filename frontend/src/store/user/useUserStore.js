@@ -1,5 +1,6 @@
 import {create} from "zustand/react";
 import apiCall from "@/services/apiCall.js";
+import {toast} from "sonner";
 
 
 export const useUserStore = create((set, get) => ({
@@ -9,6 +10,8 @@ export const useUserStore = create((set, get) => ({
     search: "",
     userValue: null,
     currentPage: 1,
+    openDeleteModal: false,
+    openDeleteModalLoading: false,
     columns: () => {
         return [
             {header: "No", className: "w-[60px]"},
@@ -18,6 +21,12 @@ export const useUserStore = create((set, get) => ({
             {header: "Alamat", className: "min-w-[200px]"},
             {header: "Actions", className: "text-right w-[120px]"},
         ];
+    },
+    setOpenDeleteModal: async (id) => {
+        if (!get().openDeleteModal) {
+            await get().showUser(id);
+        }
+        set({openDeleteModal: !get().openDeleteModal})
     },
     setCurrentPage: (page) => {
         set({currentPage: page});
@@ -89,25 +98,19 @@ export const useUserStore = create((set, get) => ({
             return {success: false, message: errorMessage};
         }
     },
-    deleteUser: async (uuid) => {
-        console.log(uuid);
-        set({isLoading: true, error: null});
+    deleteUser: async () => {
+        set({openDeleteModalLoading: true});
         try {
-            await apiCall.delete(`/api/v1/users/${uuid}`);
-            set({isLoading: false, error: null});
-            return {success: true};
+            await apiCall.delete(`/api/v1/users/${get().userValue.id}`);
+            toast.success("Data berhasil dihapus.");
+            await get().fetchUsers({perPage: 20});
+            set({openDeleteModal: false, openDeleteModalLoading: false});
         } catch (e) {
-            const errorMessage = e.response?.data?.message
-            set({
-                error: errorMessage,
-                isLoading: false
-            });
-            return {success: false, message: errorMessage};
+            toast.error(e.response.data.message || "Terjadi kesalahan.");
+            set({openDeleteModalLoading: false});
         }
     },
     showUser: async (id) => {
-        set({isLoading: true, error: null});
-
         try {
 
             const response = await apiCall.get(`/api/v1/users/${id}`);
@@ -118,10 +121,7 @@ export const useUserStore = create((set, get) => ({
                 error: null
             });
         } catch (e) {
-            set({
-                error: e,
-                isLoading: false
-            });
+            toast.error(e.response.data.message || "Terjadi kesalahan.");
         }
     }
 }))

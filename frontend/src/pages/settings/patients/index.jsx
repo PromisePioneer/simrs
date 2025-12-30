@@ -1,6 +1,6 @@
 import SettingPage from "@/pages/settings/index.jsx";
 import {usePatientStore} from "@/store/usePatientStore.js";
-import {UserRoundCog, Plus, Pencil, Trash2} from "lucide-react";
+import {UserRoundCog, Plus, Pencil, Trash2, Phone} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
@@ -11,6 +11,9 @@ import {asset, assets} from "@/services/apiCall.js";
 import {Avatar} from "@radix-ui/react-avatar";
 import {AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
 import {getInitials} from "@/hooks/use-helpers.js";
+import {Badge} from "@/components/ui/badge.jsx";
+import {format, formatISO} from "date-fns";
+import {id} from "date-fns/locale";
 
 function PatientPage() {
 
@@ -55,21 +58,36 @@ function PatientPage() {
                             )}
                         </Avatar>
                         <div className="flex flex-col gap-1">
-                            <p>
+                            <p className="text-black font-bold">
                                 {patient.full_name}
                             </p>
+                            <Button size="sm" variant="secondary" className="text-xs cursor-pointer hover:bg-gray-300"
+                                    asChild>
+                                <Badge>
+                                    {patient.medical_record_number}
+                                </Badge>
+                            </Button>
                         </div>
+                    </div>
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <Badge variant="outline" className="text-sm">
+                            <Phone/>
+                            {patient.phone}
+                        </Badge>
                     </div>
                 </TableCell>
                 <TableCell>
                     <div className="flex items-center gap-3">
                         <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
-                                {patient.phone}
+                                {format(patient.date_of_consultation, 'PPP', {locale: id})}
                             </span>
                         </div>
                     </div>
                 </TableCell>
+
                 <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
                         <TooltipProvider>
@@ -116,7 +134,7 @@ function PatientPage() {
     return (
         <>
             <SettingPage>
-                <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+                <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
                     <div className="space-y-1">
                         <div className="flex items-center gap-3">
                             <div
