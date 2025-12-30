@@ -23,7 +23,9 @@ function PatientPage() {
         setOpenModal,
         columns,
         search,
-        setSearch
+        setSearch,
+        setOpenDeleteModal,
+        openDeleteModal
     } = usePatientStore();
 
 
@@ -85,7 +87,7 @@ function PatientPage() {
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>Edit Payment Method</p>
+                                        <p>Edit Pasien</p>
                                     </TooltipContent>
                                 </Tooltip>
                                 <Tooltip>
@@ -99,7 +101,7 @@ function PatientPage() {
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>Delete Payment Method</p>
+                                        <p>Hapus Pasien</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </>
@@ -145,8 +147,8 @@ function PatientPage() {
 
 
                 <DataTable
-                    title="Payment Method Data"
-                    description="Kelola dan atur metode pembayaran di seluruh sistem"
+                    title="Data Pasien"
+                    description="Kelola dan atur data pasien"
                     columns={columns()}
                     data={patients?.data || []}
                     isLoading={isLoading}

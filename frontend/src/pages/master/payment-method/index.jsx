@@ -134,7 +134,7 @@ function PaymentMethodPage() {
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Edit Payment Method</p>
+                                    <p>Ubah metode pembayaran</p>
                                 </TooltipContent>
                             </Tooltip>
                             <Tooltip>
@@ -148,7 +148,7 @@ function PaymentMethodPage() {
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Delete Payment Method</p>
+                                    <p>Hapus metode pembayaran</p>
                                 </TooltipContent>
                             </Tooltip>
                         </>
@@ -310,10 +310,10 @@ function PaymentMethodPage() {
                 <Modal
                     open={openDeleteModal}
                     onOpenChange={setOpenDeleteModal}
-                    title="Delete Payment Method"
-                    description="This action cannot be undone. This will permanently delete the payment method."
+                    title="Hapus Metode Pembayaran"
+                    description="Tindakan ini tidak dapat dibatalkan. Ini akan menghapus metode pembayaran secara permanen."
                     onSubmit={() => deletePaymentMethod(currentPage)}
-                    submitText="Delete Payment Method"
+                    submitText="Hapus Metode Pembayaran"
                     type="danger"
                     isLoading={paymentMethodLoading}
                 >
@@ -328,10 +328,10 @@ function PaymentMethodPage() {
                                 </div>
                                 <div className="flex-1 space-y-1">
                                     <p className="text-sm font-semibold text-foreground">
-                                        Confirm Deletion
+                                        Konfirmasi Penghapusan
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        You are about to delete the payment method:{" "}
+                                        Anda akan menghapus metode pembayaran:{" "}
                                         <span className="font-semibold text-foreground">
                                             {paymentMethodValue?.name}
                                         </span>
@@ -340,7 +340,7 @@ function PaymentMethodPage() {
                             </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            This payment method will no longer be available for transactions.
+                            Metode pembayaran ini tidak akan tersedia lagi untuk transaksi.
                         </p>
                     </div>
                 </Modal>

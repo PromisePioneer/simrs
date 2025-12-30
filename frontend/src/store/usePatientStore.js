@@ -15,7 +15,10 @@ export const usePatientStore = create((set, get) => ({
     previewImage: null,
 
     setOpenModal: (openModal) => set({openModal}),
-    setOpenDeleteModal: (openDeleteModal) => set({openDeleteModal}),
+    setOpenDeleteModal: async (openDeleteModal, id) => {
+        await get().showPatient(id);
+        set({openDeleteModal});
+    },
     setPreviewImage: (reader = null) => set({previewImage: reader}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
