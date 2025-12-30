@@ -1,7 +1,6 @@
 import Layout from "@/pages/dashboard/layout.jsx";
 import {useEffect, useMemo} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
-import {useRole} from "@/hooks/use-role.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Label} from "@/components/ui/label.jsx";
@@ -29,34 +28,25 @@ function RolePage() {
         isLoading,
         search,
         roleValue,
-    } = useRoleStore();
-
-    const {
-        isModalLoading,
-        permissionSearch,
-        selectedPermissions,
-        isModalFormOpen,
-        setIsModalFormOpen,
-        setSelectedPermissions,
-        isPermissionModalOpen,
-        setIsPermissionModalOpen,
-        isDeleteModalOpen,
-        setIsDeleteModalOpen,
-        selectedRole,
+        setOpenDeleteModal,
+        setOpenModal,
+        openModal,
+        openDeleteModal,
+        createRole,
+        updateRole,
+        columns,
         currentPage,
-
-        handlePermissionSearch,
-        handleAssignPermissions,
-        handleSearch,
-        handlePageChange,
-        handleOpenModalForm,
-        handleCreate,
-        handleEdit,
-        handleOpenDeleteModal,
-        handleDelete,
-        handleOpenPermissionModal,
-        handlePermissionToggle
-    } = useRole();
+        setCurrentPage,
+        openPermissionModal,
+        setOpenPermissionModal,
+        assignPermissions,
+        selectedPermissions,
+        setSelectedPermissions,
+        setSearch,
+        permissionSearch,
+        setPermissionSearch,
+        deleteRole,
+    } = useRoleStore();
 
     const {
         register,
@@ -83,16 +73,30 @@ function RolePage() {
     }, [roleValue, reset]);
 
     useEffect(() => {
-        if (isPermissionModalOpen && roleValue?.permissions) {
+        if (openPermissionModal && roleValue?.permissions) {
             const currentPermissions = roleValue.permissions.map(p => p.uuid);
             setSelectedPermissions(currentPermissions);
         }
-    }, [roleValue, isPermissionModalOpen]);
+    }, [roleValue, openPermissionModal]);
+
 
     useEffect(() => {
         fetchRoles({page: currentPage, perPage: 20});
         fetchPermissions();
     }, [currentPage, search]);
+
+
+    useEffect(() => {
+        if (roleValue && !openDeleteModal) {
+            reset({
+                name: roleValue.name || "",
+            })
+        } else {
+            reset({
+                name: "",
+            });
+        }
+    }, [roleValue, reset]);
 
 
     const filteredPermissions = useMemo(() => {
@@ -102,20 +106,11 @@ function RolePage() {
         );
     }, [permissionsData, permissionSearch]);
 
-    const columns = [
-        {header: "No", className: "w-[80px]"},
-        {header: "Nama", className: "min-w-[200px]"},
-        {header: "Type", className: "w-[120px]"},
-        {header: "Guard", className: "w-[120px]"},
-        {header: "Created At", className: "w-[150px]"},
-        {header: "Actions", className: "w-[180px] text-right"},
-    ];
-
     const onSubmit = async (data) => {
         if (!roleValue) {
-            await handleCreate(data);
+            await createRole(data);
         } else {
-            await handleEdit(data);
+            await updateRole(data);
         }
     };
 
@@ -170,32 +165,30 @@ function RolePage() {
                     <div className="flex justify-end gap-1">
                         <TooltipProvider>
                             {
-                                canModify && (
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <div
-                                                className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                                                    onClick={() => handleOpenPermissionModal(role)}
-                                                    disabled={isModalLoading}
-                                                >
-                                                    {isModalLoading ? (
-                                                        <div
-                                                            className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                                    ) : (
-                                                        <Settings className="h-4 w-4"/>
-                                                    )}
-                                                </Button>
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Assign Permissions</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )
+                                canModify &&
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div
+                                            className="flex justify-end gap-1 opacity-100 group-hover:opacity-100 transition-opacity">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                                onClick={() => setOpenPermissionModal(role.uuid)}
+                                            >
+                                                {isModalLoading ? (
+                                                    <div
+                                                        className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                                                ) : (
+                                                    <Settings className="h-4 w-4"/>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Assign Permissions</p>
+                                    </TooltipContent>
+                                </Tooltip>
                             }
 
                             {canModify && (
@@ -206,7 +199,7 @@ function RolePage() {
                                                 variant="ghost"
                                                 size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                                onClick={() => handleOpenModalForm(role)}
+                                                onClick={() => setOpenModal(role.uuid)}
                                             >
                                                 <Pencil className="h-4 w-4"/>
                                             </Button>
@@ -222,7 +215,7 @@ function RolePage() {
                                                 variant="ghost"
                                                 size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                                onClick={() => handleOpenDeleteModal(role)}
+                                                onClick={() => setOpenDeleteModal(role.uuid)}
                                             >
                                                 <Trash2 className="h-4 w-4"/>
                                             </Button>
@@ -242,7 +235,7 @@ function RolePage() {
                                         </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>System roles cannot be modified</p>
+                                        <p>Peran sistem tidak dapat dimodifikasi</p>
                                     </TooltipContent>
                                 </Tooltip>
                             )}
@@ -261,7 +254,7 @@ function RolePage() {
                     <div className="space-y-1">
                         <div className="flex items-center gap-3">
                             <div
-                                className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
+                                className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
                                 <Users className="w-6 h-6 text-primary"/>
                             </div>
                             <div>
@@ -276,11 +269,11 @@ function RolePage() {
                     </div>
                     <Button
                         className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={() => handleOpenModalForm()}
+                        onClick={() => setOpenModal()}
                         size="lg"
                     >
                         <Plus className="w-4 h-4"/>
-                        Add New Role
+                        Tambah Role Baru
                     </Button>
                 </div>
 
@@ -288,7 +281,7 @@ function RolePage() {
                 <DataTable
                     title="Role Data"
                     description="Kelola dan atur peran pengguna di seluruh sistem"
-                    columns={columns}
+                    columns={columns()}
                     data={roleData?.data}
                     isLoading={isLoading}
                     pagination={roleData ? {
@@ -298,8 +291,9 @@ function RolePage() {
                         current_page: roleData.current_page,
                         last_page: roleData.last_page
                     } : null}
-                    onPageChange={handlePageChange}
-                    onSearch={handleSearch}
+                    onPageChange={setCurrentPage}
+                    currentPage={currentPage}
+                    onSearch={setSearch}
                     searchPlaceholder="Search roles..."
                     emptyStateIcon={Shield}
                     emptyStateText="No roles found"
@@ -309,11 +303,11 @@ function RolePage() {
 
                 {/* Assign Permissions Modal */}
                 <Modal
-                    open={isPermissionModalOpen}
-                    onOpenChange={setIsPermissionModalOpen}
+                    open={openPermissionModal}
+                    onOpenChange={setOpenPermissionModal}
                     title="Assign Permissions"
-                    description={`Manage permissions for: ${selectedRole?.name}`}
-                    onSubmit={handleAssignPermissions}
+                    description={`Manage permissions for: ${roleValue?.name}`}
+                    onSubmit={assignPermissions}
                     submitText="Save Permissions"
                     isLoading={isLoading}
                     size="lg"
@@ -328,7 +322,7 @@ function RolePage() {
                                 id="permission-search"
                                 placeholder="Search for permissions..."
                                 value={permissionSearch}
-                                onChange={(e) => handlePermissionSearch(e.target.value)}
+                                onChange={(e) => setPermissionSearch(e.target.value)}
                                 className="h-10"
                             />
                         </div>
@@ -349,7 +343,7 @@ function RolePage() {
                                     <div className="flex flex-col items-center justify-center h-32 text-center">
                                         <Shield className="w-8 h-8 text-muted-foreground mb-2"/>
                                         <p className="text-sm text-muted-foreground">
-                                            No permissions found
+                                            Hak akses tidak ditemukan
                                         </p>
                                     </div>
                                 ) : (
@@ -362,7 +356,7 @@ function RolePage() {
                                                 <Checkbox
                                                     id={permission.uuid}
                                                     checked={selectedPermissions.includes(permission.uuid)}
-                                                    onCheckedChange={() => handlePermissionToggle(permission.uuid)}
+                                                    onCheckedChange={() => setSelectedPermissions(permission.uuid)}
                                                     className="mt-1"
                                                 />
                                                 <div className="flex-1 space-y-1">
@@ -399,17 +393,17 @@ function RolePage() {
 
                 {/* Create Modal */}
                 <Modal
-                    open={isModalFormOpen}
-                    onOpenChange={setIsModalFormOpen}
-                    title="Create New Role"
-                    description="Add a new role with specific permissions to your system"
+                    open={openModal}
+                    onOpenChange={setOpenModal}
+                    title="Tambah Role Baru"
+                    description="Tambahkan peran baru dengan hak akses khusus ke sistem Anda."
                     onSubmit={handleSubmit(onSubmit)}
-                    submitText="Create Role"
-                    isLoading={isLoading}
+                    submitText="Tambah Role"
+                    isLoading={isSubmitting}
                 >
                     <div className="space-y-2.5">
                         <Label htmlFor="name" className="text-sm font-semibold">
-                            Role Name <span className="text-destructive">*</span>
+                            Nama<span className="text-destructive">*</span>
                         </Label>
                         <Input
                             id="name"
@@ -426,25 +420,25 @@ function RolePage() {
                             </p>
                         )}
                         <p className="text-xs text-muted-foreground">
-                            Choose a descriptive name for this role
+                            Pilih nama yang deskriptif untuk peran ini.
                         </p>
                     </div>
                 </Modal>
                 {/* Delete Modal */}
                 <Modal
-                    open={isDeleteModalOpen}
-                    onOpenChange={setIsDeleteModalOpen}
-                    title="Delete Role"
-                    description="This action cannot be undone. This will permanently delete the role."
-                    onSubmit={() => handleDelete(currentPage)}
-                    submitText="Delete Role"
+                    open={openDeleteModal}
+                    onOpenChange={setOpenDeleteModal}
+                    title="Hapus Peran"
+                    description="Tindakan ini tidak dapat dibatalkan. Ini akan menghapus peran tersebut secara permanen."
+                    onSubmit={() => deleteRole(roleValue?.uuid)}
+                    submitText="Hapus Peran"
                     type="danger"
                     isLoading={isLoading}
                 >
                     <div className="space-y-4 py-2">
                         <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
                             <div className="flex gap-3">
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     <div
                                         className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
                                         <Trash2 className="w-5 h-5 text-destructive"/>
@@ -457,15 +451,15 @@ function RolePage() {
                                     <p className="text-sm text-muted-foreground">
                                         You are about to delete the role:{" "}
                                         <span className="font-semibold text-foreground">
-                                            {selectedRole?.name}
+                                            {roleValue?.name}
                                         </span>
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            Users assigned to this role may lose their permissions. Make sure to reassign them before
-                            deletion.
+                            Pengguna yang ditugaskan ke peran ini mungkin kehilangan izin mereka. Pastikan untuk
+                            menugaskan ulang mereka sebelum penghapusan.
                         </p>
                     </div>
                 </Modal>

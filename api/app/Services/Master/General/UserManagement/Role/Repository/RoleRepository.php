@@ -4,6 +4,7 @@ namespace App\Services\Master\General\UserManagement\Role\Repository;
 
 use App\Models\Role as SpatieRole;
 use App\Services\Master\General\UserManagement\Role\Interface\RoleInterface;
+use Illuminate\Support\Facades\DB;
 
 class RoleRepository implements RoleInterface
 {
@@ -19,7 +20,7 @@ class RoleRepository implements RoleInterface
         $query = $this->model->with('tenant')->whereNot('name', 'Super Admin')->orderBy('name');
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . strtolower($filters['search']) . '%');
+            $query->where(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%');
         }
 
         if ($perPage) {
