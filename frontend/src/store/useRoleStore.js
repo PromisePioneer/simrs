@@ -58,26 +58,37 @@ export const useRoleStore = create((set, get) => ({
                 {header: "Actions", className: "w-[180px] text-right"},
             ];
         },
-        fetchRoles: async ({page = 1, perPage = null} = {}) => {
-            set({isLoading: true, error: null});
+        fetchRoles: async ({perPage = null} = {}) => {
+            set({isLoading: true});
             try {
-                const {search, currentPage} = get();
-                const params = {page: currentPage};
 
-                if (perPage) params.per_page = perPage;
-                if (search?.trim()) params.search = search;
+                const params = {
+                    page: get().currentPage,
+                };
 
-                const response = await apiCall.get("/api/v1/roles", {params});
-                const rolesArray = Array.isArray(response.data) ? response.data : response.data.data;
-                set({roleData: rolesArray || [], isLoading: false});
+                if (perPage) {
+                    params.per_page = perPage;
+                }
+
+                const {search} = get();
+                if (search.trim() !== "") {
+                    params.search = search.trim();
+                }
+
+                const response = await apiCall.get(`/api/v1/roles`, {params});
+
+                set((state) => ({
+                    ...state,
+                    roleData: response.data,
+                    error: null
+                }));
+
             } catch (e) {
-                set({
-                    error: e,
-                    isLoading: false
-                });
+                toast.error(e?.response?.data?.message || e.message || "Error fetching users");
+            } finally {
+                set({isLoading: false});
             }
-        }
-        ,
+        },
         showRole: async (roleUuid) => {
             set({error: null});
             try {
@@ -122,7 +133,7 @@ export const useRoleStore = create((set, get) => ({
             }
         },
         createRole: async (data) => {
-            set({isLoading: true, error: null});
+            set({isLoading: true});
             try {
                 await apiCall.post("/api/v1/roles", data);
                 toast.success("Data berhasil disimpan");
@@ -134,10 +145,10 @@ export const useRoleStore = create((set, get) => ({
         },
 
         updateRole: async (data) => {
-            set({isLoading: true, error: null});
+            set({isLoading: true});
             try {
                 await apiCall.put(`/api/v1/roles/${get().roleValue.uuid}`, data);
-                set({isLoading: false, error: null});
+                set({isLoading: false});
                 return {success: true};
             } catch (e) {
 
@@ -152,7 +163,7 @@ export const useRoleStore = create((set, get) => ({
         },
 
         deleteRole: async (id) => {
-            set({isLoading: true, error: null});
+            set({isLoading: true});
             try {
                 await apiCall.delete(`/api/v1/roles/${id}`);
                 toast.success("Data berhasil dihapus");

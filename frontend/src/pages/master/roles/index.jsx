@@ -61,14 +61,15 @@ function RolePage() {
         }
     });
 
-
     useEffect(() => {
         if (roleValue) {
             reset({
                 name: roleValue.name || ""
             });
         } else {
-            reset();
+            reset({
+                name: ""
+            });
         }
     }, [roleValue, reset]);
 
@@ -77,27 +78,12 @@ function RolePage() {
             const currentPermissions = roleValue.permissions.map(p => p.uuid);
             setSelectedPermissions(currentPermissions);
         }
-    }, [roleValue, openPermissionModal]);
-
+    }, [roleValue, openPermissionModal, setSelectedPermissions]);
 
     useEffect(() => {
-        fetchRoles({page: currentPage, perPage: 20});
+        fetchRoles({perPage: 20});
         fetchPermissions();
-    }, [currentPage, search]);
-
-
-    useEffect(() => {
-        if (roleValue && !openDeleteModal) {
-            reset({
-                name: roleValue.name || "",
-            })
-        } else {
-            reset({
-                name: "",
-            });
-        }
-    }, [roleValue, reset]);
-
+    }, [currentPage, search, fetchRoles, fetchPermissions]);
 
     const filteredPermissions = useMemo(() => {
         if (!permissionsData) return [];
@@ -117,11 +103,10 @@ function RolePage() {
     const renderRow = (role, index) => {
         const isGlobalRole = role.tenant_id === null;
         const canModify = !isGlobalRole;
-
         return (
             <TableRow key={role.uuid} className="hover:bg-muted/50 transition-colors">
                 <TableCell className="font-medium text-muted-foreground">
-                    {roleData.from + index}
+                    {Number(roleData.from) + Number(index)}
                 </TableCell>
                 <TableCell>
                     <div className="flex items-center gap-3">
@@ -164,32 +149,23 @@ function RolePage() {
                 <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
                         <TooltipProvider>
-                            {
-                                canModify &&
+                            {canModify && (
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <div
-                                            className="flex justify-end gap-1 opacity-100 group-hover:opacity-100 transition-opacity">
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                                                onClick={() => setOpenPermissionModal(role.uuid)}
-                                            >
-                                                {isModalLoading ? (
-                                                    <div
-                                                        className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                                ) : (
-                                                    <Settings className="h-4 w-4"/>
-                                                )}
-                                            </Button>
-                                        </div>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                            onClick={() => setOpenPermissionModal(role.uuid)}
+                                        >
+                                            <Settings className="h-4 w-4"/>
+                                        </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Assign Permissions</p>
                                     </TooltipContent>
                                 </Tooltip>
-                            }
+                            )}
 
                             {canModify && (
                                 <>
@@ -282,7 +258,7 @@ function RolePage() {
                     title="Role Data"
                     description="Kelola dan atur peran pengguna di seluruh sistem"
                     columns={columns()}
-                    data={roleData?.data}
+                    data={roleData.data}
                     isLoading={isLoading}
                     pagination={roleData ? {
                         from: roleData.from,
@@ -306,7 +282,7 @@ function RolePage() {
                     open={openPermissionModal}
                     onOpenChange={setOpenPermissionModal}
                     title="Assign Permissions"
-                    description={`Manage permissions for: ${roleValue?.name}`}
+                    description={`Manage permissions for: ${roleValue?.name || ''}`}
                     onSubmit={assignPermissions}
                     submitText="Save Permissions"
                     isLoading={isLoading}
@@ -391,14 +367,14 @@ function RolePage() {
                     </div>
                 </Modal>
 
-                {/* Create Modal */}
+                {/* Create/Edit Modal */}
                 <Modal
                     open={openModal}
                     onOpenChange={setOpenModal}
-                    title="Tambah Role Baru"
-                    description="Tambahkan peran baru dengan hak akses khusus ke sistem Anda."
+                    title={roleValue ? "Edit Role" : "Tambah Role Baru"}
+                    description={roleValue ? "Edit informasi peran yang ada." : "Tambahkan peran baru dengan hak akses khusus ke sistem Anda."}
                     onSubmit={handleSubmit(onSubmit)}
-                    submitText="Tambah Role"
+                    submitText={roleValue ? "Update Role" : "Tambah Role"}
                     isLoading={isSubmitting}
                 >
                     <div className="space-y-2.5">
@@ -424,6 +400,7 @@ function RolePage() {
                         </p>
                     </div>
                 </Modal>
+
                 {/* Delete Modal */}
                 <Modal
                     open={openDeleteModal}
