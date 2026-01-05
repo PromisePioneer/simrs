@@ -10,10 +10,10 @@ export const usePatientStore = create((set, get) => ({
     currentPage: 1,
     openModal: false,
     openDeleteModal: false,
-    patientValue: null,
+    patientValue: {},
     patientValueLoading: false,
     previewImage: null,
-
+    showPatientLoading: false,
     setOpenModal: (openModal) => set({openModal}),
     setOpenDeleteModal: async (openDeleteModal, id) => {
         await get().showPatient(id);
@@ -59,6 +59,7 @@ export const usePatientStore = create((set, get) => ({
     },
 
     showPatient: async (id) => {
+        set({patientValueLoading: true})
         try {
             const response = await apiCall.get(`/api/v1/patients/${id}`);
             set({patientValue: response.data, patientValueLoading: false});

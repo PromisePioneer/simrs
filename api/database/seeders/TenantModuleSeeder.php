@@ -101,17 +101,6 @@ class TenantModuleSeeder extends Seeder
                             'Menghapus Module Management',
                         ]
                     ], [
-                        'name' => 'Metode Pembayaran',
-                        'order' => 4,
-                        'icon' => null,
-                        'route' => '/master/payment-method',
-                        'permissions' => [
-                            'Melihat Metode Pembayaran',
-                            'Menambahkan Metode Pembayaran',
-                            'Mengubah Metode Pembayaran',
-                            'Menghapus Metode Pembayaran',
-                        ]
-                    ], [
                         'name' => 'Lembaga Pendaftaran',
                         'order' => 5,
                         'icon' => null,
@@ -122,18 +111,7 @@ class TenantModuleSeeder extends Seeder
                             'Mengubah Lembaga Pendaftaran',
                             'Menghapus Lembaga Pendaftaran',
                         ]
-                    ], [
-                        'name' => 'Gelar',
-                        'order' => 6,
-                        'icon' => null,
-                        'route' => '/master/degree',
-                        'permissions' => [
-                            'Melihat Gelar',
-                            'Menambahkan Gelar',
-                            'Mengubah Gelar',
-                            'Menghapus Gelar',
-                        ]
-                    ],
+                    ]
                 ]
             ],
             [

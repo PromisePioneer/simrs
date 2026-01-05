@@ -1,6 +1,6 @@
 import SettingPage from "@/pages/settings/index.jsx";
 import {usePatientStore} from "@/store/usePatientStore.js";
-import {UserRoundCog, Plus, Pencil, Trash2, Phone} from "lucide-react";
+import {UserRoundCog, Plus, Pencil, Trash2, Phone, Eye} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
@@ -92,6 +92,22 @@ function PatientPage() {
                     <div className="flex justify-end gap-1">
                         <TooltipProvider>
                             <>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button asChild
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                                        >
+                                            <Link to={`/settings/patients/details/${patient.id}`}>
+                                                <Eye className="h-4 w-4"/>
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Lihat Detail</p>
+                                    </TooltipContent>
+                                </Tooltip>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Button asChild

@@ -1,6 +1,6 @@
-import Layout from "@/pages/dashboard/layout.jsx";
-import {useDegreeStore} from "@/store/useDegreeStore.js";
-import {useEffect, useState} from "react";
+import {useRegistrationInstitutionStore} from "@/store/registration-institutions/useRegistrationInstitutionStore.js";
+import {useEffect} from "react";
+import {Controller, useForm} from "react-hook-form";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {CreditCard, Pencil, Plus, Trash2} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
@@ -9,7 +9,6 @@ import DataTable from "@/components/common/data-table.jsx";
 import Modal from "@/components/common/modal.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Controller, useForm} from "react-hook-form";
 import {
     Select,
     SelectContent,
@@ -20,27 +19,30 @@ import {
     SelectValue
 } from "@/components/ui/select.jsx";
 
-function DegreePage() {
+function institutionPage() {
     const {
-        fetchDegrees,
         isLoading,
-        degrees,
+        fetchInstitutions,
+        institutionData,
+        setInstitutionValue,
         search,
         setSearch,
         currentPage,
         setCurrentPage,
         openModal,
         setOpenModal,
+        institutionValue,
+        columns,
         openDeleteModal,
         setOpenDeleteModal,
-        degreeValue,
-        setDegreeValue,
-        columns,
-        degreeValueLoading,
-        updateDegree,
-        createDegree,
-        deleteDegree
-    } = useDegreeStore();
+        createInstitution,
+        updateInstitution,
+    } = useRegistrationInstitutionStore();
+
+
+    useEffect(() => {
+        fetchInstitutions({perPage: 20})
+    }, [currentPage, search]);
 
 
     // form
@@ -59,17 +61,11 @@ function DegreePage() {
         }
     });
 
-
     useEffect(() => {
-        fetchDegrees({perPage: 20});
-    }, [fetchDegrees, search, currentPage]);
-
-
-    useEffect(() => {
-        if (degreeValue && !openDeleteModal) {
+        if (institutionValue && !openDeleteModal) {
             reset({
-                name: degreeValue.name || "",
-                type: degreeValue.type || ""
+                name: institutionValue.name || "",
+                type: institutionValue.type || ""
             })
         } else {
             reset({
@@ -77,7 +73,8 @@ function DegreePage() {
                 type: ""
             });
         }
-    }, [degreeValue, reset]);
+    }, [institutionValue, reset, openDeleteModal])
+
 
     useEffect(() => {
         if (!openModal) {
@@ -85,25 +82,29 @@ function DegreePage() {
                 name: "",
                 type: ""
             });
-            if (setDegreeValue) {
-                setDegreeValue(null);
+            if (setInstitutionValue) {
+                setInstitutionValue(null);
             }
         }
     }, [openModal, reset]);
 
     const onSubmit = async (data) => {
-        if (degreeValue) {
-            await updateDegree(degreeValue.id, data);
+        if (institutionValue) {
+            await updateInstitution(institutionValue.id, data);
         } else {
-            await createDegree(data);
+            await createInstitution(data);
         }
-    };
+    }
+
+    const deleteInstitution = async (page) => {
+        console.log("Deleting institution:", institutionValue?.id);
+    }
 
 
-    const renderRow = (degree, index) => {
-        return (<TableRow key={degree.id} className="hover:bg-muted/50 transition-colors">
+    const renderRow = (institution, index) => {
+        return (<TableRow key={institution.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {degrees.from + index}
+                {institutionData.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
@@ -112,7 +113,7 @@ function DegreePage() {
                     </div>
                     <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
-                                {degree.name}
+                                {institution.name}
                             </span>
                     </div>
                 </div>
@@ -121,7 +122,7 @@ function DegreePage() {
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
-                                {degree.type}
+                                {institution.type.toUpperCase()}
                             </span>
                     </div>
                 </div>
@@ -136,12 +137,12 @@ function DegreePage() {
                                         variant="ghost"
                                         size="sm"
                                         className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        onClick={() => setOpenModal(true, degree.id)}>
+                                        onClick={() => setOpenModal(true, institution.id)}>
                                         <Pencil className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Edit Gelar</p>
+                                    <p>Edit Lembaga Pendaftaran</p>
                                 </TooltipContent>
                             </Tooltip>
                             <Tooltip>
@@ -150,12 +151,12 @@ function DegreePage() {
                                         variant="ghost"
                                         size="sm"
                                         className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                        onClick={() => setOpenDeleteModal(true, degree.id)}>
+                                        onClick={() => setOpenDeleteModal(true, institution.id)}>
                                         <Trash2 className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Delete Gelar</p>
+                                    <p>Delete Lembaga Pendaftaran</p>
                                 </TooltipContent>
                             </Tooltip>
                         </>
@@ -166,7 +167,7 @@ function DegreePage() {
     };
 
     return (
-        <Layout>
+        <>
             <div className="space-y-6 p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
                     <div className="space-y-1">
@@ -177,10 +178,10 @@ function DegreePage() {
                             </div>
                             <div>
                                 <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                    Gelar
+                                    Lembaga pendaftaran
                                 </h1>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Kelola Gelar sistem
+                                    Lembaga pendaftaran SIP & STR
                                 </p>
                             </div>
                         </div>
@@ -191,23 +192,23 @@ function DegreePage() {
                         size="lg"
                     >
                         <Plus className="w-4 h-4"/>
-                        Tambah Gelar
+                        Tambah Lembaga Pendaftaran
                     </Button>
                 </div>
 
                 {/* Data Table */}
                 <DataTable
-                    title="Data Gelar"
-                    description="Kelola dan atur gelar di seluruh sistem"
+                    title="Data Lembaga Pendaftaran "
+                    description="Kelola dan atur lembaga pendaftaran di seluruh sistem"
                     columns={columns()}
-                    data={degrees?.data || []}
+                    data={institutionData?.data || []}
                     isLoading={isLoading}
-                    pagination={degrees ? {
-                        from: degrees.from,
-                        to: degrees.to,
-                        total: degrees.total,
-                        current_page: degrees.current_page,
-                        last_page: degrees.last_page
+                    pagination={institutionData ? {
+                        from: institutionData.from,
+                        to: institutionData.to,
+                        total: institutionData.total,
+                        current_page: institutionData.current_page,
+                        last_page: institutionData.last_page
                     } : null}
                     onPageChange={setCurrentPage}
                     currentPage={currentPage}
@@ -215,7 +216,7 @@ function DegreePage() {
                     search={search}
                     searchPlaceholder="Search payment methods..."
                     emptyStateIcon={CreditCard}
-                    emptyStateText="No payment methods found"
+                    emptyStateText="No data found"
                     renderRow={renderRow}
                     showSearch={true}
                 />
@@ -223,10 +224,10 @@ function DegreePage() {
                 <Modal
                     open={openModal}
                     onOpenChange={setOpenModal}
-                    title={degreeValue ? "Edit Gelar" : "Tambah Gelar"}
-                    description={degreeValue ? "Update Gelar" : "Tambah gelar baru ke sistem."}
+                    title={institutionValue ? "Edit Lembaga Pendaftaran" : "Create New Lembaga Pendaftaran"}
+                    description={institutionValue ? "Update payment method information" : "Add a new payment method to your system"}
                     onSubmit={handleSubmit(onSubmit)}
-                    submitText={degreeValue ? "Update Gelar" : "Tambah Gelar"}
+                    submitText={institutionValue ? "Update Lembaga Pendaftaran" : "Create Lembaga Pendaftaran"}
                     isLoading={isSubmitting}
                 >
                     <div className="space-y-5 py-2">
@@ -236,44 +237,42 @@ function DegreePage() {
                             </Label>
                             <Input
                                 id="name"
-                                placeholder="Masukkan nama gelar"
-                                {...register("name", {required: "Nama gelar tidak boleh kosong"})}
-                                disabled={degreeValueLoading}
+                                placeholder="Masukkan nama lembaga pendaftaran"
+                                {...register("name", {required: "Nama lembaga pendaftaran tidak boleh kosong"})}
                             />
                             {errors.name ? (
                                 <p className="text-sm text-destructive">{errors.name.message}</p>
                             ) : (
                                 <p className="text-xs text-muted-foreground">
-                                    Pilih nama yang deskriptif untuk gelar ini.
+                                    Pilih nama yang deskriptif untuk lembaga pendaftaran ini.
                                 </p>
                             )}
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="type">
-                                Tipe <span className="text-destructive">*</span>
+                                Tipe Lembaga Pendaftaran <span className="text-destructive">*</span>
                             </Label>
                             <Controller
                                 name="type"
                                 control={control}
-                                disabled={degreeValueLoading}
-                                rules={{required: "Tipe Gelar harus dipilih"}}
+                                rules={{required: "Tipe lembaga pendaftaran harus dipilih"}}
                                 render={({field}) => (
                                     <Select
                                         onValueChange={field.onChange}
                                         value={field.value}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih Tipe Gelar"/>
+                                            <SelectValue placeholder="Pilih Tipe Lembaga Pendaftaran"/>
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectLabel>Tipe Gelar</SelectLabel>
-                                                <SelectItem value="prefix">
-                                                    Gelar Belakang
+                                                <SelectLabel>Tipe Lembaga Pendaftaran</SelectLabel>
+                                                <SelectItem value="sip">
+                                                    SIP
                                                 </SelectItem>
-                                                <SelectItem value="suffix">
-                                                    Gelar Depan
+                                                <SelectItem value="str">
+                                                    STR
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
@@ -284,7 +283,7 @@ function DegreePage() {
                                 <p className="text-sm text-destructive">{errors.type.message}</p>
                             ) : (
                                 <p className="text-xs text-muted-foreground">
-                                    Pilih tipe Gelar.
+                                    Pilih tipe lembaga pendaftaran untuk lembaga pendaftaran ini.
                                 </p>
                             )}
                         </div>
@@ -294,12 +293,12 @@ function DegreePage() {
                 <Modal
                     open={openDeleteModal}
                     onOpenChange={setOpenDeleteModal}
-                    title="Delete Gelar"
+                    title="Delete Lembaga Pendaftaran"
                     description="This action cannot be undone. This will permanently delete the payment method."
-                    onSubmit={() => deleteDegree(degreeValue.id)}
-                    submitText="Delete Gelar"
+                    onSubmit={() => deleteInstitution(currentPage)}
+                    submitText="Delete Lembaga Pendaftaran"
                     type="danger"
-                    isLoading={isLoading}
+                    isLoading={isSubmitting}
                 >
                     <div className="space-y-4 py-2">
                         <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
@@ -317,7 +316,7 @@ function DegreePage() {
                                     <p className="text-sm text-muted-foreground">
                                         You are about to delete the payment method:{" "}
                                         <span className="font-semibold text-foreground">
-                                            {degreeValue?.name}
+                                            {institutionValue?.name}
                                         </span>
                                     </p>
                                 </div>
@@ -329,8 +328,9 @@ function DegreePage() {
                     </div>
                 </Modal>
             </div>
-        </Layout>
+        </>
     );
 }
 
-export default DegreePage;
+
+export default institutionPage;

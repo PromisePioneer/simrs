@@ -17,15 +17,17 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedSettingsIndexRouteImport } from './routes/_protected/settings/index'
 import { Route as ProtectedMasterRoleRouteImport } from './routes/_protected/master/role'
-import { Route as ProtectedSettingsReferencesIndexRouteImport } from './routes/_protected/settings/references/index'
 import { Route as ProtectedSettingsPatientsIndexRouteImport } from './routes/_protected/settings/patients/index'
 import { Route as ProtectedMasterUserIndexRouteImport } from './routes/_protected/master/user/index'
+import { Route as ProtectedMasterRegistrationInstitutionsIndexRouteImport } from './routes/_protected/master/registration-institutions/index'
+import { Route as ProtectedMasterPaymentMethodIndexRouteImport } from './routes/_protected/master/payment-method/index'
 import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
+import { Route as ProtectedMasterDegreeIndexRouteImport } from './routes/_protected/master/degree/index'
+import { Route as ProtectedSettingsPatientsDetailsRouteImport } from './routes/_protected/settings/patients/details'
 import { Route as ProtectedSettingsPatientsCreateRouteImport } from './routes/_protected/settings/patients/create'
 import { Route as ProtectedSettingsPatientsIdRouteImport } from './routes/_protected/settings/patients/$id'
 import { Route as ProtectedMasterUserCreateRouteImport } from './routes/_protected/master/user/create'
 import { Route as ProtectedMasterUserIdRouteImport } from './routes/_protected/master/user/$id'
-import { Route as ProtectedSettingsPatientsDetailsIdRouteImport } from './routes/_protected/settings/patients/details.$id'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -66,12 +68,6 @@ const ProtectedMasterRoleRoute = ProtectedMasterRoleRouteImport.update({
   path: '/master/role',
   getParentRoute: () => ProtectedRoute,
 } as any)
-const ProtectedSettingsReferencesIndexRoute =
-  ProtectedSettingsReferencesIndexRouteImport.update({
-    id: '/settings/references/',
-    path: '/settings/references/',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
 const ProtectedSettingsPatientsIndexRoute =
   ProtectedSettingsPatientsIndexRouteImport.update({
     id: '/settings/patients/',
@@ -84,10 +80,34 @@ const ProtectedMasterUserIndexRoute =
     path: '/master/user/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedMasterRegistrationInstitutionsIndexRoute =
+  ProtectedMasterRegistrationInstitutionsIndexRouteImport.update({
+    id: '/master/registration-institutions/',
+    path: '/master/registration-institutions/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedMasterPaymentMethodIndexRoute =
+  ProtectedMasterPaymentMethodIndexRouteImport.update({
+    id: '/master/payment-method/',
+    path: '/master/payment-method/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedMasterModuleIndexRoute =
   ProtectedMasterModuleIndexRouteImport.update({
     id: '/master/module/',
     path: '/master/module/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedMasterDegreeIndexRoute =
+  ProtectedMasterDegreeIndexRouteImport.update({
+    id: '/master/degree/',
+    path: '/master/degree/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedSettingsPatientsDetailsRoute =
+  ProtectedSettingsPatientsDetailsRouteImport.update({
+    id: '/settings/patients/details',
+    path: '/settings/patients/details',
     getParentRoute: () => ProtectedRoute,
   } as any)
 const ProtectedSettingsPatientsCreateRoute =
@@ -113,12 +133,6 @@ const ProtectedMasterUserIdRoute = ProtectedMasterUserIdRouteImport.update({
   path: '/master/user/$id',
   getParentRoute: () => ProtectedRoute,
 } as any)
-const ProtectedSettingsPatientsDetailsIdRoute =
-  ProtectedSettingsPatientsDetailsIdRouteImport.update({
-    id: '/settings/patients/details/$id',
-    path: '/settings/patients/details/$id',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -132,11 +146,13 @@ export interface FileRoutesByFullPath {
   '/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/settings/patients/details': typeof ProtectedSettingsPatientsDetailsRoute
+  '/master/degree': typeof ProtectedMasterDegreeIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
+  '/master/payment-method': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/master/registration-institutions': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
   '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
-  '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
-  '/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -150,11 +166,13 @@ export interface FileRoutesByTo {
   '/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/settings/patients/details': typeof ProtectedSettingsPatientsDetailsRoute
+  '/master/degree': typeof ProtectedMasterDegreeIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
+  '/master/payment-method': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/master/registration-institutions': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/master/user': typeof ProtectedMasterUserIndexRoute
   '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
-  '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
-  '/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -170,11 +188,13 @@ export interface FileRoutesById {
   '/_protected/master/user/create': typeof ProtectedMasterUserCreateRoute
   '/_protected/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/_protected/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/_protected/settings/patients/details': typeof ProtectedSettingsPatientsDetailsRoute
+  '/_protected/master/degree/': typeof ProtectedMasterDegreeIndexRoute
   '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
+  '/_protected/master/payment-method/': typeof ProtectedMasterPaymentMethodIndexRoute
+  '/_protected/master/registration-institutions/': typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   '/_protected/master/user/': typeof ProtectedMasterUserIndexRoute
   '/_protected/settings/patients/': typeof ProtectedSettingsPatientsIndexRoute
-  '/_protected/settings/references/': typeof ProtectedSettingsReferencesIndexRoute
-  '/_protected/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,11 +210,13 @@ export interface FileRouteTypes {
     | '/master/user/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
+    | '/settings/patients/details'
+    | '/master/degree'
     | '/master/module'
+    | '/master/payment-method'
+    | '/master/registration-institutions'
     | '/master/user'
     | '/settings/patients'
-    | '/settings/references'
-    | '/settings/patients/details/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -208,11 +230,13 @@ export interface FileRouteTypes {
     | '/master/user/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
+    | '/settings/patients/details'
+    | '/master/degree'
     | '/master/module'
+    | '/master/payment-method'
+    | '/master/registration-institutions'
     | '/master/user'
     | '/settings/patients'
-    | '/settings/references'
-    | '/settings/patients/details/$id'
   id:
     | '__root__'
     | '/'
@@ -227,11 +251,13 @@ export interface FileRouteTypes {
     | '/_protected/master/user/create'
     | '/_protected/settings/patients/$id'
     | '/_protected/settings/patients/create'
+    | '/_protected/settings/patients/details'
+    | '/_protected/master/degree/'
     | '/_protected/master/module/'
+    | '/_protected/master/payment-method/'
+    | '/_protected/master/registration-institutions/'
     | '/_protected/master/user/'
     | '/_protected/settings/patients/'
-    | '/_protected/settings/references/'
-    | '/_protected/settings/patients/details/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -300,13 +326,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterRoleRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/settings/references/': {
-      id: '/_protected/settings/references/'
-      path: '/settings/references'
-      fullPath: '/settings/references'
-      preLoaderRoute: typeof ProtectedSettingsReferencesIndexRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
     '/_protected/settings/patients/': {
       id: '/_protected/settings/patients/'
       path: '/settings/patients'
@@ -321,11 +340,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterUserIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/master/registration-institutions/': {
+      id: '/_protected/master/registration-institutions/'
+      path: '/master/registration-institutions'
+      fullPath: '/master/registration-institutions'
+      preLoaderRoute: typeof ProtectedMasterRegistrationInstitutionsIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/master/payment-method/': {
+      id: '/_protected/master/payment-method/'
+      path: '/master/payment-method'
+      fullPath: '/master/payment-method'
+      preLoaderRoute: typeof ProtectedMasterPaymentMethodIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/master/module/': {
       id: '/_protected/master/module/'
       path: '/master/module'
       fullPath: '/master/module'
       preLoaderRoute: typeof ProtectedMasterModuleIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/master/degree/': {
+      id: '/_protected/master/degree/'
+      path: '/master/degree'
+      fullPath: '/master/degree'
+      preLoaderRoute: typeof ProtectedMasterDegreeIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/settings/patients/details': {
+      id: '/_protected/settings/patients/details'
+      path: '/settings/patients/details'
+      fullPath: '/settings/patients/details'
+      preLoaderRoute: typeof ProtectedSettingsPatientsDetailsRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/patients/create': {
@@ -356,13 +403,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterUserIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/settings/patients/details/$id': {
-      id: '/_protected/settings/patients/details/$id'
-      path: '/settings/patients/details/$id'
-      fullPath: '/settings/patients/details/$id'
-      preLoaderRoute: typeof ProtectedSettingsPatientsDetailsIdRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
   }
 }
 
@@ -374,11 +414,13 @@ interface ProtectedRouteChildren {
   ProtectedMasterUserCreateRoute: typeof ProtectedMasterUserCreateRoute
   ProtectedSettingsPatientsIdRoute: typeof ProtectedSettingsPatientsIdRoute
   ProtectedSettingsPatientsCreateRoute: typeof ProtectedSettingsPatientsCreateRoute
+  ProtectedSettingsPatientsDetailsRoute: typeof ProtectedSettingsPatientsDetailsRoute
+  ProtectedMasterDegreeIndexRoute: typeof ProtectedMasterDegreeIndexRoute
   ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
+  ProtectedMasterPaymentMethodIndexRoute: typeof ProtectedMasterPaymentMethodIndexRoute
+  ProtectedMasterRegistrationInstitutionsIndexRoute: typeof ProtectedMasterRegistrationInstitutionsIndexRoute
   ProtectedMasterUserIndexRoute: typeof ProtectedMasterUserIndexRoute
   ProtectedSettingsPatientsIndexRoute: typeof ProtectedSettingsPatientsIndexRoute
-  ProtectedSettingsReferencesIndexRoute: typeof ProtectedSettingsReferencesIndexRoute
-  ProtectedSettingsPatientsDetailsIdRoute: typeof ProtectedSettingsPatientsDetailsIdRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
@@ -389,12 +431,15 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedMasterUserCreateRoute: ProtectedMasterUserCreateRoute,
   ProtectedSettingsPatientsIdRoute: ProtectedSettingsPatientsIdRoute,
   ProtectedSettingsPatientsCreateRoute: ProtectedSettingsPatientsCreateRoute,
+  ProtectedSettingsPatientsDetailsRoute: ProtectedSettingsPatientsDetailsRoute,
+  ProtectedMasterDegreeIndexRoute: ProtectedMasterDegreeIndexRoute,
   ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,
+  ProtectedMasterPaymentMethodIndexRoute:
+    ProtectedMasterPaymentMethodIndexRoute,
+  ProtectedMasterRegistrationInstitutionsIndexRoute:
+    ProtectedMasterRegistrationInstitutionsIndexRoute,
   ProtectedMasterUserIndexRoute: ProtectedMasterUserIndexRoute,
   ProtectedSettingsPatientsIndexRoute: ProtectedSettingsPatientsIndexRoute,
-  ProtectedSettingsReferencesIndexRoute: ProtectedSettingsReferencesIndexRoute,
-  ProtectedSettingsPatientsDetailsIdRoute:
-    ProtectedSettingsPatientsDetailsIdRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
