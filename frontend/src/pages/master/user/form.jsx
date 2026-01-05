@@ -76,18 +76,35 @@ function UserForm(opts) {
     const selectedRoles = watch("roles") || [];
     const isDoctor = selectedRoles.includes("Dokter") || selectedRoles.includes("Perawat");
 
-    // Initialize data
+    // Debug roleData
     useEffect(() => {
-        fetchRoles()
-        fetchInstitutions({type: "str"});
-        fetchInstitutions({type: "sip"})
+        console.log('=== USER FORM DEBUG ===');
+        console.log('roleData:', roleData);
+        console.log('roleData type:', typeof roleData);
+        console.log('Is array?', Array.isArray(roleData));
+        console.log('roleData.data:', roleData?.data);
+        console.log('Is roleData.data array?', Array.isArray(roleData?.data));
+        console.log('=====================');
+    }, [roleData]);
+
+    // Initialize data - Fetch roles first
+    useEffect(() => {
         const init = async () => {
+            // Fetch roles and institutions in parallel
+            await Promise.all([
+                fetchRoles(),
+                fetchInstitutions({type: "str"}),
+                fetchInstitutions({type: "sip"})
+            ]);
+
+            // Then fetch user data if in edit mode
             if (isEditMode) {
                 await showUser(id);
             }
         };
+
         init();
-    }, [id, isEditMode, fetchInstitutions, showUser]);
+    }, [id, isEditMode, fetchRoles, fetchInstitutions, showUser]);
 
     // Update form when user data is loaded
     useEffect(() => {
@@ -105,23 +122,20 @@ function UserForm(opts) {
 
     // Form submission
     const onSubmit = async (data) => {
-
         let formData = new FormData();
 
-        const specialFields = ['roles']
+        const specialFields = ['roles'];
         Object.keys(data).forEach(key => {
             if (!specialFields.includes(key) && data[key]) {
                 formData.append(key, data[key]);
             }
         });
 
-
         if (data.roles && Array.isArray(data.roles)) {
             data.roles.forEach(role => {
                 formData.append('roles[]', role);
             });
         }
-
 
         if (isEditMode) {
             await handleEdit(id, formData);
@@ -159,7 +173,13 @@ function UserForm(opts) {
                             control={control}
                             errors={errors}
                             isEditMode={isEditMode}
-                            roleData={roleData}
+                            roleData={
+                                Array.isArray(roleData)
+                                    ? roleData
+                                    : Array.isArray(roleData?.data)
+                                        ? roleData.data
+                                        : []
+                            }
                         />
 
                         <UserSTRInfoSection
@@ -167,7 +187,7 @@ function UserForm(opts) {
                             control={control}
                             errors={errors}
                             isDoctor={isDoctor}
-                            strData={strData}
+                            strData={strData || []}
                             handleInstituteType={handleInstituteType}
                         />
 
@@ -176,7 +196,7 @@ function UserForm(opts) {
                             control={control}
                             errors={errors}
                             isDoctor={isDoctor}
-                            sipData={sipData}
+                            sipData={sipData || []}
                             handleInstituteType={handleInstituteType}
                         />
 
@@ -186,9 +206,6 @@ function UserForm(opts) {
                             handleFileChange={handleFileChange}
                             removeImage={removeImage}
                         />
-
-
-
 
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-4">
