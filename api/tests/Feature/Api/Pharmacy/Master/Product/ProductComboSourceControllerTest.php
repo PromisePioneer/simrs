@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Product;
+use App\Models\Medicine;
 use Illuminate\Support\Carbon;
 
 it('returns all products', function () {
-    Product::factory()->create(['tenant_id' => $this->tenant->id]);
-    Product::factory()->create(['tenant_id' => $this->tenant->id]);
+    Medicine::factory()->create(['tenant_id' => $this->tenant->id]);
+    Medicine::factory()->create(['tenant_id' => $this->tenant->id]);
 
     $response = $this->getJson('/api/v1/combo-sources/products/');
     $response->assertStatus(200)
@@ -18,13 +18,13 @@ it('returns all products', function () {
 });
 
 it('returns only expired products', function () {
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Expired Product',
         'expired_date' => Carbon::now()->subDay(),
         'tenant_id' => $this->tenant->id,
     ]);
 
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Active Product',
         'expired_date' => Carbon::now()->addDay(),
         'tenant_id' => $this->tenant->id,
@@ -39,13 +39,13 @@ it('returns only expired products', function () {
 });
 
 it('returns only active products', function () {
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Expired Product',
         'expired_date' => Carbon::now()->subDay(),
         'tenant_id' => $this->tenant->id,
     ]);
 
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Active Product',
         'expired_date' => Carbon::now()->addDay(),
         'tenant_id' => $this->tenant->id,
@@ -61,13 +61,13 @@ it('returns only active products', function () {
 });
 
 it('can search products by name or code', function () {
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Apple',
         'code' => 'APL001',
         'tenant_id' => $this->tenant->id,
     ]);
 
-    Product::factory()->create([
+    Medicine::factory()->create([
         'name' => 'Banana',
         'code' => 'BNA002',
         'tenant_id' => $this->tenant->id,

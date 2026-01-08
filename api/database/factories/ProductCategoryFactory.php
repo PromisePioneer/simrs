@@ -6,7 +6,7 @@ use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductCategory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MedicineCategory>
  */
 class ProductCategoryFactory extends Factory
 {

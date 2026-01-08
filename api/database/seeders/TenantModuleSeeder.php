@@ -66,30 +66,6 @@ class TenantModuleSeeder extends Seeder
                 ],
                 'children' => [
                     [
-                        'name' => 'Role Management',
-                        'order' => 1,
-                        'icon' => null,
-                        'route' => '/master/role',
-                        'permissions' => [
-                            'Melihat Role Management',
-                            'Menambahkan Role Management',
-                            'Mengubah Role Management',
-                            'Menghapus Role Management',
-                        ]
-                    ],
-                    [
-                        'name' => 'User Management',
-                        'order' => 2,
-                        'icon' => null,
-                        'route' => '/master/user',
-                        'permissions' => [
-                            'Melihat User Management',
-                            'Menambahkan User Management',
-                            'Mengubah User Management',
-                            'Menghapus User Management',
-                        ]
-                    ],
-                    [
                         'name' => 'Module Management',
                         'order' => 3,
                         'icon' => null,
@@ -99,17 +75,6 @@ class TenantModuleSeeder extends Seeder
                             'Menambahkan Module Management',
                             'Mengubah Module Management',
                             'Menghapus Module Management',
-                        ]
-                    ], [
-                        'name' => 'Lembaga Pendaftaran',
-                        'order' => 5,
-                        'icon' => null,
-                        'route' => '/master/registration-institutions',
-                        'permissions' => [
-                            'Melihat Lembaga Pendaftaran',
-                            'Menambahkan Lembaga Pendaftaran',
-                            'Mengubah Lembaga Pendaftaran',
-                            'Menghapus Lembaga Pendaftaran',
                         ]
                     ]
                 ]

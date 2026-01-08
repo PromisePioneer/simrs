@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useSearch} from "@tanstack/react-router";
 import apiCall from "@/services/apiCall.js";
+import {useSearchParams} from "react-router";
 
 function EmailVerify() {
     const [params] = useSearchParams();

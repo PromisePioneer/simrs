@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\ProductRack;
+use App\Models\MedicineRack;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -12,7 +12,7 @@ class ProductRackPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ProductRack $productRack): bool
+    public function view(User $user, MedicineRack $productRack): bool
     {
         return $user->can('Melihat Rak Produk');
     }
@@ -28,7 +28,7 @@ class ProductRackPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ProductRack $productRack): bool
+    public function update(User $user, MedicineRack $productRack): bool
     {
         return $user->can('Mengubah Rak Produk');
     }
@@ -36,7 +36,7 @@ class ProductRackPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ProductRack $productRack): bool
+    public function delete(User $user, MedicineRack $productRack): bool
     {
         return $user->can('Menghapus Rak Produk');
     }

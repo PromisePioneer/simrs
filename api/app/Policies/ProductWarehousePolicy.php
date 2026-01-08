@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\ProductWarehouse;
+use App\Models\MedicineWarehouse;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -12,7 +12,7 @@ class ProductWarehousePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ProductWarehouse $productWarehouse): bool
+    public function view(User $user, MedicineWarehouse $productWarehouse): bool
     {
         return $user->can('Melihat Gudang Produk');
     }
@@ -28,7 +28,7 @@ class ProductWarehousePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ProductWarehouse $productWarehouse): bool
+    public function update(User $user, MedicineWarehouse $productWarehouse): bool
     {
         return $user->can('Mengubah Gudang Produk');
     }
@@ -36,7 +36,7 @@ class ProductWarehousePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ProductWarehouse $productWarehouse): bool
+    public function delete(User $user, MedicineWarehouse $productWarehouse): bool
     {
         return $user->can('Menghapus Gudang Produk');
     }

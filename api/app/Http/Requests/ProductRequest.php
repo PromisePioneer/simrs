@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Models\Medicine;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'name' => ['required'],
             'code' => ['required', Rule::unique('products', 'code')->ignore($this->route('product'))],
             'must_has_receipt' => ['nullable', 'boolean'],
-            'type' => ['required', Rule::in(array_keys(Product::getTypes()))],
+            'type' => ['required', Rule::in(array_keys(Medicine::getTypes()))],
             'warehouse_id' => ['required', Rule::exists('product_warehouses', 'id')],
             'category_id' => ['required', Rule::exists('product_categories', 'id')],
             'rack_id' => ['required', Rule::exists('product_warehouses', 'id')],

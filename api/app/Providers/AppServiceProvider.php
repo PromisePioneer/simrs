@@ -6,11 +6,11 @@ use App\Models\Degree;
 use App\Models\PaymentMethod;
 use App\Models\PaymentMethodType;
 use App\Models\Poli;
-use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\ProductRack;
+use App\Models\Medicine;
+use App\Models\MedicineCategory;
+use App\Models\MedicineRack;
 use App\Models\ProductUnitType;
-use App\Models\ProductWarehouse;
+use App\Models\MedicineWarehouse;
 use App\Models\Profession;
 use App\Models\RegistrationInstitution;
 use App\Models\Role;
@@ -83,11 +83,11 @@ class AppServiceProvider extends ServiceProvider
         /*
          *  Pharmacy
          */
-        Gate::policy(ProductRack::class, ProductRackPolicy::class);
-        Gate::policy(ProductCategory::class, ProductCategoryPolicy::class);
-        Gate::policy(ProductWarehouse::class, ProductWarehousePolicy::class);
+        Gate::policy(MedicineRack::class, ProductRackPolicy::class);
+        Gate::policy(MedicineCategory::class, ProductCategoryPolicy::class);
+        Gate::policy(MedicineWarehouse::class, ProductWarehousePolicy::class);
         Gate::policy(ProductUnitType::class, ProductUnitTypePolicy::class);
-        Gate::policy(Product::class, ProductPolicy::class);
+        Gate::policy(Medicine::class, ProductPolicy::class);
     }
 }
 

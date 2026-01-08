@@ -2,14 +2,13 @@ import SettingPage from "@/pages/settings/index.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import DegreePage from "@/pages/settings/references/degrees/index.jsx";
 import PaymentMethodPage from "@/pages/settings/references/payment-methods/index.jsx";
-import Institutions from "@/pages/settings/references/institutions/index.jsx"; // Import Tabs
+import Institutions from "@/pages/settings/references/institutions/index.jsx";
 
 function ReferencesPage() {
 
     return (
         <SettingPage>
             <div className="p-6 pb-20">
-                {/* Header Utama Halaman (Opsional, bisa dihapus jika dianggap duplikat) */}
                 <div className="mb-6">
                     <h2 className="text-2xl font-bold tracking-tight">Referensi Data</h2>
                     <p className="text-muted-foreground">Kelola data referensi gelar dan metode pembayaran.</p>
@@ -22,12 +21,12 @@ function ReferencesPage() {
                         <TabsTrigger className="cursor-pointer" value="institutions">Lembaga Pendaftaran</TabsTrigger>
                     </TabsList>
 
-                    {/* --- TAB CONTENT: GELAR --- */}
+
                     <TabsContent value="degrees" className="space-y-6 mt-0">
                         <DegreePage/>
                     </TabsContent>
 
-                    {/* --- TAB CONTENT: METODE PEMBAYARAN --- */}
+
                     <TabsContent value="payments" className="space-y-6 mt-0">
                         <PaymentMethodPage/>
                     </TabsContent>

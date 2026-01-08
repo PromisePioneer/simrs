@@ -21,6 +21,6 @@ class ProductUnitType extends TenantScopeBaseModel
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'unit_type_id');
+        return $this->hasMany(Medicine::class, 'unit_type_id');
     }
 }

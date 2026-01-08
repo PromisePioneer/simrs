@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             RoleSeeder::class,
             DegreeSeeder::class,
+            MedicineCategorySeeder::class,
             TenantModuleSeeder::class,
             PlanSeeder::class,
             PlanModuleSeeder::class,

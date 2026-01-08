@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\ProductCategory;
+use App\Models\MedicineCategory;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -28,7 +28,7 @@ class ProductCategoryPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ProductCategory $productCategory): bool
+    public function update(User $user, MedicineCategory $productCategory): bool
     {
         return $user->can('Mengubah Kategori Produk');
     }
@@ -36,7 +36,7 @@ class ProductCategoryPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ProductCategory $productCategory): bool
+    public function delete(User $user, MedicineCategory $productCategory): bool
     {
         return $user->can('Menghapus Kategori Produk');
     }

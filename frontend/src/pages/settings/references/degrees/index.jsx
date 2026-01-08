@@ -21,8 +21,6 @@ import {
 import DataTable from "@/components/common/data-table.jsx";
 
 function DegreePage() {
-
-    // --- DEGREE (GELAR) STORE & LOGIC ---
     const {
         fetchDegrees,
         isLoading: degreeLoading,

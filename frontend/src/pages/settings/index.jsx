@@ -22,13 +22,13 @@ function SettingPage({children}) {
         },
         {
             title: "Manajemen Pengguna",
-            href: "/settings/users",
+            href: "/settings/users-management",
             icon: UserCog,
             description: "Atur pengguna sistem"
         },
         {
             title: "Manajemen Obat",
-            href: "/settings/roles",
+            href: "/settings/medicines",
             icon: Pill,
             description: "Kelola data obat"
         }
@@ -78,7 +78,7 @@ function SettingPage({children}) {
                                                 ? "bg-teal-500 text-white"
                                                 : "bg-teal-100 text-teal-600 group-hover:bg-teal-500 group-hover:text-white"
                                         )}>
-                                            <Icon className="h-6 w-6" />
+                                            <Icon className="h-6 w-6"/>
                                         </div>
                                         <div>
                                             <h3 className={cn(

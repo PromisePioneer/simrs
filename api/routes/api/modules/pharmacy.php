@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\Master\Pharmachy\Product\ProductController;
-use App\Http\Controllers\Api\Master\Pharmachy\ProductCategory\ProductCategoryController;
-use App\Http\Controllers\Api\Master\Pharmachy\ProductRack\ProductRackController;
-use App\Http\Controllers\Api\Master\Pharmachy\ProductUnitType\ProductUnitTypeController;
-use App\Http\Controllers\Api\Master\Pharmachy\ProductWarehouse\ProductWarehouseController;
+use App\Http\Controllers\Api\Master\Pharmachy\Medicine\MedicineController;
+use App\Http\Controllers\Api\Master\Pharmachy\MedicineCategory\MedicineCategoryController;
+use App\Http\Controllers\Api\Master\Pharmachy\MedicineRack\MedicineRackController;
+use App\Http\Controllers\Api\Master\Pharmachy\MedicineUnitType\MedicineUnitTypeController;
+use App\Http\Controllers\Api\Master\Pharmachy\MedicineWarehouse\MedicineWarehouseController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('pharmacy')->group(function () {
-    Route::apiResource('product-categories', ProductCategoryController::class);
-    Route::apiResource('product-warehouses', ProductWarehouseController::class);
-    Route::apiResource('product-unit-types', ProductUnitTypeController::class);
-    Route::apiResource('product-racks', ProductRackController::class);
-    Route::apiResource('products', ProductController::class);
+    Route::apiResource('medicine-categories', MedicineCategoryController::class);
+    Route::apiResource('medicine-warehouses', MedicineWarehouseController::class);
+    Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
+    Route::apiResource('medicine-racks', MedicineRackController::class);
+    Route::apiResource('medicines', MedicineController::class);
 });
