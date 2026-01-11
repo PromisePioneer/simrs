@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MedicineRack extends TenantScopeBaseModel
@@ -14,14 +16,14 @@ class MedicineRack extends TenantScopeBaseModel
     protected $primaryKey = 'id';
     protected $fillable = [
         'tenant_id',
-        'warehouse_id'
+        'warehouse_id',
         'code',
         'name'
     ];
 
 
-    public function products(): HasMany
+    public function warehouse(): BelongsTo
     {
-        return $this->hasMany(Medicine::class, 'product_warehouse_id');
+        return $this->belongsTo(MedicineWarehouse::class, 'warehouse_id');
     }
 }

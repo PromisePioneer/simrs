@@ -1,9 +1,9 @@
 import SettingPage from "@/pages/settings/index.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import MedicineCategoriesPage from "@/pages/settings/medicines/categories/index.jsx";
+import MedicineWarehousePage from "@/pages/settings/medicines/warehouses /index.jsx";
 
 function MedicinePage() {
-
     return (
         <SettingPage>
             <div className="p-6 pb-20">
@@ -18,12 +18,11 @@ function MedicinePage() {
                         <TabsTrigger className="cursor-pointer" value="medicine_categories">Data Kategori</TabsTrigger>
                         <TabsTrigger className="cursor-pointer" value="medicine_warehouses">Data Gudang</TabsTrigger>
                     </TabsList>
-
                     <TabsContent value="medicine_categories" className="space-y-6 mt-0">
                         <MedicineCategoriesPage/>
                     </TabsContent>
                     <TabsContent value="medicine_warehouses" className="space-y-6 mt-0">
-                        <MedicineWarehouse
+                        <MedicineWarehousePage/>
                     </TabsContent>
                 </Tabs>
             </div>

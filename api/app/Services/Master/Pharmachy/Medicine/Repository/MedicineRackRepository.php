@@ -30,6 +30,21 @@ class MedicineRackRepository implements MedicineRackRepositoryInterface
         return $query->get();
     }
 
+    public function getUnassignedRacks(array $filters = [], ?int $perPage = null): ?object
+    {
+        $query = $this->model->orderBy('name');
+
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if ($perPage) {
+            return $query->paginate($perPage);
+        }
+
+        return $query->get();
+    }
+
     public function findById(string $id): ?object
     {
         return $this->model->findOrFail($id);

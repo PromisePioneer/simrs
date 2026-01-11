@@ -2,7 +2,7 @@
 
 namespace App\Services\Master\Pharmachy\Medicine\Service;
 
-use App\Http\Requests\ProductRackRequest;
+use App\Http\Requests\MedicineRackRequest;
 use App\Services\Master\Pharmachy\Medicine\Repository\MedicineRackRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -21,25 +21,33 @@ class MedicineRackService
     {
         $filters = $request->only('search');
         $perPage = $request->input('per_page');
-        return $this->productRackRepository->getMedicineRacks($filters, $perPage);
+        return $this->productRackRepository->getMedicineRacks(filters: $filters, perPage: $perPage);
     }
 
 
-    public function store(ProductRackRequest $request): ?object
+    public function getUnassignedRacks(Request $request): Collection|LengthAwarePaginator
     {
-        $data = $request->validated();
-        return $this->productRackRepository->store($data);
+        $filters = $request->only('search');
+        $perPage = $request->input('per_page');
+        return $this->productRackRepository->getUnassignedRacks(filters: $filters, perPage: $perPage);
     }
 
-    public function update(ProductRackRequest $request, string $id): ?object
+
+    public function store(MedicineRackRequest $request): ?object
     {
         $data = $request->validated();
-        return $this->productRackRepository->update($id, $data);
+        return $this->productRackRepository->store(data: $data);
+    }
+
+    public function update(MedicineRackRequest $request, string $id): ?object
+    {
+        $data = $request->validated();
+        return $this->productRackRepository->update(id: $id, data: $data);
     }
 
 
     public function destroy(string $id): ?object
     {
-        return $this->productRackRepository->destroy($id);
+        return $this->productRackRepository->destroy(id: $id);
     }
 }

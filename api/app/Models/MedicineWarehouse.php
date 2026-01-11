@@ -10,7 +10,7 @@ class MedicineWarehouse extends TenantScopeBaseModel
 {
     use HasUuids, HasFactory;
 
-    protected $table = 'product_warehouses';
+    protected $table = 'medicine_warehouses';
     protected $fillable = [
         'tenant_id',
         'code',

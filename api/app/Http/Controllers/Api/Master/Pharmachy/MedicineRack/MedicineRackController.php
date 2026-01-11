@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Master\Pharmachy\MedicineRack;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRackRequest;
+use App\Http\Requests\MedicineRackRequest;
 use App\Models\MedicineRack;
 use App\Services\Master\Pharmachy\Medicine\Service\MedicineRackService;
 use App\Traits\ApiResponse;
@@ -28,15 +28,22 @@ class MedicineRackController extends Controller
     public function index(Request $request): JsonResponse
     {
         $this->authorize('view', MedicineRack::class);
-        $productRacks = $this->medicineRackService->getMedicineRacks($request);
-        return response()->json($productRacks);
+        $racks = $this->medicineRackService->getMedicineRacks($request);
+        return response()->json($racks);
+    }
+
+
+    public function getUnassignedRacks(Request $request): JsonResponse
+    {
+        $racks = $this->medicineRackService->getUnassignedRacks($request);
+        return response()->json($racks);
     }
 
 
     /**
      * @throws AuthorizationException
      */
-    public function store(ProductRackRequest $request): JsonResponse
+    public function store(MedicineRackRequest $request): JsonResponse
     {
         $this->authorize('create', MedicineRack::class);
         $productRack = $this->medicineRackService->store($request);
@@ -56,7 +63,7 @@ class MedicineRackController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(ProductRackRequest $request, MedicineRack $productRack): JsonResponse
+    public function update(MedicineRackRequest $request, MedicineRack $productRack): JsonResponse
     {
         $this->authorize('update', $productRack);
         $productRack = $this->medicineRackService->update($productRack->id, $request);

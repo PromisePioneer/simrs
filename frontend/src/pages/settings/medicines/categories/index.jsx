@@ -37,7 +37,7 @@ function MedicineCategoriesPage() {
         updateMedicineCategory,
         fetchMedicineCategories,
         deleteMedicineCategory,
-        setMedicineCategoryValue
+        setMedicineCategoryValue,
     } = useMedicineCategoriesStore();
 
     const {

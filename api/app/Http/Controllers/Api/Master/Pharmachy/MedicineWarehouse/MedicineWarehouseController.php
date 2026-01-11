@@ -24,7 +24,7 @@ class MedicineWarehouseController extends Controller
     public function index(Request $request): JsonResponse
     {
         $warehouse = $this->medicineWarehouseService->getWarehouses($request);
-        return response()->json($productWarehouse);
+        return response()->json($warehouse);
     }
 
 
@@ -32,25 +32,25 @@ class MedicineWarehouseController extends Controller
     {
         $data = $request->validated();
         $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
-        $productWarehouse = MedicineWarehouse::create($data);
-        return $this->successResponse($productWarehouse, 'Warehouse successfully created.');
+        $medicineWarehouse = MedicineWarehouse::create($data);
+        return $this->successResponse($medicineWarehouse, 'Warehouse successfully created.');
     }
 
-    public function show(MedicineWarehouse $productWarehouse): JsonResponse
+    public function show(MedicineWarehouse $medicineWarehouse): JsonResponse
     {
-        return response()->json($productWarehouse);
+        return response()->json($medicineWarehouse);
     }
 
-    public function update(MedicineWarehouseRequest $request, MedicineWarehouse $productWarehouse): JsonResponse
+    public function update(MedicineWarehouseRequest $request, MedicineWarehouse $medicineWarehouse): JsonResponse
     {
-        $productWarehouse->update($request->validated());
-        return $this->successResponse($productWarehouse, 'Warehouse successfully updated.');
+        $medicineWarehouse->update($request->validated());
+        return $this->successResponse($medicineWarehouse, 'Warehouse successfully updated.');
     }
 
 
-    public function destroy(MedicineWarehouse $productWarehouse): JsonResponse
+    public function destroy(MedicineWarehouse $medicineWarehouse): JsonResponse
     {
-        $productWarehouse->delete();
-        return $this->successResponse($productWarehouse, 'Warehouse successfully deleted.');
+        $medicineWarehouse->delete();
+        return $this->successResponse($medicineWarehouse, 'Warehouse successfully deleted.');
     }
 }

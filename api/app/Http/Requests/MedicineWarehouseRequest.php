@@ -25,8 +25,8 @@ class MedicineWarehouseRequest extends FormRequest
         return [
             'code' => ['required'],
             'name' => ['required'],
-            'racks' => ['required', 'array'],
-            'racks.*' => ['required', 'string'],
+//            'racks' => ['required', 'array'],
+//            'racks.*' => ['required', 'string'],
         ];
     }
 
@@ -36,9 +36,6 @@ class MedicineWarehouseRequest extends FormRequest
         return [
             'code.required' => 'Kode tidak boleh kosong',
             'name.required' => 'Nama tidak boleh kosong',
-            'racks.required' => 'Rak tidak boleh kosong',
-            'racks.*.required' => 'Rak tidak valid',
-            'racks.*.string' => 'Rak tidak valid'
         ];
     }
 }

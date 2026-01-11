@@ -6,6 +6,8 @@ interface MedicineRackRepositoryInterface
 {
     public function getMedicineRacks(array $filters = [], ?int $perPage = null): ?object;
 
+    public function getUnassignedRacks(array $filters = [], ?int $perPage = null): ?object;
+
     public function findById(string $id): ?object;
 
     public function store(array $data = []): ?object;

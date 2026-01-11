@@ -11,6 +11,10 @@ Route::prefix('pharmacy')->group(function () {
     Route::apiResource('medicine-categories', MedicineCategoryController::class);
     Route::apiResource('medicine-warehouses', MedicineWarehouseController::class);
     Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
-    Route::apiResource('medicine-racks', MedicineRackController::class);
     Route::apiResource('medicines', MedicineController::class);
+
+    Route::prefix('medicine-racks')->group(function () {
+        Route::apiResource('/', MedicineRackController::class);
+        Route::get('/unassigned-racks', [MedicineRackController::class, 'getUnassignedRacks']);
+    });
 });

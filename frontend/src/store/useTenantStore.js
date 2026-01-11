@@ -6,7 +6,7 @@ import apiCall from "@/services/apiCall.js";
 export const useTenantStore = create((set, get) => ({
     isLoading: false,
     error: null,
-    tenants: null,
+    tenants: [],
     search: "",
     currentPage: 1,
     tenantValue: null,

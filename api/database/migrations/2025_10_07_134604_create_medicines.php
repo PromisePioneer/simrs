@@ -37,12 +37,12 @@ return new class extends Migration {
         });
 
         Schema::create('medicine_racks', function (Blueprint $table) {
-//            $table->uuid('id')->primary();
-//            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
-//            $table->foreignUuid('warehouse_id')->constrained('medicine_categories')->cascadeOnDelete();
-//            $table->string('code');
-//            $table->string('name');
-//            $table->timestamps();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
+            $table->string('code');
+            $table->string('name');
+            $table->timestamps();
         });
 
 
