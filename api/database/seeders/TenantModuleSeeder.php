@@ -361,7 +361,7 @@ class TenantModuleSeeder extends Seeder
             'Menambahkan Lembaga Pendaftaran',
             'Mengubah Lembaga Pendaftaran',
             'Menghapus Lembaga Pendaftaran',
-            'Melihat master',
+            'Melihat Master',
             'Melihat Tipe Pembayaran',
             'Menambahkan Tipe Pembayaran',
             'Mengubah Tipe Metode Pembayaran',
@@ -384,7 +384,16 @@ class TenantModuleSeeder extends Seeder
             "Melihat Sub Spesialisasi",
             "Membuat Sub Spesialisasi",
             "Mengubah Sub Spesialisasi",
-            "Menghapus Sub Spesialisasi"
+            "Menghapus Sub Spesialisasi",
+
+            "Melihat Setting",
+
+            "Melihat pasien",
+            "Menambahkan pasien",
+            "Mengubah pasien",
+            "Menghapus pasien",
+
+
         ];
 
         foreach ($permissions as $permissionName) {

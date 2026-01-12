@@ -3,10 +3,8 @@ import {useMedicineWarehouseStore} from "@/store/medicine/medicineWarehouseStore
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Textarea} from "@/components/ui/textarea.jsx";
 import {
-    ArrowLeft, Building2, CalendarIcon,
-    Lock, Mail, MapPin, Phone, Save, Upload, User, X, Plus, Package
+    ArrowLeft, Building2, Save, Plus, Package
 } from "lucide-react"
 import {Link, useParams} from "@tanstack/react-router";
 import ContentHeader from "@/components/ui/content-header.jsx";
@@ -14,12 +12,12 @@ import {Button} from "@/components/ui/button.jsx";
 import SettingPage from "@/pages/settings/index.jsx";
 import {useMedicineRackStore} from "@/store/medicine/medicineRackStore.js";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select.jsx";
+    MultiSelect,
+    MultiSelectContent,
+    MultiSelectGroup, MultiSelectItem,
+    MultiSelectTrigger,
+    MultiSelectValue
+} from "@/components/ui/multi-select.jsx";
 import {
     Dialog,
     DialogContent,
@@ -41,8 +39,8 @@ function MedicineWarehouseForm(opts) {
     const {
         fetchUnassignedRacks,
         createMedicineRack,
-        medicineRacks,
-        isLoading
+        isLoading,
+        unassignedRacks
     } = useMedicineRackStore();
 
     const [isRackDialogOpen, setIsRackDialogOpen] = useState(false);
@@ -57,7 +55,8 @@ function MedicineWarehouseForm(opts) {
         reset,
         formState: {errors, isSubmitting},
         control,
-        setValue
+        setValue,
+        watch
     } = useForm({
         mode: "all",
         reValidateMode: "onChange",
@@ -65,15 +64,13 @@ function MedicineWarehouseForm(opts) {
             code: "",
             name: "",
             tenant_id: "",
-            rack_id: ""
+            rack: []
         }
     });
 
     // Fetch racks on component mount
     useEffect(() => {
-        if (fetchUnassignedRacks) {
-            fetchUnassignedRacks();
-        }
+        fetchUnassignedRacks();
     }, []);
 
     const onSubmit = async (data) => {
@@ -92,9 +89,10 @@ function MedicineWarehouseForm(opts) {
             }
 
             const createdRack = await createMedicineRack(newRackData);
-            // Set the newly created rack as selected
+            // Add the newly created rack to selected values
             if (createdRack?.id) {
-                setValue("rack_id", createdRack.id);
+                const currentRackIds = watch("racks") || [];
+                setValue("racks", [...currentRackIds, createdRack.id]);
             }
             // Close dialog and reset
             setIsRackDialogOpen(false);
@@ -108,8 +106,7 @@ function MedicineWarehouseForm(opts) {
         }
     };
 
-    const hasRacks = medicineRacks && medicineRacks.length > 0;
-
+    const hasRacks = unassignedRacks && unassignedRacks.length > 0;
     return (
         <>
             <SettingPage>
@@ -174,47 +171,60 @@ function MedicineWarehouseForm(opts) {
                                         </div>
                                     </div>
 
-                                    {/* Rack Selection */}
+                                    {/* Rack Multi Selection */}
                                     <div className="space-y-2">
-                                        <Label htmlFor="rack_id">
-                                            Rak <span className="text-destructive">*</span>
+                                        <Label htmlFor="racks">
+                                            Rak yg tersedia <span className="text-destructive">*</span>
                                         </Label>
 
                                         {isLoading ? (
                                             <div className="text-sm text-muted-foreground">Memuat data rak...</div>
                                         ) : hasRacks ? (
-                                            <div className="flex gap-2">
-                                                <Controller
-                                                    name="rack_id"
-                                                    control={control}
-                                                    rules={{required: "Rak wajib dipilih"}}
-                                                    render={({field}) => (
-                                                        <Select
-                                                            onValueChange={field.onChange}
-                                                            value={field.value}
-                                                        >
-                                                            <SelectTrigger className="flex-1">
-                                                                <SelectValue placeholder="Pilih rak"/>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {medicineRacks.map((rack) => (
-                                                                    <SelectItem key={rack.id} value={rack.id}>
-                                                                        {rack.code} - {rack.name}
-                                                                    </SelectItem>
-                                                                ))}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    )}
-                                                />
-                                                <Button
-                                                    type="button"
-                                                    variant="outline"
-                                                    size="icon"
-                                                    onClick={() => setIsRackDialogOpen(true)}
-                                                    title="Tambah rak baru"
-                                                >
-                                                    <Plus className="w-4 h-4"/>
-                                                </Button>
+                                            <div className="space-y-3">
+                                                <div className="flex gap-2">
+                                                    <Controller
+                                                        name="racks"
+                                                        control={control}
+                                                        rules={{
+                                                            required: "Minimal satu rak harus dipilih",
+                                                            validate: (value) =>
+                                                                (value && value.length > 0) || "Minimal satu rak harus dipilih"
+                                                        }}
+                                                        render={({field}) => (
+                                                            <MultiSelect
+                                                                values={field.value ?? []}
+                                                                onValuesChange={field.onChange}
+                                                            >
+                                                                <MultiSelectTrigger className="w-full">
+                                                                    <MultiSelectValue placeholder="Pilih Rak"
+                                                                                      overflowBehavior="wrap-when-open"/>
+                                                                </MultiSelectTrigger>
+                                                                <MultiSelectContent>
+                                                                    <MultiSelectGroup>
+                                                                        {unassignedRacks?.map((rack) => (
+                                                                            <MultiSelectItem key={rack.id}
+                                                                                             value={rack.id}>
+                                                                                {rack.name} - {rack.code}
+                                                                            </MultiSelectItem>
+                                                                        ))}
+                                                                    </MultiSelectGroup>
+                                                                </MultiSelectContent>
+                                                            </MultiSelect>
+                                                        )}
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="icon"
+                                                        onClick={() => setIsRackDialogOpen(true)}
+                                                        title="Tambah rak baru"
+                                                    >
+                                                        <Plus className="w-4 h-4"/>
+                                                    </Button>
+                                                </div>
+                                                {errors.racks && (
+                                                    <p className="text-sm text-destructive">{errors.racks.message}</p>
+                                                )}
                                             </div>
                                         ) : (
                                             <div className="border border-dashed rounded-lg p-6 text-center space-y-3">
@@ -234,10 +244,6 @@ function MedicineWarehouseForm(opts) {
                                                     Tambah Rak Baru
                                                 </Button>
                                             </div>
-                                        )}
-
-                                        {errors.rack_id && (
-                                            <p className="text-sm text-destructive">{errors.rack_id.message}</p>
                                         )}
                                     </div>
                                 </CardContent>

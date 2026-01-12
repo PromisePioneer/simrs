@@ -31,17 +31,12 @@ class PatientPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('Menbubah pasien');
+        return $user->can('Mengubah pasien');
     }
 
 
     public function delete(User $user): bool
     {
         return $user->can('Menghapus pasien');
-    }
-
-    public function viewAllPatientComboSource(User $user): bool
-    {
-        return $user->can('Melihat pasien');
     }
 }

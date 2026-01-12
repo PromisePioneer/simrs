@@ -25,8 +25,8 @@ class MedicineWarehouseRequest extends FormRequest
         return [
             'code' => ['required'],
             'name' => ['required'],
-//            'racks' => ['required', 'array'],
-//            'racks.*' => ['required', 'string'],
+            'racks' => ['required', 'array'],
+            'racks.*' => ['required', 'string'],
         ];
     }
 

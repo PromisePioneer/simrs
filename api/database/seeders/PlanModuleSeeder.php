@@ -11,29 +11,21 @@ class PlanModuleSeeder extends Seeder
     public function run(): void
     {
         $plans = Plan::all();
-        $modules = Module::pluck('id')->toArray();
+        $allModules = Module::pluck('id')->toArray();
+
+        // Prepare pivot data
+        $pivotData = [];
+        foreach ($allModules as $moduleId) {
+            $pivotData[$moduleId] = ['is_accessible' => true];
+        }
 
         foreach ($plans as $plan) {
-            // Default allowed list
-            $allowed = [];
+            // Semua plan dapat akses ke semua module
+            $plan->modules()->sync($pivotData);
 
-            // Basic → semua module kecuali Setting
-            if ($plan->slug === 'basic') {
-                $except = Module::where('name', 'Setting')->pluck('id')->toArray();
-                $allowed = array_diff($modules, $except);
-            } // Pro → semua module
-            else if ($plan->slug === 'pro') {
-                $allowed = $modules;
-            }
-
-            // Eloquent: pivot create/update (tanpa hapus pivot lama)
-            $pivotData = [];
-
-            foreach ($allowed as $moduleId) {
-                $pivotData[$moduleId] = ['is_accessible' => true];
-            }
-
-            $plan->modules()->syncWithoutDetaching($pivotData);
+            $this->command->info("Plan '{$plan->name}' assigned with " . count($allModules) . " modules");
         }
+
+        $this->command->info('Plan modules seeding completed!');
     }
 }

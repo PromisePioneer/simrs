@@ -199,7 +199,7 @@ function UserForm(opts) {
 
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-4">
-                            <Link to="/master/user">
+                            <Link to="settings/users-management">
                                 <Button type="button" variant="outline">
                                     Cancel
                                 </Button>

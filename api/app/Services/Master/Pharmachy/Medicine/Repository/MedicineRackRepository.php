@@ -32,7 +32,7 @@ class MedicineRackRepository implements MedicineRackRepositoryInterface
 
     public function getUnassignedRacks(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->orderBy('name');
+        $query = $this->model->where('warehouse_id', null)->orderBy('name');
 
         if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');
