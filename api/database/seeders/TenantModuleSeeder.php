@@ -367,9 +367,6 @@ class TenantModuleSeeder extends Seeder
             'Mengubah Tipe Metode Pembayaran',
             'Menghapus Tipe Metode Pembayaran',
             'Melihat Gelar',
-            'Membuat Gelar',
-            'Mengubah Gelar',
-            'Menghapus Gelar',
 
             'Melihat Profesi',
             'Membuat Profesi',
