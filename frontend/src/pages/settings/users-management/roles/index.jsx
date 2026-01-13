@@ -13,6 +13,8 @@ import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
+import ContentHeader from "@/components/ui/content-header.jsx";
+import {Link} from "@tanstack/react-router";
 
 function RolePage() {
     const {
@@ -129,11 +131,6 @@ function RolePage() {
                         {isGlobalRole ? 'Global' : 'Tenant'}
                     </Badge>
                 </TableCell>
-                <TableCell>
-                    <code className="text-xs bg-muted px-2.5 py-1.5 rounded-md font-mono">
-                        {role.guard_name}
-                    </code>
-                </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
                     {new Date(role.created_at).toLocaleDateString('id-ID', {
                         year: 'numeric',
@@ -220,36 +217,22 @@ function RolePage() {
     return (
         <div className="space-y-6 p-6">
             {/* Header Section */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                        <div
-                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
-                            <Users className="w-6 h-6 text-primary"/>
-                        </div>
-                        <div>
-                            <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                Role Management
-                            </h1>
-                            <p className="text-sm text-muted-foreground mt-1">
-                                Peran sistem
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <Button
-                    className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setOpenModal()}
-                    size="lg"
-                >
-                    <Plus className="w-4 h-4"/>
-                    Tambah Role Baru
-                </Button>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <ContentHeader
+                    title="Peran Pengguna"
+                    description="Manajemen Peran Pengguna Kelola dan atur anggota tim Anda"
+                />
+                <Link to="/master/user/create">
+                    <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow">
+                        <Plus className="w-4 h-4"/>
+                        Tambah
+                    </Button>
+                </Link>
             </div>
 
             {/* Data Table */}
             <DataTable
-                title="Role Data"
+                title="Data Peran Pengguna"
                 description="Kelola dan atur peran pengguna di seluruh sistem"
                 columns={columns()}
                 data={roleData.data}
@@ -264,9 +247,9 @@ function RolePage() {
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}
                 onSearch={setSearch}
-                searchPlaceholder="Search roles..."
+                searchPlaceholder="Cari peran pengguna..."
                 emptyStateIcon={Shield}
-                emptyStateText="No roles found"
+                emptyStateText="Data tidak ditemukan"
                 renderRow={renderRow}
                 showSearch={true}
             />

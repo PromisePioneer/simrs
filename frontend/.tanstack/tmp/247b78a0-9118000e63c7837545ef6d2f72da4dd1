@@ -26,10 +26,9 @@ import { Route as ProtectedSettingsPatientsCreateRouteImport } from './routes/_p
 import { Route as ProtectedSettingsPatientsIdRouteImport } from './routes/_protected/settings/patients/$id'
 import { Route as ProtectedSettingsUsersManagementRolesIndexRouteImport } from './routes/_protected/settings/users-management/roles/index'
 import { Route as ProtectedSettingsUsersManagementUsersCreateRouteImport } from './routes/_protected/settings/users-management/users/create'
+import { Route as ProtectedSettingsUsersManagementUsersIdRouteImport } from './routes/_protected/settings/users-management/users/$id'
 import { Route as ProtectedSettingsPatientsDetailsIdRouteImport } from './routes/_protected/settings/patients/details.$id'
 import { Route as ProtectedSettingsMedicinesWarehouseCreateRouteImport } from './routes/_protected/settings/medicines/warehouse/create'
-import { Route as ProtectedSettingsUsersManagementUsersIdIndexRouteImport } from './routes/_protected/settings/users-management/users/$id/index'
-import { Route as ProtectedSettingsUsersManagementUsersIdDetailRouteImport } from './routes/_protected/settings/users-management/users/$id/detail'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -124,6 +123,12 @@ const ProtectedSettingsUsersManagementUsersCreateRoute =
     path: '/settings/users-management/users/create',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedSettingsUsersManagementUsersIdRoute =
+  ProtectedSettingsUsersManagementUsersIdRouteImport.update({
+    id: '/settings/users-management/users/$id',
+    path: '/settings/users-management/users/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsPatientsDetailsIdRoute =
   ProtectedSettingsPatientsDetailsIdRouteImport.update({
     id: '/settings/patients/details/$id',
@@ -134,18 +139,6 @@ const ProtectedSettingsMedicinesWarehouseCreateRoute =
   ProtectedSettingsMedicinesWarehouseCreateRouteImport.update({
     id: '/settings/medicines/warehouse/create',
     path: '/settings/medicines/warehouse/create',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
-const ProtectedSettingsUsersManagementUsersIdIndexRoute =
-  ProtectedSettingsUsersManagementUsersIdIndexRouteImport.update({
-    id: '/settings/users-management/users/$id/',
-    path: '/settings/users-management/users/$id/',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
-const ProtectedSettingsUsersManagementUsersIdDetailRoute =
-  ProtectedSettingsUsersManagementUsersIdDetailRouteImport.update({
-    id: '/settings/users-management/users/$id/detail',
-    path: '/settings/users-management/users/$id/detail',
     getParentRoute: () => ProtectedRoute,
   } as any)
 
@@ -166,10 +159,9 @@ export interface FileRoutesByFullPath {
   '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
   '/settings/medicines/warehouse/create': typeof ProtectedSettingsMedicinesWarehouseCreateRoute
   '/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
+  '/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdRoute
   '/settings/users-management/users/create': typeof ProtectedSettingsUsersManagementUsersCreateRoute
   '/settings/users-management/roles': typeof ProtectedSettingsUsersManagementRolesIndexRoute
-  '/settings/users-management/users/$id/detail': typeof ProtectedSettingsUsersManagementUsersIdDetailRoute
-  '/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -188,10 +180,9 @@ export interface FileRoutesByTo {
   '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
   '/settings/medicines/warehouse/create': typeof ProtectedSettingsMedicinesWarehouseCreateRoute
   '/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
+  '/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdRoute
   '/settings/users-management/users/create': typeof ProtectedSettingsUsersManagementUsersCreateRoute
   '/settings/users-management/roles': typeof ProtectedSettingsUsersManagementRolesIndexRoute
-  '/settings/users-management/users/$id/detail': typeof ProtectedSettingsUsersManagementUsersIdDetailRoute
-  '/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -212,10 +203,9 @@ export interface FileRoutesById {
   '/_protected/settings/users-management/': typeof ProtectedSettingsUsersManagementIndexRoute
   '/_protected/settings/medicines/warehouse/create': typeof ProtectedSettingsMedicinesWarehouseCreateRoute
   '/_protected/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
+  '/_protected/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdRoute
   '/_protected/settings/users-management/users/create': typeof ProtectedSettingsUsersManagementUsersCreateRoute
   '/_protected/settings/users-management/roles/': typeof ProtectedSettingsUsersManagementRolesIndexRoute
-  '/_protected/settings/users-management/users/$id/detail': typeof ProtectedSettingsUsersManagementUsersIdDetailRoute
-  '/_protected/settings/users-management/users/$id/': typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -236,10 +226,9 @@ export interface FileRouteTypes {
     | '/settings/users-management'
     | '/settings/medicines/warehouse/create'
     | '/settings/patients/details/$id'
+    | '/settings/users-management/users/$id'
     | '/settings/users-management/users/create'
     | '/settings/users-management/roles'
-    | '/settings/users-management/users/$id/detail'
-    | '/settings/users-management/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -258,10 +247,9 @@ export interface FileRouteTypes {
     | '/settings/users-management'
     | '/settings/medicines/warehouse/create'
     | '/settings/patients/details/$id'
+    | '/settings/users-management/users/$id'
     | '/settings/users-management/users/create'
     | '/settings/users-management/roles'
-    | '/settings/users-management/users/$id/detail'
-    | '/settings/users-management/users/$id'
   id:
     | '__root__'
     | '/'
@@ -281,10 +269,9 @@ export interface FileRouteTypes {
     | '/_protected/settings/users-management/'
     | '/_protected/settings/medicines/warehouse/create'
     | '/_protected/settings/patients/details/$id'
+    | '/_protected/settings/users-management/users/$id'
     | '/_protected/settings/users-management/users/create'
     | '/_protected/settings/users-management/roles/'
-    | '/_protected/settings/users-management/users/$id/detail'
-    | '/_protected/settings/users-management/users/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -417,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsUsersManagementUsersCreateRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/settings/users-management/users/$id': {
+      id: '/_protected/settings/users-management/users/$id'
+      path: '/settings/users-management/users/$id'
+      fullPath: '/settings/users-management/users/$id'
+      preLoaderRoute: typeof ProtectedSettingsUsersManagementUsersIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/settings/patients/details/$id': {
       id: '/_protected/settings/patients/details/$id'
       path: '/settings/patients/details/$id'
@@ -429,20 +423,6 @@ declare module '@tanstack/react-router' {
       path: '/settings/medicines/warehouse/create'
       fullPath: '/settings/medicines/warehouse/create'
       preLoaderRoute: typeof ProtectedSettingsMedicinesWarehouseCreateRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/settings/users-management/users/$id/': {
-      id: '/_protected/settings/users-management/users/$id/'
-      path: '/settings/users-management/users/$id'
-      fullPath: '/settings/users-management/users/$id'
-      preLoaderRoute: typeof ProtectedSettingsUsersManagementUsersIdIndexRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/settings/users-management/users/$id/detail': {
-      id: '/_protected/settings/users-management/users/$id/detail'
-      path: '/settings/users-management/users/$id/detail'
-      fullPath: '/settings/users-management/users/$id/detail'
-      preLoaderRoute: typeof ProtectedSettingsUsersManagementUsersIdDetailRouteImport
       parentRoute: typeof ProtectedRoute
     }
   }
@@ -460,10 +440,9 @@ interface ProtectedRouteChildren {
   ProtectedSettingsUsersManagementIndexRoute: typeof ProtectedSettingsUsersManagementIndexRoute
   ProtectedSettingsMedicinesWarehouseCreateRoute: typeof ProtectedSettingsMedicinesWarehouseCreateRoute
   ProtectedSettingsPatientsDetailsIdRoute: typeof ProtectedSettingsPatientsDetailsIdRoute
+  ProtectedSettingsUsersManagementUsersIdRoute: typeof ProtectedSettingsUsersManagementUsersIdRoute
   ProtectedSettingsUsersManagementUsersCreateRoute: typeof ProtectedSettingsUsersManagementUsersCreateRoute
   ProtectedSettingsUsersManagementRolesIndexRoute: typeof ProtectedSettingsUsersManagementRolesIndexRoute
-  ProtectedSettingsUsersManagementUsersIdDetailRoute: typeof ProtectedSettingsUsersManagementUsersIdDetailRoute
-  ProtectedSettingsUsersManagementUsersIdIndexRoute: typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
@@ -481,14 +460,12 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
     ProtectedSettingsMedicinesWarehouseCreateRoute,
   ProtectedSettingsPatientsDetailsIdRoute:
     ProtectedSettingsPatientsDetailsIdRoute,
+  ProtectedSettingsUsersManagementUsersIdRoute:
+    ProtectedSettingsUsersManagementUsersIdRoute,
   ProtectedSettingsUsersManagementUsersCreateRoute:
     ProtectedSettingsUsersManagementUsersCreateRoute,
   ProtectedSettingsUsersManagementRolesIndexRoute:
     ProtectedSettingsUsersManagementRolesIndexRoute,
-  ProtectedSettingsUsersManagementUsersIdDetailRoute:
-    ProtectedSettingsUsersManagementUsersIdDetailRoute,
-  ProtectedSettingsUsersManagementUsersIdIndexRoute:
-    ProtectedSettingsUsersManagementUsersIdIndexRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

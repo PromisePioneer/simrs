@@ -19,6 +19,8 @@ import {
     SelectValue
 } from "@/components/ui/select.jsx";
 import DataTable from "@/components/common/data-table.jsx";
+import {useAuthStore} from "@/store/authStore.js";
+import {usePermission} from "@/hooks/usePermission.js";
 
 function DegreePage() {
     const {
@@ -50,6 +52,13 @@ function DegreePage() {
             type: ""
         }
     });
+    const {hasPermission} = usePermission();
+    const canCreate = hasPermission('Membuat Gelar');
+    const canEdit = hasPermission('Mengubah Gelar');
+    const canDelete = hasPermission('Menghapus Gelar');
+    const canView = hasPermission('Melihat Gelar');
+
+    // console.log(canView);
 
 
     useEffect(() => {

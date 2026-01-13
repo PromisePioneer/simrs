@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
              *  DOCTOR
              */
             setPermissionsTeamId(null);
-            $doctor = User::create([
+            $owner = User::create([
                 'id' => Str::uuid()->toString(),
                 'name' => fake()->name,
                 'email' => fake()->email,
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
             }
 
             setPermissionsTeamId(null);
-            $doctor->assignRole($role);
+            $owner->assignRole($role);
 
             for ($i = 0; $i < 3; $i++) {
                 $nurse = User::create([

@@ -7,11 +7,17 @@ import {getInitials} from "@/hooks/use-helpers.js";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.jsx";
 import {Card} from "@/components/ui/card.jsx";
 import {Label} from "@/components/ui/label.jsx";
+import {useEffect} from "react";
 
 
-function UserDetail() {
+function UserDetail(opts) {
     const {isLoading, showUser, userValue} = useUserStore();
-    const {id} = useParams({from: '/_protected/master/user/$id'});
+    const {id} = useParams(opts);
+
+
+    useEffect(() => {
+        showUser(id);
+    }, [showUser, id])
 
 
     if (isLoading) {

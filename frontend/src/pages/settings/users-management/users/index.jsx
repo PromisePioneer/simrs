@@ -11,7 +11,6 @@ import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar.jsx";
 import {Link} from "@tanstack/react-router";
 import {getInitials} from "@/hooks/use-helpers.js";
 import Modal from "@/components/common/modal.jsx";
-import {useUserCrud} from "@/hooks/useUserCrud.js";
 import {asset} from "@/services/apiCall.js";
 
 function UserPage() {
@@ -66,7 +65,8 @@ function UserPage() {
                     </Avatar>
                     <div className="flex flex-col gap-1">
                         <Link
-                            to={`${user.id}`}
+                            to="/settings/users-management/users/$id/detail"
+                            params={{id: user.id}}
                             className="text-sm font-semibold hover:text-primary transition-colors flex items-center gap-1.5"
                         >
                             {user.name}
@@ -143,17 +143,17 @@ function UserPage() {
     );
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 p-6">
             {/* Header Section */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <ContentHeader
-                    title="User Management"
+                    title="Manajemen Pengguna"
                     description="Manajemen Pengguna Kelola dan atur anggota tim Anda"
                 />
-                <Link to="/master/user/create">
+                <Link to="/settings/users-management/users/create">
                     <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow">
                         <Plus className="w-4 h-4"/>
-                        Add New User
+                        Tambah
                     </Button>
                 </Link>
             </div>

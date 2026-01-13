@@ -357,16 +357,12 @@ class TenantModuleSeeder extends Seeder
             'Membuat Produk',
             'Mengubah Produk',
             'Menghapus Produk',
-            'Melihat Lembaga Pendaftaran',
-            'Menambahkan Lembaga Pendaftaran',
-            'Mengubah Lembaga Pendaftaran',
-            'Menghapus Lembaga Pendaftaran',
+
             'Melihat Master',
             'Melihat Tipe Pembayaran',
             'Menambahkan Tipe Pembayaran',
             'Mengubah Tipe Metode Pembayaran',
             'Menghapus Tipe Metode Pembayaran',
-            'Melihat Gelar',
 
             'Melihat Profesi',
             'Membuat Profesi',
@@ -385,10 +381,10 @@ class TenantModuleSeeder extends Seeder
 
             "Melihat Setting",
 
-            "Melihat pasien",
-            "Menambahkan pasien",
-            "Mengubah pasien",
-            "Menghapus pasien",
+            "Melihat Pasien",
+            "Menambahkan Pasien",
+            "Mengubah Pasien",
+            "Menghapus Pasien",
 
 
         ];

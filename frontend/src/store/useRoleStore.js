@@ -52,10 +52,9 @@ export const useRoleStore = create((set, get) => ({
             return [
                 {header: "No", className: "w-[80px]"},
                 {header: "Nama", className: "min-w-[200px]"},
-                {header: "Type", className: "w-[120px]"},
-                {header: "Guard", className: "w-[120px]"},
+                {header: "Tipe", className: "w-[120px]"},
                 {header: "Created At", className: "w-[150px]"},
-                {header: "Actions", className: "w-[180px] text-right"},
+                {header: "Aksi", className: "w-[180px] text-right"},
             ];
         },
         fetchRoles: async ({perPage = null} = {}) => {

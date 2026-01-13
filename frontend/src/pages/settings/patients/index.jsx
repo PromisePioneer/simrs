@@ -14,6 +14,7 @@ import {getInitials} from "@/hooks/use-helpers.js";
 import {Badge} from "@/components/ui/badge.jsx";
 import {format, formatISO} from "date-fns";
 import {id} from "date-fns/locale";
+import {useAuthStore} from "@/store/authStore.js";
 
 function PatientPage() {
 
@@ -30,6 +31,7 @@ function PatientPage() {
         setOpenDeleteModal,
         openDeleteModal
     } = usePatientStore();
+
 
 
     useEffect(() => {
