@@ -44,10 +44,21 @@ class MedicineWarehouseRepository implements MedicineWarehouseRepositoryInterfac
 
     public function update(string $id, array $data = []): ?object
     {
-        $warehouse = $this->findById($id);
-        $warehouse->fill($data);
-        $warehouse->save();
-        return $warehouse->fresh();
+        return DB::transaction(function () use ($id, $data) {
+            $warehouse = $this->findById($id);
+            $warehouse->fill($data);
+            $warehouse->save();
+
+            if (!empty($data['racks'])) {
+                // Delete existing racks
+                $warehouse->racks()->delete();
+
+                // Create new racks
+                $warehouse->racks()->createMany($data['racks']);
+            }
+
+            return $warehouse->fresh(['racks']);
+        });
     }
 
     public function destroy(string $id): ?object

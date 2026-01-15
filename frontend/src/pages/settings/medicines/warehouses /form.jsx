@@ -94,7 +94,6 @@ function MedicineWarehouseForm(opts) {
                 const currentRackIds = watch("racks") || [];
                 setValue("racks", [...currentRackIds, createdRack.id]);
             }
-            // Close dialog and reset
             setIsRackDialogOpen(false);
             setNewRackData({code: "", name: ""});
             // Refresh racks list
@@ -181,9 +180,9 @@ function MedicineWarehouseForm(opts) {
                                             <div className="text-sm text-muted-foreground">Memuat data rak...</div>
                                         ) : hasRacks ? (
                                             <div className="space-y-3">
-                                                <div className="flex gap-2">
+                                                <div className="flex items-center gap-2">
                                                     <Controller
-                                                        name="racks"
+                                                    name="racks"
                                                         control={control}
                                                         rules={{
                                                             required: "Minimal satu rak harus dipilih",
@@ -195,7 +194,7 @@ function MedicineWarehouseForm(opts) {
                                                                 values={field.value ?? []}
                                                                 onValuesChange={field.onChange}
                                                             >
-                                                                <MultiSelectTrigger className="w-full">
+                                                                <MultiSelectTrigger className="w-[600px]">
                                                                     <MultiSelectValue placeholder="Pilih Rak"
                                                                                       overflowBehavior="wrap-when-open"/>
                                                                 </MultiSelectTrigger>

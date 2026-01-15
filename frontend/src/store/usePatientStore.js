@@ -15,20 +15,22 @@ export const usePatientStore = create((set, get) => ({
     previewImage: null,
     showPatientLoading: false,
     setOpenModal: (openModal) => set({openModal}),
-    setOpenDeleteModal: async (openDeleteModal, id) => {
+    setOpenDeleteModal: async (id) => {
         await get().showPatient(id);
-        set({openDeleteModal});
+        set({openDeleteModal: !get().openDeleteModal});
     },
     setPreviewImage: (reader = null) => set({previewImage: reader}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
 
     columns: () => ([
-        {header: "No", className: "w-[80px]"},
-        {header: "Nama"},
-        {header: "No Telepon"},
-        {header: "Tgl Terakhir Konsultasi"},
-        {header: "Actions", className: "text-right"},
+        {key: 'no', label: 'No', width: '5%'},
+        {key: 'patient', label: 'Pasien', width: '25%'},
+        {key: 'phone', label: 'Kontak', width: '15%'},
+        {key: 'status', label: 'Status', width: '15%'},
+        {key: 'diagnosis', label: 'Diagnosis & Dokter', width: '20%'},
+        {key: 'date', label: 'Tanggal Konsultasi', width: '15%'},
+        {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
     ]),
 
     fetchPatients: async ({perPage = null} = {}) => {

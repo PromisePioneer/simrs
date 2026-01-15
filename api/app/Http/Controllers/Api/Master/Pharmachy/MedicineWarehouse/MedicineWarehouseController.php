@@ -30,9 +30,7 @@ class MedicineWarehouseController extends Controller
 
     public function store(MedicineWarehouseRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
-        $medicineWarehouse = MedicineWarehouse::create($data);
+        $medicineWarehouse = $this->medicineWarehouseService->store($request);
         return $this->successResponse($medicineWarehouse, 'Warehouse successfully created.');
     }
 

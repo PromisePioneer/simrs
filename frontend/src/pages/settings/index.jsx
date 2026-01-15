@@ -70,7 +70,7 @@ function SettingPage({children}) {
 
                 {/* Show message if no accessible menus */}
                 {accessibleMenuItems.length === 0 ? (
-                    <Card className="p-12">
+                    <Card className="border-l-4 border-primary">
                         <div className="text-center space-y-4">
                             <Lock className="w-16 h-16 mx-auto text-gray-400"/>
                             <div>

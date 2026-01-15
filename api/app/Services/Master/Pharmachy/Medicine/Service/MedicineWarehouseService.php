@@ -27,16 +27,23 @@ class MedicineWarehouseService
     }
 
 
-    public function store(MedicineWarehouseRequest $request)
+    public function store(MedicineWarehouseRequest $request): object
     {
-        return DB::transaction(function () use ($request) {
-            $data = $request->validated();
-            $warehouse = $this->medicineWarehouseRepository->store($data);
-            if (!empty($data['racks'])) {
-                $warehouse->racks()->createMany($data['racks']);
-            }
-            return $data;
-        });
+        $data = $request->validated();
+        $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
+        return $this->medicineWarehouseRepository->store($data);
+    }
+
+    public function update(MedicineWarehouseRequest $request, $id)
+    {
+        $data = $request->validated();
+        return $this->medicineWarehouseRepository->update($request, $id);
+    }
+
+
+    public function destroy(MedicineWarehouse $medicineWarehouse): object
+    {
+        return $this->medicineWarehouseRepository->destroy($medicineWarehouse->id);
     }
 
 }
