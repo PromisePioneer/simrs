@@ -45,7 +45,6 @@ function PatientAddressInfo({register, errors, control, isEditMode}) {
                                 </div>
                             </div>
 
-                            {/* Tombol hapus (muncul jika ada lebih dari 1 alamat) */}
                             {fields.length > 1 && (
                                 <Button
                                     type="button"

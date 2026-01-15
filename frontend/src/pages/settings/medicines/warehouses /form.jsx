@@ -4,7 +4,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {
-    ArrowLeft, Building2, Save, Plus, Package
+    ArrowLeft, Building2, Save, Plus, Package, ChevronsUpDown, Check, X
 } from "lucide-react"
 import {Link, useParams} from "@tanstack/react-router";
 import ContentHeader from "@/components/ui/content-header.jsx";
@@ -27,6 +27,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog.jsx";
 import {useEffect, useState} from "react";
+import {useTenantStore} from "@/store/useTenantStore.js";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 
 function MedicineWarehouseForm(opts) {
     const {id} = useParams(opts);
@@ -42,6 +44,20 @@ function MedicineWarehouseForm(opts) {
         isLoading,
         unassignedRacks
     } = useMedicineRackStore();
+
+
+    const {
+        fetchTenants,
+        tenants,
+    } = useTenantStore();
+
+
+    const {
+        userData
+    } = useTenantStore();
+
+
+    const isUserHasTenant = userData?.tenant_id;
 
     const [isRackDialogOpen, setIsRackDialogOpen] = useState(false);
     const [newRackData, setNewRackData] = useState({
@@ -70,6 +86,7 @@ function MedicineWarehouseForm(opts) {
 
     // Fetch racks on component mount
     useEffect(() => {
+        fetchTenants();
         fetchUnassignedRacks();
     }, []);
 
@@ -136,7 +153,73 @@ function MedicineWarehouseForm(opts) {
                                     <CardDescription>Informasi dasar gudang</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
-                                    <div className="grid gap-4 md:grid-cols-2">
+                                    <div className="grid gap-4 md:grid-cols-3">
+                                        {/*tenant*/}
+                                        {!userData?.tenant_id && (
+                                            <div className="space-y-2">
+                                                <Label htmlFor="tenant_id">
+                                                    Tenant/Klinik <span className="text-destructive">*</span>
+                                                </Label>
+                                                <Controller
+                                                    name="tenant_id"
+                                                    control={control}
+                                                    rules={{required: isUserHasTenant || "Tenant wajib dipilih"}}
+                                                    render={({field}) => (
+                                                        <div className="relative">
+                                                            <Select
+                                                                value={field.value}
+                                                                onValueChange={field.onChange}
+                                                            >
+                                                                <SelectTrigger
+                                                                    className={field.value ? "w-full pr-9" : "w-full"}>
+                                                                    <SelectValue placeholder="Pilih tenant/klinik"/>
+                                                                </SelectTrigger>
+
+                                                                <SelectContent>
+                                                                    {tenants?.length ? (
+                                                                        tenants.map((tenant) => (
+                                                                            <SelectItem
+                                                                                key={tenant.id}
+                                                                                value={tenant.id.toString()}
+                                                                            >
+                                                                                <div
+                                                                                    className="flex items-center gap-2">
+                                                                                    <Building2 className="w-4 h-4"/>
+                                                                                    {tenant.name}
+                                                                                </div>
+                                                                            </SelectItem>
+                                                                        ))
+                                                                    ) : (
+                                                                        <SelectItem value="no-tenant" disabled>
+                                                                            Tidak ada tenant tersedia
+                                                                        </SelectItem>
+                                                                    )}
+                                                                </SelectContent>
+                                                            </Select>
+
+                                                            {/* CLEAR BUTTON */}
+                                                            {field.value && (
+                                                                <button
+                                                                    type="button"
+                                                                    className="absolute right-3 top-2.5 text-muted-foreground hover:text-destructive"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        field.onChange(undefined);
+                                                                    }}
+                                                                >
+                                                                    <X className="w-4 h-4"/>
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                />
+                                                {errors.tenant_id && (
+                                                    <p className="text-sm text-destructive">{errors.tenant_id.message}</p>
+                                                )}
+                                            </div>
+                                        )
+                                        }
+
                                         {/* Kode */}
                                         <div className="space-y-2">
                                             <Label htmlFor="code">
@@ -169,8 +252,6 @@ function MedicineWarehouseForm(opts) {
                                             )}
                                         </div>
                                     </div>
-
-                                    {/* Rack Multi Selection */}
                                     <div className="space-y-2">
                                         <Label htmlFor="racks">
                                             Rak yg tersedia <span className="text-destructive">*</span>
@@ -182,7 +263,7 @@ function MedicineWarehouseForm(opts) {
                                             <div className="space-y-3">
                                                 <div className="flex items-center gap-2">
                                                     <Controller
-                                                    name="racks"
+                                                        name="racks"
                                                         control={control}
                                                         rules={{
                                                             required: "Minimal satu rak harus dipilih",
@@ -226,7 +307,8 @@ function MedicineWarehouseForm(opts) {
                                                 )}
                                             </div>
                                         ) : (
-                                            <div className="border border-dashed rounded-lg p-6 text-center space-y-3">
+                                            <div
+                                                className="border border-dashed rounded-lg p-6 text-center space-y-3">
                                                 <Package className="w-12 h-12 mx-auto text-muted-foreground"/>
                                                 <div>
                                                     <p className="text-sm font-medium">Belum ada rak tersedia</p>
@@ -249,7 +331,7 @@ function MedicineWarehouseForm(opts) {
                             </Card>
 
                             <div className="flex justify-end gap-4">
-                                <Link to="/settings/warehouses">
+                                <Link to="/settings/medicines">
                                     <Button type="button" variant="outline">
                                         Batal
                                     </Button>
@@ -264,7 +346,6 @@ function MedicineWarehouseForm(opts) {
                 </div>
             </SettingPage>
 
-            {/* Dialog untuk Tambah Rack */}
             <Dialog open={isRackDialogOpen} onOpenChange={setIsRackDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>

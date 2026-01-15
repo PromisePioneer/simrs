@@ -30,7 +30,7 @@ class MedicineWarehouseService
     public function store(MedicineWarehouseRequest $request): object
     {
         $data = $request->validated();
-        $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
+        $data['tenant_id'] = auth()->user()->tenant_id ?? $request->input('tenant_id');
         return $this->medicineWarehouseRepository->store($data);
     }
 

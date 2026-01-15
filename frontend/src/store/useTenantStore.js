@@ -43,5 +43,13 @@ export const useTenantStore = create((set, get) => ({
         } catch (e) {
             toast.error(e.data.message || "Operasi Gagal");
         }
+    },
+    switchTenant: async (id) => {
+        try {
+            await apiCall.post(`/api/v1/tenant/switch/${id}`);
+            toast.success("Berhasil mengganti tenant.");
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi Gagal");
+        }
     }
 }));

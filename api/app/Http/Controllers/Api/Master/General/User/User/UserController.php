@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\Master\General\UserManagement\User\Repository\UserRepository;
 use App\Services\Master\General\UserManagement\User\Service\UserService;
+use App\Services\Tenant\TenantContext;
 use App\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -79,18 +80,25 @@ class UserController extends Controller
 
     public function me(): JsonResponse
     {
-        setPermissionsTeamId(null);
-        $data = User::with([
-            'roles' => function ($query) {
-                $query->select('uuid', 'name', 'roles.tenant_id');
-            },
-            'tenant' => function ($query) {
-                $query->select('id', 'name');
-            },
-            'roles.permissions' => function ($query) {
-                $query->select('permissions.uuid', 'permissions.name', 'permissions.guard_name');
-            }
-        ])->find(Auth::id());
+
+        $tenantId = TenantContext::getId();
+        setPermissionsTeamId($tenantId);
+
+        $user = Auth::user();
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+
+            // 🔥 INI yang benar
+            'roles' => $user->getRoleNames(),
+            'permissions' => $user->getAllPermissions()->pluck('name'),
+
+            'tenant' => $tenantId
+                ? $user->tenant()->select('id', 'name')->first()
+                : null,
+        ]);
         return response()->json($data);
     }
 }

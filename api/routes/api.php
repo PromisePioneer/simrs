@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Master\General\Tenant\TenantController;
 use App\Http\Controllers\Api\Master\General\User\User\UserController;
+use App\Models\Tenant;
+use App\Services\Tenant\TenantContext;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,4 +94,17 @@ Route::middleware(['auth:sanctum', 'verified'])
          */
 
         require __DIR__ . '/api/modules/payments.php';
+
+
+        Route::post('/tenant/switch/{tenant}', function (Tenant $tenant) {
+            $user = auth()->user();
+            abort_unless($user->hasRole('Super Admin'), 403);
+            TenantContext::set($tenant->id);
+            setPermissionsTeamId($tenant->id);
+
+
+            $user->syncRoles(['Owner']);
+
+            return response()->json(['message' => 'Tenant switched']);
+        });
     });

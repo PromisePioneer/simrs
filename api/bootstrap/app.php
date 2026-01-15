@@ -23,11 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(prepend: [
             EnsureFrontendRequestsAreStateful::class,
             SetTenantPermissionTeam::class,
+            EnsureTenantExists::class,
+            SetTenantPermissionTeam::class,
             CheckTenantSubscription::class,
         ]);
 
         $middleware->alias([
-            'tenant' => EnsureTenantExists::class,
             'verified' => EnsureEmailIsVerified::class,
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,

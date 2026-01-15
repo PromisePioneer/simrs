@@ -39,16 +39,27 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle,
+    DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Check} from "lucide-react";
 import Pricing from "@/components/pricing/pricing.jsx";
+import SwitchTenant from "@/components/tenants/switch-tenant.jsx";
+import {useTenantStore} from "@/store/useTenantStore.js";
 
 export function NavUser({user}) {
     const {isMobile} = useSidebar()
-    const {logout} = useAuthStore();
+    const {userData, logout} = useAuthStore();
     const [pricingOpen, setPricingOpen] = useState(false);
+    const [openTenantContextModal, setOpenTenantContextModal] = useState(false);
+    const [tenantId, setTenantId] = useState(userData?.tenant_id ?? "");
+
+
+    const {switchTenant} = useTenantStore();
+
+    const handleSwitchTenant = async () => {
+        await switchTenant(tenantId);
+    }
 
     const handleLogout = async () => {
         try {
@@ -173,10 +184,14 @@ export function NavUser({user}) {
                                     <CreditCard/>
                                     Billing
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Bell/>
-                                    Notifications
-                                </DropdownMenuItem>
+                                {
+                                    !userData?.tenant_id && (
+                                        <DropdownMenuItem onClick={() => setOpenTenantContextModal(true)}>
+                                            <Bell/>
+                                            Switch Tenant
+                                        </DropdownMenuItem>
+                                    )
+                                }
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator/>
                             <DropdownMenuItem onClick={handleLogout}
@@ -189,9 +204,31 @@ export function NavUser({user}) {
                 </SidebarMenuItem>
             </SidebarMenu>
             <Dialog open={pricingOpen} onOpenChange={setPricingOpen}>
-                <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[90vh] overflow-y-auto p-8">
+                <DialogContent className="max-w-[1200px]! w-[95vw] max-h-[90vh] overflow-y-auto p-8">
                     <Pricing/>
                 </DialogContent>
+            </Dialog>
+
+
+            <Dialog open={openTenantContextModal} onOpenChange={setOpenTenantContextModal}>
+                <form>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Edit profile</DialogTitle>
+                            <DialogDescription>
+                                Make changes to your profile here. Click save when you&apos;re
+                                done.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <SwitchTenant tenant={tenantId} setTenant={setTenantId}/>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <Button type="button" onClick={handleSwitchTenant}>Save changes</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </form>
             </Dialog>
         </>
     )
