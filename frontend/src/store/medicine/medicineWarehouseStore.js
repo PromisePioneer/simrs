@@ -19,8 +19,9 @@ export const useMedicineWarehouseStore = create((set, get) => ({
     },
     columns: () => ([
         {key: 'no', label: 'No', width: '5%'},
-        {key: 'code', label: 'Kode', width: '25%'},
+        {key: 'code', label: 'Kode', width: '15%'},
         {key: 'name', label: 'Nama', width: '15%'},
+        {key: 'racks_count', label: 'Total Rack', width: '15%'},
         {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
     ]),
     setCurrentPage: (page) => {

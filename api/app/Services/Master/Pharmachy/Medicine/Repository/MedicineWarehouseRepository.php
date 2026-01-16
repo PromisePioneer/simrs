@@ -27,7 +27,7 @@ class MedicineWarehouseRepository implements MedicineWarehouseRepositoryInterfac
         }
 
         if ($perPage) {
-            return $query->paginate($perPage);
+            return $query->withCount('racks')->paginate($perPage);
         }
 
         return $query->get();

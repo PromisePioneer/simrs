@@ -55,21 +55,20 @@ function MedicineWarehousePage() {
                     </div>
                 </div>
             </TableCell>
+            <TableCell>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                        <Archive />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-foreground">{medicineWarehouse.racks_count}</span>
+                    </div>
+                </div>
+            </TableCell>
             <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
+                <div className="flex gap-1 justify-end items-center">
                     <TooltipProvider>
                         <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(medicineWarehouse.id)}
-                                    >
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Delete Gudang</p></TooltipContent>
-                            </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button variant="ghost" size="sm"
@@ -131,7 +130,7 @@ function MedicineWarehousePage() {
             </div>
 
             <DataTable
-                title="Tabel gudang"
+                title="Daftar gudang"
                 description="Daftar Gudang yang tersedia"
                 columns={columns()}
                 data={medicineWarehouses?.data || []}
