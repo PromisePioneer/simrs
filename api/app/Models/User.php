@@ -4,11 +4,9 @@ namespace App\Models;
 
 use App\Notifications\VerifyEmail;
 use App\Services\Master\General\UserManagement\Permission\Repository\PermissionRepository;
-use App\Services\Tenant\TenantContext;
 use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
@@ -141,18 +138,17 @@ class User extends Authenticatable
         return $this->belongsToMany(
             config('permission.models.role'),
             config('permission.table_names.model_has_roles'),
-            'model_uuid',  // Foreign key di pivot untuk User (karena User pakai UUID)
-            'role_id'      // Foreign key di pivot untuk Role (bukan roles.uuid!)
-        )
-            ->using(config('permission.models.role')) // Ini opsional
-            ->where(function ($query) use ($activeTenantId) {
-                $query->whereNull('roles.tenant_id')
-                    ->orWhere('roles.tenant_id', $activeTenantId);
-            });
+            'model_uuid',
+            'role_id'
+        )->using(config('permission.models.role')) // Ini opsional
+        ->where(function ($query) use ($activeTenantId) {
+            $query->whereNull('roles.tenant_id')
+                ->orWhere('roles.tenant_id', $activeTenantId);
+        });
     }
 
 
-    public function scopeSameTenant($query): Builder
+    public function scopeSameTenant($query): object
     {
         $user = auth()->user();
 

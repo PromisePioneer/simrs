@@ -22,7 +22,6 @@ export const usePatientStore = create((set, get) => ({
     setPreviewImage: (reader = null) => set({previewImage: reader}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
-
     columns: () => ([
         {key: 'no', label: 'No', width: '5%'},
         {key: 'patient', label: 'Pasien', width: '25%'},
@@ -32,7 +31,6 @@ export const usePatientStore = create((set, get) => ({
         {key: 'date', label: 'Tanggal Konsultasi', width: '15%'},
         {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
     ]),
-
     fetchPatients: async ({perPage = null} = {}) => {
         set({isLoading: true, error: null});
         try {

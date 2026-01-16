@@ -18,10 +18,10 @@ export const useMedicineWarehouseStore = create((set, get) => ({
         set({openDeleteModal: !get().openDeleteModal})
     },
     columns: () => ([
-        {header: "No", className: "w-[80px]"},
-        {header: "Kode"},
-        {header: "Nama"},
-        {header: "Actions", className: "text-right"},
+        {key: 'no', label: 'No', width: '5%'},
+        {key: 'code', label: 'Kode', width: '25%'},
+        {key: 'name', label: 'Nama', width: '15%'},
+        {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
     ]),
     setCurrentPage: (page) => {
         set({currentPage: page});
