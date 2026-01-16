@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Services\Master\General\Modules\Repository\ModuleRepository;
 use App\Services\Master\General\Modules\Traits\ModuleAccess;
 use App\Services\Master\General\UserManagement\Permission\Repository\PermissionRepository;
+use App\Services\Tenant\TenantContext;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -30,11 +31,11 @@ class ModuleService
 
     public function getModules(): Collection
     {
-        setPermissionsTeamId(null);
+        setPermissionsTeamId(TenantContext::getId());
         $user = auth()->user();
 
         $userPermissions = PermissionRepository::getPermissionsByUser($user);
-        $roleName = $user->roles->first()?->name;
+        $roleName = $user->getActiveRole()->name;
 
 
         if ($user->hasRole('Super Admin')) {

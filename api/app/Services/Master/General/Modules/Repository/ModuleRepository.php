@@ -16,7 +16,6 @@ class ModuleRepository implements ModuleRepositoryInterface
 
     public function getModules(?string $roleName, object $user, array $userPermissions): ?object
     {
-
         return match ($roleName) {
             'Super Admin' => $this->model->whereNull('parent_id')
                 ->orderBy('order')

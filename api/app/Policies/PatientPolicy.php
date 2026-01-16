@@ -14,7 +14,7 @@ class PatientPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('Melihat pasien');
+        return $user->hasActivePermission(permission: 'Melihat Pasien');
     }
 
     /**
@@ -23,7 +23,7 @@ class PatientPolicy
     public function create(User $user): bool
     {
 
-        return $user->can('Menambahkan pasien');
+        return $user->hasActivePermission(permission: 'Menambahkan Pasien');
     }
 
     /**
@@ -31,12 +31,12 @@ class PatientPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('Mengubah pasien');
+        return $user->hasActivePermission(permission: 'Mengubah Pasien');
     }
 
 
     public function delete(User $user): bool
     {
-        return $user->can('Menghapus pasien');
+        return $user->hasActivePermission(permission: 'Menghapus Pasien');
     }
 }

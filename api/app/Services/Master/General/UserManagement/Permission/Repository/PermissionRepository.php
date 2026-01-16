@@ -30,6 +30,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     }
 
     public function findById(string $id): object
+
     {
         return $this->permission->findOrFail($id);
     }
@@ -57,7 +58,8 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public static function getPermissionsByUser(object $user): array
     {
-        return $user->roles->first()->permissions->pluck('name')->toArray();
+
+        return $user->getActivePermissions()->pluck('name')->toArray();
     }
 
 

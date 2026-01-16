@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Master\General\User\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Tenant;
 use App\Models\User;
 use App\Services\Master\General\UserManagement\User\Repository\UserRepository;
 use App\Services\Master\General\UserManagement\User\Service\UserService;
@@ -59,6 +60,9 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(UserRepository $userRepository, User $user): JsonResponse
     {
         $this->authorize('view', $user);
@@ -80,25 +84,34 @@ class UserController extends Controller
 
     public function me(): JsonResponse
     {
-
-        $tenantId = TenantContext::getId();
-        setPermissionsTeamId($tenantId);
-
         $user = Auth::user();
+        $tenantId = $user->getActiveTenantId();
+        TenantContext::set($tenantId);
+        setPermissionsTeamId($tenantId);
+        $activeRole = $user->getActiveRole();
+        $tenant = Tenant::find($tenantId);
 
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
 
-            // 🔥 INI yang benar
-            'roles' => $user->getRoleNames(),
-            'permissions' => $user->getAllPermissions()->pluck('name'),
+            // Role & Permission yang AKTIF (ini yang dipakai di frontend)
+            'roles' => $activeRole ? [$activeRole] : $user->getRoleNames()->toArray(),
+            'permissions' => $user->getActivePermissions()->pluck('name'),
 
-            'tenant' => $tenantId
-                ? $user->tenant()->select('id', 'name')->first()
-                : null,
+            // Tenant info
+            'tenant' => [
+                'id' => $tenant->id ?? null,
+                'name' => $tenant->name ?? null,
+            ],
+
+            // Meta info (optional, untuk debugging atau indicator)
+            'meta' => [
+                'is_switched' => $user->isSwitchedContext(),
+                'original_role' => $user->roles->first()?->name,
+                'active_role' => $activeRole?->name,
+            ]
         ]);
-        return response()->json($data);
     }
 }

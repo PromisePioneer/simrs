@@ -21,11 +21,11 @@ use App\Policies\DegreePolicy;
 use App\Policies\PaymentMethodPolicy;
 use App\Policies\PaymentMethodTypePolicy;
 use App\Policies\PoliPolicy;
-use App\Policies\ProductCategoryPolicy;
-use App\Policies\ProductPolicy;
-use App\Policies\ProductRackPolicy;
-use App\Policies\ProductUnitTypePolicy;
-use App\Policies\ProductWarehousePolicy;
+use App\Policies\MedicineCategoryPolicy;
+use App\Policies\MedicinePolicy;
+use App\Policies\MedicineRackPolicy;
+use App\Policies\MedicineUnitTypePolicy;
+use App\Policies\MedicineWarehousePolicy;
 use App\Policies\ProfessionPolicy;
 use App\Policies\RegistrationInstitutionPolicy;
 use App\Policies\RolePolicy;
@@ -83,11 +83,11 @@ class AppServiceProvider extends ServiceProvider
         /*
          *  Pharmacy
          */
-        Gate::policy(MedicineRack::class, ProductRackPolicy::class);
-        Gate::policy(MedicineCategory::class, ProductCategoryPolicy::class);
-        Gate::policy(MedicineWarehouse::class, ProductWarehousePolicy::class);
-        Gate::policy(ProductUnitType::class, ProductUnitTypePolicy::class);
-        Gate::policy(Medicine::class, ProductPolicy::class);
+        Gate::policy(MedicineRack::class, MedicineRackPolicy::class);
+        Gate::policy(MedicineCategory::class, MedicineCategoryPolicy::class);
+        Gate::policy(MedicineWarehouse::class, MedicineWarehousePolicy::class);
+        Gate::policy(ProductUnitType::class, MedicineUnitTypePolicy::class);
+        Gate::policy(Medicine::class, MedicinePolicy::class);
     }
 }
 

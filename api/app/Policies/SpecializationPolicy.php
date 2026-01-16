@@ -8,24 +8,24 @@ class SpecializationPolicy
 {
     public function view(User $user): bool
     {
-        return $user->can("Melihat Spesialisasi");
+        return $user->hasActivePermission(permission: "Melihat Spesialisasi");
     }
 
 
     public function create(User $user): bool
     {
-        return $user->can("Membuat Spesialisasi");
+        return $user->hasActivePermission(permission: "Membuat Spesialisasi");
 
     }
 
     public function update(User $user): bool
     {
-        return $user->can("Mengubah Spesialisasi");
+        return $user->hasActivePermission(permission: "Mengubah Spesialisasi");
     }
 
 
     public function delete(User $user): bool
     {
-        return $user->can("Menghapus Spesialisasi");
+        return $user->hasActivePermission(permission: "Menghapus Spesialisasi");
     }
 }

@@ -30,10 +30,10 @@ export const PERMISSIONS = {
         DELETE: 'Menghapus User Management'
     },
     PATIENT: {
-        VIEW: 'Melihat pasien',
-        CREATE: 'Membuat pasien',
-        EDIT: 'Mengubah pasien',
-        DELETE: 'Menghapus pasien'
+        VIEW: 'Melihat Pasien',
+        CREATE: 'Membuat Pasien',
+        EDIT: 'Mengubah Pasien',
+        DELETE: 'Menghapus Pasien'
     },
     MEDICINE: {
         VIEW: 'Melihat Obat',

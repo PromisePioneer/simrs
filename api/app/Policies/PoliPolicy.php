@@ -8,36 +8,23 @@ use Illuminate\Auth\Access\Response;
 
 class PoliPolicy
 {
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Poli $poli): bool
+    public function view(User $user): bool
     {
-        return $user->can('Melihat poli');
+        return $user->hasActivePermission(permission: 'Melihat poli');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
-        return $user->can('Menambahkan poli');
+        return $user->hasActivePermission(permission: 'Menambahkan poli');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Poli $poli): bool
+    public function update(User $user): bool
     {
-        return $user->can('Mengubah poli');
+        return $user->hasActivePermission(permission: 'Mengubah poli');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Poli $poli): bool
+    public function delete(User $user): bool
     {
-        return $user->can('Menghapus poli');
+        return $user->hasActivePermission(permission: 'Menghapus poli');
     }
 }

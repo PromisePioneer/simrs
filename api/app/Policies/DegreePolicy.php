@@ -9,26 +9,26 @@ class DegreePolicy
 {
     public function view(User $user): bool
     {
-        if ($user->hasRole('Owner')) {
+        if ($user->hasActiveRole(role: 'Owner')) {
             return true;
         }
 
-        return $user->can('Melihat Gelar');
+        return $user->hasActivePermission(permission: 'Melihat Gelar');
 
     }
 
     public function create(User $user): bool
     {
-        return $user->can('Membuat Gelar');
+        return $user->hasActivePermission(permission: 'Membuat Gelar');
     }
 
     public function update(User $user): bool
     {
-        return $user->can('Mengubah Gelar');
+        return $user->hasActivePermission(permission: 'Mengubah Gelar');
     }
 
     public function delete(User $user): bool
     {
-        return $user->can('Menghapus Gelar');
+        return $user->hasActivePermission(permission: 'Menghapus Gelar');
     }
 }

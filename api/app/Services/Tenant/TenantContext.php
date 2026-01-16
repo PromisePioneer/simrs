@@ -11,7 +11,7 @@ class TenantContext
         return session('tenant_id') ?? Auth::user()?->tenant_id;
     }
 
-    public static function set(string $tenantId): void
+    public static function set(?string $tenantId): void
     {
         session(['tenant_id' => $tenantId]);
     }

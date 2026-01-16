@@ -9,7 +9,6 @@ import {PERMISSIONS} from "@/constants/permissions.js";
 function SettingPage({children}) {
     const location = useLocation();
     const {hasPermission, hasAnyPermission} = usePermission();
-
     const menuItems = [
         {
             title: "Manajemen Pasien",
@@ -54,6 +53,7 @@ function SettingPage({children}) {
     const isActive = (href) => {
         return location.pathname === href || location.pathname.startsWith(href + '/');
     };
+
 
     return (
         <Layout>

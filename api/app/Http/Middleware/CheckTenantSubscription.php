@@ -20,7 +20,7 @@ class CheckTenantSubscription
             return $next($request);
         }
 
-        $tenantId = TenantContext::getId();
+        $tenantId = session('active_tenant_id') ?? TenantContext::getId();
 
         $tenant = Tenant::query()->find($tenantId);
 

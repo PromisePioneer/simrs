@@ -3,6 +3,8 @@
 use App\Http\Middleware\CheckTenantSubscription;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureTenantExists;
+use App\Http\Middleware\SetActiveRolePermissions;
+use App\Http\Middleware\SetActiveTenantContext;
 use App\Http\Middleware\SetTenantPermissionTeam;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -26,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureTenantExists::class,
             SetTenantPermissionTeam::class,
             CheckTenantSubscription::class,
+            SetActiveRolePermissions::class,
+            SetActiveTenantContext::class,
         ]);
 
         $middleware->alias([
@@ -33,6 +37,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            SetTenantPermissionTeam::class,
+            EnsureTenantExists::class,
+            SetTenantPermissionTeam::class,
+            CheckTenantSubscription::class,
+            SetActiveRolePermissions::class,
+            SetActiveTenantContext::class,
         ]);
 
 

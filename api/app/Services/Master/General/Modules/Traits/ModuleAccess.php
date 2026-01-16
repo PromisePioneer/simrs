@@ -37,23 +37,9 @@ trait ModuleAccess
             });
         }
 
-        // Debug: Check tenant
-        if (!$user->tenant) {
-            \Log::info('User has no tenant', ['user_id' => $user->id]);
-            return collect();
-        }
-
-        // Debug: Check subscription
-        if (!$user->tenant->hasActiveSubscription()) {
-            \Log::info('Tenant has no active subscription', ['tenant_id' => $user->tenant->id]);
-            return collect();
-        }
-
-        $plan = $user->tenant->getCurrentPlan();
-        \Log::info('Current plan', ['plan' => $plan->name ?? 'null']);
+        $plan = $user->getCurrentTenantPlan();
 
         $userPermissions = PermissionRepository::getPermissionsByUser($user);
-        \Log::info('User permissions', ['permissions' => $userPermissions]);
 
         $planModuleIds = $plan->modules()
             ->where('plan_module.is_accessible', true)
@@ -82,7 +68,6 @@ trait ModuleAccess
             return $hasAccess;
         });
 
-        \Log::info('Modules after filter', ['count' => $filtered->count()]);
 
         $result = $filtered->map(function ($module) use ($userPermissions) {
             $filtered = static::filterModuleChildren($module, $userPermissions);

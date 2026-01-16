@@ -19,7 +19,8 @@ class SetTenantPermissionTeam
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            $tenantId = TenantContext::getId();
+            $tenantId = session('active_tenant_id', $user->tenant_id ?? TenantContext::getId());
+            TenantContext::set($tenantId);
             setPermissionsTeamId($tenantId);
             app(PermissionRegistrar::class)->forgetCachedPermissions();
         }

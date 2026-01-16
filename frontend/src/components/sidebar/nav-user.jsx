@@ -2,11 +2,12 @@
 
 import {
     BadgeCheck,
-    Bell,
     ChevronsUpDown,
     CreditCard,
     LogOut,
     Sparkles,
+    RotateCcw,
+    ArrowUpDown,
 } from "lucide-react"
 
 import {
@@ -46,20 +47,15 @@ import {Check} from "lucide-react";
 import Pricing from "@/components/pricing/pricing.jsx";
 import SwitchTenant from "@/components/tenants/switch-tenant.jsx";
 import {useTenantStore} from "@/store/useTenantStore.js";
+import {useRoleStore} from "@/store/useRoleStore.js";
 
 export function NavUser({user}) {
     const {isMobile} = useSidebar()
     const {userData, logout} = useAuthStore();
     const [pricingOpen, setPricingOpen] = useState(false);
     const [openTenantContextModal, setOpenTenantContextModal] = useState(false);
-    const [tenantId, setTenantId] = useState(userData?.tenant_id ?? "");
 
-
-    const {switchTenant} = useTenantStore();
-
-    const handleSwitchTenant = async () => {
-        await switchTenant(tenantId);
-    }
+    const {resetTenant} = useTenantStore();
 
     const handleLogout = async () => {
         try {
@@ -79,54 +75,6 @@ export function NavUser({user}) {
             </div>
         );
     }
-
-    const plans = [
-        {
-            name: "Free",
-            price: "$0",
-            period: "forever",
-            description: "For small teams trying out Slack for an unlimited period of time",
-            features: [
-                "90 days of message history",
-                "10 integrations with other apps",
-                "1-on-1 video calls",
-                "File sharing and storage",
-            ],
-            buttonText: "Get Started",
-            buttonVariant: "outline"
-        },
-        {
-            name: "Pro",
-            price: "$7.25",
-            period: "per month",
-            description: "For small to medium-sized businesses looking to boost productivity",
-            features: [
-                "Unlimited message history",
-                "Unlimited integrations",
-                "Group video calls with screen sharing",
-                "Priority 24/7 support",
-                "Advanced security and compliance",
-            ],
-            buttonText: "Start Free Trial",
-            buttonVariant: "default",
-            popular: true
-        },
-        {
-            name: "Business+",
-            price: "$12.50",
-            period: "per month",
-            description: "For larger businesses that need enhanced security and dedicated support",
-            features: [
-                "Everything in Pro, plus:",
-                "99.99% guaranteed uptime SLA",
-                "Data exports for all messages",
-                "SAML-based single sign-on (SSO)",
-                "24/7 support with 4-hour response time",
-            ],
-            buttonText: "Start Free Trial",
-            buttonVariant: "outline"
-        }
-    ];
 
     return (
         <>
@@ -185,10 +133,15 @@ export function NavUser({user}) {
                                     Billing
                                 </DropdownMenuItem>
                                 {
-                                    !userData?.tenant_id && (
+                                    !userData.meta?.is_switched ? (
                                         <DropdownMenuItem onClick={() => setOpenTenantContextModal(true)}>
-                                            <Bell/>
-                                            Switch Tenant
+                                            <ArrowUpDown/>
+                                            Switch Merchant (For Testing Purpose)
+                                        </DropdownMenuItem>
+                                    ) : (
+                                        <DropdownMenuItem onClick={resetTenant}>
+                                            <RotateCcw/>
+                                            Revert to Super User
                                         </DropdownMenuItem>
                                     )
                                 }
@@ -214,22 +167,17 @@ export function NavUser({user}) {
                 <form>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
+                            <DialogTitle>Ganti Merchant</DialogTitle>
                             <DialogDescription>
-                                Make changes to your profile here. Click save when you&apos;re
-                                done.
+                                Ganti Merchant
                             </DialogDescription>
                         </DialogHeader>
-                        <SwitchTenant tenant={tenantId} setTenant={setTenantId}/>
-                        <DialogFooter>
-                            <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </DialogClose>
-                            <Button type="button" onClick={handleSwitchTenant}>Save changes</Button>
-                        </DialogFooter>
+                        <SwitchTenant/>
                     </DialogContent>
                 </form>
             </Dialog>
+
+
         </>
     )
 }

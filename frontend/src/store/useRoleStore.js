@@ -16,6 +16,7 @@ export const useRoleStore = create((set, get) => ({
         openPermissionModal: false,
         selectedPermissions: [],
         permissionSearch: "",
+        rolesByTenantId: [],
         setPermissionSearch: (searchValue) => set({permissionSearch: searchValue}),
         setSelectedPermissions: (permissionUuid) => {
             set((state) => ({
@@ -76,16 +77,19 @@ export const useRoleStore = create((set, get) => ({
 
                 const response = await apiCall.get(`/api/v1/roles`, {params});
 
-                set((state) => ({
-                    ...state,
-                    roleData: response.data,
-                    error: null
-                }));
-
+                set({roleData: response.data});
             } catch (e) {
-                toast.error(e?.response?.data?.message || e.message || "Error fetching users");
+                toast.error(e?.response?.data?.message || "Terjadi kesalahan");
             } finally {
                 set({isLoading: false});
+            }
+        },
+        fetchRolesByTenantId: async (tenantId) => {
+            try {
+                const response = await apiCall.get(`/api/v1/roles/tenant/${tenantId}`);
+                set({rolesByTenantId: response.data});
+            } catch (e) {
+                toast.error(e.response.data.message || "Terjadi kesalahan.")
             }
         },
         showRole: async (roleUuid) => {
@@ -98,9 +102,7 @@ export const useRoleStore = create((set, get) => ({
                     error: null
                 });
             } catch (e) {
-                set({
-                    error: e,
-                });
+                toast.error(e.response.data.message || "Terjadi kesalahan.")
             }
         },
         assignPermissions: async () => {
@@ -119,16 +121,9 @@ export const useRoleStore = create((set, get) => ({
         fetchPermissions: async () => {
             try {
                 const response = await apiCall.get("/api/v1/permissions");
-                set({
-                    permissionsData: response.data,
-                    isLoading: false,
-                    error: null
-                });
+                set({permissionsData: response.data});
             } catch (e) {
-                set({
-                    error: e,
-                    isLoading: false
-                });
+                toast.error(e.response.data.message || "Terjadi kesalahan")
             }
         },
         createRole: async (data) => {
@@ -139,7 +134,7 @@ export const useRoleStore = create((set, get) => ({
                 set({openModal: false});
                 await get().fetchRoles({perPage: 20})
             } catch (e) {
-                toast.error("Terjadi kesalahan");
+                toast.error(e.response.data.message || "Terjadi kesalahan")
             }
         },
 
@@ -150,17 +145,9 @@ export const useRoleStore = create((set, get) => ({
                 set({isLoading: false});
                 return {success: true};
             } catch (e) {
-
-                console.log(e);
-                const errorMessage = e.response?.data?.message || "Failed to update role";
-                set({
-                    error: errorMessage,
-                    isLoading: false
-                });
-                return {success: false, message: errorMessage};
+                toast.error(e.response.data.message || "Terjadi kesalahan")
             }
         },
-
         deleteRole: async (id) => {
             set({isLoading: true});
             try {
@@ -168,12 +155,7 @@ export const useRoleStore = create((set, get) => ({
                 toast.success("Data berhasil dihapus");
                 set({roleValue: null, openDeleteModal: false, isLoading: false});
             } catch (e) {
-                const errorMessage = e.response?.data?.message
-                set({
-                    error: errorMessage,
-                    isLoading: false
-                });
-                return {success: false, message: errorMessage};
+                toast.error(e.response.data.message || "Terjadi kesalahan")
             }
         }
     }))
