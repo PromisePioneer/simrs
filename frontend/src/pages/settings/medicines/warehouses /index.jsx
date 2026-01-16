@@ -22,12 +22,9 @@ function MedicineWarehousePage() {
         openModal,
         setOpenModal,
         fetchMedicineWarehouses,
-        createMedicineWarehouse,
-        updateMedicineWarehouse,
         deleteMedicineWarehouse,
         medicineWarehouseValue,
         setOpenDeleteModal,
-        setMedicineWarehouseValue,
         openDeleteModal,
         columns
     } = useMedicineWarehouseStore();

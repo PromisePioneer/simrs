@@ -112,9 +112,7 @@ export const useUserStore = create((set, get) => ({
     },
     showUser: async (id) => {
         try {
-
             const response = await apiCall.get(`/api/v1/users/${id}`);
-
             set({
                 userValue: response.data,
                 isLoading: false,

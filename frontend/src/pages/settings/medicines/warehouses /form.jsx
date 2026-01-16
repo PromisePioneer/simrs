@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input.jsx";
 import {
     ArrowLeft, Building2, Save, Plus, Package, ChevronsUpDown, Check, X
 } from "lucide-react"
-import {Link, useParams} from "@tanstack/react-router";
+import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import SettingPage from "@/pages/settings/index.jsx";
@@ -33,6 +33,9 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 function MedicineWarehouseForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
+
+    const navigate = useNavigate();
+
     const {
         createMedicineWarehouse,
         updateMedicineWarehouse,
@@ -45,17 +48,14 @@ function MedicineWarehouseForm(opts) {
         unassignedRacks
     } = useMedicineRackStore();
 
-
     const {
         fetchTenants,
         tenants,
     } = useTenantStore();
 
-
     const {
         userData
     } = useTenantStore();
-
 
     const isUserHasTenant = userData?.tenant_id;
 
@@ -84,17 +84,27 @@ function MedicineWarehouseForm(opts) {
         }
     });
 
-    // Fetch racks on component mount
     useEffect(() => {
         fetchTenants();
         fetchUnassignedRacks();
     }, []);
 
     const onSubmit = async (data) => {
+
+        let result;
+
         if (isEditMode) {
-            await updateMedicineWarehouse(id, data);
+            result = await updateMedicineWarehouse(id, data);
         } else {
-            await createMedicineWarehouse(data);
+            result = await createMedicineWarehouse(data);
+        }
+
+
+        if (result.success) {
+            navigate({
+                to: '/settings/medicines',
+                search: {tab: 'medicine_warehouses'}
+            });
         }
     };
 
@@ -106,14 +116,12 @@ function MedicineWarehouseForm(opts) {
             }
 
             const createdRack = await createMedicineRack(newRackData);
-            // Add the newly created rack to selected values
             if (createdRack?.id) {
                 const currentRackIds = watch("racks") || [];
                 setValue("racks", [...currentRackIds, createdRack.id]);
             }
             setIsRackDialogOpen(false);
             setNewRackData({code: "", name: ""});
-            // Refresh racks list
             if (fetchUnassignedRacks) {
                 await fetchUnassignedRacks();
             }
@@ -134,12 +142,15 @@ function MedicineWarehouseForm(opts) {
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-6">
-                            {/* Header */}
+                            {/* Header - UPDATED */}
                             <div className="flex items-center justify-between">
-                                <Link to="/settings/warehouses">
+                                <Link
+                                    to="/settings/medicines"
+                                    search={{tab: 'medicine_warehouses'}}
+                                >
                                     <Button type="button" variant="outline" size="sm" className="gap-2">
                                         <ArrowLeft className="w-4 h-4"/>
-                                        Kembali ke Daftar
+                                        Kembali ke Daftar Gudang
                                     </Button>
                                 </Link>
                             </div>
@@ -330,8 +341,12 @@ function MedicineWarehouseForm(opts) {
                                 </CardContent>
                             </Card>
 
+                            {/* Footer Buttons - UPDATED */}
                             <div className="flex justify-end gap-4">
-                                <Link to="/settings/medicines">
+                                <Link
+                                    to="/settings/medicines"
+                                    search={{tab: 'medicine_warehouses'}}
+                                >
                                     <Button type="button" variant="outline">
                                         Batal
                                     </Button>
