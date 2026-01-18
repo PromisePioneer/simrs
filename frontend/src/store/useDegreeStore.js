@@ -12,14 +12,12 @@ export const useDegreeStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     degreeValueLoading: false,
-    columns: () => {
-        return [
-            {header: "No", className: "w-[80px]"},
-            {header: "Nama", className: ""},
-            {header: "Tipe", className: ""},
-            {header: "Actions", className: "text-right"},
-        ];
-    },
+    columns: () => ([
+        {key: 'no', label: 'No', width: '5%'},
+        {key: 'name', label: 'Kode', width: '15%'},
+        {key: 'type', label: 'Nama', width: '15%'},
+        {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
+    ]),
     setSearch: (searchValue) => {
         set({search: searchValue});
     },
