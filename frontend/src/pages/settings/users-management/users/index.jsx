@@ -5,7 +5,7 @@ import {Pencil, Plus, Shield, Trash2, Phone, MapPin, MailCheck, MailWarning} fro
 import DataTable from "@/components/common/data-table.jsx";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Badge} from "@/components/ui/badge.jsx";
-import {useUserStore} from "@/store/user/useUserStore.js";
+import {useUserStore} from "@/store/useUserStore.js";
 import {useEffect} from "react";
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar.jsx";
 import {Link} from "@tanstack/react-router";

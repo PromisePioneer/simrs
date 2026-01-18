@@ -15,27 +15,22 @@ class MedicineCategorySeeder extends Seeder
     {
         $data = [
             [
-                'code' => fake()->randomDigit(),
                 'name' => 'Obat Bebas',
                 'type' => 'medicine'
             ],
             [
-                'code' => fake()->randomDigit(),
                 'name' => 'Obat Bebas Terbatas',
                 'type' => 'medicine'
             ],
             [
-                'code' => fake()->randomDigit(),
                 'name' => 'Obat Keras',
                 'type' => 'medicine'
             ],
             [
-                'code' => fake()->randomDigit(),
                 'name' => 'Psikotropika',
                 'type' => 'medicine'
             ],
             [
-                'code' => fake()->randomDigit(),
                 'name' => 'Narkotika',
                 'type' => 'medicine'
             ],

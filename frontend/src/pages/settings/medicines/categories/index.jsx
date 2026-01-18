@@ -17,7 +17,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select.jsx";
-import {useMedicineCategoriesStore} from "@/store/medicine/medicineCategoriesStore.js";
+import {useMedicineCategoriesStore} from "@/store/medicineCategoriesStore.js";
 
 function MedicineCategoriesPage() {
     const {
@@ -50,6 +50,7 @@ function MedicineCategoriesPage() {
         mode: "all",
         reValidateMode: "onChange",
         defaultValues: {
+            code: "",
             name: "",
             type: ""
         }
@@ -203,9 +204,9 @@ function MedicineCategoriesPage() {
             >
                 <div className="space-y-5 py-2">
                     <div className="space-y-2.5">
-                        <Label htmlFor="degree-name" className="text-sm font-semibold">Nama <span
+                        <Label htmlFor="medicine-category-name" className="text-sm font-semibold">Nama <span
                             className="text-destructive">*</span></Label>
-                        <Input id="degree-name" placeholder="kategori obat"
+                        <Input id="medicine-category-name" placeholder="kategori obat"
 
                                {...register("name", {required: "Nama kategori obat tidak boleh kosong"})}
                                disabled={isLoading}/>
@@ -213,7 +214,7 @@ function MedicineCategoriesPage() {
                             <p className="text-sm text-destructive">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="degree-type">Tipe
+                        <Label htmlFor="medicine-category-type">Tipe
                             <span className="text-destructive">*</span></Label>
                         <Controller name="type" control={control}
                                     disabled={isLoading}
@@ -225,9 +226,6 @@ function MedicineCategoriesPage() {
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
-
-                                                    {/*'general', 'medicine', 'medical_devices', 'service'*/}
-
                                                     <SelectLabel>Tipe kategori obat</SelectLabel>
                                                     <SelectItem value="general">Umum</SelectItem>
                                                     <SelectItem value="medicine">Obat</SelectItem>
@@ -243,7 +241,7 @@ function MedicineCategoriesPage() {
                 </div>
             </Modal>
 
-            {/* Modal Degree: Delete */}
+            {/* Modal Medicine Category: Delete */}
             <Modal
                 open={openDeleteModal}
                 onOpenChange={setOpenDeleteModal}

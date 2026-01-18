@@ -40,5 +40,17 @@ export const PERMISSIONS = {
         CREATE: 'Membuat Obat',
         EDIT: 'Mengubah Obat',
         DELETE: 'Menghapus Obat'
+    },
+    MEDICINE_CATEGORY: {
+        VIEW: 'Melihat Kategori Obat',
+        CREATE: 'Membuat Kategori Obat',
+        EDIT: 'Mengubah Kategori Obat',
+        DELETE: 'Menghapus Kategori Obat'
+    },
+    MEDICINE_WAREHOUSE: {
+        VIEW: 'Melihat Gudang Obat',
+        CREATE: 'Membuat Gudang Obat',
+        EDIT: 'Mengubah Gudang Obat',
+        DELETE: 'Menghapus Gudang Obat'
     }
 };

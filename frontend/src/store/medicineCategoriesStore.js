@@ -23,10 +23,10 @@ export const useMedicineCategoriesStore = create((set, get) => ({
         set({openDeleteModal: !get().openDeleteModal});
     },
     columns: () => ([
-        {header: "No", className: "w-[80px]"},
-        {header: "Nama"},
-        {header: "Type"},
-        {header: "Actions", className: "text-right"},
+        {key: 'no', label: 'No', width: '5%'},
+        {key: 'name', label: 'Pasien', width: '25%'},
+        {key: 'type', label: 'type', width: '15%'},
+        {key: 'actions', label: 'Action', width: '15%', align: 'right'},
     ]),
     setSearch: (searchValue) => {
         set({search: searchValue});

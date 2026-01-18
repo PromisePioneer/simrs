@@ -34,10 +34,10 @@ class MedicineWarehouseService
         return $this->medicineWarehouseRepository->store($data);
     }
 
-    public function update(MedicineWarehouseRequest $request, $id)
+    public function update(MedicineWarehouseRequest $request, MedicineWarehouse $medicineWarehouse): object
     {
         $data = $request->validated();
-        return $this->medicineWarehouseRepository->update($request, $id);
+        return $this->medicineWarehouseRepository->update($medicineWarehouse->id, $data);
     }
 
 

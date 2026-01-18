@@ -1,16 +1,16 @@
 import {Controller, useForm} from "react-hook-form";
-import {useMedicineWarehouseStore} from "@/store/medicine/medicineWarehouseStore.js";
+import {useMedicineWarehouseStore} from "@/store/medicineWarehouseStore.js";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {
-    ArrowLeft, Building2, Save, Plus, Package, ChevronsUpDown, Check, X
+    ArrowLeft, Building2, Save, Plus, Package, X
 } from "lucide-react"
 import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import SettingPage from "@/pages/settings/index.jsx";
-import {useMedicineRackStore} from "@/store/medicine/medicineRackStore.js";
+import {useMedicineRackStore} from "@/store/medicineRackStore.js";
 import {
     MultiSelect,
     MultiSelectContent,
@@ -33,12 +33,13 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 function MedicineWarehouseForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
-
     const navigate = useNavigate();
 
     const {
+        showMedicineWarehouse,
         createMedicineWarehouse,
         updateMedicineWarehouse,
+        medicineWarehouseValue,
     } = useMedicineWarehouseStore();
 
     const {
@@ -51,15 +52,13 @@ function MedicineWarehouseForm(opts) {
     const {
         fetchTenants,
         tenants,
-    } = useTenantStore();
-
-    const {
         userData
     } = useTenantStore();
 
     const isUserHasTenant = userData?.tenant_id;
 
     const [isRackDialogOpen, setIsRackDialogOpen] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(false); // Tambahkan ini
     const [newRackData, setNewRackData] = useState({
         code: "",
         name: ""
@@ -80,17 +79,53 @@ function MedicineWarehouseForm(opts) {
             code: "",
             name: "",
             tenant_id: "",
-            rack: []
+            racks: [] // Ganti dari rack jadi racks
         }
     });
 
     useEffect(() => {
-        fetchTenants();
-        fetchUnassignedRacks();
-    }, []);
+        const loadData = async () => {
+            setIsLoadingData(true);
+            await fetchTenants();
+            await fetchUnassignedRacks();
+
+            if (isEditMode && id) {
+                await showMedicineWarehouse(id);
+            }
+
+            setIsLoadingData(false);
+        };
+
+        loadData();
+    }, [id, isEditMode]);
+
+// Populate form saat medicineWarehouseValue berubah
+    useEffect(() => {
+        if (medicineWarehouseValue && isEditMode) {
+            const rackIds = medicineWarehouseValue.racks?.map(rack => {
+                return rack.id;
+            });
+
+            reset({
+                code: medicineWarehouseValue.code || "",
+                name: medicineWarehouseValue.name || "",
+                tenant_id: medicineWarehouseValue.tenant_id?.toString() || "",
+                racks: rackIds || [],
+            });
+        }
+    }, [medicineWarehouseValue, isEditMode, reset]);
+
+    const availableRacks = isEditMode && medicineWarehouseValue?.racks
+        ? [
+            ...unassignedRacks,
+            ...medicineWarehouseValue.racks.filter(
+                assignedRack => !unassignedRacks.some(unassigned => unassigned.id === assignedRack.id)
+            )
+        ]
+        : unassignedRacks;
+
 
     const onSubmit = async (data) => {
-
         let result;
 
         if (isEditMode) {
@@ -98,7 +133,6 @@ function MedicineWarehouseForm(opts) {
         } else {
             result = await createMedicineWarehouse(data);
         }
-
 
         if (result.success) {
             navigate({
@@ -131,6 +165,22 @@ function MedicineWarehouseForm(opts) {
     };
 
     const hasRacks = unassignedRacks && unassignedRacks.length > 0;
+
+    // Show loading saat fetch data
+    if (isLoadingData) {
+        return (
+            <SettingPage>
+                <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                        <div
+                            className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p className="text-muted-foreground">Memuat data gudang...</p>
+                    </div>
+                </div>
+            </SettingPage>
+        );
+    }
+
     return (
         <>
             <SettingPage>
@@ -142,7 +192,6 @@ function MedicineWarehouseForm(opts) {
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-6">
-                            {/* Header - UPDATED */}
                             <div className="flex items-center justify-between">
                                 <Link
                                     to="/settings/medicines"
@@ -165,7 +214,6 @@ function MedicineWarehouseForm(opts) {
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <div className="grid gap-4 md:grid-cols-3">
-                                        {/*tenant*/}
                                         {!userData?.tenant_id && (
                                             <div className="space-y-2">
                                                 <Label htmlFor="tenant_id">
@@ -174,7 +222,7 @@ function MedicineWarehouseForm(opts) {
                                                 <Controller
                                                     name="tenant_id"
                                                     control={control}
-                                                    rules={{required: isUserHasTenant || "Tenant wajib dipilih"}}
+                                                    rules={{required: !isUserHasTenant && "Tenant wajib dipilih"}}
                                                     render={({field}) => (
                                                         <div className="relative">
                                                             <Select
@@ -208,7 +256,6 @@ function MedicineWarehouseForm(opts) {
                                                                 </SelectContent>
                                                             </Select>
 
-                                                            {/* CLEAR BUTTON */}
                                                             {field.value && (
                                                                 <button
                                                                     type="button"
@@ -228,10 +275,8 @@ function MedicineWarehouseForm(opts) {
                                                     <p className="text-sm text-destructive">{errors.tenant_id.message}</p>
                                                 )}
                                             </div>
-                                        )
-                                        }
+                                        )}
 
-                                        {/* Kode */}
                                         <div className="space-y-2">
                                             <Label htmlFor="code">
                                                 Kode <span className="text-destructive">*</span>
@@ -248,7 +293,7 @@ function MedicineWarehouseForm(opts) {
                                                 <p className="text-sm text-destructive">{errors.code.message}</p>
                                             )}
                                         </div>
-                                        {/* Nama */}
+
                                         <div className="space-y-2">
                                             <Label htmlFor="name">
                                                 Nama Gudang <span className="text-destructive">*</span>
@@ -263,6 +308,7 @@ function MedicineWarehouseForm(opts) {
                                             )}
                                         </div>
                                     </div>
+
                                     <div className="space-y-2">
                                         <Label htmlFor="racks">
                                             Rak yg tersedia <span className="text-destructive">*</span>
@@ -292,7 +338,7 @@ function MedicineWarehouseForm(opts) {
                                                                 </MultiSelectTrigger>
                                                                 <MultiSelectContent>
                                                                     <MultiSelectGroup>
-                                                                        {unassignedRacks?.map((rack) => (
+                                                                        {availableRacks?.map((rack) => (
                                                                             <MultiSelectItem key={rack.id}
                                                                                              value={rack.id}>
                                                                                 {rack.name} - {rack.code}
@@ -318,8 +364,7 @@ function MedicineWarehouseForm(opts) {
                                                 )}
                                             </div>
                                         ) : (
-                                            <div
-                                                className="border border-dashed rounded-lg p-6 text-center space-y-3">
+                                            <div className="border border-dashed rounded-lg p-6 text-center space-y-3">
                                                 <Package className="w-12 h-12 mx-auto text-muted-foreground"/>
                                                 <div>
                                                     <p className="text-sm font-medium">Belum ada rak tersedia</p>
@@ -341,7 +386,6 @@ function MedicineWarehouseForm(opts) {
                                 </CardContent>
                             </Card>
 
-                            {/* Footer Buttons - UPDATED */}
                             <div className="flex justify-end gap-4">
                                 <Link
                                     to="/settings/medicines"

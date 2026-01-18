@@ -65,9 +65,9 @@ export const useMedicineWarehouseStore = create((set, get) => ({
     },
     updateMedicineWarehouse: async (id, data) => {
         try {
-            await apiCall.put(`/api/v1/pharmacy/medicine-warehouses/${id}`, data);
+            const response = await apiCall.put(`/api/v1/pharmacy/medicine-warehouses/${id}`, data);
             toast.success("Berhasil menambahkan gudang obat baru.");
-            await get().fetchMedicineWarehouses({perPage: 20});
+            return {success: true, data: response.data};
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
@@ -76,6 +76,7 @@ export const useMedicineWarehouseStore = create((set, get) => ({
         try {
             await apiCall.delete(`/api/v1/pharmacy/medicine-warehouses/${id}`);
             toast.success("Berhasil menghapus gudang obat.");
+            set({openDeleteModal: false});
             await get().fetchMedicineWarehouses({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");

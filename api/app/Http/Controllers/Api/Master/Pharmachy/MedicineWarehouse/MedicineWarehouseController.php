@@ -36,12 +36,13 @@ class MedicineWarehouseController extends Controller
 
     public function show(MedicineWarehouse $medicineWarehouse): JsonResponse
     {
+        $medicineWarehouse->load('racks');
         return response()->json($medicineWarehouse);
     }
 
     public function update(MedicineWarehouseRequest $request, MedicineWarehouse $medicineWarehouse): JsonResponse
     {
-        $medicineWarehouse->update($request->validated());
+        $medicineWarehouse = $this->medicineWarehouseService->update($request, $medicineWarehouse);
         return $this->successResponse($medicineWarehouse, 'Warehouse successfully updated.');
     }
 

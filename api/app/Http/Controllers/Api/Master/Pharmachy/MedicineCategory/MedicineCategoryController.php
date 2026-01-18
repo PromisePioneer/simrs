@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Master\Pharmachy\MedicineCategory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductCategoryRequest;
+use App\Http\Requests\MedicineCategoryRequest;
 use App\Models\MedicineCategory;
 use App\Services\Master\Pharmachy\Medicine\Service\MedicineCategoryService;
 use App\Traits\ApiResponse;
@@ -22,6 +22,9 @@ class MedicineCategoryController extends Controller
         $this->medicineCategoryService = new MedicineCategoryService();
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index(Request $request): JsonResponse
     {
         $this->authorize('view', MedicineCategory::class);
@@ -30,12 +33,13 @@ class MedicineCategoryController extends Controller
     }
 
 
-    public function store(ProductCategoryRequest $request): JsonResponse
+    /**
+     * @throws AuthorizationException
+     */
+    public function store(MedicineCategoryRequest $request): JsonResponse
     {
         $this->authorize('create', MedicineCategory::class);
-        $data = $request->validated();
-        $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
-        $medicineCategory = $this->medicineCategoryService->store($data);
+        $medicineCategory = $this->medicineCategoryService->store($request);
         return $this->successResponse($medicineCategory, 'Product Category successfully added.');
     }
 
@@ -50,15 +54,20 @@ class MedicineCategoryController extends Controller
     }
 
 
-    public function update(ProductCategoryRequest $request, MedicineCategory $medicineCategory): JsonResponse
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(MedicineCategoryRequest $request, MedicineCategory $medicineCategory): JsonResponse
     {
         $this->authorize('update', $medicineCategory);
-        $data = $request->validated();
-        $this->medicineCategoryService->update($data, $medicineCategory->id);
+        $this->medicineCategoryService->update($request, $medicineCategory->id);
         return $this->successResponse($medicineCategory, 'Product Category successfully updated.');
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(MedicineCategory $medicineCategory): JsonResponse
     {
         $this->authorize('delete', $medicineCategory);

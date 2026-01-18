@@ -8,8 +8,8 @@ import {useForm} from "react-hook-form";
 
 import {useRoleStore} from "@/store/useRoleStore.js";
 import {useUserCrud} from "@/hooks/useUserCrud.js";
-import {useRegistrationInstitutionStore} from "@/store/registration-institutions/useRegistrationInstitutionStore.js";
-import {useUserStore} from "@/store/user/useUserStore.js";
+import {useRegistrationInstitutionStore} from "@/store/useRegistrationInstitutionStore.js";
+import {useUserStore} from "@/store/useUserStore.js";
 
 import UserGeneralInfoSection from "@/components/user/form-sections/general-info.jsx";
 import UserSTRInfoSection from "@/components/user/form-sections/str-info.jsx";
@@ -41,13 +41,11 @@ function UserForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
 
-    // Store hooks
     const {showUser, userValue} = useUserStore();
     const {fetchRoles, roleData} = useRoleStore();
     const {fetchInstitutions, strData, sipData} = useRegistrationInstitutionStore();
     const {handleCreate, handleEdit} = useUserCrud();
 
-    // Form setup
     const {
         register,
         handleSubmit,
@@ -63,7 +61,6 @@ function UserForm(opts) {
         defaultValues: formatUserDataForForm({})
     });
 
-    // Custom hooks for image preview
     const {
         previewImage,
         previewSignature,

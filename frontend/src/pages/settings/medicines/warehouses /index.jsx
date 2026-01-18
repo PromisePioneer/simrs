@@ -1,4 +1,4 @@
-import {useMedicineWarehouseStore} from "@/store/medicine/medicineWarehouseStore.js";
+import {useMedicineWarehouseStore} from "@/store/medicineWarehouseStore.js";
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Award, Pencil, Pill, Plus, Trash2, Archive} from "lucide-react";
@@ -18,8 +18,6 @@ function MedicineWarehousePage() {
         medicineWarehouses,
         currentPage,
         setCurrentPage,
-        openModal,
-        setOpenModal,
         fetchMedicineWarehouses,
         deleteMedicineWarehouse,
         medicineWarehouseValue,
@@ -58,7 +56,7 @@ function MedicineWarehousePage() {
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Archive />
+                        <Archive/>
                     </div>
                     <div className="flex flex-col">
                         <span className="font-semibold text-foreground">{medicineWarehouse.racks_count}</span>
@@ -71,12 +69,13 @@ function MedicineWarehousePage() {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setOpenModal(medicineWarehouse.id)}
-                                    >
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
+                                    <Link to={`/settings/medicines/warehouse/${medicineWarehouse.id}`}>
+                                        <Button variant="ghost" size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                        >
+                                            <Pencil className="h-4 w-4"/>
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent><p>Edit Gudang</p></TooltipContent>
                             </Tooltip>

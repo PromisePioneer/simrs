@@ -56,11 +56,8 @@ class MedicineWarehouseRepository implements MedicineWarehouseRepositoryInterfac
             $warehouse->save();
 
             if (!empty($data['racks'])) {
-                // Delete existing racks
-                $warehouse->racks()->delete();
-
-                // Create new racks
-                $warehouse->racks()->createMany($data['racks']);
+                MedicineRack::whereIn('id', $data['racks'])
+                    ->update(['warehouse_id' => $warehouse->id]);
             }
 
             return $warehouse->fresh(['racks']);
