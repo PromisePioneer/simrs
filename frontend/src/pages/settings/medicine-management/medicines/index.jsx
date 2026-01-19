@@ -1,4 +1,3 @@
-import {useMedicineWarehouseStore} from "@/store/medicineWarehouseStore.js";
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Award, Pencil, Pill, Plus, Trash2, Archive} from "lucide-react";
@@ -7,39 +6,41 @@ import {Button} from "@/components/ui/button.jsx";
 import DataTable from "@/components/common/data-table.jsx";
 import Modal from "@/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
+import {useMedicineStore} from "@/store/medicineStore.js";
 
 
-function MedicineWarehousePage() {
+function MedicinePage() {
 
     const {
         isLoading,
         search,
         setSearch,
-        medicineWarehouses,
+        medicines,
         currentPage,
         setCurrentPage,
-        fetchMedicineWarehouses,
-        deleteMedicineWarehouse,
-        medicineWarehouseValue,
-        setOpenDeleteModal,
+        createMedicine,
+        columns,
+        fetchMedicines,
         openDeleteModal,
-        columns
-    } = useMedicineWarehouseStore();
+        setOpenDeleteModal,
+        medicineValue,
+        deleteMedicine,
+    } = useMedicineStore();
 
 
     useEffect(() => {
-        fetchMedicineWarehouses({perPage: 20});
+        fetchMedicines({perPage: 20});
     }, [currentPage, search])
 
-    const renderRow = (medicineWarehouse, index) => (
-        <TableRow key={medicineWarehouse.id} className="hover:bg-muted/50 transition-colors">
+    const renderRow = (medicine, index) => (
+        <TableRow key={medicine.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {medicineWarehouses.from + index}
+                {medicines.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.code}</span>
+                        <span className="font-semibold text-foreground">{medicine.code}</span>
                     </div>
                 </div>
             </TableCell>
@@ -49,7 +50,7 @@ function MedicineWarehousePage() {
                         <Pill className="w-5 h-5 text-primary"/>
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.name}</span>
+                        <span className="font-semibold text-foreground">{medicine.name}</span>
                     </div>
                 </div>
             </TableCell>
@@ -59,7 +60,7 @@ function MedicineWarehousePage() {
                         <Archive/>
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.racks_count}</span>
+                        <span className="font-semibold text-foreground">{medicine.racks_count}</span>
                     </div>
                 </div>
             </TableCell>
@@ -69,7 +70,7 @@ function MedicineWarehousePage() {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicines/warehouse/${medicineWarehouse.id}`}>
+                                    <Link to={`/settings/medicines/warehouse/${medicine.id}`}>
                                         <Button variant="ghost" size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
                                         >
@@ -77,18 +78,18 @@ function MedicineWarehousePage() {
                                         </Button>
                                     </Link>
                                 </TooltipTrigger>
-                                <TooltipContent><p>Edit Gudang</p></TooltipContent>
+                                <TooltipContent><p>Edit Obat</p></TooltipContent>
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button variant="ghost" size="sm"
                                             className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(medicineWarehouse.id)}
+                                            onClick={() => setOpenDeleteModal(medicine.id)}
                                     >
                                         <Trash2 className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent><p>Delete Gudang</p></TooltipContent>
+                                <TooltipContent><p>Delete Obat</p></TooltipContent>
                             </Tooltip>
                         </>
                     </TooltipProvider>
@@ -109,10 +110,10 @@ function MedicineWarehousePage() {
                         </div>
                         <div>
                             <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                Data Gudang Obat
+                                Data Obat
                             </h1>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Kelola gudang
+                                Kelola Stok obat
                             </p>
                         </div>
                     </div>
@@ -122,29 +123,29 @@ function MedicineWarehousePage() {
                     size="lg"
                     asChild
                 >
-                    <Link to="/settings/medicines/warehouse/create">
-                        <Plus className="w-4 h-4"/> Tambah gudang
+                    <Link to="/settings/medicine-management/medicine/create">
+                        <Plus className="w-4 h-4"/> Tambah Obat
                     </Link>
                 </Button>
             </div>
 
             <DataTable
-                title="Daftar gudang"
-                description="Daftar Gudang yang tersedia"
+                title="Daftar Stok Obat"
+                description="Daftar Obat yang tersedia"
                 columns={columns()}
-                data={medicineWarehouses?.data || []}
+                data={medicines?.data || []}
                 isLoading={isLoading}
-                pagination={medicineWarehouses ? {
-                    from: medicineWarehouses.from, to: medicineWarehouses.to, total: medicineWarehouses.total,
-                    current_page: medicineWarehouses.current_page, last_page: medicineWarehouses.last_page
+                pagination={medicines ? {
+                    from: medicines.from, to: medicines.to, total: medicines.total,
+                    current_page: medicines.current_page, last_page: medicines.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}
                 onSearch={setSearch}
                 search={search}
-                searchPlaceholder="Cari gudang..."
+                searchPlaceholder="Cari obat..."
                 emptyStateIcon={Archive}
-                emptyStateText="Tidak ada data gudang ditemukan"
+                emptyStateText="Tidak ada data obat ditemukan"
                 renderRow={renderRow}
                 showSearch={true}
             />
@@ -153,10 +154,10 @@ function MedicineWarehousePage() {
             <Modal
                 open={openDeleteModal}
                 onOpenChange={setOpenDeleteModal}
-                title="Hapus gudang"
-                description="Tindakan ini tidak dapat dibatalkan. gudang akan dihapus permanen."
-                onSubmit={() => deleteMedicineWarehouse(medicineWarehouseValue.id)}
-                submitText="Hapus gudang"
+                title="Hapus Obat"
+                description="Tindakan ini tidak dapat dibatalkan. obat akan dihapus permanen."
+                onSubmit={() => deleteMedicine(medicineValue.id)}
+                submitText="Hapus obat"
                 type="danger"
                 isLoading={isLoading}
             >
@@ -171,8 +172,8 @@ function MedicineWarehousePage() {
                             </div>
                             <div className="flex-1 space-y-1">
                                 <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus gudang: <span
-                                    className="font-semibold text-foreground">{medicineWarehouseValue?.name}</span></p>
+                                <p className="text-sm text-muted-foreground">Anda akan menghapus obat: <span
+                                    className="font-semibold text-foreground">{medicineValue?.name}</span></p>
                             </div>
                         </div>
                     </div>
@@ -182,4 +183,4 @@ function MedicineWarehousePage() {
     )
 }
 
-export default MedicineWarehousePage;
+export default MedicinePage;

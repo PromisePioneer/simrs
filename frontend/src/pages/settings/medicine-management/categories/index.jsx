@@ -128,7 +128,7 @@ function MedicineCategoriesPage() {
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                                classNamwe="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
                                                 onClick={() => setOpenDeleteModal(medicineCategory.id)}
                                         >
                                             <Trash2 className="h-4 w-4"/>

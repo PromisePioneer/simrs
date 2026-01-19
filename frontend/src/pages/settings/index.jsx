@@ -40,7 +40,7 @@ function SettingPage({children}) {
         },
         {
             title: "Manajemen Obat",
-            href: "/settings/medicines",
+            href: "/settings/medicine-management",
             icon: Pill,
             description: "Kelola data obat",
             permission: hasPermission(PERMISSIONS.MEDICINE.VIEW), // Sesuaikan dengan permission yang ada

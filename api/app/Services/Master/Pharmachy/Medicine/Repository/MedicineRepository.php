@@ -14,7 +14,7 @@ class MedicineRepository implements MedicineRepositoryInterface
         $this->model = new Medicine();
     }
 
-    public function getProducts(array $filters = [], ?int $perPage = null): ?object
+    public function getMedicines(array $filters = [], ?int $perPage = null): ?object
     {
         $query = $this->model->orderBy('name');
 

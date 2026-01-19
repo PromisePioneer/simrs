@@ -11,8 +11,7 @@ class Medicine extends TenantScopeBaseModel
     use HasUuids, HasFactory;
 
 
-    protected $table = 'products';
-
+    protected $table = 'medicines';
     protected $fillable = [
         'tenant_id',
         'sku',
@@ -41,11 +40,6 @@ class Medicine extends TenantScopeBaseModel
     public function category(): BelongsTo
     {
         return $this->belongsTo(MedicineCategory::class, 'category_id');
-    }
-
-    public function rack(): BelongsTo
-    {
-        return $this->belongsTo(MedicineRack::class, 'rack_id');
     }
 
 

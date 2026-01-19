@@ -9,7 +9,7 @@ export const useMedicineWarehouseStore = create((set, get) => ({
     search: "",
     currentPage: 1,
     medicineWarehouseValue: null,
-    opeDeleteModal: false,
+    openDeleteModal: false,
     setOpenDeleteModal: async (id) => {
         if (id) {
             await get().showMedicineWarehouse(id);

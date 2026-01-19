@@ -28,7 +28,7 @@ class MedicineController extends Controller
     public function index(Request $request): JsonResponse
     {
         $this->authorize('view', Medicine::class);
-        $products = $this->productService->getProducts($request);
+        $products = $this->productService->getMedicines($request);
         return response()->json($products);
     }
 
@@ -51,6 +51,7 @@ class MedicineController extends Controller
         $this->authorize('view', $product);
         $product->load('warehouse', 'category', 'rack');
         return response()->json($product);
+
     }
 
     /**

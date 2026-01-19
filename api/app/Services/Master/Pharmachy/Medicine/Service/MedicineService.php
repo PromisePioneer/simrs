@@ -10,38 +10,38 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class MedicineService
 {
-    private MedicineRepository $productRepository;
+    private MedicineRepository $medicineRepository;
 
     public function __construct()
     {
-        $this->productRepository = new MedicineRepository();
+        $this->medicineRepository = new MedicineRepository();
     }
 
 
-    public function getProducts(Request $request): Collection|LengthAwarePaginator
+    public function getMedicines(Request $request): Collection|LengthAwarePaginator
     {
         $filters = $request->only(['search', 'type']);
         $perPage = $request->input('per_page');
-        return $this->productRepository->getProducts($filters, $perPage);
+        return $this->medicineRepository->getMedicines($filters, $perPage);
     }
 
 
     public function store(ProductRequest $request): ?object
     {
         $data = $request->validated();
-        return $this->productRepository->store($data);
+        return $this->medicineRepository->store($data);
     }
 
 
     public function update(ProductRequest $request, string $id): ?object
     {
         $data = $request->validated();
-        return $this->productRepository->update($id, $data);
+        return $this->medicineRepository->update($id, $data);
     }
 
     public function destroy(string $id): ?object
     {
-        return $this->productRepository->destroy($id);
+        return $this->medicineRepository->destroy($id);
     }
 
 }

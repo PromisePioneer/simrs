@@ -48,7 +48,7 @@ return new class extends Migration {
         Schema::create('medicines', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
-            $table->string('sku');
+            $table->string('sku')->unique();
             $table->string('name');
             $table->string('code');
             $table->boolean('must_has_receipt')->default(false);
@@ -76,6 +76,6 @@ return new class extends Migration {
         Schema::dropIfExists('medicine_categories');
         Schema::dropIfExists('medicine_racks');
         Schema::dropIfExists('medicine_warehouses');
-        Schema::dropIfExists('medicines');
+        Schema::dropIfExists('medicine-management');
     }
 };
