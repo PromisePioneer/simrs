@@ -1,4 +1,4 @@
-import {createRouter, RouterProvider, useRouterState} from '@tanstack/react-router';
+import {createRouter, RouterProvider} from '@tanstack/react-router';
 import {routeTree} from './routeTree.gen.ts';
 
 const router = createRouter({routeTree});

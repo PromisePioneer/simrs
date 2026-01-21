@@ -53,8 +53,12 @@ class MedicineService
             ]);
 
 
+
+            $units = json_decode($data['units']);
+
+            dd($units);
             // 2️⃣ Create Medicine Units
-            foreach ($data['units'] as $unit) {
+            foreach ($units as $unit) {
                 MedicineUnit::create([
                     'medicine_id' => $medicine->id,
                     'unit_name' => $unit['unit_name'],

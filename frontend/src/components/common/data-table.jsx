@@ -91,9 +91,9 @@ function DataTable({
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="text-center py-16">
                                         <div className="flex flex-col items-center justify-center gap-3">
-                                            <Loader2 className="h-8 w-8 text-blue-600 animate-spin"/>
+                                            <Loader2 className="h-8 w-8 text-teal-600 animate-spin"/>
                                             <span className="text-sm text-gray-500 font-medium">
-                                                Memuat data pasien...
+                                                Memuat data..
                                             </span>
                                         </div>
                                     </TableCell>

@@ -44,9 +44,6 @@ function ReferencesPage() {
     // Handle tab click
     const handleTabClick = (tabKey, hasPermission) => {
         if (!hasPermission) {
-            toast.error('Akses Ditolak', {
-                description: 'Anda tidak memiliki izin untuk mengakses tab ini.'
-            });
             return;
         }
         setActiveTab(tabKey);
