@@ -1,15 +1,11 @@
 import SettingPage from "@/pages/settings/index.jsx";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import RolePage from "@/pages/settings/users-management/roles/index.jsx";
 import UserPage from "@/pages/settings/users-management/users/index.jsx";
 import {usePermission} from "@/hooks/usePermission.js";
 import {useEffect, useState} from "react";
 import {PERMISSIONS} from "@/constants/permissions.js";
-import DegreePage from "@/pages/settings/references/degrees/index.jsx";
-import PaymentMethodPage from "@/pages/settings/references/payment-methods/index.jsx";
-import Institutions from "@/pages/settings/references/institutions/index.jsx";
 import {toast} from "sonner";
-import {ShieldAlert} from "lucide-react";
+import {ShieldAlert, Lock} from "lucide-react";
 
 function UsersManagementPage() {
 
@@ -48,7 +44,6 @@ function UsersManagementPage() {
     };
 
 
-    // Jika tidak ada tab yang bisa diakses sama sekali
     const hasAnyTabAccess = tabs.some(tab => tab.permission);
 
     if (!hasAnyTabAccess) {

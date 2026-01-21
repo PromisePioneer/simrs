@@ -4,7 +4,7 @@ namespace App\Services\Master\Pharmachy\Medicine\Interface;
 
 interface MedicineRepositoryInterface
 {
-    public function getProducts(array $filters = [], ?int $perPage = null): ?object;
+    public function getMedicines(array $filters = [], ?int $perPage = null): ?object;
 
     public function findById(string $id): ?object;
 

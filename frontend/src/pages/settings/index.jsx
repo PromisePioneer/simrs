@@ -9,7 +9,6 @@ import {PERMISSIONS} from "@/constants/permissions.js";
 function SettingPage({children}) {
     const location = useLocation();
     const {hasPermission, hasAnyPermission} = usePermission();
-
     const menuItems = [
         {
             title: "Manajemen Pasien",
@@ -41,7 +40,7 @@ function SettingPage({children}) {
         },
         {
             title: "Manajemen Obat",
-            href: "/settings/medicines",
+            href: "/settings/medicine-management",
             icon: Pill,
             description: "Kelola data obat",
             permission: hasPermission(PERMISSIONS.MEDICINE.VIEW), // Sesuaikan dengan permission yang ada
@@ -54,6 +53,7 @@ function SettingPage({children}) {
     const isActive = (href) => {
         return location.pathname === href || location.pathname.startsWith(href + '/');
     };
+
 
     return (
         <Layout>
@@ -70,7 +70,7 @@ function SettingPage({children}) {
 
                 {/* Show message if no accessible menus */}
                 {accessibleMenuItems.length === 0 ? (
-                    <Card className="p-12">
+                    <Card className="border-l-4 border-primary">
                         <div className="text-center space-y-4">
                             <Lock className="w-16 h-16 mx-auto text-gray-400"/>
                             <div>

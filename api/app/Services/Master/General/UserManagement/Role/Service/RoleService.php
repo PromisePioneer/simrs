@@ -4,6 +4,7 @@ namespace App\Services\Master\General\UserManagement\Role\Service;
 
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
+use App\Models\Tenant;
 use App\Services\Master\General\UserManagement\Role\Repository\RoleRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -69,6 +70,11 @@ class RoleService
                 'permissions' => $role->permissions,
             ];
         });
+    }
+
+    public function getByTenant(Tenant $tenant): ?object
+    {
+        return $this->roleRepository->findByTenantId(id: $tenant->id);
     }
 
 }

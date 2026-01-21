@@ -2,6 +2,7 @@
 
 namespace App\Services\Master\Pharmachy\Medicine\Repository;
 
+use App\Models\MedicineRack;
 use App\Models\MedicineWarehouse;
 use App\Services\Master\Pharmachy\Medicine\Interface\MedicineWarehouseRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class MedicineWarehouseRepository implements MedicineWarehouseRepositoryInterfac
         }
 
         if ($perPage) {
-            return $query->paginate($perPage);
+            return $query->withCount('racks')->paginate($perPage);
         }
 
         return $query->get();
@@ -39,15 +40,28 @@ class MedicineWarehouseRepository implements MedicineWarehouseRepositoryInterfac
 
     public function store(array $data = []): ?object
     {
-        return $this->model->create($data);
+        $warehouse = $this->model->create($data);
+        if (!empty($data['racks'])) {
+            MedicineRack::whereIn('id', $data['racks'])
+                ->update(['warehouse_id' => $warehouse->id]);
+        }
+        return $warehouse;
     }
 
     public function update(string $id, array $data = []): ?object
     {
-        $warehouse = $this->findById($id);
-        $warehouse->fill($data);
-        $warehouse->save();
-        return $warehouse->fresh();
+        return DB::transaction(function () use ($id, $data) {
+            $warehouse = $this->findById($id);
+            $warehouse->fill($data);
+            $warehouse->save();
+
+            if (!empty($data['racks'])) {
+                MedicineRack::whereIn('id', $data['racks'])
+                    ->update(['warehouse_id' => $warehouse->id]);
+            }
+
+            return $warehouse->fresh(['racks']);
+        });
     }
 
     public function destroy(string $id): ?object

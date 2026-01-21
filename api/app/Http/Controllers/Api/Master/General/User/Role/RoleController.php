@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Master\General\User\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
+use App\Models\Tenant;
 use App\Services\Master\General\UserManagement\Role\Service\RoleService;
 use App\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -73,5 +74,12 @@ class RoleController extends Controller
     public function destroy(Role $role): JsonResponse
     {
         return $this->successResponse($role, 'role deleted successfully.');
+    }
+
+
+    public function getByTenant(Tenant $tenant): JsonResponse
+    {
+        $data = $this->roleService->getByTenant($tenant);
+        return response()->json($data);
     }
 }

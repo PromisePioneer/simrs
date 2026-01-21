@@ -1,6 +1,6 @@
 import {Loader2, Mail, Building2, UserCircle, ShieldCheck} from 'lucide-react';
 import Layout from "@/pages/dashboard/layout.jsx";
-import {useUserStore} from "@/store/user/useUserStore.js";
+import {useUserStore} from "@/store/useUserStore.js";
 import {useParams} from "@tanstack/react-router";
 import {Badge} from "@/components/ui/badge.jsx";
 import {getInitials} from "@/hooks/use-helpers.js";

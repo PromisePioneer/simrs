@@ -69,4 +69,10 @@ class MedicineRackRepository implements MedicineRackRepositoryInterface
         $productRack->delete();
         return $productRack;
     }
+
+
+    public function getByWarehouseId(string $id): object
+    {
+        return $this->model->where('warehouse_id', $id)->get();
+    }
 }

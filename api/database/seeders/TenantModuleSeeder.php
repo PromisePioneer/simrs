@@ -337,14 +337,17 @@ class TenantModuleSeeder extends Seeder
             'Menambahkan Role',
             'Mengubah Role',
             'Menghapus Role',
+
             'Melihat User Management',
             'Menambahkan User Management',
             'Mengubah User Management',
             'Menghapus User Management',
+
             'Melihat Rak Produk',
             'Membuat Rak Produk',
             'Mengubah Rak Produk',
             'Menghapus Rak Produk',
+
             'Melihat Kategori Produk',
             'Menambah Kategori Produk',
             'Mengubah Kategori Produk',
@@ -386,6 +389,10 @@ class TenantModuleSeeder extends Seeder
             "Mengubah Pasien",
             "Menghapus Pasien",
 
+            "Melihat User Management",
+            "Menambahkan User Management",
+            "Mengubah User Management",
+            "Menghapus User Management"
 
         ];
 

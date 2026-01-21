@@ -1,4 +1,4 @@
-import {useRegistrationInstitutionStore} from "@/store/registration-institutions/useRegistrationInstitutionStore.js";
+import {useRegistrationInstitutionStore} from "@/store/useRegistrationInstitutionStore.js";
 import {useEffect} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";

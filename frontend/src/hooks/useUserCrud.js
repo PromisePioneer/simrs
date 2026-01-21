@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {toast} from "sonner";
-import {useUserStore} from "@/store/user/useUserStore.js";
+import {useUserStore} from "@/store/useUserStore.js";
 import {useNavigate} from "@tanstack/react-router";
 
 export const useUserCrud = () => {

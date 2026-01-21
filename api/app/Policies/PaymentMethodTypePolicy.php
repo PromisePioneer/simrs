@@ -9,21 +9,21 @@ class PaymentMethodTypePolicy
 {
     public function view(User $user): bool
     {
-        return $user->can('Melihat Metode Pembayaran');
+        return $user->hasActivePermission(permission: 'Melihat Metode Pembayaran');
     }
 
     public function create(User $user): bool
     {
-        return $user->can("Menambahkan Metode Pembayaran");
+        return $user->hasActivePermission(permission: "Menambahkan Metode Pembayaran");
     }
 
     public function update(User $user): bool
     {
-        return $user->can("Mengubah Metode Pembayaran");
+        return $user->hasActivePermission(permission: "Mengubah Metode Pembayaran");
     }
 
     public function delete(User $user): bool
     {
-        return $user->can("Menghapus Metode Pembayaran");
+        return $user->hasActivePermission(permission: "Menghapus Metode Pembayaran");
     }
 }

@@ -9,27 +9,27 @@ class ProfessionPolicy
 
     public function view(User $user): bool
     {
-        if ($user->hasRole('Owner')) {
+        if ($user->hasActiveRole('Owner')) {
             return true;
         }
 
-        return $user->can("Melihat Profesi");
+        return $user->hasActivePermission(permission: "Melihat Profesi");
     }
 
     public function create(User $user): bool
     {
-        return $user->can("Membuat Profesi");
+        return $user->hasActivePermission(permission: "Membuat Profesi");
     }
 
 
     public function update(User $user): bool
     {
-        return $user->can("Mengubah Profesi");
+        return $user->hasActivePermission(permission: "Mengubah Profesi");
     }
 
 
     public function destroy(User $user): bool
     {
-        return $user->can("Menghapus Profesi");
+        return $user->hasActivePermission(permission: "Menghapus Profesi");
     }
 }

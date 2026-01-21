@@ -32,7 +32,12 @@ class RoleRepository implements RoleInterface
 
     public function findById(string $id): object
     {
-        return $this->model->with('tenant')->find($id);
+        return $this->model->with('tenant')->find(id: $id);
+    }
+
+    public function findByTenantId(string $id): object
+    {
+        return $this->model->with('tenant')->where('tenant_id', $id)->orWhereNull('tenant_id')->get();
     }
 
     public function store(array $data = []): object

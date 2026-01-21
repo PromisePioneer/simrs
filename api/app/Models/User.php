@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Notifications\VerifyEmail;
 use App\Services\Master\General\UserManagement\Permission\Repository\PermissionRepository;
+use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens, TenantManager, HasRoles, HasUuids;
+    use HasFactory, Notifiable, HasApiTokens, TenantManager, HasRoles, HasUuids, HasActiveTenant;
 
 
     public $incrementing = false;
@@ -76,27 +76,108 @@ class User extends Authenticatable
     }
 
 
+    public function roles(): BelongsToMany
+    {
+        $activeTenantId = null;
+
+        // Get active tenant jika user sudah login
+        if (auth()->check()) {
+            $activeTenantId = auth()->user()->getActiveTenantId();
+        }
+
+        $relationship = $this->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            'role_id'
+        );
+
+        // Filter berdasarkan active tenant
+        if ($activeTenantId) {
+            $relationship->where(function ($query) use ($activeTenantId) {
+                $query->whereNull('roles.tenant_id')
+                    ->orWhere('roles.tenant_id', $activeTenantId);
+            });
+        }
+
+        // Team/Tenant support dari Spatie
+        if (app(PermissionRegistrar::class)->teams) {
+            $teamField = config('permission.table_names.roles') . '.' . config('permission.column_names.team_foreign_key');
+
+            $relationship->where(function ($q) use ($teamField) {
+                $q->whereNull($teamField)
+                    ->orWhere($teamField, getPermissionsTeamId());
+            });
+        }
+
+        return $relationship;
+    }
+
+
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail());
     }
 
 
-    public function scopeSameTenant($query): Builder
+    public function getFilteredRolesAttribute()
     {
-        if (auth()->check()) {
-            $user = auth()->user();
+        $activeTenantId = $this->getActiveTenantId();
 
-            if (!$user->tenant_id) {
-                app(PermissionRegistrar::class)->setPermissionsTeamId(null);
+        return $this->roles->filter(function ($role) use ($activeTenantId) {
+            return is_null($role->tenant_id) || $role->tenant_id == $activeTenantId;
+        });
+    }
 
-                return $query->with(['roles', 'prefixes', 'suffixes']);
-            }
 
-            $query->where('tenant_id', $user->tenant_id);
+    public function activeTenantRoles(): BelongsToMany
+    {
+        $activeTenantId = $this->getActiveTenantId();
+
+        return $this->belongsToMany(
+            config('permission.models.role'),
+            config('permission.table_names.model_has_roles'),
+            'model_uuid',
+            'role_id'
+        )->using(config('permission.models.role')) // Ini opsional
+        ->where(function ($query) use ($activeTenantId) {
+            $query->whereNull('roles.tenant_id')
+                ->orWhere('roles.tenant_id', $activeTenantId);
+        });
+    }
+
+
+    public function scopeSameTenant($query): object
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return $query->with(['roles', 'prefixes', 'suffixes']);
         }
 
-        return $query->with(['roles', 'prefixes', 'suffixes']);
+        $activeTenantId = $user->getActiveTenantId();
+
+        if (!$activeTenantId) {
+            return $query->with(['roles', 'prefixes', 'suffixes']);
+        }
+
+        // Set permission team id dulu
+        setPermissionsTeamId($activeTenantId);
+
+        return $query
+            ->where('users.tenant_id', $activeTenantId)
+            ->with([
+                'roles' => function ($query) use ($activeTenantId) {
+                    // PENTING: Harus join ke pivot table model_has_roles
+                    $query->where(function ($q) use ($activeTenantId) {
+                        $q->whereNull('roles.tenant_id')
+                            ->orWhere('roles.tenant_id', $activeTenantId);
+                    });
+                },
+                'prefixes',
+                'suffixes'
+            ]);
     }
 
 
@@ -194,6 +275,9 @@ class User extends Authenticatable
         return $this->tenant->hasActiveSubscription();
     }
 
+    /**
+     * Override default roles relationship dari Spatie
+     */
 
     /**
      * Check if user can access module (based on tenant's plan + user's permission)

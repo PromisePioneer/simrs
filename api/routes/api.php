@@ -3,6 +3,9 @@
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Master\General\Tenant\TenantController;
 use App\Http\Controllers\Api\Master\General\User\User\UserController;
+use App\Models\Role;
+use App\Models\Tenant;
+use App\Services\Tenant\TenantContext;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +19,14 @@ use Illuminate\Support\Facades\Route;
 | Super Admin Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth:sanctum', 'role:Super Admin'])
+Route::middleware(['auth:sanctum'])
     ->prefix('v1')
     ->group(function () {
-        Route::apiResource('tenants', TenantController::class);
+        Route::prefix('/tenants')->group(function () {
+            Route::apiResource('/', TenantController::class);
+            Route::post('/switch', [TenantController::class, 'switchTenant']);
+            Route::post('/reset', [TenantController::class, 'resetTenant']);
+        });
     });
 
 /*
@@ -92,4 +99,6 @@ Route::middleware(['auth:sanctum', 'verified'])
          */
 
         require __DIR__ . '/api/modules/payments.php';
+
+
     });

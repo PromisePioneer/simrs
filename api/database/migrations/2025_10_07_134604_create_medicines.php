@@ -10,18 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-
-        Schema::create('medicine_unit_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('code');
-            $table->string('name');
-            $table->timestamps();
-        });
-
         Schema::create('medicine_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->nullable()->constrained('tenants')->cascadeOnDelete();
-            $table->string('code');
             $table->string('name');
             $table->enum('type', ['general', 'medicine', 'medical_devices', 'service']);
             $table->timestamps();
@@ -30,11 +21,14 @@ return new class extends Migration {
 
         Schema::create('medicine_warehouses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
-            $table->string('code');
+            $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
+
+            $table->string('code')->unique();
             $table->string('name');
+            $table->enum('type', ['central', 'pharmacy', 'ward', 'er']);
             $table->timestamps();
         });
+
 
         Schema::create('medicine_racks', function (Blueprint $table) {
             $table->uuid('id')->primary();
@@ -43,29 +37,47 @@ return new class extends Migration {
             $table->string('code');
             $table->string('name');
             $table->timestamps();
+            $table->unique(['tenant_id', 'warehouse_id', 'code']);
         });
-
 
         Schema::create('medicines', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
-            $table->string('sku');
-            $table->string('name');
+            $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
+            $table->string('sku')->unique();
             $table->string('code');
+            $table->string('name');
+            $table->string('base_unit'); // tablet | ml | g | vial
+            $table->string('type'); // tablet | syrup | injection
             $table->boolean('must_has_receipt')->default(false);
-            $table->enum('type', ['general', 'medicine', 'medical_devices', 'service']);
-            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
+            $table->boolean('is_for_sell')->default(true);
+            $table->integer('minimum_stock_amount')->default(0);
             $table->foreignUuid('category_id')->constrained('medicine_categories')->cascadeOnDelete();
-            $table->foreignUuid('unit_type_id')->constrained('medicine_unit_types')->cascadeOnDelete();
-            $table->boolean('is_for_sell')->default(false);
-            $table->date('expired_date')->nullable();
-            $table->double('expired_notification_days')->nullable();
-            $table->double('stock_amount')->default(0);
-            $table->double('minimum_stock_amount')->nullable();
-            $table->double('maximum_stock_amount')->nullable();
-            $table->double('reference_purchase_price')->nullable();
+            $table->decimal('reference_purchase_price', 15, 2)->nullable();
             $table->timestamps();
         });
+
+        Schema::create('medicine_batches', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
+            $table->foreignUuid('rack_id')->nullable()->constrained('medicine_racks');
+            $table->string('batch_number')->nullable();
+            $table->boolean('is_auto_batch')->default(false);
+            $table->date('expired_date')->nullable();
+            $table->integer('stock_base_unit')->default(0);
+            $table->timestamps();
+        });
+
+
+        Schema::create('medicine_units', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
+            $table->string('unit_name'); // strip, box, botol
+            $table->integer('multiplier'); // 1 unit = ? base_unit
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -77,6 +89,6 @@ return new class extends Migration {
         Schema::dropIfExists('medicine_categories');
         Schema::dropIfExists('medicine_racks');
         Schema::dropIfExists('medicine_warehouses');
-        Schema::dropIfExists('medicines');
+        Schema::dropIfExists('medicine-management');
     }
 };

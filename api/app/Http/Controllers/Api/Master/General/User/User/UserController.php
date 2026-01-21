@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Master\General\User\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Tenant;
 use App\Models\User;
 use App\Services\Master\General\UserManagement\User\Repository\UserRepository;
 use App\Services\Master\General\UserManagement\User\Service\UserService;
+use App\Services\Tenant\TenantContext;
 use App\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -58,6 +60,9 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(UserRepository $userRepository, User $user): JsonResponse
     {
         $this->authorize('view', $user);
@@ -79,18 +84,34 @@ class UserController extends Controller
 
     public function me(): JsonResponse
     {
-        setPermissionsTeamId(null);
-        $data = User::with([
-            'roles' => function ($query) {
-                $query->select('uuid', 'name', 'roles.tenant_id');
-            },
-            'tenant' => function ($query) {
-                $query->select('id', 'name');
-            },
-            'roles.permissions' => function ($query) {
-                $query->select('permissions.uuid', 'permissions.name', 'permissions.guard_name');
-            }
-        ])->find(Auth::id());
-        return response()->json($data);
+        $user = Auth::user();
+        $tenantId = $user->getActiveTenantId();
+        TenantContext::set($tenantId);
+        setPermissionsTeamId($tenantId);
+        $activeRole = $user->getActiveRole();
+        $tenant = Tenant::find($tenantId);
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+
+            // Role & Permission yang AKTIF (ini yang dipakai di frontend)
+            'roles' => $activeRole ? [$activeRole] : $user->getRoleNames()->toArray(),
+            'permissions' => $user->getActivePermissions()->pluck('name'),
+
+            // Tenant info
+            'tenant' => [
+                'id' => $tenant->id ?? null,
+                'name' => $tenant->name ?? null,
+            ],
+
+            // Meta info (optional, untuk debugging atau indicator)
+            'meta' => [
+                'is_switched' => $user->isSwitchedContext(),
+                'original_role' => $user->roles->first()?->name,
+                'active_role' => $activeRole?->name,
+            ]
+        ]);
     }
 }

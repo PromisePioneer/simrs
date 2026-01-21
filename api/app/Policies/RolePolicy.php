@@ -8,21 +8,21 @@ class RolePolicy
 {
     public function view(User $user): bool
     {
-        return $user->can('Melihat Role');
+        return $user->hasActivePermission(permission: 'Melihat Role');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('Menambahkan Role');
+        return $user->hasActivePermission(permission: 'Menambahkan Role');
     }
 
     public function update(User $user): bool
     {
-        return $user->can('Mengubah Role');
+        return $user->hasActivePermission(permission: 'Mengubah Role');
     }
 
     public function delete(User $user): bool
     {
-        return $user->can('Menghapus Role');
+        return $user->hasActivePermission(permission: 'Menghapus Role');
     }
 }

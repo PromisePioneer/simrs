@@ -10,11 +10,8 @@ export const usePermission = () => {
 
     const hasPermission = (permission) => {
         if (isSuperAdmin) return true;
-        if (!userData?.roles) return false;
 
-        return userData.roles.some(role =>
-            role.permissions?.some(p => p.name === permission)
-        );
+        return userData.permissions?.some(p => p === permission)
     };
 
     const hasAnyPermission = (permissions = []) => {
@@ -24,6 +21,7 @@ export const usePermission = () => {
     const hasAllPermissions = (permissions = []) => {
         return permissions.every(permission => hasPermission(permission));
     };
+
 
     return {
         hasPermission,

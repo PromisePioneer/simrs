@@ -1,7 +1,6 @@
-import Layout from "@/pages/dashboard/layout.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {ArrowLeft, Save, User} from "lucide-react";
+import {ArrowLeft, Save} from "lucide-react";
 import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {useEffect} from "react";
 import {useForm} from "react-hook-form";
@@ -16,36 +15,6 @@ import {usePaymentMethodStore} from "@/store/usePaymentMethodStore.js";
 import SettingPage from "@/pages/settings/index.jsx";
 import {useImagePreview} from "@/hooks/useImagePreview.js";
 import {asset} from "@/services/apiCall.js";
-
-const formatPatientDataForForm = (patientData) => ({
-    tenant_id: patientData.tenant_id || '',
-    full_name: patientData.full_name || '',
-    medical_record_number: patientData.medical_record_number || '',
-    city_of_birth: patientData.city_of_birth || '',
-    date_of_birth: patientData.date_of_birth ? new Date(patientData.date_of_birth) : null,
-    id_card_number: patientData.id_card_number || '',
-    gender: patientData.gender || '',
-    religion: patientData.religion || '',
-    blood_type: patientData.blood_type || '',
-    job: patientData.job || '',
-    kis_number: patientData.kis_number || '',
-    phone: patientData.phone || '',
-    email: patientData.email || '',
-    date_of_consultation: patientData.date_of_consultation ? new Date(patientData.date_of_consultation) : null,
-    profile_picture: patientData.profile_picture || null,
-    payment_methods: patientData.payment_methods?.length > 0 ? patientData.payment_methods : [{
-        payment_method_type_id: '',
-        bpjs_number: ''
-    }],
-    addresses: patientData.addresses?.length > 0 ? patientData.addresses : [{
-        address: '',
-        province: '',
-        city: '',
-        subdistrict: '',
-        ward: '',
-        postal_code: ''
-    }]
-});
 
 function PatientForm(opts) {
     const {id} = useParams(opts);
@@ -69,7 +38,6 @@ function PatientForm(opts) {
         control,
         watch,
         setValue,
-        reset,
         formState: {errors, isSubmitting}
     } = useForm({
         mode: "all",

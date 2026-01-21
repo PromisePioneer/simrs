@@ -15,4 +15,7 @@ interface MedicineRackRepositoryInterface
     public function update(string $id, array $data = []): ?object;
 
     public function destroy(string $id): ?object;
+
+
+    public function getByWarehouseId(string $id): ?object;
 }

@@ -24,21 +24,33 @@ export const PERMISSIONS = {
         DELETE: 'Menghapus Role'
     },
     USER: {
-        VIEW: 'Melihat Pengguna',
-        CREATE: 'Membuat Pengguna',
-        EDIT: 'Mengubah Pengguna',
-        DELETE: 'Menghapus Pengguna'
+        VIEW: 'Melihat User Management',
+        CREATE: 'Membuat User Management',
+        EDIT: 'Mengubah User Management',
+        DELETE: 'Menghapus User Management'
     },
     PATIENT: {
-        VIEW: 'Melihat pasien',
-        CREATE: 'Membuat pasien',
-        EDIT: 'Mengubah pasien',
-        DELETE: 'Menghapus pasien'
+        VIEW: 'Melihat Pasien',
+        CREATE: 'Membuat Pasien',
+        EDIT: 'Mengubah Pasien',
+        DELETE: 'Menghapus Pasien'
     },
     MEDICINE: {
         VIEW: 'Melihat Obat',
         CREATE: 'Membuat Obat',
         EDIT: 'Mengubah Obat',
         DELETE: 'Menghapus Obat'
+    },
+    MEDICINE_CATEGORY: {
+        VIEW: 'Melihat Kategori Obat',
+        CREATE: 'Membuat Kategori Obat',
+        EDIT: 'Mengubah Kategori Obat',
+        DELETE: 'Menghapus Kategori Obat'
+    },
+    MEDICINE_WAREHOUSE: {
+        VIEW: 'Melihat Gudang Obat',
+        CREATE: 'Membuat Gudang Obat',
+        EDIT: 'Mengubah Gudang Obat',
+        DELETE: 'Menghapus Gudang Obat'
     }
 };

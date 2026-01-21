@@ -13,7 +13,6 @@ class MedicineCategory extends TenantScopeBaseModel
     protected $table = 'medicine_categories';
     protected $fillable = [
         'tenant_id',
-        'code',
         'name',
         'type'
     ];

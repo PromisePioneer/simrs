@@ -25,8 +25,8 @@ class MedicineRackRequest extends FormRequest
     {
         return [
             'code' => ['required',
-                Rule::unique('product_racks', 'code')
-                    ->ignore($this->route('productRack'))
+                Rule::unique('medicine_racks', 'code')
+                    ->ignore($this->route('medicineRack'))
             ],
             'name' => ['required'],
         ];

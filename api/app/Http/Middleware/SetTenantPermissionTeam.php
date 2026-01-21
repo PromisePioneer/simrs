@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Tenant\TenantContext;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,10 @@ class SetTenantPermissionTeam
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            setPermissionsTeamId(Auth::user()->tenant_id);
-            app()[PermissionRegistrar::class]->forgetCachedPermissions();
-            auth()->user()->refresh();
+            $tenantId = session('active_tenant_id', $user->tenant_id ?? TenantContext::getId());
+            TenantContext::set($tenantId);
+            setPermissionsTeamId($tenantId);
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
         }
         return $next($request);
     }
