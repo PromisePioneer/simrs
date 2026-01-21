@@ -85,7 +85,6 @@ function MedicineForm(opts) {
     const categoryId = watch("category_id");
     const isForSell = watch("is_for_sell");
     const baseUnit = watch("base_unit");
-    const stockAmount = watch("stock_amount");
 
 
     const generateMedicineSKU = useCallback(() => {
@@ -97,6 +96,7 @@ function MedicineForm(opts) {
 
         setValue('sku', `${cat}-${names}-${seq}`);
     }, [medicineCategoryValue, name, setValue]);
+
 
 
     useEffect(() => {
@@ -142,7 +142,9 @@ function MedicineForm(opts) {
 
             const specialFields = [
                 'expired_date',
-                'is_for_sell'
+                'is_for_sell',
+                'must_has_receipt',
+                'units'
             ];
 
 
@@ -159,6 +161,16 @@ function MedicineForm(opts) {
 
             if (data.is_for_sell) {
                 formData.append('is_for_sell', data.is_for_sell ? 1 : 0);
+            }
+
+
+            if (data.must_has_receipt) {
+                formData.append('must_has_receipt', data.must_has_receipt ? 1 : 0);
+            }
+
+
+            if (data.units) {
+                formData.append('units', JSON.stringify(data.units));
             }
 
 
@@ -553,6 +565,7 @@ function MedicineForm(opts) {
                             <Button
                                 type="button"
                                 variant="outline"
+                                disabled={!baseUnit}
                                 onClick={() => {
                                     setValue("units", [
                                         ...watch("units"),
@@ -561,7 +574,7 @@ function MedicineForm(opts) {
                                 }}
                             >
                                 <Plus className="mr-2" size={16}/>
-                                Tambah Satuan
+                                {baseUnit ? `Tambahkan Satuan` : "Tambahkan satuan terlebih dahulu"}
                             </Button>
                         </CardContent>
                     </Card>

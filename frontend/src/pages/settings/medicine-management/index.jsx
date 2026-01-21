@@ -3,7 +3,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx
 import {useNavigate} from "@tanstack/react-router";
 import {Route} from "@/routes/_protected/settings/medicine-management/index.jsx";
 import {usePermission} from "@/hooks/usePermission.js";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {PERMISSIONS} from "@/constants/permissions.js";
 import {Lock, ShieldAlert} from "lucide-react";
 import {toast} from "sonner";
@@ -15,6 +15,7 @@ function MedicineManagementPage() {
     const navigate = useNavigate();
     const {hasPermission} = usePermission();
     const search = Route.useSearch();
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const tabs = [
         {
@@ -47,11 +48,20 @@ function MedicineManagementPage() {
                 search: {tab: firstAccessibleTab.key},
                 replace: true
             });
+        } else {
+            setIsInitialized(true);
         }
     }, []);
 
+
     useEffect(() => {
-        if (activeTab) {
+        if (search?.tab) {
+            setIsInitialized(true);
+        }
+    }, [search?.tab]);
+
+    useEffect(() => {
+        if (activeTab && isInitialized) {
             const currentTab = tabs.find(tab => tab.key === activeTab);
             if (currentTab && !currentTab.permission) {
                 if (firstAccessibleTab) {
@@ -60,13 +70,16 @@ function MedicineManagementPage() {
                         search: {tab: firstAccessibleTab.key},
                         replace: true
                     });
-                    toast.error('Akses Ditolak', {
-                        description: 'Anda tidak memiliki izin untuk mengakses tab tersebut.'
-                    });
                 }
             }
         }
-    }, [activeTab]);
+    }, [activeTab, isInitialized]);
+
+
+    const currentTab = tabs.find(tab => tab.key === activeTab);
+    if (currentTab && !currentTab.permission) {
+        return <SettingPage></SettingPage>;
+    }
 
     const handleTabChange = (value) => {
         const selectedTab = tabs.find(tab => tab.key === value);
@@ -148,14 +161,7 @@ function MedicineManagementPage() {
                         const TabComponent = tab.component;
                         return (
                             <TabsContent key={tab.key} value={tab.key} className="space-y-6 mt-0">
-                                {tab.permission ? (
-                                    <TabComponent/>
-                                ) : (
-                                    <div className="text-center py-12">
-                                        <ShieldAlert className="w-12 h-12 mx-auto text-red-500 mb-4"/>
-                                        <p className="text-gray-600">Anda tidak memiliki akses ke tab ini.</p>
-                                    </div>
-                                )}
+                                <TabComponent/>
                             </TabsContent>
                         );
                     })}

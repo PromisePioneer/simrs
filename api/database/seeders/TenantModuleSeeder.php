@@ -392,7 +392,13 @@ class TenantModuleSeeder extends Seeder
             "Melihat User Management",
             "Menambahkan User Management",
             "Mengubah User Management",
-            "Menghapus User Management"
+            "Menghapus User Management",
+
+
+            "Melihat Gudang Obat",
+            "Membuat Gudang Obat",
+            "Mengubah Gudang Obat",
+            "Menghapus Gudang Obat",
 
         ];
 

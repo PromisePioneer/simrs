@@ -37,10 +37,11 @@ class MedicineRequest extends FormRequest
             'warehouse_id' => ['required', Rule::exists('medicine_warehouses', 'id')],
             'rack_id' => ['nullable', Rule::exists('medicine_racks', 'id')],
             'stock_amount' => ['nullable', 'integer', 'min:0'],
-            'expired_date' => ['nullable', 'date'],
+            'expired_date' => ['nullable', 'date', 'after:today'],
             'is_for_sell' => 'boolean',
             'must_has_receipt' => 'boolean',
             'reference_purchase_price' => 'nullable|numeric|min:0',
+            'units' => ['nullable']
         ];
     }
 
@@ -65,7 +66,8 @@ class MedicineRequest extends FormRequest
             'reference_purchase_price.numeric' => 'Harga beli harus berupa angka',
             'reference_purchase_price.min' => 'Harga beli minimal 0',
             'reference_purchase_price.required' => 'Harga beli tidak boleh kosong',
-            'expired_date.date' => 'Tanggal kadaluarsa tidak valid'
+            'expired_date.date' => 'Tanggal kadaluarsa tidak valid',
+            'expired_date.after' => 'Tanggal kadaluarsa harus lebih besar dari hari ini'
         ];
     }
 }

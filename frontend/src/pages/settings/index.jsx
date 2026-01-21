@@ -15,7 +15,7 @@ function SettingPage({children}) {
             href: "/settings/patients",
             icon: Users,
             description: "Kelola data pasien",
-            permission: hasPermission(PERMISSIONS.PATIENT.VIEW), // Sesuaikan dengan permission yang ada
+            permission: hasPermission(PERMISSIONS.PATIENT.VIEW),
         },
         {
             title: "Referensi",
@@ -43,7 +43,11 @@ function SettingPage({children}) {
             href: "/settings/medicine-management",
             icon: Pill,
             description: "Kelola data obat",
-            permission: hasPermission(PERMISSIONS.MEDICINE.VIEW), // Sesuaikan dengan permission yang ada
+            permission: hasAnyPermission([
+                PERMISSIONS.MEDICINE.VIEW,
+                PERMISSIONS.MEDICINE_CATEGORY.VIEW,
+                PERMISSIONS.MEDICINE_WAREHOUSE.VIEW
+            ]),
         }
     ];
 

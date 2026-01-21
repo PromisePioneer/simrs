@@ -14,7 +14,6 @@ export const useMedicineStore = create((set, get) => ({
         if (id) {
             await get().showMedicine(id);
         }
-
         set({openDeleteModal: !get().openDeleteModal})
     },
     columns: () => ([
