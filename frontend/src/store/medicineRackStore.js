@@ -11,6 +11,7 @@ export const useMedicineRackStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     unassignedRacks: null,
+    racksByMedicineWarehouse: null,
     setOpenModal: (openModal) => set({openModal}),
     setOpenDeleteModal: (openDeleteModal) => set({openDeleteModal}),
     setCurrentPage: (page) => set({currentPage: page}),
@@ -54,7 +55,7 @@ export const useMedicineRackStore = create((set, get) => ({
         try {
             const response = await apiCall.post('/api/v1/pharmacy/medicine-racks', data);
             toast.success("Rak berhasil ditambahkan");
-            return response.data; // Return data yang berisi id
+            return response.data;
         } catch (e) {
             toast.error(e.response?.data?.message || "Gagal menambahkan rak");
             throw e;
@@ -78,6 +79,15 @@ export const useMedicineRackStore = create((set, get) => ({
         } catch (e) {
             toast.error(e.response?.data?.message || "Gagal menghapus rak");
             throw e;
+        }
+    },
+    fetchByMedicineWarehouse: async (warehouseId) => {
+        try {
+            set({isLoading: true, racksByMedicineWarehouse: null});
+            const response = await apiCall.get(`/api/v1/pharmacy/medicine-racks/racks-by-warehouses/${warehouseId}`);
+            set({racksByMedicineWarehouse: response.data, isLoading: false});
+        } catch (e) {
+            toast.error(e.response?.data?.message || "Gagal menghapus rak");
         }
     }
 }))

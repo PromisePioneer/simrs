@@ -1,6 +1,6 @@
-import {useEffect} from "react";
+import {useEffect, useCallback} from "react";
 import {useNavigate, useParams} from "@tanstack/react-router";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {useMedicineStore} from "@/store/medicineStore.js";
 import {useMedicineCategoriesStore} from "@/store/medicineCategoriesStore.js";
 import SettingPage from "@/pages/settings/index.jsx";
@@ -9,6 +9,7 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Checkbox} from "@/components/ui/checkbox";
+import {Calendar} from "@/components/ui/calendar.jsx";
 import {
     Select,
     SelectContent,
@@ -24,23 +25,36 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import {useMedicineWarehouseStore} from "@/store/medicineWarehouseStore.js";
+import {useMedicineRackStore} from "@/store/medicineRackStore.js";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
+import {CalendarIcon, Plus, Trash} from "lucide-react";
+import {format} from "date-fns";
+import {cn} from "@/lib/utils.js";
 
 function MedicineForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
     const navigate = useNavigate();
 
-    const {createMedicine, updateMedicine, getMedicineById} = useMedicineStore();
-    const {fetchMedicineCategories, medicineCategories} = useMedicineCategoriesStore();
+    const {createMedicine, updateMedicine} = useMedicineStore();
+    const {
+        fetchMedicineCategories,
+        medicineCategories,
+        showMedicineCategory,
+        medicineCategoryValue
+    } = useMedicineCategoriesStore();
     const {fetchMedicineWarehouses, medicineWarehouses} = useMedicineWarehouseStore();
+    const {fetchByMedicineWarehouse, racksByMedicineWarehouse} = useMedicineRackStore();
+
 
     const {
         register,
         handleSubmit,
-        reset,
         formState: {errors, isSubmitting},
         setValue,
-        watch
+        watch,
+        resetField,
+        control,
     } = useForm({
         mode: "all",
         reValidateMode: "onChange",
@@ -59,37 +73,110 @@ function MedicineForm(opts) {
             stock_amount: 0,
             minimum_stock_amount: 0,
             reference_purchase_price: 0,
-            unit_type_id: ""
+            base_unit: "",
+            units: [],
         }
     });
+
+
+    const selectedWarehouse = watch("warehouse_id");
+    const mustHasReceipt = watch("must_has_receipt");
+    const name = watch("name");
+    const categoryId = watch("category_id");
+    const isForSell = watch("is_for_sell");
+    const baseUnit = watch("base_unit");
+    const stockAmount = watch("stock_amount");
+
+
+    const generateMedicineSKU = useCallback(() => {
+        if (!medicineCategoryValue?.name || !name) return;
+
+        let cat = medicineCategoryValue.name.substring(0, Math.min(3, medicineCategoryValue.name.length)).toUpperCase();
+        let names = name.substring(0, Math.min(3, name.length)).toUpperCase();
+        let seq = Math.floor(Math.random() * 999).toString().padStart(3, '0');
+
+        setValue('sku', `${cat}-${names}-${seq}`);
+    }, [medicineCategoryValue, name, setValue]);
+
 
     useEffect(() => {
         fetchMedicineCategories();
         fetchMedicineWarehouses();
-
-        if (isEditMode && id) {
-            const medicine = getMedicineById(id);
-            if (medicine) {
-                reset(medicine);
-            }
-        }
     }, [id, isEditMode]);
+
+    useEffect(() => {
+        if (!categoryId) return;
+        showMedicineCategory(categoryId);
+    }, [categoryId]);
+
+
+    useEffect(() => {
+        if (!baseUnit) return;
+
+        setValue("units", [
+            {unit_name: baseUnit, multiplier: 1}
+        ]);
+    }, [baseUnit]);
+
+    useEffect(() => {
+        if (isEditMode) return;
+        if (!name || !medicineCategoryValue?.name) return;
+
+        const timeoutId = setTimeout(() => {
+            generateMedicineSKU();
+        }, 300);
+
+        return () => clearTimeout(timeoutId);
+    }, [name, medicineCategoryValue, isEditMode, generateMedicineSKU]);
+
+    useEffect(() => {
+        if (!selectedWarehouse) return;
+        resetField("rack_id");
+        fetchByMedicineWarehouse(selectedWarehouse);
+    }, [selectedWarehouse]);
+
 
     const onSubmit = async (data) => {
         try {
-            if (isEditMode) {
-                await updateMedicine(id, data);
-            } else {
-                await createMedicine(data);
+            let formData = new FormData();
+
+            const specialFields = [
+                'expired_date',
+                'is_for_sell'
+            ];
+
+
+            Object.keys(data).forEach(key => {
+                if (!specialFields.includes(key) && data[key]) {
+                    formData.append(key, data[key]);
+                }
+            })
+
+
+            if (data.expired_date) {
+                formData.append('expired_date', format(data.expired_date, "yyyy-MM-dd"));
             }
-            navigate({to: "/medicines"});
+
+            if (data.is_for_sell) {
+                formData.append('is_for_sell', data.is_for_sell ? 1 : 0);
+            }
+
+
+            let result;
+            if (isEditMode) {
+                result = await updateMedicine(id, formData);
+            } else {
+                result = await createMedicine(formData);
+            }
+
+            if (result.success) {
+                await navigate({to: "/settings/medicine-management"});
+            }
         } catch (error) {
             console.error("Error saving medicine:", error);
         }
     };
 
-    const mustHasReceipt = watch("must_has_receipt");
-    const isForSell = watch("is_for_sell");
 
     return (
         <SettingPage>
@@ -118,7 +205,8 @@ function MedicineForm(opts) {
                                     <Input
                                         id="sku"
                                         {...register("sku", {required: "SKU wajib diisi"})}
-                                        placeholder="Masukkan SKU"
+                                        placeholder="SKU Otomatis"
+                                        disabled
                                     />
                                     {errors.sku && (
                                         <p className="text-sm text-destructive">{errors.sku.message}</p>
@@ -146,6 +234,7 @@ function MedicineForm(opts) {
                                         Nama Obat <span className="text-destructive">*</span>
                                     </Label>
                                     <Input
+                                        defaultValue={watch("name")}
                                         id="name"
                                         {...register("name", {required: "Nama obat wajib diisi"})}
                                         placeholder="Masukkan nama obat"
@@ -160,22 +249,30 @@ function MedicineForm(opts) {
                                     <Label htmlFor="type">
                                         Tipe Obat <span className="text-destructive">*</span>
                                     </Label>
-                                    <Select
-                                        onValueChange={(value) => setValue("type", value)}
-                                        defaultValue={watch("type")}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih tipe"/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="tablet">Tablet</SelectItem>
-                                            <SelectItem value="kapsul">Kapsul</SelectItem>
-                                            <SelectItem value="sirup">Sirup</SelectItem>
-                                            <SelectItem value="injeksi">Injeksi</SelectItem>
-                                            <SelectItem value="salep">Salep</SelectItem>
-                                            <SelectItem value="lainnya">Lainnya</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <Controller
+                                        name="type"
+                                        control={control}
+                                        rules={{required: "Tipe obat tidak boleh kosong"}}
+                                        render={({field}) => (
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                                rules={{required: "tipe obat tidak boleh kosong"}}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Pilih tipe"/>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="tablets">Tablet</SelectItem>
+                                                    <SelectItem value="capsule">Kapsul</SelectItem>
+                                                    <SelectItem value="injection">Injeksi</SelectItem>
+                                                    <SelectItem value="syrup">Sirup</SelectItem>
+                                                    <SelectItem value="ointment">Salep</SelectItem>
+                                                    <SelectItem value="lainnya">Lainnya</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        )}
+                                    />
                                     {errors.type && (
                                         <p className="text-sm text-destructive">{errors.type.message}</p>
                                     )}
@@ -186,22 +283,32 @@ function MedicineForm(opts) {
                                     <Label htmlFor="category_id">
                                         Kategori <span className="text-destructive">*</span>
                                     </Label>
-                                    <Select
-                                        className="w-full"
-                                        onValueChange={(value) => setValue("category_id", value)}
-                                        defaultValue={watch("category_id")}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih kategori"/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {medicineCategories?.map((category) => (
-                                                <SelectItem key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <Controller
+                                        name="category_id"
+                                        control={control}
+                                        rules={{required: "Kategori tidak boleh kosong"}}
+                                        render={({field}) => (
+                                            <Select
+                                                className="w-full"
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue
+                                                        placeholder="Pilih Kategori"
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {medicineCategories?.map((category) => (
+                                                        <SelectItem key={category.id} value={category.id}>
+                                                            {category.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+
+                                            </Select>
+                                        )}
+                                    />
                                     {errors.category_id && (
                                         <p className="text-sm text-destructive">{errors.category_id.message}</p>
                                     )}
@@ -223,21 +330,74 @@ function MedicineForm(opts) {
                                 {/* Warehouse */}
                                 <div className="space-y-2">
                                     <Label htmlFor="warehouse_id">Gudang</Label>
-                                    <Input
-                                        id="warehouse_id"
-                                        {...register("warehouse_id")}
-                                        placeholder="ID Gudang"
+                                    <Controller
+                                        name="warehouse_id"
+                                        control={control}
+                                        rules={{required: "Gudang tidak boleh kosong"}}
+                                        render={({field}) => (
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue
+                                                        placeholder="Pilih gudang"
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {medicineWarehouses?.map((medicineWarehouse) => (
+                                                        <SelectItem key={medicineWarehouse.id}
+                                                                    value={medicineWarehouse.id}>
+                                                            {medicineWarehouse.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        )}
                                     />
+
+                                    {errors.warehouse_id && (
+                                        <p className="text-sm text-destructive">{errors.warehouse_id.message}</p>
+                                    )}
                                 </div>
 
                                 {/* Rack */}
                                 <div className="space-y-2">
                                     <Label htmlFor="rack_id">Rak</Label>
-                                    <Input
-                                        id="rack_id"
-                                        {...register("rack_id")}
-                                        placeholder="ID Rak"
+                                    <Controller
+                                        name="rack_id"
+                                        control={control}
+                                        rules={{required: "Rak tidak boleh kosong"}}
+                                        render={({field}) => (
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                                disabled={!selectedWarehouse}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue
+                                                        placeholder={
+                                                            selectedWarehouse
+                                                                ? "Pilih Rak"
+                                                                : "Pilih gudang terlebih dahulu"
+                                                        }
+                                                    />
+                                                </SelectTrigger>
+
+                                                <SelectContent>
+                                                    {racksByMedicineWarehouse?.map((rack) => (
+                                                        <SelectItem key={rack.id} value={rack.id}>
+                                                            {rack.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        )}
                                     />
+
+                                    {errors.rack_id && (
+                                        <p className="text-sm text-destructive">{errors.rack_id.message}</p>
+                                    )}
                                 </div>
                             </div>
                         </CardContent>
@@ -256,13 +416,13 @@ function MedicineForm(opts) {
                                 {/* Stock Amount */}
                                 <div className="space-y-2">
                                     <Label htmlFor="stock_amount">
-                                        Jumlah Stok <span className="text-destructive">*</span>
+                                        Jumlah Stok
                                     </Label>
                                     <Input
                                         id="stock_amount"
+                                        defaultValue={watch("stock_amount")}
                                         type="number"
                                         {...register("stock_amount", {
-                                            required: "Jumlah stok wajib diisi",
                                             valueAsNumber: true,
                                             min: {value: 0, message: "Stok tidak boleh negatif"}
                                         })}
@@ -273,7 +433,7 @@ function MedicineForm(opts) {
                                     )}
                                 </div>
 
-                                {/* Minimum Stock */}
+                                {/* Minimum Stock Amount */}
                                 <div className="space-y-2">
                                     <Label htmlFor="minimum_stock_amount">Stok Minimum</Label>
                                     <Input
@@ -292,12 +452,25 @@ function MedicineForm(opts) {
 
                                 {/* Unit Type */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="unit_type_id">Satuan</Label>
-                                    <Input
-                                        id="unit_type_id"
-                                        {...register("unit_type_id")}
-                                        placeholder="ID Satuan (pcs, box, strip, dll)"
-                                    />
+                                    <Label htmlFor="base_unit">Satuan</Label>
+                                    <Select
+                                        onValueChange={(value) => setValue("base_unit", value)}
+                                        defaultValue={watch("base_unit")}
+                                        rules={{required: "tipe obat tidak boleh kosong"}}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Pilih tipe"/>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="tablet">Tablet</SelectItem>
+                                            <SelectItem value="ml">Ml</SelectItem>
+                                            <SelectItem value="g">gram</SelectItem>
+                                            <SelectItem value="vial">Vial</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.base_unit && (
+                                        <p className="text-sm text-destructive">{errors.base_unit.message}</p>
+                                    )}
                                 </div>
 
                                 {/* Reference Purchase Price */}
@@ -320,6 +493,80 @@ function MedicineForm(opts) {
                         </CardContent>
                     </Card>
 
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Satuan / Kemasan</CardTitle>
+                            <CardDescription>
+                                Atur satuan jual berdasarkan base unit
+                            </CardDescription>
+                        </CardHeader>
+
+                        <CardContent className="space-y-4">
+                            {watch("units")?.map((unit, index) => (
+                                <div key={index} className="grid grid-cols-12 gap-2 items-end">
+                                    <div className="space-y-2">
+                                        <Label>Nama Satuan</Label>
+                                        <Input
+                                            value={unit.unit_name}
+                                            disabled={index === 0}
+                                            onChange={(e) => {
+                                                const units = [...watch("units")];
+                                                units[index].unit_name = e.target.value;
+                                                setValue("units", units);
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label>Isi ({baseUnit})</Label>
+                                        <Input
+                                            type="number"
+                                            disabled={index === 0}
+                                            value={unit.multiplier}
+                                            onChange={(e) => {
+                                                const units = [...watch("units")];
+                                                units[index].multiplier = Number(e.target.value);
+                                                setValue("units", units);
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="col-span-2 flex gap-2">
+                                        {index > 0 && (
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="icon"
+                                                onClick={() => {
+                                                    const units = watch("units").filter((_, i) => i !== index);
+                                                    setValue("units", units);
+                                                }}
+                                            >
+                                                <Trash size={16}/>
+                                            </Button>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => {
+                                    setValue("units", [
+                                        ...watch("units"),
+                                        {unit_name: "", multiplier: 1}
+                                    ]);
+                                }}
+                            >
+                                <Plus className="mr-2" size={16}/>
+                                Tambah Satuan
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+
                     {/* Expiry Information */}
                     <Card>
                         <CardHeader>
@@ -333,11 +580,40 @@ function MedicineForm(opts) {
                                 {/* Expired Date */}
                                 <div className="space-y-2">
                                     <Label htmlFor="expired_date">Tanggal Kedaluwarsa</Label>
-                                    <Input
-                                        id="expired_date"
-                                        type="date"
-                                        {...register("expired_date")}
+                                    <Controller
+                                        name="expired_date"
+                                        control={control}
+                                        render={({field}) => (
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        className={cn(
+                                                            "w-full justify-start text-left font-normal",
+                                                            !field.value && "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        <CalendarIcon className="mr-2 h-4 w-4"/>
+                                                        {field.value ? format(field.value, "PPP") :
+                                                            <span>Pilih tanggal</span>}
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={field.onChange}
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                        )}
                                     />
+
+                                    {errors.expired_date && (
+                                        <p className="text-sm text-destructive">{errors.expired_date.message}</p>
+                                    )}
                                 </div>
 
                                 {/* Expired Notification Days */}
@@ -355,6 +631,11 @@ function MedicineForm(opts) {
                                     <p className="text-sm text-muted-foreground">
                                         Notifikasi akan muncul X hari sebelum tanggal kedaluwarsa
                                     </p>
+
+
+                                    {errors.expired_notification_days && (
+                                        <p className="text-sm text-destructive">{errors.expired_notification_days.message}</p>
+                                    )}
                                 </div>
                             </div>
                         </CardContent>
@@ -400,7 +681,7 @@ function MedicineForm(opts) {
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={() => navigate({to: "/medicines"})}
+                            onClick={() => navigate({to: "/settings/medicine-management"})}
                         >
                             Batal
                         </Button>

@@ -58,7 +58,7 @@ function MedicineWarehouseForm(opts) {
     const isUserHasTenant = userData?.tenant_id;
 
     const [isRackDialogOpen, setIsRackDialogOpen] = useState(false);
-    const [isLoadingData, setIsLoadingData] = useState(false); // Tambahkan ini
+    const [isLoadingData, setIsLoadingData] = useState(false);
     const [newRackData, setNewRackData] = useState({
         code: "",
         name: ""

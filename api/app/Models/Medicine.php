@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Medicine extends TenantScopeBaseModel
 {
@@ -15,38 +16,29 @@ class Medicine extends TenantScopeBaseModel
     protected $fillable = [
         'tenant_id',
         'sku',
-        'name',
         'code',
-        'must_has_receipt',
+        'name',
+        'base_unit',
         'type',
-        'warehouse_id',
-        'category_id',
-        'rack_id',
+        'must_has_receipt',
         'is_for_sell',
-        'expired_date',
-        'expired_notification_days',
-        'stock_amount',
-        'minimum_stock_amount',
+        'category_id',
         'reference_purchase_price',
-        'unit_type_id'
+        'minimum_stock_amount'
     ];
 
 
-    public function warehouse(): BelongsTo
-    {
-        return $this->belongsTo(MedicineWarehouse::class, 'warehouse_id');
-    }
+    protected $casts = [
+        'is_published' => 'boolean',
+    ];
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(MedicineCategory::class, 'category_id');
     }
 
-
-    public function getTypes(): array
+    public function batches(): HasMany
     {
-        return [
-            'general', 'medicine', 'medical_devices', 'service'
-        ];
+        return $this->hasMany(MedicineBatch::class, 'medicine_id');
     }
 }

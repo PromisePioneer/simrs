@@ -45,7 +45,7 @@ export const useMedicineStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-    createMedicines: async (data) => {
+    createMedicine: async (data) => {
         try {
             await apiCall.post('/api/v1/pharmacy/medicines', data);
             toast.success("Berhasil menambahkan obat baru.");

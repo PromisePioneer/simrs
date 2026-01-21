@@ -16,5 +16,6 @@ Route::prefix('pharmacy')->group(function () {
     Route::prefix('medicine-racks')->group(function () {
         Route::apiResource('/', MedicineRackController::class);
         Route::get('/unassigned-racks', [MedicineRackController::class, 'getUnassignedRacks']);
+        Route::get('racks-by-warehouses/{medicineWarehouse}', [MedicineRackController::class, 'getByWarehouse']);
     });
 });

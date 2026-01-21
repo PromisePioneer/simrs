@@ -70,21 +70,17 @@ function UserForm(opts) {
         setPreviewSignature
     } = useImagePreview(setValue);
 
-    // Watch form values
     const selectedRoles = watch("roles") || [];
     const isDoctor = selectedRoles.includes("Dokter") || selectedRoles.includes("Perawat");
 
-    // Initialize data - Fetch roles first
     useEffect(() => {
         const init = async () => {
-            // Fetch roles and institutions in parallel
             await Promise.all([
                 fetchRoles(),
                 fetchInstitutions({type: "str"}),
                 fetchInstitutions({type: "sip"})
             ]);
 
-            // Then fetch user data if in edit mode
             if (isEditMode) {
                 await showUser(id);
             }

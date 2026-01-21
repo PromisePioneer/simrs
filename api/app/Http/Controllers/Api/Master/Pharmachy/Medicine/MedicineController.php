@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Master\Pharmachy\Medicine;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\MedicineRequest;
 use App\Models\Medicine;
 use App\Services\Master\Pharmachy\Medicine\Service\MedicineService;
 use App\Traits\ApiResponse;
@@ -36,7 +36,7 @@ class MedicineController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function store(ProductRequest $request): JsonResponse
+    public function store(MedicineRequest $request): JsonResponse
     {
         $this->authorize('create', Medicine::class);
         $product = $this->productService->store($request);
@@ -57,7 +57,7 @@ class MedicineController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(ProductRequest $request, Medicine $medicine): JsonResponse
+    public function update(MedicineRequest $request, Medicine $medicine): JsonResponse
     {
         $this->authorize('update', $medicine);
         $this->productService->update($request, $medicine->id);

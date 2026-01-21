@@ -18,7 +18,8 @@ class MedicineWarehouseSeeder extends Seeder
         $data = [
             'tenant_id' => Tenant::query()->inRandomOrder()->first()->id,
             'code' => fake()->randomDigit(),
-            'name' => 'Gudang 1'
+            'name' => 'Gudang 1',
+            'type' => 'central',
         ];
         $warehouse = MedicineWarehouse::create($data);
         MedicineRack::create([
