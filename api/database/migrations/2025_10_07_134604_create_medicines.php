@@ -25,7 +25,7 @@ return new class extends Migration {
 
             $table->string('code')->unique();
             $table->string('name');
-            $table->enum('type', ['central', 'pharmacy', 'ward', 'er']);
+            $table->string('type'); //'central', 'pharmacy', 'ward', 'er';
             $table->timestamps();
         });
 

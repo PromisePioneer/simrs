@@ -165,7 +165,7 @@ export function NavUser({user}) {
 
             <Dialog open={openTenantContextModal} onOpenChange={setOpenTenantContextModal}>
                 <form>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[500px]">
                         <DialogHeader>
                             <DialogTitle>Ganti Merchant</DialogTitle>
                             <DialogDescription>
@@ -176,8 +176,6 @@ export function NavUser({user}) {
                     </DialogContent>
                 </form>
             </Dialog>
-
-
         </>
     )
 }

@@ -53,16 +53,12 @@ class MedicineService
             ]);
 
 
-
             $units = json_decode($data['units']);
-
-            dd($units);
-            // 2️⃣ Create Medicine Units
             foreach ($units as $unit) {
                 MedicineUnit::create([
                     'medicine_id' => $medicine->id,
-                    'unit_name' => $unit['unit_name'],
-                    'multiplier' => $unit['multiplier'],
+                    'unit_name' => $unit->unit_name,
+                    'multiplier' => $unit->multiplier,
                 ]);
             }
 
@@ -75,7 +71,7 @@ class MedicineService
                     'rack_id' => $data['rack_id'] ?? null,
                     'batch_number' => $data['batch_number'] ?? $this->autoBatch(),
                     'expired_date' => $data['expired_date'],
-                    'stock_base_unit' => $data['stock_amount'],
+                    'stock_base_unit' => $data['stock_base_unit'],
                 ]);
             }
 
@@ -85,21 +81,21 @@ class MedicineService
     }
 
 
-    public function autoBatch()
+    public function autoBatch(): string
     {
         return 'INT-' . now()->format('ymd-His');
     }
 
 
-    public function update(MedicineRequest $request, string $id): ?object
+    public function update(MedicineRequest $request, Medicine $medicine): ?object
     {
         $data = $request->validated();
-        return $this->medicineRepository->update($id, $data);
+        return $this->medicineRepository->update(id: $medicine->id, data: $data);
     }
 
-    public function destroy(string $id): ?object
+    public function destroy(Medicine $medicine): ?object
     {
-        return $this->medicineRepository->destroy($id);
+        return $this->medicineRepository->destroy(id: $medicine->id);
     }
 
 }

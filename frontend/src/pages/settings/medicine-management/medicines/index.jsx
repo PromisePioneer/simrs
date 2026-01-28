@@ -18,7 +18,6 @@ function MedicinePage() {
         medicines,
         currentPage,
         setCurrentPage,
-        createMedicine,
         columns,
         fetchMedicines,
         openDeleteModal,
@@ -55,14 +54,28 @@ function MedicinePage() {
                 </div>
             </TableCell>
             <TableCell>
+                <ul>
+                    {medicine.batches.map((batch) =>
+                        <li className="font-bold">{batch.warehouse?.name} : Rak {batch.rack.name}</li>
+                    )}
+                </ul>
+            </TableCell>
+            <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
                         <Archive/>
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicine.racks_count}</span>
+                        <span className="font-semibold text-foreground">{medicine.type.toUpperCase()}</span>
                     </div>
                 </div>
+            </TableCell>
+            <TableCell>
+                <ul>
+                    {medicine.batches.map((batch) =>
+                        <li className="font-bold">{batch.stock_base_unit}</li>
+                    )}
+                </ul>
             </TableCell>
             <TableCell className="text-right">
                 <div className="flex gap-1 justify-end items-center">
@@ -70,7 +83,7 @@ function MedicinePage() {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicines/warehouse/${medicine.id}`}>
+                                    <Link to={`/settings/medicine-management/medicines/${medicine.id}`}>
                                         <Button variant="ghost" size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
                                         >

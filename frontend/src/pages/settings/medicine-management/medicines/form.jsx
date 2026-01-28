@@ -70,14 +70,15 @@ function MedicineForm(opts) {
             is_for_sell: true,
             expired_date: "",
             expired_notification_days: 30,
-            stock_amount: 0,
             minimum_stock_amount: 0,
             reference_purchase_price: 0,
             base_unit: "",
             units: [],
+            stock_amount: 0,
+            stock_unit: "",
+            stock_base_unit: 0,
         }
     });
-
 
     const selectedWarehouse = watch("warehouse_id");
     const mustHasReceipt = watch("must_has_receipt");
@@ -98,10 +99,15 @@ function MedicineForm(opts) {
     }, [medicineCategoryValue, name, setValue]);
 
 
-
     useEffect(() => {
-        fetchMedicineCategories();
-        fetchMedicineWarehouses();
+        const init = async () => {
+            await Promise.all([
+                fetchMedicineCategories(),
+                fetchMedicineWarehouses(),
+            ]);
+        };
+
+        init();
     }, [id, isEditMode]);
 
     useEffect(() => {
@@ -182,7 +188,10 @@ function MedicineForm(opts) {
             }
 
             if (result.success) {
-                await navigate({to: "/settings/medicine-management"});
+                await navigate({
+                    to: '/settings/medicine-management',
+                    search: {tab: 'medicines'}
+                });
             }
         } catch (error) {
             console.error("Error saving medicine:", error);
@@ -425,29 +434,9 @@ function MedicineForm(opts) {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* Stock Amount */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="stock_amount">
-                                        Jumlah Stok
-                                    </Label>
-                                    <Input
-                                        id="stock_amount"
-                                        defaultValue={watch("stock_amount")}
-                                        type="number"
-                                        {...register("stock_amount", {
-                                            valueAsNumber: true,
-                                            min: {value: 0, message: "Stok tidak boleh negatif"}
-                                        })}
-                                        placeholder="0"
-                                    />
-                                    {errors.stock_amount && (
-                                        <p className="text-sm text-destructive">{errors.stock_amount.message}</p>
-                                    )}
-                                </div>
-
                                 {/* Minimum Stock Amount */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="minimum_stock_amount">Stok Minimum</Label>
+                                    <Label>Stok Minimum ({baseUnit})</Label>
                                     <Input
                                         id="minimum_stock_amount"
                                         type="number"
@@ -519,15 +508,38 @@ function MedicineForm(opts) {
                                 <div key={index} className="grid grid-cols-12 gap-2 items-end">
                                     <div className="space-y-2">
                                         <Label>Nama Satuan</Label>
-                                        <Input
-                                            value={unit.unit_name}
-                                            disabled={index === 0}
-                                            onChange={(e) => {
-                                                const units = [...watch("units")];
-                                                units[index].unit_name = e.target.value;
-                                                setValue("units", units);
-                                            }}
-                                        />
+
+                                        {index === 0 ? (
+                                            <Input
+                                                placeholder="Unit name"
+                                                value={watch(`units.${index}.unit_name`)}
+                                                disabled={index === 0}
+                                                onChange={(e) => {
+                                                    const units = [...watch("units")];
+                                                    units[index].unit_name = e.target.value;
+                                                    setValue("units", units);
+                                                }}
+                                            />
+                                        ) : (
+                                            <Select
+                                                value={watch(`units.${index}.unit_name`)}
+                                                onValueChange={(value) => {
+                                                    const units = [...watch("units")];
+                                                    units[index].unit_name = value;
+                                                    setValue("units", units);
+                                                }}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select unit"/>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Tablet">Tablet</SelectItem>
+                                                    <SelectItem value="Ml">Ml</SelectItem>
+                                                    <SelectItem value="gram">Gram</SelectItem>
+                                                    <SelectItem value="Vial">Vial</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        )}
                                     </div>
 
                                     <div className="space-y-2">
@@ -536,6 +548,11 @@ function MedicineForm(opts) {
                                             type="number"
                                             disabled={index === 0}
                                             value={unit.multiplier}
+                                            rules={{
+                                                required: "isi tidak boleh kosong",
+                                                min: {value: 1, message: "isi minimal 1"},
+                                                number: "isi harus berupa angka"
+                                            }}
                                             onChange={(e) => {
                                                 const units = [...watch("units")];
                                                 units[index].multiplier = Number(e.target.value);

@@ -10,6 +10,7 @@ export const useMedicineStore = create((set, get) => ({
     search: "",
     currentPage: 1,
     openDeleteModal: false,
+    isDeleteLoading: false,
     setOpenDeleteModal: async (id) => {
         if (id) {
             await get().showMedicine(id);
@@ -18,10 +19,11 @@ export const useMedicineStore = create((set, get) => ({
     },
     columns: () => ([
         {key: 'no', label: 'No', width: '5%'},
-        {key: 'sku', label: 'SKU', width: '15%'},
-        {key: 'name', label: 'Nama', width: '15%'},
-        {key: 'type', label: 'tipe', width: '15%'},
-        {key: 'stock_amount', label: 'Stok', width: '15%'},
+        {key: 'sku', label: 'SKU'},
+        {key: 'name', label: 'Nama'},
+        {key: "warehouse", label: "Gudang", width: "15%"},
+        {key: 'type', label: 'tipe'},
+        {key: 'stock_amount', label: 'Stok'},
         {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
     ]),
     setCurrentPage: (page) => {
@@ -61,9 +63,12 @@ export const useMedicineStore = create((set, get) => ({
         }
     },
     deleteMedicine: async (id) => {
+        set({isDeleteLoading: true});
         try {
             await apiCall.delete(`/api/v1/pharmacy/medicines/${id}`);
             toast.success("Berhasil menghapus obat.");
+            set({openDeleteModal: false, isDeleteLoading: false});
+            await get().fetchMedicines({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }

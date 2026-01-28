@@ -41,4 +41,10 @@ class Medicine extends TenantScopeBaseModel
     {
         return $this->hasMany(MedicineBatch::class, 'medicine_id');
     }
+
+
+    public function units(): HasMany
+    {
+        return $this->hasMany(MedicineUnit::class, 'medicine_id');
+    }
 }

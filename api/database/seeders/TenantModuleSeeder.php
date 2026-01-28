@@ -400,6 +400,18 @@ class TenantModuleSeeder extends Seeder
             "Mengubah Gudang Obat",
             "Menghapus Gudang Obat",
 
+
+            "Melihat Kategori Obat",
+            "Membuat Kategori Obat",
+            "Mengubah Kategori Obat",
+            "Menghapus Kategori Obat",
+
+
+            "Melihat Obat",
+            "Membuat Obat",
+            "Mengubah Obat",
+            "Menghapus Obat",
+
         ];
 
         foreach ($permissions as $permissionName) {

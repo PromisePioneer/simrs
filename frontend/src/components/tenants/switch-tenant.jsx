@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select.jsx";
 import {useEffect} from "react";
 import {useRoleStore} from "@/store/useRoleStore.js";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {
     Form,
     FormControl,
@@ -20,130 +20,115 @@ import {
     FormMessage
 } from "@/components/ui/form.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import {Label} from "@/components/ui/label.jsx";
 
-function SwitchTenant({onSubmit}) {
+function SwitchTenant() {
     const {fetchTenants, tenants, switchTenant} = useTenantStore();
     const {fetchRolesByTenantId, rolesByTenantId} = useRoleStore();
 
 
-    const form = useForm({
+    const {
+        watch,
+        handleSubmit,
+        setValue,
+        control,
+        formState: {errors, isSubmitting},
+    } = useForm({
+        mode: "all",
+        reValidateMode: "onChange",
         defaultValues: {
             tenant_id: "",
             role_id: ""
         }
     });
 
-    const watchTenantId = form.watch("tenant_id");
+    const watchTenantId = watch("tenant_id");
 
     useEffect(() => {
         fetchTenants();
-    }, [fetchTenants]);
+    }, []);
 
-    // Fetch roles when a tenant is selected
     useEffect(() => {
         if (watchTenantId) {
             fetchRolesByTenantId(watchTenantId);
-            form.setValue("role_id", ""); // Reset role when tenant changes
+            setValue("role_id", "");
         }
-    }, [watchTenantId, fetchRolesByTenantId, form]);
+    }, [watchTenantId, fetchRolesByTenantId]);
 
-    const handleSubmit = async (data) => {
+    const onSubmit = async (data) => {
         await switchTenant(data);
     };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="tenant_id"
-                        rules={{required: "Tenant harus dipilih"}}
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>
-                                    Tenant / Klinik <span className="text-destructive">*</span>
-                                </FormLabel>
+                    <div className="space-y-2">
+                        <Label htmlFor="tenant_id">Merchant</Label>
+                        <Controller
+                            name="tenant_id"
+                            control={control}
+                            rules={{required: "Merchant harus dipilih!"}}
+                            render={({field}) => (
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
                                 >
-                                    <FormControl>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih tenant"/>
-                                        </SelectTrigger>
-                                    </FormControl>
+                                    <SelectTrigger className="w-[200px]">
+                                        <SelectValue
+                                            placeholder="Pilih Tenant"
+                                        />
+                                    </SelectTrigger>
                                     <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Daftar Tenant</SelectLabel>
-                                            {tenants && tenants.length > 0 ? (
-                                                tenants.map((t) => (
-                                                    <SelectItem
-                                                        key={t.id}
-                                                        value={String(t.id)}>
-                                                        {t.name}
-                                                    </SelectItem>
-                                                ))
-                                            ) : (
-                                                <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                                                    Tidak ada tenant tersedia
-                                                </div>
-                                            )}
-                                        </SelectGroup>
+                                        {tenants?.map((tenant) => (
+                                            <SelectItem key={tenant.id}
+                                                        value={tenant.id}>
+                                                {tenant.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="role_id"
-                        rules={{required: "Role harus dipilih"}}
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>
-                                    Role <span className="text-destructive">*</span>
-                                </FormLabel>
+                        {errors.tenant_id && (
+                            <p className="text-sm text-destructive">{errors.tenant_id.message}</p>
+                        )}
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="tenant_id">Peran Pengguna</Label>
+                        <Controller
+                            name="role_id"
+                            control={control}
+                            render={({field}) => (
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
                                     disabled={!watchTenantId}
                                 >
-                                    <FormControl>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih role"/>
-                                        </SelectTrigger>
-                                    </FormControl>
+                                    <SelectTrigger className="w-[200px]">
+                                        <SelectValue
+                                            placeholder="Pilih Peran"
+                                        />
+                                    </SelectTrigger>
                                     <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Daftar Role</SelectLabel>
-                                            {rolesByTenantId && rolesByTenantId.length > 0 ? (
-                                                rolesByTenantId.map((role) => (
-                                                    <SelectItem
-                                                        key={role.uuid}
-                                                        value={String(role.uuid)}>
-                                                        {role.name}
-                                                    </SelectItem>
-                                                ))
-                                            ) : (
-                                                <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                                                    {watchTenantId ? "Tidak ada role tersedia" : "Pilih tenant terlebih dahulu"}
-                                                </div>
-                                            )}
-                                        </SelectGroup>
+                                        {rolesByTenantId?.map((role) => (
+                                            <SelectItem key={role.uuid}
+                                                        value={role.uuid}>
+                                                {role.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
+                            )}
+                        />
+                    </div>
                 </div>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Harap tunggu..' : "Submit"}</Button>
             </form>
-        </Form>
+        </>
     );
+
 }
 
 export default SwitchTenant;

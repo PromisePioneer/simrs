@@ -32,7 +32,6 @@ function DashboardPage() {
             toast.success("Verification email sent! Please check your inbox.");
 
         } catch (error) {
-            console.error('Error resending email:', error);
             toast.error("Something went wrong while sending email.");
         }
 

@@ -37,11 +37,13 @@ class MedicineRequest extends FormRequest
             'warehouse_id' => ['required', Rule::exists('medicine_warehouses', 'id')],
             'rack_id' => ['nullable', Rule::exists('medicine_racks', 'id')],
             'stock_amount' => ['nullable', 'integer', 'min:0'],
+            'minimum_stock_amount' => ['nullable', 'integer', 'min:0'],
             'expired_date' => ['nullable', 'date', 'after:today'],
             'is_for_sell' => 'boolean',
             'must_has_receipt' => 'boolean',
             'reference_purchase_price' => 'nullable|numeric|min:0',
-            'units' => ['nullable']
+            'units' => ['nullable'],
+            'stock_base_unit' => ['nullable', 'integer', 'min:0'],
         ];
     }
 

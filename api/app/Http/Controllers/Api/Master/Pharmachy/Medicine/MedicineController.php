@@ -15,11 +15,11 @@ class MedicineController extends Controller
 {
     use ApiResponse;
 
-    private MedicineService $productService;
+    private MedicineService $medicineService;
 
     public function __construct()
     {
-        $this->productService = new MedicineService();
+        $this->medicineService = new MedicineService();
     }
 
     /**
@@ -27,9 +27,9 @@ class MedicineController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $this->authorize('view', Medicine::class);
-        $products = $this->productService->getMedicines($request);
-        return response()->json($products);
+        $this->authorize(ability: 'view', arguments: Medicine::class);
+        $medicine = $this->medicineService->getMedicines(request: $request);
+        return response()->json($medicine);
     }
 
 
@@ -38,19 +38,19 @@ class MedicineController extends Controller
      */
     public function store(MedicineRequest $request): JsonResponse
     {
-        $this->authorize('create', Medicine::class);
-        $product = $this->productService->store($request);
-        return $this->successResponse($product, 'Product created successfully.');
+        $this->authorize(ability: 'create', arguments: Medicine::class);
+        $product = $this->medicineService->store($request);
+        return $this->successResponse(data: $product, message: 'Product created successfully.');
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function show(Medicine $product): JsonResponse
+    public function show(Medicine $medicine): JsonResponse
     {
-        $this->authorize('view', $product);
-        $product->load('warehouse', 'category', 'rack');
-        return response()->json($product);
+        $this->authorize(ability: 'view', arguments: $medicine);
+        $medicine->load('category', 'batches');
+        return response()->json($medicine);
 
     }
 
@@ -60,8 +60,8 @@ class MedicineController extends Controller
     public function update(MedicineRequest $request, Medicine $medicine): JsonResponse
     {
         $this->authorize('update', $medicine);
-        $this->productService->update($request, $medicine->id);
-        return $this->successResponse($medicine, 'Product updated successfully.');
+        $this->medicineService->update(request: $request, medicine: $medicine);
+        return $this->successResponse(data: $medicine, message: 'Product updated successfully.');
     }
 
     /**
@@ -70,7 +70,7 @@ class MedicineController extends Controller
     public function destroy(Medicine $medicine): JsonResponse
     {
         $this->authorize('delete', $medicine);
-        $this->productService->destroy($medicine->id);
+        $this->medicineService->destroy(medicine: $medicine);
         return $this->successResponse($medicine, 'Product deleted successfully.');
     }
 }

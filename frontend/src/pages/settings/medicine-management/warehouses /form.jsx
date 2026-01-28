@@ -145,10 +145,8 @@ function MedicineWarehouseForm(opts) {
     const handleCreateRack = async () => {
         try {
             if (!createMedicineRack) {
-                console.error("createMedicineRack function not available");
                 return;
             }
-
             const createdRack = await createMedicineRack(newRackData);
             if (createdRack?.id) {
                 const currentRackIds = watch("racks") || [];
@@ -279,7 +277,6 @@ function MedicineWarehouseForm(opts) {
                                                 <p className="text-sm text-destructive">{errors.code.message}</p>
                                             )}
                                         </div>
-
                                         <div className="space-y-2">
                                             <Label htmlFor="name">
                                                 Nama Gudang <span className="text-destructive">*</span>
@@ -295,79 +292,83 @@ function MedicineWarehouseForm(opts) {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label htmlFor="racks">
-                                            Rak yg tersedia <span className="text-destructive">*</span>
-                                        </Label>
 
-                                        {isLoading ? (
-                                            <div className="text-sm text-muted-foreground">Memuat data rak...</div>
-                                        ) : hasRacks ? (
-                                            <div className="space-y-3">
-                                                <div className="flex items-center gap-2">
-                                                    <Controller
-                                                        name="racks"
-                                                        control={control}
-                                                        rules={{
-                                                            required: "Minimal satu rak harus dipilih",
-                                                            validate: (value) =>
-                                                                (value && value.length > 0) || "Minimal satu rak harus dipilih"
-                                                        }}
-                                                        render={({field}) => (
-                                                            <MultiSelect
-                                                                values={field.value ?? []}
-                                                                onValuesChange={field.onChange}
-                                                            >
-                                                                <MultiSelectTrigger className="w-[600px]">
-                                                                    <MultiSelectValue placeholder="Pilih Rak"
-                                                                                      overflowBehavior="wrap-when-open"/>
-                                                                </MultiSelectTrigger>
-                                                                <MultiSelectContent>
-                                                                    <MultiSelectGroup>
-                                                                        {availableRacks?.map((rack) => (
-                                                                            <MultiSelectItem key={rack.id}
-                                                                                             value={rack.id}>
-                                                                                {rack.name} - {rack.code}
-                                                                            </MultiSelectItem>
-                                                                        ))}
-                                                                    </MultiSelectGroup>
-                                                                </MultiSelectContent>
-                                                            </MultiSelect>
-                                                        )}
-                                                    />
+                                    <div className="grid gap-4 md:grid-cols-3">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="racks">
+                                                Rak yg tersedia <span className="text-destructive">*</span>
+                                            </Label>
+
+                                            {isLoading ? (
+                                                <div className="text-sm text-muted-foreground">Memuat data rak...</div>
+                                            ) : hasRacks ? (
+                                                <div className="space-y-3">
+                                                    <div className="flex items-center gap-2">
+                                                        <Controller
+                                                            name="racks"
+                                                            control={control}
+                                                            rules={{
+                                                                required: "Minimal satu rak harus dipilih",
+                                                                validate: (value) =>
+                                                                    (value && value.length > 0) || "Minimal satu rak harus dipilih"
+                                                            }}
+                                                            render={({field}) => (
+                                                                <MultiSelect
+                                                                    values={field.value ?? []}
+                                                                    onValuesChange={field.onChange}
+                                                                >
+                                                                    <MultiSelectTrigger className="w-[600px]">
+                                                                        <MultiSelectValue placeholder="Pilih Rak"
+                                                                                          overflowBehavior="wrap-when-open"/>
+                                                                    </MultiSelectTrigger>
+                                                                    <MultiSelectContent>
+                                                                        <MultiSelectGroup>
+                                                                            {availableRacks?.map((rack) => (
+                                                                                <MultiSelectItem key={rack.id}
+                                                                                                 value={rack.id}>
+                                                                                    {rack.name} - {rack.code}
+                                                                                </MultiSelectItem>
+                                                                            ))}
+                                                                        </MultiSelectGroup>
+                                                                    </MultiSelectContent>
+                                                                </MultiSelect>
+                                                            )}
+                                                        />
+                                                        <Button
+                                                            type="button"
+                                                            variant="outline"
+                                                            size="icon"
+                                                            onClick={() => setIsRackDialogOpen(true)}
+                                                            title="Tambah rak baru"
+                                                        >
+                                                            <Plus className="w-4 h-4"/>
+                                                        </Button>
+                                                    </div>
+                                                    {errors.racks && (
+                                                        <p className="text-sm text-destructive">{errors.racks.message}</p>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className="border border-dashed rounded-lg p-6 text-center space-y-3">
+                                                    <Package className="w-12 h-12 mx-auto text-muted-foreground"/>
+                                                    <div>
+                                                        <p className="text-sm font-medium">Belum ada rak tersedia</p>
+                                                        <p className="text-sm text-muted-foreground">
+                                                            Tambahkan rak baru untuk melanjutkan
+                                                        </p>
+                                                    </div>
                                                     <Button
                                                         type="button"
-                                                        variant="outline"
-                                                        size="icon"
                                                         onClick={() => setIsRackDialogOpen(true)}
-                                                        title="Tambah rak baru"
+                                                        className="gap-2"
                                                     >
                                                         <Plus className="w-4 h-4"/>
+                                                        Tambah Rak Baru
                                                     </Button>
                                                 </div>
-                                                {errors.racks && (
-                                                    <p className="text-sm text-destructive">{errors.racks.message}</p>
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <div className="border border-dashed rounded-lg p-6 text-center space-y-3">
-                                                <Package className="w-12 h-12 mx-auto text-muted-foreground"/>
-                                                <div>
-                                                    <p className="text-sm font-medium">Belum ada rak tersedia</p>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        Tambahkan rak baru untuk melanjutkan
-                                                    </p>
-                                                </div>
-                                                <Button
-                                                    type="button"
-                                                    onClick={() => setIsRackDialogOpen(true)}
-                                                    className="gap-2"
-                                                >
-                                                    <Plus className="w-4 h-4"/>
-                                                    Tambah Rak Baru
-                                                </Button>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>

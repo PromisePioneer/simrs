@@ -11,11 +11,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class MedicineCategoryService
 {
-    private MedicineCategoryRepository $productCategoryRepository;
+    private MedicineCategoryRepository $medicineCategoryRepository;
 
     public function __construct()
     {
-        $this->productCategoryRepository = new MedicineCategoryRepository();
+        $this->medicineCategoryRepository = new MedicineCategoryRepository();
     }
 
 
@@ -23,7 +23,7 @@ class MedicineCategoryService
     {
         $filters = $request->only('search');
         $perPage = $request->input('per_page');
-        return $this->productCategoryRepository->getCategories($filters, $perPage);
+        return $this->medicineCategoryRepository->getCategories($filters, $perPage);
     }
 
 
@@ -31,17 +31,17 @@ class MedicineCategoryService
     {
         $data = $request->validated();
         $data['tenant_id'] = auth()->user()->tenant_id ?? session('active_tenant_id');
-        return $this->productCategoryRepository->store($data);
+        return $this->medicineCategoryRepository->store($data);
     }
 
     public function update(MedicineCategoryRequest $request, string $id): ?object
     {
         $data = $request->validated();
-        return $this->productCategoryRepository->update($id, $data);
+        return $this->medicineCategoryRepository->update($id, $data);
     }
 
     public function destroy(string $id): ?object
     {
-        return $this->productCategoryRepository->destroy($id);
+        return $this->medicineCategoryRepository->destroy($id);
     }
 }
