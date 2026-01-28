@@ -5,6 +5,7 @@ import {cn} from "@/lib/utils";
 import {Users, Database, UserCog, Pill, Lock} from "lucide-react";
 import {usePermission} from "@/hooks/usePermission.js";
 import {PERMISSIONS} from "@/constants/permissions.js";
+import SystemInfo from "@/components/settings/system-info.jsx";
 
 function SettingPage({children}) {
     const location = useLocation();
@@ -58,6 +59,8 @@ function SettingPage({children}) {
         return location.pathname === href || location.pathname.startsWith(href + '/');
     };
 
+    // Check if we're on the main settings page (no child route)
+    const isMainSettingsPage = location.pathname === '/settings';
 
     return (
         <Layout>
@@ -139,10 +142,17 @@ function SettingPage({children}) {
                             })}
                         </div>
 
-                        {/* Content Area */}
-                        <div className="mt-6">
-                            {children}
-                        </div>
+                        {/* System Info - Only show on main settings page */}
+                        {isMainSettingsPage && (
+                            <SystemInfo/>
+                        )}
+
+                        {/* Content Area - Only show when there's a child route */}
+                        {!isMainSettingsPage && (
+                            <div className="mt-6">
+                                {children}
+                            </div>
+                        )}
                     </>
                 )}
             </div>
