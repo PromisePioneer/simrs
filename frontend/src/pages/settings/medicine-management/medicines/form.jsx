@@ -1,4 +1,4 @@
-import {useEffect, useCallback} from "react";
+import {useEffect, useCallback, useState} from "react";
 import {useNavigate, useParams} from "@tanstack/react-router";
 import {Controller, useForm} from "react-hook-form";
 import {useMedicineStore} from "@/store/medicineStore.js";
@@ -27,7 +27,7 @@ import {
 import {useMedicineWarehouseStore} from "@/store/medicineWarehouseStore.js";
 import {useMedicineRackStore} from "@/store/medicineRackStore.js";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
-import {CalendarIcon, Plus, Trash} from "lucide-react";
+import {CalendarIcon, Plus, Trash, AlertCircle} from "lucide-react";
 import {format} from "date-fns";
 import {cn} from "@/lib/utils.js";
 
@@ -46,6 +46,7 @@ function MedicineForm(opts) {
     const {fetchMedicineWarehouses, medicineWarehouses} = useMedicineWarehouseStore();
     const {fetchByMedicineWarehouse, racksByMedicineWarehouse} = useMedicineRackStore();
 
+    const [unitErrors, setUnitErrors] = useState({});
 
     const {
         register,
@@ -64,29 +65,26 @@ function MedicineForm(opts) {
             code: "",
             must_has_receipt: false,
             type: "",
-            warehouse_id: "",
             category_id: "",
-            rack_id: "",
             is_for_sell: true,
             expired_date: "",
             expired_notification_days: 30,
             minimum_stock_amount: 0,
             reference_purchase_price: 0,
             base_unit: "",
-            units: [],
+            units: [{unit_name: "", multiplier: 1}],
             stock_amount: 0,
             stock_unit: "",
             stock_base_unit: 0,
         }
     });
 
-    const selectedWarehouse = watch("warehouse_id");
     const mustHasReceipt = watch("must_has_receipt");
     const name = watch("name");
     const categoryId = watch("category_id");
     const isForSell = watch("is_for_sell");
     const baseUnit = watch("base_unit");
-
+    const units = watch("units") || [];
 
     const generateMedicineSKU = useCallback(() => {
         if (!medicineCategoryValue?.name || !name) return;
@@ -98,31 +96,91 @@ function MedicineForm(opts) {
         setValue('sku', `${cat}-${names}-${seq}`);
     }, [medicineCategoryValue, name, setValue]);
 
-
     useEffect(() => {
-        const init = async () => {
-            await Promise.all([
-                fetchMedicineCategories(),
-                fetchMedicineWarehouses(),
-            ]);
-        };
-
-        init();
+        fetchMedicineCategories();
     }, [id, isEditMode]);
 
     useEffect(() => {
         if (!categoryId) return;
         showMedicineCategory(categoryId);
-    }, [categoryId]);
+    }, [categoryId, showMedicineCategory]);
 
+    const ALL_UNITS = [
+        {value: "tablet", label: "Tablet"},
+        {value: "vial", label: "Vial"},
+        {value: "ampul", label: "Ampul"},
+        {value: "botol", label: "Botol"},
+        {value: "box", label: "Box"},
+        {value: "pcs", label: "Pcs"},
+    ];
+
+    const getAvailableUnitsForRow = (currentRowIndex) => {
+        const selectedUnitNames = units
+            .map((u, idx) => idx !== currentRowIndex ? u.unit_name : null)
+            .filter(Boolean);
+
+        return ALL_UNITS.filter(unit =>
+            unit.value !== baseUnit &&
+            !selectedUnitNames.includes(unit.value)
+        );
+    };
+
+    const validateUnitMultiplier = (index, value) => {
+        const newErrors = {...unitErrors};
+        if (index === 0) {
+            if (value !== 1) {
+                newErrors[index] = "Satuan dasar harus bernilai 1";
+            } else {
+                delete newErrors[index];
+            }
+        } else {
+            if (!value || value < 1) {
+                newErrors[index] = "Isi minimal 1";
+            } else if (value === 1) {
+                newErrors[index] = `Satuan turunan harus lebih dari 1 ${baseUnit}`;
+            } else {
+                delete newErrors[index];
+            }
+        }
+
+        setUnitErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const validateAllUnits = () => {
+        const errors = {};
+
+        units.forEach((unit, index) => {
+            if (index === 0) {
+                if (unit.multiplier !== 1) {
+                    errors[index] = "Satuan dasar harus bernilai 1";
+                }
+            } else {
+                if (!unit.multiplier || unit.multiplier < 1) {
+                    errors[index] = "Isi minimal 1";
+                } else if (unit.multiplier === 1) {
+                    errors[index] = `Satuan turunan harus lebih dari 1 ${baseUnit}`;
+                } else if (!unit.unit_name) {
+                    errors[index] = "Pilih nama satuan";
+                }
+            }
+        });
+
+        setUnitErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     useEffect(() => {
         if (!baseUnit) return;
 
-        setValue("units", [
-            {unit_name: baseUnit, multiplier: 1}
-        ]);
-    }, [baseUnit]);
+        const currentUnits = watch("units");
+        if (!currentUnits || currentUnits.length === 0 || currentUnits[0].unit_name !== baseUnit) {
+            setValue("units", [
+                {unit_name: baseUnit, multiplier: 1}
+            ]);
+            setUnitErrors({});
+        }
+    }, [baseUnit, setValue, watch]);
 
     useEffect(() => {
         if (isEditMode) return;
@@ -135,14 +193,12 @@ function MedicineForm(opts) {
         return () => clearTimeout(timeoutId);
     }, [name, medicineCategoryValue, isEditMode, generateMedicineSKU]);
 
-    useEffect(() => {
-        if (!selectedWarehouse) return;
-        resetField("rack_id");
-        fetchByMedicineWarehouse(selectedWarehouse);
-    }, [selectedWarehouse]);
-
-
     const onSubmit = async (data) => {
+        if (!validateAllUnits()) {
+            console.error("Unit validation failed");
+            return;
+        }
+
         try {
             let formData = new FormData();
 
@@ -153,32 +209,27 @@ function MedicineForm(opts) {
                 'units'
             ];
 
-
             Object.keys(data).forEach(key => {
-                if (!specialFields.includes(key) && data[key]) {
+                if (!specialFields.includes(key) && data[key] !== null && data[key] !== undefined && data[key] !== "") {
                     formData.append(key, data[key]);
                 }
-            })
-
+            });
 
             if (data.expired_date) {
                 formData.append('expired_date', format(data.expired_date, "yyyy-MM-dd"));
             }
 
-            if (data.is_for_sell) {
-                formData.append('is_for_sell', data.is_for_sell ? 1 : 0);
+            formData.append('is_for_sell', data.is_for_sell ? 1 : 0);
+            formData.append('must_has_receipt', data.must_has_receipt ? 1 : 0);
+
+            if (data.units && data.units.length > 0) {
+                const validUnits = data.units.filter(unit =>
+                    unit.unit_name &&
+                    unit.multiplier > 0 &&
+                    (data.units.indexOf(unit) === 0 || unit.multiplier > 1)
+                );
+                formData.append('units', JSON.stringify(validUnits));
             }
-
-
-            if (data.must_has_receipt) {
-                formData.append('must_has_receipt', data.must_has_receipt ? 1 : 0);
-            }
-
-
-            if (data.units) {
-                formData.append('units', JSON.stringify(data.units));
-            }
-
 
             let result;
             if (isEditMode) {
@@ -198,7 +249,6 @@ function MedicineForm(opts) {
         }
     };
 
-
     return (
         <SettingPage>
             <div className="space-y-6">
@@ -207,7 +257,7 @@ function MedicineForm(opts) {
                     description={isEditMode ? "Perbarui informasi obat" : "Tambahkan obat baru ke sistem"}
                 />
 
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     {/* Basic Information */}
                     <Card>
                         <CardHeader>
@@ -255,7 +305,6 @@ function MedicineForm(opts) {
                                         Nama Obat <span className="text-destructive">*</span>
                                     </Label>
                                     <Input
-                                        defaultValue={watch("name")}
                                         id="name"
                                         {...register("name", {required: "Nama obat wajib diisi"})}
                                         placeholder="Masukkan nama obat"
@@ -277,8 +326,7 @@ function MedicineForm(opts) {
                                         render={({field}) => (
                                             <Select
                                                 onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                                rules={{required: "tipe obat tidak boleh kosong"}}
+                                                value={field.value}
                                             >
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Pilih tipe"/>
@@ -310,14 +358,11 @@ function MedicineForm(opts) {
                                         rules={{required: "Kategori tidak boleh kosong"}}
                                         render={({field}) => (
                                             <Select
-                                                className="w-full"
                                                 onValueChange={field.onChange}
-                                                defaultValue={field.value}
+                                                value={field.value}
                                             >
                                                 <SelectTrigger className="w-full">
-                                                    <SelectValue
-                                                        placeholder="Pilih Kategori"
-                                                    />
+                                                    <SelectValue placeholder="Pilih Kategori"/>
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {medicineCategories?.map((category) => (
@@ -326,98 +371,11 @@ function MedicineForm(opts) {
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
-
                                             </Select>
                                         )}
                                     />
                                     {errors.category_id && (
                                         <p className="text-sm text-destructive">{errors.category_id.message}</p>
-                                    )}
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Location Information */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Informasi Lokasi</CardTitle>
-                            <CardDescription>
-                                Informasi lokasi penyimpanan obat
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* Warehouse */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="warehouse_id">Gudang</Label>
-                                    <Controller
-                                        name="warehouse_id"
-                                        control={control}
-                                        rules={{required: "Gudang tidak boleh kosong"}}
-                                        render={({field}) => (
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <SelectTrigger className="w-full">
-                                                    <SelectValue
-                                                        placeholder="Pilih gudang"
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {medicineWarehouses?.map((medicineWarehouse) => (
-                                                        <SelectItem key={medicineWarehouse.id}
-                                                                    value={medicineWarehouse.id}>
-                                                            {medicineWarehouse.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        )}
-                                    />
-
-                                    {errors.warehouse_id && (
-                                        <p className="text-sm text-destructive">{errors.warehouse_id.message}</p>
-                                    )}
-                                </div>
-
-                                {/* Rack */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="rack_id">Rak</Label>
-                                    <Controller
-                                        name="rack_id"
-                                        control={control}
-                                        rules={{required: "Rak tidak boleh kosong"}}
-                                        render={({field}) => (
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                                disabled={!selectedWarehouse}
-                                            >
-                                                <SelectTrigger className="w-full">
-                                                    <SelectValue
-                                                        placeholder={
-                                                            selectedWarehouse
-                                                                ? "Pilih Rak"
-                                                                : "Pilih gudang terlebih dahulu"
-                                                        }
-                                                    />
-                                                </SelectTrigger>
-
-                                                <SelectContent>
-                                                    {racksByMedicineWarehouse?.map((rack) => (
-                                                        <SelectItem key={rack.id} value={rack.id}>
-                                                            {rack.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        )}
-                                    />
-
-                                    {errors.rack_id && (
-                                        <p className="text-sm text-destructive">{errors.rack_id.message}</p>
                                     )}
                                 </div>
                             </div>
@@ -434,9 +392,42 @@ function MedicineForm(opts) {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Unit Type - Moved to top */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="base_unit">
+                                        Satuan Dasar <span className="text-destructive">*</span>
+                                    </Label>
+                                    <Controller
+                                        name="base_unit"
+                                        control={control}
+                                        rules={{required: "Satuan wajib dipilih"}}
+                                        render={({field}) => (
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Pilih Satuan"/>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="tablet">Tablet</SelectItem>
+                                                    <SelectItem value="vial">Vial</SelectItem>
+                                                    <SelectItem value="ampul">Ampul</SelectItem>
+                                                    <SelectItem value="botol">Botol</SelectItem>
+                                                    <SelectItem value="box">Box</SelectItem>
+                                                    <SelectItem value="pcs">Pcs</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        )}
+                                    />
+                                    {errors.base_unit && (
+                                        <p className="text-sm text-destructive">{errors.base_unit.message}</p>
+                                    )}
+                                </div>
+
                                 {/* Minimum Stock Amount */}
                                 <div className="space-y-2">
-                                    <Label>Stok Minimum ({baseUnit})</Label>
+                                    <Label>Stok Minimum {baseUnit && `(${baseUnit})`}</Label>
                                     <Input
                                         id="minimum_stock_amount"
                                         type="number"
@@ -445,32 +436,10 @@ function MedicineForm(opts) {
                                             min: {value: 0, message: "Stok minimum tidak boleh negatif"}
                                         })}
                                         placeholder="0"
+                                        disabled={!baseUnit}
                                     />
                                     {errors.minimum_stock_amount && (
                                         <p className="text-sm text-destructive">{errors.minimum_stock_amount.message}</p>
-                                    )}
-                                </div>
-
-                                {/* Unit Type */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="base_unit">Satuan</Label>
-                                    <Select
-                                        onValueChange={(value) => setValue("base_unit", value)}
-                                        defaultValue={watch("base_unit")}
-                                        rules={{required: "tipe obat tidak boleh kosong"}}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih tipe"/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="tablet">Tablet</SelectItem>
-                                            <SelectItem value="ml">Ml</SelectItem>
-                                            <SelectItem value="g">gram</SelectItem>
-                                            <SelectItem value="vial">Vial</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    {errors.base_unit && (
-                                        <p className="text-sm text-destructive">{errors.base_unit.message}</p>
                                     )}
                                 </div>
 
@@ -494,108 +463,197 @@ function MedicineForm(opts) {
                         </CardContent>
                     </Card>
 
-
+                    {/* Units/Packaging Card */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Satuan / Kemasan</CardTitle>
                             <CardDescription>
-                                Atur satuan jual berdasarkan base unit
+                                Atur satuan jual berdasarkan satuan dasar {baseUnit && `(${baseUnit})`}
                             </CardDescription>
                         </CardHeader>
 
                         <CardContent className="space-y-4">
-                            {watch("units")?.map((unit, index) => (
-                                <div key={index} className="grid grid-cols-12 gap-2 items-end">
-                                    <div className="space-y-2">
-                                        <Label>Nama Satuan</Label>
+                            {!baseUnit && (
+                                <div
+                                    className="text-sm text-amber-600 bg-amber-50 p-3 rounded-md border border-amber-200">
+                                    ⚠️ Pilih satuan dasar terlebih dahulu untuk menambahkan satuan kemasan
+                                </div>
+                            )}
 
-                                        {index === 0 ? (
-                                            <Input
-                                                placeholder="Unit name"
-                                                value={watch(`units.${index}.unit_name`)}
-                                                disabled={index === 0}
-                                                onChange={(e) => {
-                                                    const units = [...watch("units")];
-                                                    units[index].unit_name = e.target.value;
-                                                    setValue("units", units);
-                                                }}
-                                            />
-                                        ) : (
-                                            <Select
-                                                value={watch(`units.${index}.unit_name`)}
-                                                onValueChange={(value) => {
-                                                    const units = [...watch("units")];
-                                                    units[index].unit_name = value;
-                                                    setValue("units", units);
-                                                }}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select unit"/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="Tablet">Tablet</SelectItem>
-                                                    <SelectItem value="Ml">Ml</SelectItem>
-                                                    <SelectItem value="gram">Gram</SelectItem>
-                                                    <SelectItem value="Vial">Vial</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Isi ({baseUnit})</Label>
-                                        <Input
-                                            type="number"
-                                            disabled={index === 0}
-                                            value={unit.multiplier}
-                                            rules={{
-                                                required: "isi tidak boleh kosong",
-                                                min: {value: 1, message: "isi minimal 1"},
-                                                number: "isi harus berupa angka"
-                                            }}
-                                            onChange={(e) => {
-                                                const units = [...watch("units")];
-                                                units[index].multiplier = Number(e.target.value);
-                                                setValue("units", units);
-                                            }}
-                                        />
-                                    </div>
-
-                                    <div className="col-span-2 flex gap-2">
-                                        {index > 0 && (
-                                            <Button
-                                                type="button"
-                                                variant="destructive"
-                                                size="icon"
-                                                onClick={() => {
-                                                    const units = watch("units").filter((_, i) => i !== index);
-                                                    setValue("units", units);
-                                                }}
-                                            >
-                                                <Trash size={16}/>
-                                            </Button>
-                                        )}
+                            {baseUnit && (
+                                <div
+                                    className="text-sm text-blue-600 bg-blue-50 p-3 rounded-md border border-blue-200 flex items-start gap-2">
+                                    <AlertCircle className="h-4 w-4 mt-0.5 shrink-0"/>
+                                    <div>
+                                        <p className="font-medium">Aturan Pengisian Satuan:</p>
+                                        <ul className="mt-1 space-y-1 text-xs">
+                                            <li>• Satuan dasar = 1 {baseUnit} (tidak bisa diubah)</li>
+                                            <li>• Satuan turunan harus <strong>lebih dari 1 {baseUnit}</strong></li>
+                                            <li>• Contoh: 1 Box = 10 {baseUnit}, 1 Botol = 100 {baseUnit}</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            ))}
+                            )}
 
-                            <Button
-                                type="button"
-                                variant="outline"
-                                disabled={!baseUnit}
-                                onClick={() => {
-                                    setValue("units", [
-                                        ...watch("units"),
-                                        {unit_name: "", multiplier: 1}
-                                    ]);
-                                }}
-                            >
-                                <Plus className="mr-2" size={16}/>
-                                {baseUnit ? `Tambahkan Satuan` : "Tambahkan satuan terlebih dahulu"}
-                            </Button>
+                            {baseUnit && units?.map((unit, index) => {
+                                const availableUnits = getAvailableUnitsForRow(index);
+                                const hasError = unitErrors[index];
+
+                                return (
+                                    <div
+                                        key={index}
+                                        className={cn(
+                                            "grid grid-cols-1 md:grid-cols-12 gap-4 items-end p-4 rounded-lg",
+                                            hasError ? "bg-red-50 border-2 border-red-200" : "bg-gray-50"
+                                        )}
+                                    >
+                                        {/* Unit Name */}
+                                        <div className="md:col-span-5 space-y-2">
+                                            <Label className="mb-4">
+                                                Nama Satuan
+                                                {index === 0 &&
+                                                    <span className="text-xs text-gray-500 ml-1">(Dasar)</span>}
+                                            </Label>
+                                            {index === 0 ? (
+                                                <Input
+                                                    placeholder="Satuan dasar"
+                                                    value={baseUnit}
+                                                    disabled
+                                                    className="bg-gray-100"
+                                                />
+                                            ) : (
+                                                <Select
+                                                    value={unit.unit_name || ""}
+                                                    onValueChange={(value) => {
+                                                        const updatedUnits = [...units];
+                                                        updatedUnits[index].unit_name = value;
+                                                        setValue("units", updatedUnits);
+
+                                                        // Clear error untuk unit ini
+                                                        if (updatedUnits[index].multiplier > 1) {
+                                                            const newErrors = {...unitErrors};
+                                                            delete newErrors[index];
+                                                            setUnitErrors(newErrors);
+                                                        }
+                                                    }}
+                                                >
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue placeholder="Pilih satuan"/>
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {availableUnits.length > 0 ? (
+                                                            availableUnits.map(({value, label}) => (
+                                                                <SelectItem key={value} value={value}>
+                                                                    {label}
+                                                                </SelectItem>
+                                                            ))
+                                                        ) : (
+                                                            <div className="px-2 py-1.5 text-sm text-gray-500">
+                                                                Semua satuan sudah digunakan
+                                                            </div>
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        </div>
+
+                                        {/* Multiplier */}
+                                        <div className="md:col-span-5 space-y-2">
+                                            <Label className="mb-4">
+                                                Isi ({baseUnit})
+                                                {index > 0 &&
+                                                    <span className="text-xs text-gray-500 ml-1">(min: 2)</span>}
+                                            </Label>
+                                            <Input
+                                                type="number"
+                                                disabled={index === 0}
+                                                value={unit.multiplier || 1}
+                                                min={index === 0 ? 1 : 2}
+                                                className={cn(
+                                                    index === 0 ? "bg-gray-100" : "",
+                                                    hasError ? "border-red-500" : ""
+                                                )}
+                                                onChange={(e) => {
+                                                    const value = Number(e.target.value) || 1;
+                                                    const updatedUnits = [...units];
+                                                    updatedUnits[index].multiplier = value;
+                                                    setValue("units", updatedUnits);
+
+                                                    // Validate
+                                                    validateUnitMultiplier(index, value);
+                                                }}
+                                                onBlur={(e) => {
+                                                    const value = Number(e.target.value) || 1;
+                                                    validateUnitMultiplier(index, value);
+                                                }}
+                                            />
+                                            {hasError && (
+                                                <p className="text-xs text-red-600 flex items-center gap-1">
+                                                    <AlertCircle className="h-3 w-3"/>
+                                                    {hasError}
+                                                </p>
+                                            )}
+
+                                        </div>
+
+
+                                        {/* Actions */}
+                                        <div className="md:col-span-2 flex gap-2 items-start">
+                                            {index > 0 && (
+                                                <Button
+                                                    type="button"
+                                                    variant="destructive"
+                                                    size="icon"
+                                                    onClick={() => {
+                                                        const updatedUnits = units.filter((_, i) => i !== index);
+                                                        setValue("units", updatedUnits);
+
+                                                        // Remove error untuk index ini
+                                                        const newErrors = {...unitErrors};
+                                                        delete newErrors[index];
+                                                        // Re-index errors
+                                                        const reindexedErrors = {};
+                                                        Object.keys(newErrors).forEach(key => {
+                                                            const keyNum = Number(key);
+                                                            if (keyNum > index) {
+                                                                reindexedErrors[keyNum - 1] = newErrors[key];
+                                                            } else {
+                                                                reindexedErrors[key] = newErrors[key];
+                                                            }
+                                                        });
+                                                        setUnitErrors(reindexedErrors);
+                                                    }}
+                                                >
+                                                    <Trash size={16}/>
+                                                </Button>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+
+                            {baseUnit && (
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="w-full"
+                                    disabled={getAvailableUnitsForRow(units.length).length === 0}
+                                    onClick={() => {
+                                        setValue("units", [
+                                            ...units,
+                                            {unit_name: "", multiplier: 2}
+                                        ]);
+                                    }}
+                                >
+                                    <Plus className="mr-2" size={16}/>
+                                    {getAvailableUnitsForRow(units.length).length > 0
+                                        ? "Tambahkan Satuan"
+                                        : "Semua satuan sudah digunakan"
+                                    }
+                                </Button>
+                            )}
                         </CardContent>
                     </Card>
-
 
                     {/* Expiry Information */}
                     <Card>
@@ -640,7 +698,6 @@ function MedicineForm(opts) {
                                             </Popover>
                                         )}
                                     />
-
                                     {errors.expired_date && (
                                         <p className="text-sm text-destructive">{errors.expired_date.message}</p>
                                     )}
@@ -661,8 +718,6 @@ function MedicineForm(opts) {
                                     <p className="text-sm text-muted-foreground">
                                         Notifikasi akan muncul X hari sebelum tanggal kedaluwarsa
                                     </p>
-
-
                                     {errors.expired_notification_days && (
                                         <p className="text-sm text-destructive">{errors.expired_notification_days.message}</p>
                                     )}
@@ -716,14 +771,13 @@ function MedicineForm(opts) {
                             Batal
                         </Button>
                         <Button
-                            type="button"
-                            onClick={handleSubmit(onSubmit)}
-                            disabled={isSubmitting}
+                            type="submit"
+                            disabled={isSubmitting || Object.keys(unitErrors).length > 0}
                         >
                             {isSubmitting ? "Menyimpan..." : isEditMode ? "Update Obat" : "Tambah Obat"}
                         </Button>
                     </div>
-                </div>
+                </form>
             </div>
         </SettingPage>
     );

@@ -25,6 +25,7 @@ class MedicineBatch extends TenantScopeBaseModel
     ];
 
 
+
     public function medicine(): BelongsTo
     {
         return $this->belongsTo(Medicine::class, 'medicine_id');

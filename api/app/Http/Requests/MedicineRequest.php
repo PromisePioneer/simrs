@@ -32,11 +32,6 @@ class MedicineRequest extends FormRequest
             'type' => ['required', Rule::in(MedicineType::cases())],
             'base_unit' => ['required', 'string'],
             'category_id' => ['required', Rule::exists('medicine_categories', 'id')],
-
-            // stok awal
-            'warehouse_id' => ['required', Rule::exists('medicine_warehouses', 'id')],
-            'rack_id' => ['nullable', Rule::exists('medicine_racks', 'id')],
-            'stock_amount' => ['nullable', 'integer', 'min:0'],
             'minimum_stock_amount' => ['nullable', 'integer', 'min:0'],
             'expired_date' => ['nullable', 'date', 'after:today'],
             'is_for_sell' => 'boolean',
@@ -59,10 +54,6 @@ class MedicineRequest extends FormRequest
             'base_unit.required' => 'Satuan tidak boleh kosong',
             'category_id.required' => 'Kategori tidak boleh kosong',
             'category_id.exists' => 'Kategori tidak valid',
-            'warehouse_id.required' => 'Gudang tidak boleh kosong',
-            'rack_id.required' => 'Rak tidak boleh kosong',
-            'warehouse_id.exists' => 'Gudang tidak valid',
-            'rack_id.exists' => 'Rak tidak valid',
             'stock_amount.integer' => 'Stok harus berupa angka',
             'stock_amount.min' => 'Stok minimal 0',
             'reference_purchase_price.numeric' => 'Harga beli harus berupa angka',

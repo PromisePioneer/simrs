@@ -11,6 +11,8 @@ export const useMedicineStore = create((set, get) => ({
     currentPage: 1,
     openDeleteModal: false,
     isDeleteLoading: false,
+    openAddStockModalModal: false,
+    setOpenAddStockModalModal: () => !get().openAddStockModalModal,
     setOpenDeleteModal: async (id) => {
         if (id) {
             await get().showMedicine(id);

@@ -7,6 +7,18 @@ import DataTable from "@/components/common/data-table.jsx";
 import Modal from "@/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
 import {useMedicineStore} from "@/store/medicineStore.js";
+import {Label} from "@/components/ui/label.jsx";
+import {Input} from "@/components/ui/input.jsx";
+import {Controller, useForm} from "react-hook-form";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select.jsx";
 
 
 function MedicinePage() {
@@ -24,12 +36,32 @@ function MedicinePage() {
         setOpenDeleteModal,
         medicineValue,
         deleteMedicine,
+        openAddStockModal,
+        setOpenAddStockModalModal,
     } = useMedicineStore();
 
 
     useEffect(() => {
         fetchMedicines({perPage: 20});
     }, [currentPage, search])
+
+
+    const {
+        handleSubmit,
+        formState: {isSubmitting, errors},
+        register,
+        control
+    }
+        = useForm({
+        defaultValues: {
+            warehouse_id: "",
+            rack_id: "",
+        }
+    })
+
+    const onSubmitAddStock = (data) => {
+        console.log(data);
+    }
 
     const renderRow = (medicine, index) => (
         <TableRow key={medicine.id} className="hover:bg-muted/50 transition-colors">
@@ -39,7 +71,7 @@ function MedicinePage() {
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicine.code}</span>
+                        <span className="font-semibold text-foreground">{medicine.sku}</span>
                     </div>
                 </div>
             </TableCell>
@@ -55,9 +87,13 @@ function MedicinePage() {
             </TableCell>
             <TableCell>
                 <ul>
-                    {medicine.batches.map((batch) =>
-                        <li className="font-bold">{batch.warehouse?.name} : Rak {batch.rack.name}</li>
-                    )}
+                    {medicine.batches.length > 0 ?
+                        medicine.batches.map((batch) =>
+                            <li className="font-bold">{batch.warehouse?.name} : Rak {batch.rack.name}</li>
+                        ) : (
+                            <h1>----</h1>
+                        )
+                    }
                 </ul>
             </TableCell>
             <TableCell>
@@ -72,9 +108,14 @@ function MedicinePage() {
             </TableCell>
             <TableCell>
                 <ul>
-                    {medicine.batches.map((batch) =>
-                        <li className="font-bold">{batch.stock_base_unit}</li>
-                    )}
+
+                    {medicine.batches.length > 0 ?
+                        medicine.batches.map((batch) =>
+                            <li className="font-bold">{batch.stock_base_unit}</li>
+                        ) : (
+                            <h1>----</h1>
+                        )
+                    }
                 </ul>
             </TableCell>
             <TableCell className="text-right">
@@ -162,6 +203,58 @@ function MedicinePage() {
                 renderRow={renderRow}
                 showSearch={true}
             />
+
+
+            {/*Add Stock*/}
+
+            <Modal
+                open={openAddStockModal}
+                onOpenChange={setOpenAddStockModalModal}
+                title="Restock Obat / Tambah Stok Obat"
+                description="Tambahkan stock obat"
+                onSubmit={handleSubmit(onSubmitAddStock)}
+                submitText="Simpan Perubahan"
+                isLoading={isSubmitting}
+            >
+                <div className="space-y-5 py-2">
+                    <div className="space-y-2.5">
+                        <Label htmlFor="medicine-category-name" className="text-sm font-semibold">Nama <span
+                            className="text-destructive">*</span></Label>
+                        <Input id="medicine-category-name" placeholder="kategori obat"
+
+                               {...register("name", {required: "Nama kategori obat tidak boleh kosong"})}
+                               disabled={isLoading}/>
+                        {errors.name &&
+                            <p className="text-sm text-destructive">{errors.name.message}</p>}
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="medicine-category-type">Tipe
+                            <span className="text-destructive">*</span></Label>
+                        <Controller name="type" control={control}
+                                    disabled={isLoading}
+                                    rules={{required: "Tipe kategori obat harus dipilih"}}
+                                    render={({field}) => (
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Pilih Tipe kategori obat"/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Tipe kategori obat</SelectLabel>
+                                                    <SelectItem value="general">Umum</SelectItem>
+                                                    <SelectItem value="medicine">Obat</SelectItem>
+                                                    <SelectItem value="medical_devices">Barang Medis</SelectItem>
+                                                    <SelectItem value="service">Layanan</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    )}/>
+                        {errors.type &&
+                            <p className="text-sm text-destructive">{errors.type.message}</p>}
+                    </div>
+                </div>
+            </Modal>
+
 
             {/* Modal Degree: Delete */}
             <Modal

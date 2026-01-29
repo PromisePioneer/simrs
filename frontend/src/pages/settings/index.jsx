@@ -52,14 +52,10 @@ function SettingPage({children}) {
         }
     ];
 
-    // Filter menu items yang ada permission-nya
     const accessibleMenuItems = menuItems.filter(item => item.permission);
-
     const isActive = (href) => {
         return location.pathname === href || location.pathname.startsWith(href + '/');
     };
-
-    // Check if we're on the main settings page (no child route)
     const isMainSettingsPage = location.pathname === '/settings';
 
     return (
@@ -142,12 +138,10 @@ function SettingPage({children}) {
                             })}
                         </div>
 
-                        {/* System Info - Only show on main settings page */}
                         {isMainSettingsPage && (
                             <SystemInfo/>
                         )}
 
-                        {/* Content Area - Only show when there's a child route */}
                         {!isMainSettingsPage && (
                             <div className="mt-6">
                                 {children}

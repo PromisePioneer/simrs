@@ -37,7 +37,6 @@ class MedicineService
 
         return DB::transaction(function () use ($request) {
             $data = $request->validated();
-
             $medicine = Medicine::create([
                 'id' => Str::uuid()->toString(),
                 'tenant_id' => TenantContext::getId(),
@@ -61,22 +60,6 @@ class MedicineService
                     'multiplier' => $unit->multiplier,
                 ]);
             }
-
-
-            if (!empty($data['stock_amount']) && $data['stock_amount'] > 0) {
-                MedicineBatch::create([
-                    'tenant_id' => TenantContext::getId(),
-                    'medicine_id' => $medicine->id,
-                    'warehouse_id' => $data['warehouse_id'],
-                    'rack_id' => $data['rack_id'] ?? null,
-                    'batch_number' => $data['batch_number'] ?? $this->autoBatch(),
-                    'expired_date' => $data['expired_date'],
-                    'stock_base_unit' => $data['stock_base_unit'],
-                ]);
-            }
-
-
-            return $medicine->load('batches');
         });
     }
 

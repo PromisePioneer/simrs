@@ -25,7 +25,7 @@ return new class extends Migration {
 
             $table->string('code')->unique();
             $table->string('name');
-            $table->string('type'); //'central', 'pharmacy', 'ward', 'er';
+            $table->string('type');
             $table->timestamps();
         });
 
@@ -46,8 +46,8 @@ return new class extends Migration {
             $table->string('sku')->unique();
             $table->string('code');
             $table->string('name');
-            $table->string('base_unit'); // tablet | ml | g | vial
-            $table->string('type'); // tablet | syrup | injection
+            $table->string('base_unit');
+            $table->string('type');
             $table->boolean('must_has_receipt')->default(false);
             $table->boolean('is_for_sell')->default(true);
             $table->integer('minimum_stock_amount')->default(0);
@@ -65,17 +65,14 @@ return new class extends Migration {
             $table->string('batch_number')->nullable();
             $table->boolean('is_auto_batch')->default(false);
             $table->date('expired_date')->nullable();
-            $table->integer('stock_base_unit')->default(0);
             $table->timestamps();
         });
 
-
         Schema::create('medicine_units', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
-            $table->string('unit_name'); // strip, box, botol
-            $table->integer('multiplier'); // 1 unit = ? base_unit
-            $table->timestamps();
+            $table->string('code');
+            $table->string('name');
+            $table->string('dimension');
         });
 
     }
