@@ -6,12 +6,13 @@ import {toast} from "sonner";
 export const useMedicineStore = create((set, get) => ({
     isLoading: false,
     medicines: [],
-    medicineValue: null,
+    medicineValue: {},
     search: "",
     currentPage: 1,
     openDeleteModal: false,
     isDeleteLoading: false,
     openAddStockModalModal: false,
+    success: false,
     setOpenAddStockModalModal: () => !get().openAddStockModalModal,
     setOpenDeleteModal: async (id) => {
         if (id) {
@@ -23,7 +24,6 @@ export const useMedicineStore = create((set, get) => ({
         {key: 'no', label: 'No', width: '5%'},
         {key: 'sku', label: 'SKU'},
         {key: 'name', label: 'Nama'},
-        {key: "warehouse", label: "Gudang", width: "15%"},
         {key: 'type', label: 'tipe'},
         {key: 'stock_amount', label: 'Stok'},
         {key: 'actions', label: 'Aksi', width: '10%', align: 'right'}
@@ -50,8 +50,18 @@ export const useMedicineStore = create((set, get) => ({
     },
     createMedicine: async (data) => {
         try {
-            await apiCall.post('/api/v1/pharmacy/medicines', data);
+            const response = await apiCall.post('/api/v1/pharmacy/medicines', data);
             toast.success("Berhasil menambahkan obat baru.");
+            return set({success: true, data: response.data});
+        } catch (e) {
+            toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+    updateMedicine: async (data, id) => {
+        try {
+            const response = await apiCall.put(`/api/v1/pharmacy/medicines/${id}`, data);
+            toast.success("Berhasil mengubah obat.");
+            return {success: true, data: response.data};
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }

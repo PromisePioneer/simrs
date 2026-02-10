@@ -3,7 +3,6 @@ import apiCall from "@/services/apiCall.js";
 import {toast} from "sonner";
 
 export const useMedicineCategoriesStore = create((set, get) => ({
-    isLoading: false,
     medicineCategories: [],
     medicineCategoryValue: null,
     search: "",
@@ -36,7 +35,6 @@ export const useMedicineCategoriesStore = create((set, get) => ({
     },
     fetchMedicineCategories: async ({perPage = null} = {}) => {
         try {
-            set({isLoading: true, medicineCategories: []});
             const {search, currentPage} = get();
             const params = {page: currentPage};
 
@@ -44,9 +42,9 @@ export const useMedicineCategoriesStore = create((set, get) => ({
             if (search?.trim()) params.search = search;
 
             const response = await apiCall.get("/api/v1/pharmacy/medicine-categories", {params});
-            set({medicineCategories: response.data, isLoading: false});
+            set({medicineCategories: response.data});
         } catch (e) {
-            set({isLoading: false, error: e.response?.data?.message});
+            set({error: e.response?.data?.message});
             toast.error(get().error || "Operasi Gagal");
         }
     },

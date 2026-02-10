@@ -55,12 +55,12 @@ function DataTable({
                                 placeholder={searchPlaceholder}
                                 value={search}
                                 onChange={(e) => onSearch(e.target.value)}
-                                className="pl-10 pr-10 border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent rounded-lg"
+                                className="pl-10 pr-10 border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent rounded-lg"
                             />
                             {search && (
                                 <button
                                     onClick={() => onSearch('')}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
                                 >
                                     <X className="h-4 w-4"/>
                                 </button>
@@ -184,7 +184,7 @@ function DataTable({
                                                     onClick={() => onPageChange(page)}
                                                     className={`h-9 w-9 p-0 font-medium ${
                                                         currentPage === page
-                                                            ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md'
+                                                            ? 'bg-teal-500 hover:bg-teal-600 text-white shadow-md'
                                                             : 'border-gray-200 hover:bg-gray-50 text-gray-700'
                                                     }`}
                                                 >

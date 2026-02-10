@@ -11,7 +11,7 @@ export const useMedicineRackStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     unassignedRacks: null,
-    racksByMedicineWarehouse: null,
+    racksByMedicineWarehouse: [],
     setOpenModal: (openModal) => set({openModal}),
     setOpenDeleteModal: (openDeleteModal) => set({openDeleteModal}),
     setCurrentPage: (page) => set({currentPage: page}),

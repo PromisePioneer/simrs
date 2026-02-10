@@ -9,7 +9,9 @@ function RouteProgress() {
         if (isLoading) {
             NProgress.start();
         } else {
-            NProgress.done();
+            setTimeout(() => {
+                NProgress.done();
+            }, 500);
         }
     }, [isLoading]);
 

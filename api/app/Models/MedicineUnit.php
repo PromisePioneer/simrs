@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class MedicineUnit extends Model
 {
     protected $table = 'medicine_units';
+    public $timestamps = false;
     protected $fillable = [
         'medicine_id',
         'unit_name',

@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
-import {Award, Pencil, Pill, Plus, Trash2, Archive} from "lucide-react";
+import {Award, Pencil, Pill, Plus, Trash2, Archive, Warehouse} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import DataTable from "@/components/common/data-table.jsx";
@@ -77,46 +77,24 @@ function MedicinePage() {
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Pill className="w-5 h-5 text-primary"/>
-                    </div>
                     <div className="flex flex-col">
                         <span className="font-semibold text-foreground">{medicine.name}</span>
                     </div>
                 </div>
             </TableCell>
             <TableCell>
-                <ul>
-                    {medicine.batches.length > 0 ?
-                        medicine.batches.map((batch) =>
-                            <li className="font-bold">{batch.warehouse?.name} : Rak {batch.rack.name}</li>
-                        ) : (
-                            <h1>----</h1>
-                        )
-                    }
-                </ul>
-            </TableCell>
-            <TableCell>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Archive/>
-                    </div>
                     <div className="flex flex-col">
                         <span className="font-semibold text-foreground">{medicine.type.toUpperCase()}</span>
                     </div>
                 </div>
             </TableCell>
             <TableCell>
-                <ul>
-
-                    {medicine.batches.length > 0 ?
-                        medicine.batches.map((batch) =>
-                            <li className="font-bold">{batch.stock_base_unit}</li>
-                        ) : (
-                            <h1>----</h1>
-                        )
-                    }
-                </ul>
+                <Button asChild className="hover:cursor-pointer">
+                    <Link to={`/settings/medicine-management/medicine/stocks/${medicine.id}`}>
+                        <Warehouse/>
+                    </Link>
+                </Button>
             </TableCell>
             <TableCell className="text-right">
                 <div className="flex gap-1 justify-end items-center">
@@ -124,7 +102,7 @@ function MedicinePage() {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicine-management/medicines/${medicine.id}`}>
+                                    <Link to={`/settings/medicine-management/medicine/${medicine.id}`}>
                                         <Button variant="ghost" size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
                                         >
@@ -159,15 +137,15 @@ function MedicinePage() {
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <div
-                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
-                            <Award className="w-6 h-6 text-primary"/>
+                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500">
+                            <Pill className="w-6 h-6 text-white"/>
                         </div>
                         <div>
                             <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                Data Obat
+                                Daftar Obat
                             </h1>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Kelola Stok obat
+                                Kelola Obat, Atur Tanggal kadaluarsa dan lainnya.
                             </p>
                         </div>
                     </div>
@@ -184,8 +162,8 @@ function MedicinePage() {
             </div>
 
             <DataTable
-                title="Daftar Stok Obat"
-                description="Daftar Obat yang tersedia"
+                title="Daftar Obat"
+                description="Daftar Obat yang dijual"
                 columns={columns()}
                 data={medicines?.data || []}
                 isLoading={isLoading}
@@ -203,9 +181,6 @@ function MedicinePage() {
                 renderRow={renderRow}
                 showSearch={true}
             />
-
-
-            {/*Add Stock*/}
 
             <Modal
                 open={openAddStockModal}

@@ -175,7 +175,7 @@ function MedicineCategoriesPage() {
 
             <DataTable
                 title="Tabel kategori obat"
-                description="Daftar gelar yang tersedia"
+                description="Daftar kategori obat yang tersedia"
                 columns={columns()}
                 data={medicineCategories?.data || []}
                 isLoading={isLoading}
@@ -187,9 +187,9 @@ function MedicineCategoriesPage() {
                 currentPage={currentPage}
                 onSearch={setSearch}
                 search={search}
-                searchPlaceholder="Cari gelar..."
+                searchPlaceholder="Cari kategori obat ..."
                 emptyStateIcon={Award}
-                emptyStateText="Tidak ada data gelar ditemukan"
+                emptyStateText="Tidak ada data kategori obat ditemukan"
                 renderRow={renderRow}
                 showSearch={true}
             />
@@ -197,7 +197,7 @@ function MedicineCategoriesPage() {
                 open={openModal}
                 onOpenChange={setOpenModal}
                 title={medicineCategoryValue ? "Edit kategori obat" : "Tambah kategori obat"}
-                description={medicineCategoryValue ? "Ubah informasi gelar" : "Tambahkan gelar baru ke sistem."}
+                description={medicineCategoryValue ? "Ubah informasi kategori obat" : "Tambahkan kategori obat baru ke sistem."}
                 onSubmit={handleSubmit(onSubmit)}
                 submitText={medicineCategoryValue ? "Simpan Perubahan" : "Tambah kategori obat"}
                 isLoading={isSubmitting}
@@ -263,7 +263,7 @@ function MedicineCategoriesPage() {
                             </div>
                             <div className="flex-1 space-y-1">
                                 <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus gelar: <span
+                                <p className="text-sm text-muted-foreground">Anda akan menghapus kategori obat: <span
                                     className="font-semibold text-foreground">{medicineCategoryValue?.name}</span></p>
                             </div>
                         </div>

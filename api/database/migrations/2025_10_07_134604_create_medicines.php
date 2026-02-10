@@ -68,11 +68,20 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+
+        Schema::create('medicine_batch_stocks', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('batch_id')->constrained('medicine_batches')->cascadeOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
+            $table->foreignUuid('rack_id')->constrained('medicine_racks')->cascadeOnDelete();
+            $table->integer('stock_amount')->default(0);
+        });
+
         Schema::create('medicine_units', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('name');
-            $table->string('dimension');
+            $table->foreignUuid('medicine_id')->constrained('medicines')->cascadeOnDelete();
+            $table->string('unit_name');
+            $table->string('multiplier');
         });
 
     }

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Throwable;
 
 class MedicineService
 {
@@ -32,13 +33,15 @@ class MedicineService
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(MedicineRequest $request): ?object
     {
 
         return DB::transaction(function () use ($request) {
             $data = $request->validated();
             $medicine = Medicine::create([
-                'id' => Str::uuid()->toString(),
                 'tenant_id' => TenantContext::getId(),
                 'sku' => $data['sku'],
                 'code' => $data['code'],
@@ -53,6 +56,7 @@ class MedicineService
 
 
             $units = json_decode($data['units']);
+
             foreach ($units as $unit) {
                 MedicineUnit::create([
                     'medicine_id' => $medicine->id,
@@ -70,10 +74,38 @@ class MedicineService
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function update(MedicineRequest $request, Medicine $medicine): ?object
     {
-        $data = $request->validated();
-        return $this->medicineRepository->update(id: $medicine->id, data: $data);
+        return DB::transaction(function () use ($request, $medicine) {
+            $data = $request->validated();
+            $medicine->update([
+                'tenant_id' => TenantContext::getId(),
+                'sku' => $data['sku'],
+                'code' => $data['code'],
+                'name' => $data['name'],
+                'base_unit' => $data['base_unit'],
+                'type' => $data['type'],
+                'is_for_sell' => $data['is_for_sell'] ?? true,
+                'must_has_receipt' => $data['must_has_receipt'] ?? false,
+                'category_id' => $data['category_id'],
+                'reference_purchase_price' => $data['reference_purchase_price'] ?? null,
+            ]);
+
+
+            $units = json_decode($data['units']);
+
+            MedicineUnit::where('medicine_id', $medicine->id)->delete();
+            foreach ($units as $unit) {
+                MedicineUnit::create([
+                    'medicine_id' => $medicine->id,
+                    'unit_name' => $unit->unit_name,
+                    'multiplier' => $unit->multiplier,
+                ]);
+            }
+        });
     }
 
     public function destroy(Medicine $medicine): ?object

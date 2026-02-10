@@ -10,6 +10,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class MedicineController extends Controller
 {
@@ -49,13 +50,13 @@ class MedicineController extends Controller
     public function show(Medicine $medicine): JsonResponse
     {
         $this->authorize(ability: 'view', arguments: $medicine);
-        $medicine->load('category', 'batches');
+        $medicine->load('category', 'batches', 'units');
         return response()->json($medicine);
 
     }
 
     /**
-     * @throws AuthorizationException
+     * @throws AuthorizationException|Throwable
      */
     public function update(MedicineRequest $request, Medicine $medicine): JsonResponse
     {
