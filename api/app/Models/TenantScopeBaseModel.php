@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\TenantScope;
 use App\Traits\Tenant\TenantManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TenantScopeBaseModel extends Model
 {
@@ -18,5 +19,11 @@ class TenantScopeBaseModel extends Model
     public static function booted(): void
     {
         static::addGlobalScope(new TenantScope());
+    }
+
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id');
     }
 }

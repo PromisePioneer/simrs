@@ -1,7 +1,7 @@
 import SettingPage from "@/pages/settings/index.jsx";
 import {MedicineTabs} from "@/components/settings/medicine-management/tabs.jsx";
 import {useMedicineBatchesStore} from "@/store/medicineBatchesStore.js";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Link, useParams} from "@tanstack/react-router";
 import DataTable from "@/components/common/data-table.jsx";
 import {Archive, Building2, Calendar as CalendarIcon, Pencil, Pill, Plus, Trash2, Warehouse, X} from "lucide-react";
@@ -36,14 +36,14 @@ function MedicineStocks(opts) {
         openModal,
         setOpenModal,
         medicineBatchValue,
+        deleteMedicineBatch,
+        createMedicineBatch,
+        openDeleteModal,
+        setOpenDeleteModal
     } = useMedicineBatchesStore();
 
     const {medicineWarehouses, fetchMedicineWarehouses} = useMedicineWarehouseStore();
     const {fetchByMedicineWarehouse, racksByMedicineWarehouse} = useMedicineRackStore();
-    const {createMedicineBatch} = useMedicineBatchesStore();
-
-
-    const [openDeleteModal, setOpenDeleteModal] = useState(null);
 
     useEffect(() => {
         fetchMedicineWarehouses();
@@ -57,20 +57,23 @@ function MedicineStocks(opts) {
         register,
         control,
         watch,
-        reset
+        reset,
+        getValues,
     } = useForm({
         defaultValues: {
             medicine_id: id,
-            warehouse_id: "",
-            rack_id: "",
-            batch_number: "",
-            is_auto_batch: false,
-            expired_date: "",
-            stock_amount: "",
+            warehouse_id: medicineBatchValue?.stock?.warehouse_id?.toString() || "",
+            rack_id: medicineBatchValue?.stock?.rack_id?.toString() || "",
+            batch_number: medicineBatchValue?.batch_number || "",
+            is_auto_batch: medicineBatchValue?.is_auto_batch || false,
+            expired_date: new Date(medicineBatchValue?.stock?.expired_date),
+            stock_amount: medicineBatchValue?.stock?.stock_amount || "",
         }
     })
 
     const warehouseId = watch("warehouse_id");
+
+
     const todayDate = new Date();
     const currentYear = todayDate.getFullYear();
 
@@ -78,14 +81,27 @@ function MedicineStocks(opts) {
         if (warehouseId) {
             fetchByMedicineWarehouse(warehouseId);
         }
-    }, [warehouseId, fetchByMedicineWarehouse])
+
+
+        if (medicineBatchValue) {
+            reset({
+                medicine_id: id,
+                warehouse_id: medicineBatchValue?.stock?.warehouse_id || "",
+                rack_id: medicineBatchValue?.stock?.rack_id || "",
+                batch_number: medicineBatchValue?.batch_number || "",
+                is_auto_batch: medicineBatchValue.is_auto_batch || false,
+                expired_date: new Date(medicineBatchValue?.expired_date) || "",
+                stock_amount: medicineBatchValue?.stock?.stock_amount || "",
+            });
+        }
+    }, [warehouseId, fetchByMedicineWarehouse, medicineBatchValue])
 
     const onSubmit = async (data) => {
 
         const formData = new FormData();
 
 
-        const specialFields = ['expired_date',]
+        const specialFields = ['expired_date']
 
 
         Object.keys(data).forEach(key => {
@@ -137,6 +153,14 @@ function MedicineStocks(opts) {
                 </div>
             </TableCell>
             <TableCell>
+                <div className="flex items-center gap-3">
+                    <div className="flex flex-col">
+                        <span
+                            className="font-semibold text-foreground">{medicineBatch.expired_date}</span>
+                    </div>
+                </div>
+            </TableCell>
+            <TableCell>
                 <span className="font-semibold text-foreground">{medicineBatch.stock.stock_amount}</span>
             </TableCell>
             <TableCell className="text-right">
@@ -145,15 +169,14 @@ function MedicineStocks(opts) {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicine-management/medicines/${medicineBatch.id}`}>
-                                        <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        >
-                                            <Pencil className="h-4 w-4"/>
-                                        </Button>
-                                    </Link>
+                                    <Button variant="ghost" size="sm"
+                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                            onClick={() => setOpenModal(medicineBatch.id)}
+                                    >
+                                        <Pencil className="h-4 w-4"/>
+                                    </Button>
                                 </TooltipTrigger>
-                                <TooltipContent><p>Edit Obat</p></TooltipContent>
+                                <TooltipContent><p>Edit Batch</p></TooltipContent>
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -164,7 +187,7 @@ function MedicineStocks(opts) {
                                         <Trash2 className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent><p>Delete Obat</p></TooltipContent>
+                                <TooltipContent><p>Delete Batch</p></TooltipContent>
                             </Tooltip>
                         </>
                     </TooltipProvider>
@@ -172,13 +195,6 @@ function MedicineStocks(opts) {
             </TableCell>
         </TableRow>
     );
-
-    const handleModalClose = (open) => {
-        setOpenModal(open);
-        if (!open) {
-            reset();
-        }
-    };
 
     return (
         <SettingPage>
@@ -215,7 +231,7 @@ function MedicineStocks(opts) {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setOpenModal()}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Batch Stok
@@ -247,8 +263,8 @@ function MedicineStocks(opts) {
             <Modal
                 size="lg"
                 open={openModal}
-                onOpenChange={handleModalClose}
-                title={medicineBatchValue ? "Edit batch obat" : "Tambah batch obat"}
+                onOpenChange={setOpenModal}
+                title={medicineBatchValue ? "`Edit batch` obat" : "Tambah batch obat"}
                 description={medicineBatchValue ? "Ubah informasi batch obat" : "Tambahkan batch obat baru ke sistem."}
                 onSubmit={handleSubmit(onSubmit)}
                 submitText={medicineBatchValue ? "Simpan Perubahan" : "Tambah batch obat"}
@@ -322,7 +338,7 @@ function MedicineStocks(opts) {
                             render={({field}) => (
                                 <div className="relative">
                                     <Select
-                                        disabled={!racksByMedicineWarehouse || racksByMedicineWarehouse.length === 0 || !warehouseId}
+                                        disabled={!warehouseId}
                                         value={field.value}
                                         onValueChange={field.onChange}
                                     >
@@ -465,6 +481,38 @@ function MedicineStocks(opts) {
                         {errors.stock_amount && (
                             <p className="text-red-500 text-sm mt-1">{errors.stock_amount.message}</p>
                         )}
+                    </div>
+                </div>
+            </Modal>
+
+
+            <Modal
+                open={openDeleteModal}
+                onOpenChange={setOpenDeleteModal}
+                title="Hapus batch"
+                description="Tindakan ini tidak dapat dibatalkan. batch obat akan dihapus permanen."
+                onSubmit={() => deleteMedicineBatch(medicineBatchValue.id)}
+                submitText="Hapus batch"
+                type="danger"
+                isLoading={isLoading}
+            >
+                <div className="space-y-4 py-2">
+                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+                        <div className="flex gap-3">
+                            <div className="shrink-0">
+                                <div
+                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
+                                    <Trash2 className="w-5 h-5 text-destructive"/>
+                                </div>
+                            </div>
+                            <div className="flex-1 space-y-1">
+                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
+                                <p className="text-sm text-muted-foreground">Anda akan menghapus Obat dengan Nomor Batch
+                                    : <span
+                                        className="font-semibold text-foreground">{medicineBatchValue?.batch_number}</span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Modal>

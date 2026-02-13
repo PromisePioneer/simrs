@@ -35,7 +35,7 @@ class MedicineController extends Controller
 
 
     /**
-     * @throws AuthorizationException
+     * @throws AuthorizationException|Throwable
      */
     public function store(MedicineRequest $request): JsonResponse
     {

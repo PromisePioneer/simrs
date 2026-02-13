@@ -29,6 +29,7 @@ class MedicineBatchController
 
     public function show(MedicineBatch $medicineBatch): JsonResponse
     {
+        $medicineBatch->load('stock');
         return response()->json($medicineBatch);
     }
 
@@ -36,6 +37,12 @@ class MedicineBatchController
     public function store(MedicineBatchRequest $request)
     {
         $data = $this->medicineBatchService->store($request);
+        return response()->json($data);
+    }
+
+    public function destroy(MedicineBatch $medicineBatch)
+    {
+        $data = $medicineBatch->delete();
         return response()->json($data);
     }
 

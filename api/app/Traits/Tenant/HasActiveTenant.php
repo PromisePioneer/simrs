@@ -4,6 +4,7 @@ namespace App\Traits\Tenant;
 
 use App\Models\Role;
 use App\Models\Tenant;
+use App\Services\Tenant\TenantContext;
 
 trait HasActiveTenant
 {
@@ -21,10 +22,20 @@ trait HasActiveTenant
         return $this->hasPermissionTo($permission);
     }
 
-    public function getActiveRole(): object
+    public function getActiveRole(): ?object
     {
+        setPermissionsTeamId(TenantContext::getId());
+
         if (session()->has('active_role_id')) {
-            return Role::where('uuid', session('active_role_id'))->first();
+            $activeRoleId = session('active_role_id');
+            $role = Role::where('uuid', $activeRoleId)->first();
+            $roleWithoutScope = Role::withoutGlobalScope(\App\Models\Scopes\TenantScope::class)
+                ->where('uuid', $activeRoleId)
+                ->first();
+
+            if ($role) {
+                return $role;
+            }
         }
 
         return $this->roles->first();
@@ -51,7 +62,7 @@ trait HasActiveTenant
         return session()->has('active_tenant_id') || session()->has('active_role_id');
     }
 
-    public function getActivePermissions(): object
+    public function getActivePermissions(): object  // ← Pertimbangkan juga ubah ini
     {
         $activeRole = $this->getActiveRole();
 
@@ -78,17 +89,26 @@ trait HasActiveTenant
         return $this->getRoleNames()->toArray();
     }
 
-    public function getActiveTenant(): object
+    public function getActiveTenant(): ?object  // ← Ubah juga ini untuk konsistensi
     {
         $tenantId = $this->getActiveTenantId();
+
+        if (!$tenantId) {
+            return null;
+        }
+
         return Tenant::query()->find($tenantId);
     }
 
-
-    public function getCurrentTenantPlan()
+    public function getCurrentTenantPlan(): ?object  // ← Dan ini
     {
-        $tenantId = $this->getActiveTenantId();
-        return Tenant::query()->find($tenantId)->getCurrentPlan();
+        $tenant = $this->getActiveTenant();
+
+        if (!$tenant) {
+            return null;
+        }
+
+        return $tenant->getCurrentPlan();
     }
 
     public function getActiveUserData(): array
@@ -104,7 +124,6 @@ trait HasActiveTenant
             'is_switched' => $this->isSwitchedContext(),
         ];
     }
-
 
     #TODO: FOR DEBUGGING
     public function getContextInfo(): array

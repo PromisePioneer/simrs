@@ -23,7 +23,7 @@ class MedicineBatchRepository implements MedicineBatchRepositoryInterface
     public function getBatches(string $id, array $filters = [], ?int $perPage = null): ?object
     {
 
-        $query = $this->medicineBatchModel->with(['stock','warehouse', 'warehouse.racks'])->where('medicine_id', $id);
+        $query = $this->medicineBatchModel->with(['stock', 'warehouse', 'warehouse.racks'])->where('medicine_id', $id);
 
         if (!empty($filters['search'])) {
             $query->where('batch_number', 'like', '%' . $filters['search'] . '%');
@@ -55,6 +55,7 @@ class MedicineBatchRepository implements MedicineBatchRepositoryInterface
                 'batch_id' => $medicineBatch->id,
                 'warehouse_id' => $data['warehouse_id'],
                 'rack_id' => $data['rack_id'],
+                'stock_amount' => $data['stock_amount']
             ]);
 
             return $medicineBatch;

@@ -18,6 +18,7 @@ function MedicineForm(opts) {
         setValue,
         errors,
         isSubmitting,
+        watch,
 
         // Watch values
         baseUnit,
@@ -57,6 +58,8 @@ function MedicineForm(opts) {
                         control={control}
                         errors={errors}
                         medicineCategories={medicineCategories}
+                        watch={watch}
+                        setValue={setValue}
                     />
 
                     {/* Stock Information */}

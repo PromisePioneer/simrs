@@ -1,13 +1,24 @@
+import {useEffect} from "react";
+
+``
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Controller} from "react-hook-form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {AlertCircle} from "lucide-react";
-import {cn} from "@/lib/utils.js";
+import {generateMedicineSKU} from "@/utils/medicines/skuGenerator.js";
 
 
-function MedicineBasicInfoSections({register, control, medicineCategories, errors}) {
+function MedicineBasicInfoSections({register, control, medicineCategories, errors, watch, setValue}) {
+    const sku = watch("sku");
+    useEffect(() => {
+        if (!sku) {
+            const generatedSKU = generateMedicineSKU();
+            setValue("sku", generatedSKU);
+        }
+    }, [ sku]);
+
+
     return <Card>
         <CardHeader>
             <CardTitle>Informasi Dasar</CardTitle>
@@ -134,3 +145,4 @@ function MedicineBasicInfoSections({register, control, medicineCategories, error
 
 
 export default MedicineBasicInfoSections;
+``

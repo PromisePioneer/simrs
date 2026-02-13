@@ -217,6 +217,7 @@ export function useMedicineForm(opts) {
         setValue,
         errors,
         isSubmitting,
+        watch,
 
         baseUnit,
         units,

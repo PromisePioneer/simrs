@@ -21,12 +21,6 @@ trait TenantManager
         });
     }
 
-
-    public function tenant(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'tenant_id');
-    }
-
     public function scopeWithoutTenant($query)
     {
         return $query->withoutGlobalScope(TenantScope::class);

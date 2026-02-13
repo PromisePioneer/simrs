@@ -16,7 +16,7 @@ class MedicineRepository implements MedicineRepositoryInterface
 
     public function getMedicines(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->with(['category', 'batches.warehouse', 'batches.rack', 'units'])->orderBy('name');
+        $query = $this->model->with(['tenant', 'category', 'batches.warehouse', 'batches.rack', 'units'])->orderBy('name');
         if (!empty($filters['type'])) {
             $query->where('type', $filters['type']);
         }

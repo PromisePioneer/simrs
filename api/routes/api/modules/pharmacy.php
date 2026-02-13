@@ -22,7 +22,9 @@ Route::prefix('pharmacy')->group(function () {
 
 
     Route::prefix('medicine-batches')->group(function () {
-        Route::get('/{medicine}', [MedicineBatchController::class, 'index']);
+        Route::get('/{medicineBatch}', [MedicineBatchController::class, 'show']);
+        Route::get('/medicine/{medicine}', [MedicineBatchController::class, 'index']);
         Route::post('/', [MedicineBatchController::class, 'store']);
+        Route::delete('/{medicineBatch}', [MedicineBatchController::class, 'destroy']);
     });
 });

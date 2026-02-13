@@ -148,7 +148,7 @@ export function AppSidebar({...props}) {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
-                                <p className="text-2xl font-bold text-teal-500">Zyntera</p>
+                                <p className="text-2xl font-bold text-teal-500">{userData.tenant.name ?? 'Zyntera'}</p>
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

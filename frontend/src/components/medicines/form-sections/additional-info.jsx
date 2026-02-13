@@ -1,4 +1,3 @@
-import {Button} from "@/components/ui/button.jsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {Label} from "@/components/ui/label.jsx";
