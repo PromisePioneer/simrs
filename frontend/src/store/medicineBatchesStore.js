@@ -26,7 +26,7 @@ export const useMedicineBatchesStore = create((set, get) => ({
         }
         set({openModal: !get().openModal});
     },
-    medicineBatchValue: {},
+    medicineBatchValue: null,
     medicineId: null,
     setCurrentPage: (page) => {
         set({currentPage: page});

@@ -1,10 +1,21 @@
 import SettingPage from "@/pages/settings/index.jsx";
-import {MedicineTabs} from "@/components/settings/medicine-management/tabs.jsx";
+import {PermissionTabs} from "@/components/settings/medicine-management/tabs.jsx";
 import {useMedicineBatchesStore} from "@/store/medicineBatchesStore.js";
 import {useEffect} from "react";
-import {Link, useParams} from "@tanstack/react-router";
+import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import DataTable from "@/components/common/data-table.jsx";
-import {Archive, Building2, Calendar as CalendarIcon, Pencil, Pill, Plus, Trash2, Warehouse, X} from "lucide-react";
+import {
+    Archive,
+    ArrowLeft,
+    Building2,
+    Calendar as CalendarIcon,
+    Pencil,
+    Pill,
+    Plus,
+    Trash2,
+    Warehouse,
+    X
+} from "lucide-react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
@@ -20,10 +31,12 @@ import {cn} from "@/lib/utils.js";
 import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
+import {PERMISSIONS} from "@/constants/permissions.js";
 
 function MedicineStocks(opts) {
 
     const {id} = useParams(opts);
+    const navigate = useNavigate();
     const {
         fetchMedicineBatches,
         isLoading,
@@ -58,16 +71,15 @@ function MedicineStocks(opts) {
         control,
         watch,
         reset,
-        getValues,
     } = useForm({
         defaultValues: {
             medicine_id: id,
-            warehouse_id: medicineBatchValue?.stock?.warehouse_id?.toString() || "",
-            rack_id: medicineBatchValue?.stock?.rack_id?.toString() || "",
-            batch_number: medicineBatchValue?.batch_number || "",
-            is_auto_batch: medicineBatchValue?.is_auto_batch || false,
-            expired_date: new Date(medicineBatchValue?.stock?.expired_date),
-            stock_amount: medicineBatchValue?.stock?.stock_amount || "",
+            warehouse_id: "",
+            rack_id: "",
+            batch_number: "",
+            is_auto_batch: false,
+            expired_date: undefined,
+            stock_amount: "",
         }
     })
 
@@ -77,11 +89,18 @@ function MedicineStocks(opts) {
     const todayDate = new Date();
     const currentYear = todayDate.getFullYear();
 
+
     useEffect(() => {
         if (warehouseId) {
             fetchByMedicineWarehouse(warehouseId);
         }
 
+
+        let expiredDate = undefined;
+        if (medicineBatchValue?.expired_date) {
+            const parsed = new Date(medicineBatchValue.expired_date);
+            expiredDate = isNaN(parsed.getTime()) ? undefined : parsed;
+        }
 
         if (medicineBatchValue) {
             reset({
@@ -90,11 +109,38 @@ function MedicineStocks(opts) {
                 rack_id: medicineBatchValue?.stock?.rack_id || "",
                 batch_number: medicineBatchValue?.batch_number || "",
                 is_auto_batch: medicineBatchValue.is_auto_batch || false,
-                expired_date: new Date(medicineBatchValue?.expired_date) || "",
+                expired_date: expiredDate,
                 stock_amount: medicineBatchValue?.stock?.stock_amount || "",
             });
         }
     }, [warehouseId, fetchByMedicineWarehouse, medicineBatchValue])
+
+
+    const tabs = [
+        {
+            key: 'medicine-management',
+            label: 'Data obat',
+            permission: PERMISSIONS.MEDICINE.VIEW,
+        },
+        {
+            key: 'medicine_categories',
+            label: 'Kategori obat',
+            permission: PERMISSIONS.MEDICINE_CATEGORY.VIEW,
+        },
+        {
+            key: 'medicine_warehouses',
+            label: 'Gudang obat',
+            permission: PERMISSIONS.MEDICINE_WAREHOUSE.VIEW,
+        },
+    ];
+
+
+    const handleBack = () => {
+        navigate({
+            to: '/settings/medicine-management',
+            search: {tab: 'medicine-management'}
+        });
+    }
 
     const onSubmit = async (data) => {
 
@@ -198,18 +244,14 @@ function MedicineStocks(opts) {
 
     return (
         <SettingPage>
-
-            <div className="p-6 pb-10">
-                <div className="mb-6">
-                    <h2 className="text-2xl font-bold tracking-tight">Manajemen Obat</h2>
-                    <p className="text-muted-foreground">Kelola data Obat dan pantau stok obat.</p>
-                </div>
-
-
-                <div className="space-y-6">
-                    <MedicineTabs activeTab="medicine-management"/>
-                </div>
-            </div>
+            <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="mb-4"
+            >
+                <ArrowLeft className="w-4 h-4 mr-2"/>
+                Kembali ke Data Obat
+            </Button>
 
 
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
@@ -236,11 +278,12 @@ function MedicineStocks(opts) {
                 >
                     <Plus className="w-4 h-4"/> Tambah Batch Stok
                 </Button>
+
             </div>
 
             <DataTable
-                title="Daftar Stok Obat Berdasarkan Batch"
-                description="Daftar Obat Berdasarkan Batch yang tersedia di gudang. Klik batch untuk melihat stok obat yang tersedia di gudang."
+                title="Tabel Stok Obat Berdasarkan Batch"
+                description="Data Obat Berdasarkan Batch yang tersedia di gudang. Klik batch untuk melihat stok obat yang tersedia di gudang."
                 columns={columns()}
                 data={medicineBatches?.data || []}
                 isLoading={isLoading}
@@ -264,7 +307,7 @@ function MedicineStocks(opts) {
                 size="lg"
                 open={openModal}
                 onOpenChange={setOpenModal}
-                title={medicineBatchValue ? "`Edit batch` obat" : "Tambah batch obat"}
+                title={medicineBatchValue ? "Edit batch obat" : "Tambah batch obat"}
                 description={medicineBatchValue ? "Ubah informasi batch obat" : "Tambahkan batch obat baru ke sistem."}
                 onSubmit={handleSubmit(onSubmit)}
                 submitText={medicineBatchValue ? "Simpan Perubahan" : "Tambah batch obat"}

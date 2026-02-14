@@ -90,7 +90,6 @@ class UserController extends Controller
         setPermissionsTeamId($tenantId);
         $activeRole = $user->getActiveRole();
         $tenant = Tenant::find($tenantId);
-
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
@@ -104,6 +103,7 @@ class UserController extends Controller
             'tenant' => [
                 'id' => $tenant->id ?? null,
                 'name' => $tenant->name ?? null,
+                'plan' => $tenant?->getCurrentPlan()?->name ?? null
             ],
 
             // Meta info (optional, untuk debugging atau indicator)

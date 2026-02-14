@@ -1,14 +1,13 @@
 import SettingPage from "@/pages/settings/index.jsx";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {useNavigate} from "@tanstack/react-router";
 import {Route} from "@/routes/_protected/settings/medicine-management/index.jsx";
 import {usePermission} from "@/hooks/usePermission.js";
 import {useEffect, useState} from "react";
 import {PERMISSIONS} from "@/constants/permissions.js";
-import {Lock, ShieldAlert} from "lucide-react";
-import {toast} from "sonner";
+import {ShieldAlert} from "lucide-react";
 import MedicinePage from "@/pages/settings/medicine-management/medicines/index.jsx";
 import MedicineCategoriesPage from "@/pages/settings/medicine-management/categories/index.jsx";
+import {PermissionTabs} from "@/components/settings/medicine-management/tabs.jsx";
 import MedicineWarehousePage from "@/pages/settings/medicine-management/warehouses /index.jsx";
 
 function MedicineManagementPage() {
@@ -21,30 +20,30 @@ function MedicineManagementPage() {
         {
             key: 'medicine-management',
             label: 'Data obat',
-            permission: hasPermission(PERMISSIONS.MEDICINE.VIEW),
+            permission: PERMISSIONS.MEDICINE.VIEW,
             component: MedicinePage
         },
         {
             key: 'medicine_categories',
             label: 'Kategori obat',
-            permission: hasPermission(PERMISSIONS.MEDICINE_CATEGORY.VIEW),
+            permission: PERMISSIONS.MEDICINE_CATEGORY.VIEW,
             component: MedicineCategoriesPage
         },
         {
             key: 'medicine_warehouses',
             label: 'Gudang obat',
-            permission: hasPermission(PERMISSIONS.MEDICINE_WAREHOUSE.VIEW),
+            permission: PERMISSIONS.MEDICINE_WAREHOUSE.VIEW,
             component: MedicineWarehousePage
         },
     ];
 
-    const firstAccessibleTab = tabs.find(tab => tab.permission);
+    const firstAccessibleTab = tabs.find(tab => hasPermission(tab.permission));
     const activeTab = search?.tab || '';
 
     useEffect(() => {
         if (!search?.tab && firstAccessibleTab) {
             navigate({
-                to: '/settings/medicines',
+                to: '.',
                 search: {tab: firstAccessibleTab.key},
                 replace: true
             });
@@ -52,7 +51,6 @@ function MedicineManagementPage() {
             setIsInitialized(true);
         }
     }, []);
-
 
     useEffect(() => {
         if (search?.tab) {
@@ -63,10 +61,10 @@ function MedicineManagementPage() {
     useEffect(() => {
         if (activeTab && isInitialized) {
             const currentTab = tabs.find(tab => tab.key === activeTab);
-            if (currentTab && !currentTab.permission) {
+            if (currentTab && !hasPermission(currentTab.permission)) {
                 if (firstAccessibleTab) {
                     navigate({
-                        to: '/settings/medicine-management',
+                        to: '.',
                         search: {tab: firstAccessibleTab.key},
                         replace: true
                     });
@@ -75,29 +73,7 @@ function MedicineManagementPage() {
         }
     }, [activeTab, isInitialized]);
 
-
-    const currentTab = tabs.find(tab => tab.key === activeTab);
-    if (currentTab && !currentTab.permission) {
-        return <SettingPage></SettingPage>;
-    }
-
-    const handleTabChange = (value) => {
-        const selectedTab = tabs.find(tab => tab.key === value);
-
-        if (!selectedTab?.permission) {
-            toast.error('Akses Ditolak', {
-                description: 'Anda tidak memiliki izin untuk mengakses tab ini.'
-            });
-            return;
-        }
-
-        navigate({
-            to: '/settings/medicine-management',
-            search: {tab: value}
-        });
-    };
-
-    const hasAnyTabAccess = tabs.some(tab => tab.permission);
+    const hasAnyTabAccess = tabs.some(tab => hasPermission(tab.permission));
 
     if (!hasAnyTabAccess) {
         return (
@@ -119,14 +95,8 @@ function MedicineManagementPage() {
     if (!activeTab) {
         return (
             <SettingPage>
-                <div className="p-6 pb-20">
-                    <div className="mb-6">
-                        <h2 className="text-2xl font-bold tracking-tight">Manajemen Obat</h2>
-                        <p className="text-muted-foreground">Kelola data Obat dan pantau stok obat.</p>
-                    </div>
-                    <div className="flex justify-center items-center py-12">
-                        <div className="animate-pulse">Loading...</div>
-                    </div>
+                <div className="flex justify-center items-center py-12">
+                    <div className="animate-pulse">Loading...</div>
                 </div>
             </SettingPage>
         );
@@ -134,39 +104,18 @@ function MedicineManagementPage() {
 
     return (
         <SettingPage>
-            <div className="p-6 pb-20">
-                <div className="mb-6">
-                    <h2 className="text-2xl font-bold tracking-tight">Manajemen Obat</h2>
-                    <p className="text-muted-foreground">Kelola data Obat dan pantau stok obat.</p>
-                </div>
-
-                <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="grid w-full max-w-lg grid-cols-3 mb-6">
-                        {tabs.map(tab => (
-                            <TabsTrigger
-                                key={tab.key}
-                                value={tab.key}
-                                disabled={!tab.permission}
-                                className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                <span className="flex items-center gap-2">
-                                    {tab.label}
-                                    {!tab.permission && <Lock className="w-3 h-3"/>}
-                                </span>
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-
-                    {tabs.map(tab => {
-                        const TabComponent = tab.component;
-                        return (
-                            <TabsContent key={tab.key} value={tab.key} className="space-y-6 mt-0">
-                                <TabComponent/>
-                            </TabsContent>
-                        );
-                    })}
-                </Tabs>
+            {/* Header ditempatkan di luar Tabs */}
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold tracking-tight">Manajemen Obat</h2>
+                <p className="text-muted-foreground">Kelola data Obat dan pantau stok obat.</p>
             </div>
+
+            {/* Tabs dengan content */}
+            <PermissionTabs
+                activeTab={activeTab}
+                tabs={tabs}
+                gridCols={3}
+            />
         </SettingPage>
     );
 }

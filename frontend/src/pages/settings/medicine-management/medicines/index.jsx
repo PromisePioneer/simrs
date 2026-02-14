@@ -1,13 +1,17 @@
 import {useEffect} from "react";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
-import {Award, Pencil, Pill, Plus, Trash2, Archive, Warehouse} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
+import {CircleEllipsis, Pencil, Plus, Trash2, Archive, Warehouse, Award} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import DataTable from "@/components/common/data-table.jsx";
 import Modal from "@/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
 import {useMedicineStore} from "@/store/medicineStore.js";
-import {useForm} from "react-hook-form";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
 
 
 function MedicinePage() {
@@ -30,92 +34,73 @@ function MedicinePage() {
 
     useEffect(() => {
         fetchMedicines({perPage: 20});
-    }, [currentPage, search])
-
-
-    const {
-        handleSubmit,
-        formState: {isSubmitting, errors},
-        register,
-        control
-    }
-        = useForm({
-        defaultValues: {
-            warehouse_id: "",
-            rack_id: "",
-        }
-    })
-
-    const onSubmitAddStock = (data) => {
-        console.log(data);
-    }
+    }, [currentPage, search]);
 
     const renderRow = (medicine, index) => (
-        <TableRow key={medicine.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {medicines.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicine.sku}</span>
+            <TableRow key={medicine.id} className="hover:bg-muted/50 transition-colors">
+                <TableCell className="font-medium text-muted-foreground">
+                    {medicines.from + index}
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-foreground">{medicine.sku}</span>
+                        </div>
                     </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicine.name}</span>
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-foreground">{medicine.name}</span>
+                        </div>
                     </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicine.type.toUpperCase()}</span>
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-foreground">{medicine.type.toUpperCase()}</span>
+                        </div>
                     </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <Button asChild className="hover:cursor-pointer">
-                    <Link to={`/settings/medicine-management/medicine/stocks/${medicine.id}`}>
-                        <Warehouse/>
-                    </Link>
-                </Button>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex gap-1 justify-end items-center">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicine-management/medicine/${medicine.id}`}>
-                                        <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        >
-                                            <Pencil className="h-4 w-4"/>
-                                        </Button>
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Edit Obat</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(medicine.id)}
-                                    >
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Delete Obat</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+                </TableCell>
+                <TableCell>
+                    <Button asChild className="hover:cursor-pointer">
+                        <Link to={`/settings/medicine-management/medicine/stocks/${medicine.id}`}>
+                            <Warehouse/>
+                        </Link>
+                    </Button>
+                </TableCell>
+                <TableCell className="text-right">
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline">
+                                <CircleEllipsis/>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                                <Link to={`/settings/medicine-management/medicine/${medicine.id}`}>
+                                    <DropdownMenuItem>
+
+                                        Edit
+                                        <DropdownMenuShortcut>
+                                            <Pencil/>
+                                        </DropdownMenuShortcut>
+                                    </DropdownMenuItem>
+                                </Link>
+                                <DropdownMenuItem onClick={() => setOpenDeleteModal(medicine.id)}>
+                                    Hapus
+                                    <DropdownMenuShortcut>
+                                        <Trash2/>
+                                    </DropdownMenuShortcut>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </TableCell>
+            </TableRow>
+        )
+    ;
 
 
     return (
@@ -124,32 +109,32 @@ function MedicinePage() {
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <div
-                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500">
-                            <Pill className="w-6 h-6 text-white"/>
+                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
+                            <Award className="w-6 h-6 text-primary"/>
                         </div>
                         <div>
                             <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-                                Daftar Obat
+                                Data Obat
                             </h1>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Kelola Obat, Atur Tanggal kadaluarsa dan lainnya.
+                                Kelola data obat
                             </p>
                         </div>
                     </div>
                 </div>
+
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    size="lg"
-                    asChild
+                    size="lg" asChild
                 >
-                    <Link to="/settings/medicine-management/medicine/create">
+                    <Link to="/settings/medicine-management/medicine/create" asChild>
                         <Plus className="w-4 h-4"/> Tambah Obat
                     </Link>
                 </Button>
             </div>
 
             <DataTable
-                title="Daftar Obat"
+                title="Tabel Obat"
                 description="Daftar Obat yang dijual"
                 columns={columns()}
                 data={medicines?.data || []}
@@ -164,7 +149,7 @@ function MedicinePage() {
                 search={search}
                 searchPlaceholder="Cari obat..."
                 emptyStateIcon={Archive}
-                emptyStateText="Tidak ada data obat ditemukan"
+                emptyStateText="Tidak ada daftar obat ditemukan"
                 renderRow={renderRow}
                 showSearch={true}
             />

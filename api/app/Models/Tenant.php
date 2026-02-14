@@ -81,7 +81,7 @@ class Tenant extends Model
     /**
      * Get current active plan
      */
-    public function getCurrentPlan()
+    public function getCurrentPlan(): ?object
     {
         return $this->subscription?->plan;
     }
