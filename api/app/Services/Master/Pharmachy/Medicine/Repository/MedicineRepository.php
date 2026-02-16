@@ -16,8 +16,8 @@ class MedicineRepository implements MedicineRepositoryInterface
 
     public function getMedicines(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->with(['tenant', 'category', 'batches.warehouse', 'batches.rack', 'units'])->orderBy('name');
-        
+    $query = $this->model->with(['tenant', 'category', 'units'])->orderBy('name');
+
         if (!empty($filters['type'])) {
             $query->where('type', $filters['type']);
         }
@@ -57,5 +57,11 @@ class MedicineRepository implements MedicineRepositoryInterface
         $product = $this->findById($id);
         $product->delete();
         return $product;
+    }
+
+
+    public function findLastSequence(): ?object
+    {
+        return $this->model->orderByDesc('sequence')->lockForUpdate()->first();
     }
 }

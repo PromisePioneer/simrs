@@ -23,7 +23,7 @@ class MedicineBatchRepository implements MedicineBatchRepositoryInterface
     public function getBatches(string $id, array $filters = [], ?int $perPage = null): ?object
     {
 
-        $query = $this->medicineBatchModel->with(['stock', 'warehouse', 'warehouse.racks'])->where('medicine_id', $id);
+        $query = $this->medicineBatchModel->with(['stock', 'stock.warehouse', 'stock.rack'])->where('medicine_id', $id);
 
         if (!empty($filters['search'])) {
             $query->where('batch_number', 'like', '%' . $filters['search'] . '%');
@@ -62,13 +62,37 @@ class MedicineBatchRepository implements MedicineBatchRepositoryInterface
         });
     }
 
-    public function update(array $data, string $id): bool
+    public function update(array $data, string $id): object
     {
-        $medicineBatch = $this
-            ->findById($id)
-            ->fill($data)
-            ->save($data);
+        return DB::transaction(function () use ($data, $id) {
 
-        return $medicineBatch->fresh();
+            // Update batch
+            $medicineBatch = $this->medicineBatchModel->findOrFail($id);
+
+            $medicineBatch->update([
+                'expired_date' => $data['expired_date'],
+            ]);
+
+            // Update stock
+            $this->medicineBatchStockModel
+                ->where('batch_id', $id)
+                ->update([
+                    'warehouse_id' => $data['warehouse_id'],
+                    'rack_id' => $data['rack_id'],
+                    'stock_amount' => $data['stock_amount'],
+                ]);
+
+            return $medicineBatch->fresh();
+        });
+    }
+
+
+    public function findLastSequence(string $medicineId): ?object
+    {
+        return $this->medicineBatchModel
+            ->where('medicine_id', $medicineId)
+            ->orderByDesc('sequence')
+            ->lockForUpdate()
+            ->first();
     }
 }

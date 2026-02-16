@@ -2,6 +2,7 @@
 
 namespace App\Models\Scopes;
 
+use App\Models\MedicineCategory;
 use App\Models\User;
 use App\Models\Role;
 use App\Services\Tenant\TenantContext;
@@ -16,7 +17,6 @@ class TenantScope implements Scope
         $tenantId = TenantContext::getId();
         setPermissionsTeamId($tenantId);
 
-        // Jika tidak ada tenant ID, skip filter
         if (!$tenantId) {
             return;
         }
@@ -35,6 +35,13 @@ class TenantScope implements Scope
             $builder->where(function ($query) use ($model, $tenantId) {
                 $query->whereNull($model->getTable() . '.tenant_id')
                     ->orWhere($model->getTable() . '.tenant_id', $tenantId);
+            });
+            return;
+        }
+
+        if ($model instanceof MedicineCategory) {
+            $builder->where(function (Builder $query) use ($model, $tenantId) {
+                $query->whereNull($model->getTable() . '.tenant_id')->orWhere($model->getTable() . '.tenant_id', $tenantId);
             });
             return;
         }

@@ -40,6 +40,13 @@ class MedicineBatchController
         return response()->json($data);
     }
 
+
+    public function update(MedicineBatchRequest $request, MedicineBatch $medicineBatch)
+    {
+        $data = $this->medicineBatchService->update($request, $medicineBatch);
+        return response()->json($data);
+    }
+
     public function destroy(MedicineBatch $medicineBatch)
     {
         $data = $medicineBatch->delete();

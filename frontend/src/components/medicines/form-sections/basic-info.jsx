@@ -16,7 +16,7 @@ function MedicineBasicInfoSections({register, control, medicineCategories, error
             const generatedSKU = generateMedicineSKU();
             setValue("sku", generatedSKU);
         }
-    }, [ sku]);
+    }, [sku]);
 
 
     return <Card>
@@ -28,37 +28,6 @@ function MedicineBasicInfoSections({register, control, medicineCategories, error
         </CardHeader>
         <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* SKU */}
-                <div className="space-y-2">
-                    <Label htmlFor="sku">
-                        SKU <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                        id="sku"
-                        {...register("sku", {required: "SKU wajib diisi"})}
-                        placeholder="SKU Otomatis"
-                        disabled
-                    />
-                    {errors.sku && (
-                        <p className="text-sm text-destructive">{errors.sku.message}</p>
-                    )}
-                </div>
-
-                {/* Code */}
-                <div className="space-y-2">
-                    <Label htmlFor="code">
-                        Kode <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                        id="code"
-                        {...register("code", {required: "Kode wajib diisi"})}
-                        placeholder="Masukkan kode obat"
-                    />
-                    {errors.code && (
-                        <p className="text-sm text-destructive">{errors.code.message}</p>
-                    )}
-                </div>
-
                 {/* Name */}
                 <div className="space-y-2">
                     <Label htmlFor="name">

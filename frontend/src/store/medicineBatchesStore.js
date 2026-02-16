@@ -79,6 +79,16 @@ export const useMedicineBatchesStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
+    updateMedicineBatch: async (id, data) => {
+        try {
+            await apiCall.put(`/api/v1/pharmacy/medicine-batches/${id}`, data);
+            toast.success("Berhasil menambahkan batch baru.");
+            await get().fetchMedicineBatches({perPage: get().perPage, medicineId: get().medicineId});
+            set({openModal: false});
+        } catch (e) {
+            toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
     deleteMedicineBatch: async (id) => {
         try {
             await apiCall.delete(`/api/v1/pharmacy/medicine-batches/${id}`);

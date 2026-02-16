@@ -49,7 +49,7 @@ export const useTenantStore = create((set, get) => ({
             await apiCall.post('/api/v1/tenants/switch/', data);
             toast.success("Berhasil mengganti tenant.");
             setTimeout(() => {
-                window.location.reload();
+                window.location.href = '/dashboard';
             }, 1000)
         } catch (e) {
             toast.error(e.response.data.message || "Operasi Gagal");

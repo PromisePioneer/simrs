@@ -16,6 +16,7 @@ export const UNIT_OPTIONS = [
  * Get available units for a specific row, excluding already used units
  */
 export function getAvailableUnitsForRow(units, rowIndex) {
+
     if (!units || units.length === 0) return UNIT_OPTIONS;
 
     const usedUnits = units

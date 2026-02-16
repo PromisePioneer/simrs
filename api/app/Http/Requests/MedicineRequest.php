@@ -26,8 +26,6 @@ class MedicineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sku' => ['required', 'string', Rule::unique(Medicine::class)->ignore($this->route('medicine'))],
-            'code' => ['required', 'string'],
             'name' => ['required', 'string'],
             'type' => ['required', Rule::in(MedicineType::cases())],
             'base_unit' => ['required', 'string'],

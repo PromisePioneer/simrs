@@ -25,6 +25,7 @@ Route::prefix('pharmacy')->group(function () {
         Route::get('/{medicineBatch}', [MedicineBatchController::class, 'show']);
         Route::get('/medicine/{medicine}', [MedicineBatchController::class, 'index']);
         Route::post('/', [MedicineBatchController::class, 'store']);
+        Route::put('/{medicineBatch}', [MedicineBatchController::class, 'update']);
         Route::delete('/{medicineBatch}', [MedicineBatchController::class, 'destroy']);
     });
 });

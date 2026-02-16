@@ -6,6 +6,7 @@ import {AlertCircle, Plus} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {cn} from "@/lib/utils.js";
 import {getAvailableUnitsForRow} from "@/constants/medicines.js";
+import {Trash} from "lucide-react";
 
 
 function MedicineUnitPackaging({baseUnit, units, unitErrors, setUnitErrors, setValue, validateUnitMultiplier}) {
@@ -41,7 +42,7 @@ function MedicineUnitPackaging({baseUnit, units, unitErrors, setUnitErrors, setV
             )}
 
             {baseUnit && units?.map((unit, index) => {
-                const availableUnits = getAvailableUnitsForRow(index);
+                const availableUnits = getAvailableUnitsForRow(units, index);
                 const hasError = unitErrors[index];
 
                 return (

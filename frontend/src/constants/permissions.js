@@ -41,6 +41,12 @@ export const PERMISSIONS = {
         EDIT: 'Mengubah Obat',
         DELETE: 'Menghapus Obat'
     },
+    MEDICINE_STOCK: {
+        VIEW: 'Melihat Stok Obat',
+        CREATE: 'Membuat Stok Obat',
+        EDIT: 'Mengubah Stok Obat',
+        DELETE: 'Menghapus Stok Obat'
+    },
     MEDICINE_CATEGORY: {
         VIEW: 'Melihat Kategori Obat',
         CREATE: 'Membuat Kategori Obat',

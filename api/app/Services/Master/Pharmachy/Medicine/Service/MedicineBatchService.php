@@ -30,14 +30,37 @@ class MedicineBatchService
     /**
      * @throws Throwable
      */
+
+
+    public function generateBatchNumber(string $medicineId): array
+    {
+        return \DB::transaction(function () use ($medicineId) {
+            $last = $this->medicineBatchRepository->findLastSequence($medicineId);
+            $next = $last ? $last->sequence + 1 : 1;
+
+
+            return [
+                'sequence' => $next,
+                'batch_number' => 'AUTO-' . date('Y') . '-' . str_pad($next, 4, '0', STR_PAD_LEFT),
+                'is_auto_batch' => true,
+            ];
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function store(MedicineBatchRequest $request): object
     {
         $data = $request->validated();
+        $autoBatch = $this->generateBatchNumber($data['medicine_id']);
+        $data['batch_number'] = $data['is_auto_batch'] ? $autoBatch['batch_number'] : $data['batch_number'];
+        $data['sequence'] = $autoBatch['sequence'];
         return $this->medicineBatchRepository->store(data: $data);
     }
 
 
-    public function update(MedicineBatchRequest $request, MedicineBatch $medicineBatch): bool
+    public function update(MedicineBatchRequest $request, MedicineBatch $medicineBatch): object
     {
         $data = $request->validated();
         return $this->medicineBatchRepository->update(data: $data, id: $medicineBatch->id);

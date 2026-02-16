@@ -43,8 +43,8 @@ return new class extends Migration {
         Schema::create('medicines', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
-            $table->string('sku')->unique();
-            $table->string('code');
+            $table->string('sku');
+            $table->string('sequence');
             $table->string('name');
             $table->string('base_unit');
             $table->string('type');
@@ -54,18 +54,19 @@ return new class extends Migration {
             $table->foreignUuid('category_id')->constrained('medicine_categories')->cascadeOnDelete();
             $table->decimal('reference_purchase_price', 15, 2)->nullable();
             $table->timestamps();
+            $table->unique(['tenant_id', 'sequence']);
         });
 
         Schema::create('medicine_batches', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
-            $table->foreignUuid('rack_id')->nullable()->constrained('medicine_racks');
-            $table->string('batch_number')->nullable();
+            $table->string('batch_number');
+            $table->bigInteger('sequence');
             $table->boolean('is_auto_batch')->default(false);
             $table->date('expired_date')->nullable();
             $table->timestamps();
+            $table->unique(['batch_number', 'sequence']);
         });
 
 

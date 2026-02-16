@@ -16,7 +16,7 @@ class Medicine extends TenantScopeBaseModel
     protected $fillable = [
         'tenant_id',
         'sku',
-        'code',
+        'sequence',
         'name',
         'base_unit',
         'type',

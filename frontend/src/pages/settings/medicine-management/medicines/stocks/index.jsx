@@ -32,6 +32,7 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {PERMISSIONS} from "@/constants/permissions.js";
+import {updateUnitName} from "@/constants/medicines.js";
 
 function MedicineStocks(opts) {
 
@@ -52,7 +53,8 @@ function MedicineStocks(opts) {
         deleteMedicineBatch,
         createMedicineBatch,
         openDeleteModal,
-        setOpenDeleteModal
+        setOpenDeleteModal,
+        updateMedicineBatch,
     } = useMedicineBatchesStore();
 
     const {medicineWarehouses, fetchMedicineWarehouses} = useMedicineWarehouseStore();
@@ -71,6 +73,7 @@ function MedicineStocks(opts) {
         control,
         watch,
         reset,
+        setValue,
     } = useForm({
         defaultValues: {
             medicine_id: id,
@@ -84,10 +87,18 @@ function MedicineStocks(opts) {
     })
 
     const warehouseId = watch("warehouse_id");
+    const isAutoBatch = watch("is_auto_batch");
 
 
     const todayDate = new Date();
     const currentYear = todayDate.getFullYear();
+
+    // Clear batch_number when is_auto_batch is checked
+    useEffect(() => {
+        if (isAutoBatch) {
+            setValue("batch_number", "");
+        }
+    }, [isAutoBatch, setValue]);
 
 
     useEffect(() => {
@@ -151,6 +162,11 @@ function MedicineStocks(opts) {
 
 
         Object.keys(data).forEach(key => {
+            // Skip batch_number if is_auto_batch is true
+            if (key === 'batch_number' && data.is_auto_batch) {
+                return;
+            }
+
             if (!specialFields.includes(key) && data[key]) {
                 formData.append(key, data[key]);
             }
@@ -160,7 +176,11 @@ function MedicineStocks(opts) {
             formData.append('expired_date', format(data.expired_date, "yyyy-MM-dd"));
         }
         formData.append('is_auto_batch', Boolean(data.is_auto_batch));
-        await createMedicineBatch(formData);
+        if (medicineBatchValue) {
+            await updateMedicineBatch(medicineBatchValue.id, formData);
+        } else {
+            await createMedicineBatch(formData);
+        }
     }
 
     const renderRow = (medicineBatch, index) => (
@@ -178,23 +198,14 @@ function MedicineStocks(opts) {
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
-                        <ul>
-                            {
-                                medicineBatch.warehouse.racks.map((batch) =>
-                                    <>
-                                        <li key={batch.id}>{batch.name}</li>
-                                    </>
-                                )
-                            }
-                            <li></li>
-                        </ul>
+                        <span className="font-semibold text-foreground">{medicineBatch.stock.rack.name}</span>
                     </div>
                 </div>
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineBatch.warehouse.name}</span>
+                        <span className="font-semibold text-foreground">{medicineBatch.stock.warehouse.name}</span>
                     </div>
                 </div>
             </TableCell>
@@ -427,26 +438,13 @@ function MedicineStocks(opts) {
                         )}
                     </div>
 
-                    {/* Batch Number & Auto Batch Checkbox */}
+                    {/* Auto Batch Checkbox - Moved before Batch Number */}
                     <div>
-                        <Label className="block text-sm font-medium mb-1.5">
-                            Nomor Batch <span className="text-red-500">*</span>
-                        </Label>
-                        <Input
-                            type="text"
-                            {...register("batch_number", {required: "Nomor batch harus diisi"})}
-                            placeholder="Masukkan nomor batch"
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        {errors.batch_number && (
-                            <p className="text-red-500 text-sm mt-1">{errors.batch_number.message}</p>
-                        )}
-
                         <Controller
                             name="is_auto_batch"
                             control={control}
                             render={({field}) => (
-                                <div className="flex items-center mt-2 gap-2">
+                                <div className="flex items-center gap-2">
                                     <Checkbox
                                         checked={field.value}
                                         onCheckedChange={field.onChange}
@@ -458,6 +456,24 @@ function MedicineStocks(opts) {
                             )}
                         />
                     </div>
+
+                    {/* Batch Number - Only show when is_auto_batch is false */}
+                    {!isAutoBatch && (
+                        <div>
+                            <Label className="block text-sm font-medium mb-1.5">
+                                Nomor Batch <span className="text-red-500">*</span>
+                            </Label>
+                            <Input
+                                type="text"
+                                {...register("batch_number", {required: !isAutoBatch ? "Nomor batch harus diisi" : false})}
+                                placeholder="Masukkan nomor batch"
+                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                            {errors.batch_number && (
+                                <p className="text-red-500 text-sm mt-1">{errors.batch_number.message}</p>
+                            )}
+                        </div>
+                    )}
 
 
                     <div className="space-y-2">

@@ -10,16 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MedicineBatch extends TenantScopeBaseModel
 {
-    use HasFactory, HasUuids;
+    use HasUuids;
 
     protected $table = 'medicine_batches';
 
     protected $fillable = [
         'tenant_id',
         'medicine_id',
-        'warehouse_id',
-        'rack_id',
         'batch_number',
+        'sequence',
         'is_auto_batch',
         'expired_date',
         'stock_base_unit'
@@ -30,18 +29,6 @@ class MedicineBatch extends TenantScopeBaseModel
     {
         return $this->belongsTo(Medicine::class, 'medicine_id');
     }
-
-
-    public function warehouse(): BelongsTo
-    {
-        return $this->belongsTo(MedicineWarehouse::class, 'warehouse_id');
-    }
-
-    public function rack(): BelongsTo
-    {
-        return $this->belongsTo(MedicineRack::class, 'rack_id');
-    }
-
 
     public function stock(): HasOne
     {

@@ -63,7 +63,7 @@ function MedicinePage() {
                     </div>
                 </TableCell>
                 <TableCell>
-                    <Button asChild className="hover:cursor-pointer">
+                    <Button className="hover:cursor-pointer" asChild>
                         <Link to={`/settings/medicine-management/medicine/stocks/${medicine.id}`}>
                             <Warehouse/>
                         </Link>
@@ -127,7 +127,7 @@ function MedicinePage() {
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
                     size="lg" asChild
                 >
-                    <Link to="/settings/medicine-management/medicine/create" asChild>
+                    <Link to="/settings/medicine-management/medicine/create">
                         <Plus className="w-4 h-4"/> Tambah Obat
                     </Link>
                 </Button>

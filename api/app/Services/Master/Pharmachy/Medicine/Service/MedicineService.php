@@ -25,6 +25,24 @@ class MedicineService
     }
 
 
+    /**
+     * @throws Throwable
+     */
+    public function generateSKU()
+    {
+        return DB::transaction(function () {
+            $last = $this->medicineRepository->findLastSequence();
+            $next = $last ? $last->sequence + 1 : 1;
+
+            return [
+                'sequence' => $next,
+                'sku' => 'MED-' . str_pad($next, 6, '0', STR_PAD_LEFT),
+                'code' => 'MED-' . date('Y') . '-' . str_pad($next, 4, '0', STR_PAD_LEFT),
+            ];
+        });
+    }
+
+
     public function getMedicines(Request $request): Collection|LengthAwarePaginator
     {
         $filters = $request->only(['search', 'type']);
@@ -40,11 +58,14 @@ class MedicineService
     {
 
         return DB::transaction(function () use ($request) {
+
+            $generatedSKU = $this->generateSKU();
+
             $data = $request->validated();
             $medicine = Medicine::create([
                 'tenant_id' => TenantContext::getId(),
-                'sku' => $data['sku'],
-                'code' => $data['code'],
+                'sku' => $generatedSKU['sku'],
+                'sequence' => $generatedSKU['sequence'],
                 'name' => $data['name'],
                 'base_unit' => $data['base_unit'],
                 'type' => $data['type'],
@@ -82,9 +103,6 @@ class MedicineService
         return DB::transaction(function () use ($request, $medicine) {
             $data = $request->validated();
             $medicine->update([
-                'tenant_id' => TenantContext::getId(),
-                'sku' => $data['sku'],
-                'code' => $data['code'],
                 'name' => $data['name'],
                 'base_unit' => $data['base_unit'],
                 'type' => $data['type'],
