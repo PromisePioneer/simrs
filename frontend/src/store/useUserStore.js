@@ -68,6 +68,40 @@ export const useUserStore = create((set, get) => ({
             set({isLoading: false});
         }
     },
+    fetchDoctors: async () => {
+        set({isLoading: true, error: null});
+        try {
+
+            const params = {
+                page: get().currentPage,
+            };
+
+            if (perPage) {
+                params.per_page = perPage;
+            }
+
+            const {search} = get();
+            if (search.trim() !== "") {
+                params.search = search.trim();
+            }
+
+            const response = await apiCall.get(`/api/v1/users?role=dokter`, {params});
+
+            set((state) => ({
+                ...state,
+                userData: response.data,
+                error: null
+            }));
+
+        } catch (e) {
+            set({
+                error: e?.response?.data?.message || e.message || "Error fetching users"
+            });
+
+        } finally {
+            set({isLoading: false});
+        }
+    },
     createUser: async (userData) => {
         set({isLoading: true, error: null});
         try {

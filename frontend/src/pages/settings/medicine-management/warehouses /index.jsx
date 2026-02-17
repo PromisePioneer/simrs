@@ -69,7 +69,7 @@ function MedicineWarehousePage() {
                         <>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/settings/medicines/warehouse/${medicineWarehouse.id}`}>
+                                    <Link to={`/settings/medicine-management/warehouse/${medicineWarehouse.id}`}>
                                         <Button variant="ghost" size="sm"
                                                 className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
                                         >

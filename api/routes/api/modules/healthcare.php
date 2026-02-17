@@ -47,3 +47,11 @@ Route::prefix('sub-specializations')->group(function () {
     Route::delete('/{sub_specialization}', [SubSpecializationController::class, 'destroy']);
     Route::get('/specializations/{specialization}', [SubSpecializationController::class, 'getBySpecializations']);
 });
+
+
+
+// Outpatients
+
+
+
+

@@ -30,7 +30,7 @@ class PatientService
         $this->fileUploadService = new FileUploadService();
     }
 
-    public function getPatients(Request $request): Builder|LengthAwarePaginator
+    public function getPatients(Request $request): ?object
     {
         $filters = $request->only(['search']);
         $perPage = $request->input('per_page');

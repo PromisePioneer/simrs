@@ -33,7 +33,7 @@ class UserController extends Controller
     public function index(Request $request): JsonResponse
     {
         $this->authorize('view', User::class);
-        $users = $this->userService->getUsers($request);
+        $users = $this->userService->getUsers(request: $request);
         return response()->json($users);
     }
 

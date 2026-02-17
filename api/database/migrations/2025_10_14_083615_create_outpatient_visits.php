@@ -17,10 +17,10 @@ return new class extends Migration {
         });
 
 
-        Schema::create('visit_list', function (Blueprint $table) {
+        Schema::create('outpatient_visits', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
-            $table->enum('type', ['non_rujuk', 'rujuk'])->nullable();
+            $table->string('type');
             $table->string('referred_hospital')->nullable();
             $table->string('referred_doctor')->nullable();
             $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
@@ -33,7 +33,7 @@ return new class extends Migration {
 
         Schema::create('patients_vital_sign', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('visit_list_id')->constrained('visit_list')->cascadeOnDelete();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->double('height')->nullable();
             $table->double('weight')->nullable();
             $table->double('temperature')->nullable();
@@ -49,7 +49,7 @@ return new class extends Migration {
 
         Schema::create('patient_companions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('visit_list_id')->constrained('visit_list')->cascadeOnDelete();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->string('full_name')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
@@ -58,7 +58,7 @@ return new class extends Migration {
 
         Schema::create('patient_allergies', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('visit_list_id')->constrained('visit_list')->cascadeOnDelete();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->json('patient_allergy')->nullable();
             $table->json('patient_medical_history')->nullable();
             $table->json('patient_family_medical_history')->nullable();
@@ -68,7 +68,7 @@ return new class extends Migration {
 
         Schema::create('patient_psychosocial_and_spirituals', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('visit_list_id')->constrained('visit_list')->cascadeOnDelete();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->json('psychology_condition')->nullable();
             $table->enum('marital_status', ['menikah', 'belum_menikah', 'janda_atau_duda'])->nullable();
             $table->enum('live_with', ['sendiri', 'orang_tua', 'suami_atau_istri', 'lainnya'])->nullable();
@@ -82,6 +82,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('visit_list');
+        Schema::dropIfExists('outpatient_visits');
     }
 };

@@ -213,7 +213,7 @@ function MedicineStocks(opts) {
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                         <span
-                            className="font-semibold text-foreground">{medicineBatch.expired_date}</span>
+                            className="font-semibold text-foreground">{format(medicineBatch.expired_date, 'd/M/Y')}</span>
                     </div>
                 </div>
             </TableCell>

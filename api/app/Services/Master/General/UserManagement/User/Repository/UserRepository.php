@@ -21,11 +21,18 @@ class UserRepository implements UserRepositoryInterface
 
 
     public function getAll(
-        array $filters = [],
-        ?int  $perPage = null
+        array   $filters = [],
+        ?int    $perPage = null,
+        ?string $role = null
     ): Collection|LengthAwarePaginator
     {
         $query = $this->model->query()->orderBy('name');
+
+        if ($role) {
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
+        }
 
         if (!empty($filters['search'])) {
             $query->where(DB::raw('LOWER(name)'), 'like', '%' . strtolower($filters['search']) . '%')

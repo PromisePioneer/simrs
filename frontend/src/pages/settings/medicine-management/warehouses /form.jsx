@@ -178,7 +178,7 @@ function MedicineWarehouseForm(opts) {
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <Link
-                                    to="/settings/medicines"
+                                    to="/settings/medicine-management"
                                     search={{tab: 'medicine_warehouses'}}
                                 >
                                     <Button type="button" variant="outline" size="sm" className="gap-2">

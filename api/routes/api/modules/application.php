@@ -25,10 +25,15 @@ Route::prefix('modules')->group(function () {
 });
 
 Route::apiResource('permissions', PermissionController::class);
-Route::apiResource('users', UserController::class);
+
+
+Route::prefix('users')->group(function () {
+    Route::apiResource('/', UserController::class);
+});
 
 Route::prefix('roles')->group(function () {
     Route::apiResource('/', RoleController::class);
     Route::get('/tenant/{tenant}', [RoleController::class, 'getByTenant']);
 });
+
 
