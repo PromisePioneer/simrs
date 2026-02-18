@@ -37,6 +37,7 @@ function institutionPage() {
         setOpenDeleteModal,
         createInstitution,
         updateInstitution,
+        deleteInstitution
     } = useRegistrationInstitutionStore();
 
 
@@ -94,10 +95,6 @@ function institutionPage() {
         } else {
             await createInstitution(data);
         }
-    }
-
-    const deleteInstitution = async (page) => {
-        console.log("Deleting institution:", institutionValue?.id);
     }
 
 
@@ -295,7 +292,7 @@ function institutionPage() {
                     onOpenChange={setOpenDeleteModal}
                     title="Delete Lembaga Pendaftaran"
                     description="This action cannot be undone. This will permanently delete the payment method."
-                    onSubmit={() => deleteInstitution(currentPage)}
+                    onSubmit={() => deleteInstitution(institutionValue.id)}
                     submitText="Delete Lembaga Pendaftaran"
                     type="danger"
                     isLoading={isSubmitting}

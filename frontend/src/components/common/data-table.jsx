@@ -32,6 +32,7 @@ function DataTable({
                        showSearch = true
                    }) {
     return (
+
         <Card className="border-0 shadow-none bg-transparent">
             <CardHeader className="px-0 pt-0">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -105,7 +106,8 @@ function DataTable({
                                     <TableCell colSpan={columns.length} className="text-center py-16">
                                         <div className="flex flex-col items-center gap-3 text-gray-400">
                                             {EmptyIcon && (
-                                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                                                <div
+                                                    className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
                                                     <EmptyIcon className="h-8 w-8 text-gray-400"/>
                                                 </div>
                                             )}
@@ -118,7 +120,8 @@ function DataTable({
                                                 </span>
                                                 {search && (
                                                     <span className="text-sm text-gray-500">
-                                                        Untuk kata kunci "<span className="font-medium text-gray-700">{search}</span>"
+                                                        Untuk kata kunci "<span
+                                                        className="font-medium text-gray-700">{search}</span>"
                                                     </span>
                                                 )}
                                             </div>
@@ -135,7 +138,9 @@ function DataTable({
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 px-2">
                         {/* Pagination Info */}
                         <div className="text-sm text-gray-600 font-medium">
-                            Menampilkan <span className="text-gray-900 font-semibold">{pagination.from}</span> - <span className="text-gray-900 font-semibold">{pagination.to}</span> dari <span className="text-gray-900 font-semibold">{pagination.total}</span> data
+                            Menampilkan <span className="text-gray-900 font-semibold">{pagination.from}</span> - <span
+                            className="text-gray-900 font-semibold">{pagination.to}</span> dari <span
+                            className="text-gray-900 font-semibold">{pagination.total}</span> data
                         </div>
 
                         {/* Pagination Controls */}

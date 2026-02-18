@@ -58,5 +58,11 @@ export const PERMISSIONS = {
         CREATE: 'Membuat Gudang Obat',
         EDIT: 'Mengubah Gudang Obat',
         DELETE: 'Menghapus Gudang Obat'
+    },
+    POLI: {
+        VIEW: 'Melihat Poli',
+        CREATE: 'Membuat Poli',
+        EDIT: 'Mengubah Poli',
+        DELETE: 'Menghapus Poli'
     }
 };

@@ -46,12 +46,6 @@ function OutpatientForm() {
     const [medicationHistory, setMedicationHistory] = useState([{medication: ""}]);
     const [psychologyConditions, setPsychologyConditions] = useState([{condition: ""}]);
 
-    // Mock data for doctors and poli - replace with actual data from store
-    const doctors = [
-        {id: "1", name: "Dr. Ahmad Rizki, Sp.PD"},
-        {id: "2", name: "Dr. Sarah Wijaya, Sp.PD"},
-    ];
-
     const poli = [
         {id: "1", name: "Poli Umum"},
         {id: "2", name: "Poli Gigi"},
@@ -98,7 +92,7 @@ function OutpatientForm() {
     useEffect(() => {
         fetchPatients();
         fetchDoctors();
-    }, [fetchPatients, fetchDoctors]);
+    }, []);
 
     const onSubmit = async (data) => {
         const formData = {
@@ -297,7 +291,7 @@ function OutpatientForm() {
                                                         <SelectValue placeholder="Pilih pasien"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {patients?.map((patient) => (
+                                                        {patients && patients?.map((patient) => (
                                                             <SelectItem key={patient.id} value={patient.id.toString()}>
                                                                 {patient.full_name} - {patient.nik}
                                                             </SelectItem>
@@ -326,7 +320,7 @@ function OutpatientForm() {
                                                         <SelectValue placeholder="Pilih dokter"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {doctors.map((doctor) => (
+                                                        {userData.map((doctor) => (
                                                             <SelectItem key={doctor.id} value={doctor.id}>
                                                                 {doctor.name}
                                                             </SelectItem>

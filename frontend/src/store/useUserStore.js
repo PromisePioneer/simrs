@@ -6,7 +6,7 @@ import {toast} from "sonner";
 export const useUserStore = create((set, get) => ({
     isLoading: false,
     error: null,
-    userData: null,
+    userData: [],
     search: "",
     userValue: null,
     currentPage: 1,
@@ -71,28 +71,9 @@ export const useUserStore = create((set, get) => ({
     fetchDoctors: async () => {
         set({isLoading: true, error: null});
         try {
+            const response = await apiCall.get(`/api/v1/users?role=Dokter`);
 
-            const params = {
-                page: get().currentPage,
-            };
-
-            if (perPage) {
-                params.per_page = perPage;
-            }
-
-            const {search} = get();
-            if (search.trim() !== "") {
-                params.search = search.trim();
-            }
-
-            const response = await apiCall.get(`/api/v1/users?role=dokter`, {params});
-
-            set((state) => ({
-                ...state,
-                userData: response.data,
-                error: null
-            }));
-
+            set({userData: response.data, isLoading: false, error: null})
         } catch (e) {
             set({
                 error: e?.response?.data?.message || e.message || "Error fetching users"

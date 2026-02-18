@@ -4,7 +4,6 @@ import {toast} from "sonner";
 
 export const useRegistrationInstitutionStore = create((set, get) => ({
     isLoading: false,
-    error: null,
     institutionData: [],
     strData: [],
     sipData: [],
@@ -21,7 +20,8 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
 
         set({openModal: openModal});
     },
-    setOpenDeleteModal: (openDeleteModal, id) => {
+    setOpenDeleteModal: async (openDeleteModal, id) => {
+        await get().showInstitution(id);
         set({openDeleteModal: openDeleteModal});
     },
     columns: () => {
@@ -39,7 +39,7 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
         set({search: searchValue});
     },
     fetchInstitutions: async ({perPage = null, type = null} = {}) => {
-        set({isLoading: true, error: null});
+        set({isLoading: true});
         try {
             const {search} = get();
 
@@ -71,24 +71,21 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
                 set({
                     strData: response.data,
                     isLoading: false,
-                    error: null
                 })
             } else if (type === "sip") {
                 set({
                     sipData: response.data,
                     isLoading: false,
-                    error: null
                 })
             } else {
                 set({
                     institutionData: response.data,
                     isLoading: false,
-                    error: null
                 });
             }
         } catch (e) {
+            toast.error(`${e.response?.data?.message || "Operasi Gagal"}`)
             set({
-                error: e,
                 isLoading: false
             });
         }
@@ -99,11 +96,9 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
             await apiCall.post("/api/v1/registration-institutions", data);
             toast.success("Berhasil menambahkan.");
             await get().fetchInstitutions({perPage: 20});
-            set({error: null, openModal: false});
+            set({openModal: false});
         } catch (e) {
-            const errorMessage = e.response?.data?.message || "Operasi Gagal";
-            set({error: errorMessage});
-            return {success: false, message: errorMessage};
+            toast.error(`${e.response?.data?.message || "Operasi Gagal"}`)
         } finally {
             set({isLoading: false})
         }
@@ -113,23 +108,29 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
             await apiCall.put(`/api/v1/registration-institutions/${id}`, data);
             await get().fetchInstitutions({perPage: 20});
             toast.success("Berhasil menyimpan perubahan.");
-            set({error: null, openModal: false});
+            set({openModal: false});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
     showInstitution: async (id) => {
-        set({error: null});
         try {
             const response = await apiCall.get(`/api/v1/registration-institutions/${id}`);
             set({
                 institutionValue: response.data,
                 isLoading: false,
-                error: null
             });
         } catch (e) {
-            set({error: e});
             toast.error("Operasi Gagal")
         }
     },
+    deleteInstitution: async (id) => {
+        try {
+            await apiCall.delete(`/api/v1/registration-institutions/${id}`);
+            set({openDeleteModal: false});
+            toast.success("Berhasil Menghapus");
+        } catch (e) {
+            toast.error("Operasi Gagal")
+        }
+    }
 }));

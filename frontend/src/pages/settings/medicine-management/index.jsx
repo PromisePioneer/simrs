@@ -7,7 +7,7 @@ import {PERMISSIONS} from "@/constants/permissions.js";
 import {ShieldAlert} from "lucide-react";
 import MedicinePage from "@/pages/settings/medicine-management/medicines/index.jsx";
 import MedicineCategoriesPage from "@/pages/settings/medicine-management/categories/index.jsx";
-import {PermissionTabs} from "@/components/settings/medicine-management/tabs.jsx";
+import {PermissionTabs} from "@/components/common/tabs.jsx";
 import MedicineWarehousePage from "@/pages/settings/medicine-management/warehouses /index.jsx";
 
 function MedicineManagementPage() {
