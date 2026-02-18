@@ -33,15 +33,7 @@ class UserService
         $perPage = $request->input('per_page');
         $filters = $request->only(['search']);
         $role = $request->input('role');
-
-        dd($request->role);
-        return $this->userRepository->getAll($filters, $perPage);
-    }
-
-
-    public function getDoctors(): ?object
-    {
-        return $this->userRepository->getDoctors();
+        return $this->userRepository->getAll(filters: $filters, perPage: $perPage, role: $role);
     }
 
     /**

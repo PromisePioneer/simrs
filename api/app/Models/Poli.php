@@ -16,10 +16,4 @@ class Poli extends TenantScopeBaseModel
         'name',
         'tenant_id',
     ];
-
-
-    public function doctorProfile(): HasMany
-    {
-        return $this->hasMany(DoctorProfile::class, 'poli_id');
-    }
 }

@@ -29,9 +29,9 @@ class UserRepository implements UserRepositoryInterface
         $query = $this->model->query()->orderBy('name');
 
         if ($role) {
-            $query->whereHas('roles', function ($query) use ($role) {
+            return $query->sameTenant()->whereHas('roles', function ($query) use ($role) {
                 $query->where('name', $role);
-            });
+            })->get();
         }
 
         if (!empty($filters['search'])) {
