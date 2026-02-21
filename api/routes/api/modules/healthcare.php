@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodControlle
 use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodTypeController;
 use App\Http\Controllers\Api\Master\General\Poli\PoliController;
 use App\Http\Controllers\Api\Master\General\RegistrationInstitution\RegistrationInstitutionController;
+use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
+use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
 
 // Core Resources
@@ -49,9 +51,9 @@ Route::prefix('sub-specializations')->group(function () {
 });
 
 
-
 // Outpatients
-
+Route::apiResource('outpatient-visits', OutpatientVisitController::class);
+Route::apiResource('queues', QueueController::class);
 
 
 

@@ -21,7 +21,8 @@ class OutpatientVisitService
     {
         $filters = $request->only(['search']);
         $perPage = $request->input('per_page');
-        return $this->outpatientVisitRepository->getOutpatient(filters: $filters, perPage: $perPage);
+        $status = $request->get('status');
+        return $this->outpatientVisitRepository->getOutpatient(filters: $filters, perPage: $perPage,status : $status);
     }
 
 

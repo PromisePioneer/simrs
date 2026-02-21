@@ -3,9 +3,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Button} from "@/components/ui/button.jsx";
 import {
     Users,
-    Plus,
     Search,
-    Calendar,
     Clock,
     UserPlus,
     Activity,
@@ -13,7 +11,6 @@ import {
     Stethoscope,
     AlertCircle,
     CheckCircle,
-    XCircle,
     Filter,
     Eye,
     Edit,
@@ -22,7 +19,7 @@ import {
     MapPin
 } from "lucide-react";
 import {Input} from "@/components/ui/input.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {
     Select,
     SelectContent,
@@ -33,13 +30,20 @@ import {
 import {Badge} from "@/components/ui/badge.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Link} from "@tanstack/react-router";
+import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
 
 function OutpatientPage() {
+
+    const {fetchOutPatientVisit, waitingPatients} = useOutpatientVisitStore();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("all");
     const [activeTab, setActiveTab] = useState("waiting");
 
-    // Dummy data - ganti dengan data dari API/store
+
+    useEffect(() => {
+        fetchOutPatientVisit({perPage: 20});
+    }, []);
+
     const stats = [
         {
             title: "Total Pasien Hari Ini",
@@ -68,51 +72,6 @@ function OutpatientPage() {
             icon: CheckCircle,
             color: "bg-purple-500",
             change: "Hari ini"
-        },
-    ];
-
-    const waitingPatients = [
-        {
-            id: 1,
-            queueNumber: "A001",
-            name: "Budi Santoso",
-            patientId: "P001234",
-            age: 45,
-            gender: "Laki-laki",
-            phone: "081234567890",
-            registrationTime: "08:30",
-            complaint: "Demam dan batuk",
-            doctor: "Dr. Ahmad Rizki, Sp.PD",
-            priority: "normal",
-            status: "waiting"
-        },
-        {
-            id: 2,
-            queueNumber: "A002",
-            name: "Siti Nurhaliza",
-            patientId: "P001235",
-            age: 32,
-            gender: "Perempuan",
-            phone: "081234567891",
-            registrationTime: "08:45",
-            complaint: "Kontrol diabetes",
-            doctor: "Dr. Sarah Wijaya, Sp.PD",
-            priority: "urgent",
-            status: "waiting"
-        },
-        {
-            id: 3,
-            queueNumber: "A003",
-            name: "Ahmad Dahlan",
-            patientId: "P001236",
-            age: 28,
-            gender: "Laki-laki",
-            phone: "081234567892",
-            registrationTime: "09:00",
-            complaint: "Sakit kepala",
-            doctor: "Dr. Ahmad Rizki, Sp.PD",
-            priority: "normal",
-            status: "waiting"
         },
     ];
 
@@ -204,124 +163,129 @@ function OutpatientPage() {
         }
     };
 
-    const PatientCard = ({patient, showActions = true}) => (
-        <Card className="hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-                <div className="flex flex-col lg:flex-row justify-between gap-4">
-                    <div className="flex gap-4 flex-1">
-                        <div className="flex items-start justify-center min-w-[80px]">
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-primary">{patient.queueNumber}</div>
-                                <div className="text-xs text-muted-foreground">No. Antrian</div>
+    const PatientCard = ({patient, showActions = true}) => {
+        console.log(patient);
+
+
+        return (
+            <Card className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                    <div className="flex flex-col lg:flex-row justify-between gap-4">
+                        <div className="flex gap-4 flex-1">
+                            <div className="flex items-start justify-center min-w-20">
+                                <div className="text-center">
+                                    {/*<div className="text-3xl font-bold text-primary">{patient.queueNumber}</div>*/}
+                                    <div className="text-xs text-muted-foreground">No. Antrian</div>
+                                </div>
+                            </div>
+
+                            <div className="flex-1 space-y-3">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <h3 className="font-semibold text-lg">{patient.patient?.full_name}</h3>
+                                    {/*{getPriorityBadge(patient.priority)}*/}
+                                    {getStatusBadge(patient.status)}
+                                </div>
+
+                                {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">*/}
+                                {/*        <span className="flex items-center gap-1">*/}
+                                {/*            <FileText className="w-4 h-4"/>*/}
+                                {/*            ID: {patient.patientId}*/}
+                                {/*        </span>*/}
+                                {/*    <span className="flex items-center gap-1">*/}
+                                {/*            <Users className="w-4 h-4"/>*/}
+                                {/*        {patient.age} tahun • {patient.gender}*/}
+                                {/*        </span>*/}
+                                {/*    <span className="flex items-center gap-1">*/}
+                                {/*            <Phone className="w-4 h-4"/>*/}
+                                {/*        {patient.phone}*/}
+                                {/*        </span>*/}
+                                {/*    <span className="flex items-center gap-1">*/}
+                                {/*            <Clock className="w-4 h-4"/>*/}
+                                {/*            Daftar: {patient.registrationTime}*/}
+                                {/*        </span>*/}
+                                {/*</div>*/}
+
+                                {/*<div className="space-y-1">*/}
+                                {/*    <div className="flex items-start gap-1 text-sm">*/}
+                                {/*        <ClipboardList className="w-4 h-4 text-orange-500 mt-0.5"/>*/}
+                                {/*        <span className="font-medium">Keluhan: <span*/}
+                                {/*            className="font-normal text-muted-foreground">{patient.complaint}</span></span>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="flex items-start gap-1 text-sm">*/}
+                                {/*        <Stethoscope className="w-4 h-4 text-blue-500 mt-0.5"/>*/}
+                                {/*        <span className="font-medium">Dokter: <span*/}
+                                {/*            className="font-normal text-muted-foreground">{patient.doctor}</span></span>*/}
+                                {/*    </div>*/}
+                                {/*    {patient.roomNumber && (*/}
+                                {/*        <div className="flex items-start gap-1 text-sm">*/}
+                                {/*            <MapPin className="w-4 h-4 text-green-500 mt-0.5"/>*/}
+                                {/*            <span className="font-medium">Lokasi: <span*/}
+                                {/*                className="font-normal text-muted-foreground">{patient.roomNumber}</span></span>*/}
+                                {/*        </div>*/}
+                                {/*    )}*/}
+                                {/*    {patient.diagnosis && (*/}
+                                {/*        <div className="flex items-start gap-1 text-sm">*/}
+                                {/*            <FileText className="w-4 h-4 text-purple-500 mt-0.5"/>*/}
+                                {/*            <span className="font-medium">Diagnosis: <span*/}
+                                {/*                className="font-normal text-muted-foreground">{patient.diagnosis}</span></span>*/}
+                                {/*        </div>*/}
+                                {/*    )}*/}
+                                {/*    {patient.completionTime && (*/}
+                                {/*        <div className="flex items-start gap-1 text-sm">*/}
+                                {/*            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5"/>*/}
+                                {/*            <span className="font-medium">Selesai: <span*/}
+                                {/*                className="font-normal text-muted-foreground">{patient.completionTime}</span></span>*/}
+                                {/*        </div>*/}
+                                {/*    )}*/}
+                                {/*</div>*/}
                             </div>
                         </div>
 
-                        <div className="flex-1 space-y-3">
-                            <div className="flex flex-wrap items-center gap-2">
-                                <h3 className="font-semibold text-lg">{patient.name}</h3>
-                                {getPriorityBadge(patient.priority)}
-                                {getStatusBadge(patient.status)}
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">
-                                <span className="flex items-center gap-1">
-                                    <FileText className="w-4 h-4"/>
-                                    ID: {patient.patientId}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Users className="w-4 h-4"/>
-                                    {patient.age} tahun • {patient.gender}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Phone className="w-4 h-4"/>
-                                    {patient.phone}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Clock className="w-4 h-4"/>
-                                    Daftar: {patient.registrationTime}
-                                </span>
-                            </div>
-
-                            <div className="space-y-1">
-                                <div className="flex items-start gap-1 text-sm">
-                                    <ClipboardList className="w-4 h-4 text-orange-500 mt-0.5"/>
-                                    <span className="font-medium">Keluhan: <span
-                                        className="font-normal text-muted-foreground">{patient.complaint}</span></span>
-                                </div>
-                                <div className="flex items-start gap-1 text-sm">
-                                    <Stethoscope className="w-4 h-4 text-blue-500 mt-0.5"/>
-                                    <span className="font-medium">Dokter: <span
-                                        className="font-normal text-muted-foreground">{patient.doctor}</span></span>
-                                </div>
-                                {patient.roomNumber && (
-                                    <div className="flex items-start gap-1 text-sm">
-                                        <MapPin className="w-4 h-4 text-green-500 mt-0.5"/>
-                                        <span className="font-medium">Lokasi: <span
-                                            className="font-normal text-muted-foreground">{patient.roomNumber}</span></span>
-                                    </div>
+                        {showActions && (
+                            <div className="flex lg:flex-col gap-2 lg:min-w-[140px]">
+                                {patient.status === "waiting" && (
+                                    <>
+                                        <Button size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <Stethoscope className="w-4 h-4"/>
+                                            Mulai Periksa
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <Edit className="w-4 h-4"/>
+                                            Edit
+                                        </Button>
+                                    </>
                                 )}
-                                {patient.diagnosis && (
-                                    <div className="flex items-start gap-1 text-sm">
-                                        <FileText className="w-4 h-4 text-purple-500 mt-0.5"/>
-                                        <span className="font-medium">Diagnosis: <span
-                                            className="font-normal text-muted-foreground">{patient.diagnosis}</span></span>
-                                    </div>
+                                {patient.status === "in-progress" && (
+                                    <>
+                                        <Button size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <CheckCircle className="w-4 h-4"/>
+                                            Selesai
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <Eye className="w-4 h-4"/>
+                                            Lihat Detail
+                                        </Button>
+                                    </>
                                 )}
-                                {patient.completionTime && (
-                                    <div className="flex items-start gap-1 text-sm">
-                                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5"/>
-                                        <span className="font-medium">Selesai: <span
-                                            className="font-normal text-muted-foreground">{patient.completionTime}</span></span>
-                                    </div>
+                                {patient.status === "completed" && (
+                                    <>
+                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <Eye className="w-4 h-4"/>
+                                            Lihat Detail
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                            <FileText className="w-4 h-4"/>
+                                            Rekam Medis
+                                        </Button>
+                                    </>
                                 )}
                             </div>
-                        </div>
+                        )}
                     </div>
-
-                    {showActions && (
-                        <div className="flex lg:flex-col gap-2 lg:min-w-[140px]">
-                            {patient.status === "waiting" && (
-                                <>
-                                    <Button size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <Stethoscope className="w-4 h-4"/>
-                                        Mulai Periksa
-                                    </Button>
-                                    <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <Edit className="w-4 h-4"/>
-                                        Edit
-                                    </Button>
-                                </>
-                            )}
-                            {patient.status === "in-progress" && (
-                                <>
-                                    <Button size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <CheckCircle className="w-4 h-4"/>
-                                        Selesai
-                                    </Button>
-                                    <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <Eye className="w-4 h-4"/>
-                                        Lihat Detail
-                                    </Button>
-                                </>
-                            )}
-                            {patient.status === "completed" && (
-                                <>
-                                    <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <Eye className="w-4 h-4"/>
-                                        Lihat Detail
-                                    </Button>
-                                    <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                        <FileText className="w-4 h-4"/>
-                                        Rekam Medis
-                                    </Button>
-                                </>
-                            )}
-                        </div>
-                    )}
-                </div>
-            </CardContent>
-        </Card>
-    );
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
         <Layout>
@@ -347,7 +311,7 @@ function OutpatientPage() {
                             className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
                             size="lg"
                     >
-                        <Link to="/outpatient/create">
+                        <Link to="/outpatient-visit/create">
 
                             <UserPlus className="w-4 h-4"/> Daftar Pasien Baru
                         </Link>
@@ -415,7 +379,7 @@ function OutpatientPage() {
                             <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger value="waiting" className="gap-2">
                                     <Clock className="w-4 h-4"/>
-                                    Menunggu ({waitingPatients.length})
+                                    {/*Menunggu ({waitingPatients.data.length})*/}
                                 </TabsTrigger>
                                 <TabsTrigger value="in-progress" className="gap-2">
                                     <Activity className="w-4 h-4"/>
@@ -428,8 +392,8 @@ function OutpatientPage() {
                             </TabsList>
 
                             <TabsContent value="waiting" className="space-y-4 mt-6">
-                                {waitingPatients.length > 0 ? (
-                                    waitingPatients.map((patient) => (
+                                {waitingPatients ? (
+                                    waitingPatients.data?.map((patient) => (
                                         <PatientCard key={patient.id} patient={patient}/>
                                     ))
                                 ) : (

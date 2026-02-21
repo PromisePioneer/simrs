@@ -63,7 +63,7 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(UserRepository $userRepository, User $user): JsonResponse
+    public function show(User $user): JsonResponse
     {
         $this->authorize('view', $user);
         $user->load('tenant:id,name');

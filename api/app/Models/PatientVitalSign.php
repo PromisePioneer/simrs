@@ -13,7 +13,8 @@ class PatientVitalSign extends Model
 
     protected $table = 'patients_vital_sign';
     protected $fillable = [
-        'visit_list_id',
+        'outpatient_visit_id',
+        'patient_id',
         'height',
         'weight',
         'temperature',
@@ -27,8 +28,14 @@ class PatientVitalSign extends Model
     ];
 
 
-    public function visitList(): BelongsTo
+    public function outpatientVisit(): BelongsTo
     {
-        return $this->belongsTo(VisitList::class, 'visit_list_id');
+        return $this->belongsTo(OutPatientVisit::class, 'outpatient_visit_id');
+    }
+
+
+    public function patient(): BelongsTo
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
     }
 }

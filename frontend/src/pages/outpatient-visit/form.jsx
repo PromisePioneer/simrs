@@ -27,7 +27,7 @@ import {
     Calendar as CalendarIcon,
     X
 } from "lucide-react";
-import {Link, useNavigate} from "@tanstack/react-router";
+import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {Separator} from "@/components/ui/separator.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
@@ -35,22 +35,26 @@ import {cn} from "@/lib/utils.js";
 import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {useUserStore} from "@/store/useUserStore.js";
+import {usePoliStore} from "@/store/poliStore.js";
+import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
 
-function OutpatientForm() {
+function OutpatientForm(opts) {
+
+    const {id} = useParams(opts);
+    const isEditMode = !!id;
+    const navigate = useNavigate();
+
     const {fetchPatients, patients} = usePatientStore();
     const {fetchDoctors, userData} = useUserStore();
-    const navigate = useNavigate();
+    const {fetchPoli, poliData} = usePoliStore();
+    const {createOutpatientVisit, updateOutpatientVisit} = useOutpatientVisitStore();
+
+
     const [allergies, setAllergies] = useState([{name: ""}]);
     const [medicalHistory, setMedicalHistory] = useState([{condition: ""}]);
     const [familyMedicalHistory, setFamilyMedicalHistory] = useState([{condition: ""}]);
     const [medicationHistory, setMedicationHistory] = useState([{medication: ""}]);
     const [psychologyConditions, setPsychologyConditions] = useState([{condition: ""}]);
-
-    const poli = [
-        {id: "1", name: "Poli Umum"},
-        {id: "2", name: "Poli Gigi"},
-        {id: "3", name: "Poli Anak"},
-    ];
 
     const {
         register,
@@ -92,6 +96,7 @@ function OutpatientForm() {
     useEffect(() => {
         fetchPatients();
         fetchDoctors();
+        fetchPoli();
     }, []);
 
     const onSubmit = async (data) => {
@@ -105,7 +110,14 @@ function OutpatientForm() {
             psychology_condition: psychologyConditions.filter(p => p.condition),
         };
 
-        console.log("Form Data:", formData);
+        let result;
+
+        result = await createOutpatientVisit(formData);
+        if (result.success) {
+            await navigate({
+                to: '/outpatient-visit',
+            });
+        }
     };
 
     // Functions to handle dynamic fields
@@ -195,9 +207,8 @@ function OutpatientForm() {
                                                         <SelectValue placeholder="Pilih tipe kunjungan"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="umum">Umum</SelectItem>
-                                                        <SelectItem value="rujukan">Rujukan</SelectItem>
-                                                        <SelectItem value="kontrol">Kontrol</SelectItem>
+                                                        <SelectItem value="rujuk">Rujuk</SelectItem>
+                                                        <SelectItem value="non_rujuk">Non Rujuk</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             )}
@@ -293,7 +304,7 @@ function OutpatientForm() {
                                                     <SelectContent>
                                                         {patients && patients?.map((patient) => (
                                                             <SelectItem key={patient.id} value={patient.id.toString()}>
-                                                                {patient.full_name} - {patient.nik}
+                                                                {patient.full_name}
                                                             </SelectItem>
                                                         ))}
                                                     </SelectContent>
@@ -322,7 +333,7 @@ function OutpatientForm() {
                                                     <SelectContent>
                                                         {userData.map((doctor) => (
                                                             <SelectItem key={doctor.id} value={doctor.id}>
-                                                                {doctor.name}
+                                                                {doctor.name} - {doctor.poli.name}
                                                             </SelectItem>
                                                         ))}
                                                     </SelectContent>
@@ -349,7 +360,7 @@ function OutpatientForm() {
                                                         <SelectValue placeholder="Pilih poli"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {poli.map((p) => (
+                                                        {poliData.map((p) => (
                                                             <SelectItem key={p.id} value={p.id}>
                                                                 {p.name}
                                                             </SelectItem>
@@ -744,7 +755,7 @@ function OutpatientForm() {
                                             control={control}
                                             render={({field}) => (
                                                 <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Pilih status"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -765,7 +776,7 @@ function OutpatientForm() {
                                             control={control}
                                             render={({field}) => (
                                                 <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Pilih"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -789,7 +800,7 @@ function OutpatientForm() {
                                             control={control}
                                             render={({field}) => (
                                                 <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Pilih pekerjaan"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -808,7 +819,7 @@ function OutpatientForm() {
 
                         {/* Submit Buttons */}
                         <div className="flex justify-end gap-4">
-                            <Link to="/outpatient">
+                            <Link to="/outpatient-visits">
                                 <Button type="button" variant="outline">
                                     Batal
                                 </Button>

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Poli;
 use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\User;
@@ -64,15 +65,16 @@ class UserSeeder extends Seeder
 
 
             for ($i = 0; $i < 3; $i++) {
-                $nurse = User::create([
+                $doctor = User::create([
                     'name' => fake()->name,
                     'email' => fake()->email,
                     'tenant_id' => $tenant->id,
                     'password' => Hash::make('zyntera'),
-                    'email_verified_at' => now()
+                    'email_verified_at' => now(),
+                    'poli_id' => Poli::inRandomOrder()->first()->id
                 ]);
                 setPermissionsTeamId(null);
-                $nurse->assignRole(Role::where('name', 'Dokter')->first()->name);
+                $doctor->assignRole(Role::where('name', 'Dokter')->first()->name);
             }
 
             for ($i = 0; $i < 3; $i++) {

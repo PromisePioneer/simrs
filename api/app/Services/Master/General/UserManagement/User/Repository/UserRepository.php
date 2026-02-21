@@ -26,7 +26,7 @@ class UserRepository implements UserRepositoryInterface
         ?string $role = null
     ): Collection|LengthAwarePaginator
     {
-        $query = $this->model->query()->orderBy('name');
+        $query = $this->model->query()->with('poli')->orderBy('name');
 
         if ($role) {
             return $query->sameTenant()->whereHas('roles', function ($query) use ($role) {

@@ -25,8 +25,8 @@ return new class extends Migration {
             $table->string('referred_doctor')->nullable();
             $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->foreignUuid('doctor_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignUuid('poli_id')->constrained('poli')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
+            $table->string('status')->default('waiting');
             $table->timestamps();
         });
 
@@ -34,6 +34,7 @@ return new class extends Migration {
         Schema::create('patients_vital_sign', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
+            $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->double('height')->nullable();
             $table->double('weight')->nullable();
             $table->double('temperature')->nullable();
@@ -60,9 +61,19 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->json('patient_allergy')->nullable();
-            $table->json('patient_medical_history')->nullable();
-            $table->json('patient_family_medical_history')->nullable();
-            $table->json('patient_medication_history')->nullable();
+        });
+
+
+        Schema::create('patient_medical_history', function (Blueprint $table) { //riwayat penyakit
+            $table->uuid('id')->primary();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
+            $table->json('medical_history')->nullable();
+        });
+
+        Schema::create('patient_family_medical_history', function (Blueprint $table) { //riwayat penyakit keluarga
+            $table->uuid('id')->primary();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
+            $table->json('family_medical_history')->nullable();
         });
 
 
@@ -70,9 +81,9 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
             $table->json('psychology_condition')->nullable();
-            $table->enum('marital_status', ['menikah', 'belum_menikah', 'janda_atau_duda'])->nullable();
-            $table->enum('live_with', ['sendiri', 'orang_tua', 'suami_atau_istri', 'lainnya'])->nullable();
-            $table->enum('job', ['wiraswasta', 'swasta', 'pns', 'lainnya'])->nullable();
+            $table->string('marital_status')->nullable();
+            $table->string('live_with')->nullable();
+            $table->string('job')->nullable();
             $table->timestamps();
         });
     }

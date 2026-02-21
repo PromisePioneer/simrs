@@ -84,7 +84,7 @@ class TenantModuleSeeder extends Seeder
                 'parent_id' => null,
                 'order' => 3,
                 'icon' => 'CalendarDays',
-                'route' => '/outpatient',
+                'route' => '/outpatient-visit',
                 'permissions' => [
                     'Melihat Rawat Jalan',
                     'Menambahkan Rawat Jalan'
@@ -104,7 +104,7 @@ class TenantModuleSeeder extends Seeder
                         'name' => 'Rawat Jalan Poli',
                         'order' => 1,
                         'icon' => null,
-                        'route' => '/registration/poly-outpatient',
+                        'route' => '/registration/poly-outpatient-visit',
                         'permissions' => [
                             'Melihat Rawat Jalan Poli',
                         ]

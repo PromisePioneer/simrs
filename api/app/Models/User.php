@@ -23,14 +23,13 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, TenantManager, HasRoles, HasUuids, HasActiveTenant;
 
-
     public $incrementing = false;
     protected $keyType = 'string';
     protected string $guard_name = 'sanctum';
 
     protected $appends = ['full_name_with_degrees'];
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass-assignable.
      *
      * @var list<string>
      */
@@ -38,6 +37,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'poli_id',
         'str_institution_id',
         'str_registration_number',
         'str_active_period',
@@ -114,6 +114,11 @@ class User extends Authenticatable
         return $relationship;
     }
 
+
+    public function poli(): BelongsTo
+    {
+        return $this->belongsTo(Poli::class, 'poli_id');
+    }
 
     public function sendEmailVerificationNotification(): void
     {
