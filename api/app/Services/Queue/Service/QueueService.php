@@ -6,14 +6,15 @@ use App\Models\Queue;
 use App\Services\Queue\Repository\QueueRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class QueueService
 {
+    protected QueueRepository $queueRepository;
 
-    public function __construct(
-        protected QueueRepository $queueRepository
-    )
+    public function __construct()
     {
+        $this->queueRepository = new QueueRepository();
     }
 
 
@@ -45,6 +46,9 @@ class QueueService
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function generate(string $tenantId, string $serviceUnit): string
     {
         return DB::transaction(function () use ($tenantId, $serviceUnit) {

@@ -14,11 +14,12 @@ class Queue extends TenantScopeBaseModel
     protected $fillable = [
         'tenant_id',
         'outpatient_visit_id',
-        'queue_number',
         'service_unit',
+        'queue_number',
+        'queue_date',
         'status',
         'called_at',
-        'finished_at'
+        'finished_at',
     ];
 
 
