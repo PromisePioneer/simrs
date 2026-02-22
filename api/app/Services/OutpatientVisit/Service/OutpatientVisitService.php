@@ -6,6 +6,7 @@ use App\Http\Requests\OutpatientVisitRequest;
 use App\Models\OutpatientVisit;
 use App\Services\OutpatientVisit\Repository\OutpatientVisitRepository;
 use Illuminate\Http\Request;
+use Throwable;
 
 class OutpatientVisitService
 {
@@ -22,10 +23,13 @@ class OutpatientVisitService
         $filters = $request->only(['search']);
         $perPage = $request->input('per_page');
         $status = $request->get('status');
-        return $this->outpatientVisitRepository->getOutpatient(filters: $filters, perPage: $perPage,status : $status);
+        return $this->outpatientVisitRepository->getOutpatient(filters: $filters, perPage: $perPage, status: $status);
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(OutpatientVisitRequest $request): ?object
     {
         $data = $request->validated();
@@ -43,5 +47,20 @@ class OutpatientVisitService
     public function destroy(OutpatientVisit $outpatientVisit): bool
     {
         return $this->outpatientVisitRepository->destroy(id: $outpatientVisit->id);
+    }
+
+
+    public function getTodayPatientCount(): array
+    {
+        $today = now()->toDateString();
+        $yesterday = now()->subDay()->toDateString();
+        return $this->outpatientVisitRepository->countPatientVisit($today, $yesterday);
+    }
+
+
+    public function getPatientBasedOnStatusCount(Request $request): array
+    {
+        $today = now()->toDateString();
+        return $this->outpatientVisitRepository->getPatientBasedOnStatusCount(today: $today);
     }
 }

@@ -71,7 +71,7 @@ class QueueService
 
             $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
-            return strtoupper($serviceUnit) . $formattedNumber;
+            return strtoupper($serviceUnit) . '-' . $formattedNumber;
         });
     }
 

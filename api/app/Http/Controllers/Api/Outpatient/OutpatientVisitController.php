@@ -42,9 +42,9 @@ class OutpatientVisitController
     }
 
 
-    public function destroy(Patient $patient)
+    public function destroy(OutpatientVisit $outpatientVisit)
     {
-        $data = $this->outpatientVisitService->destroy($patient);
+        $data = $this->outpatientVisitService->destroy($outpatientVisit);
         return $this->successResponse($data, 'Outpatient visit deleted successfully.');
     }
 }

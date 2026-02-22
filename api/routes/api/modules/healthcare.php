@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodTypeContr
 use App\Http\Controllers\Api\Master\General\Poli\PoliController;
 use App\Http\Controllers\Api\Master\General\RegistrationInstitution\RegistrationInstitutionController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
+use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,12 @@ Route::prefix('sub-specializations')->group(function () {
 // Outpatients
 Route::apiResource('outpatient-visits', OutpatientVisitController::class);
 Route::apiResource('queues', QueueController::class);
+
+
+Route::prefix('outpatient-visit-dashboard-reports')->group(function () {
+    Route::get('/today-patient-count', [OutpatientVisitDashboardCountController::class, 'getTodayPatientCount']);
+    Route::get('/today-patient-count-by-status', [OutpatientVisitDashboardCountController::class, 'getPatientBasedOnStatus']);
+});
 
 
 

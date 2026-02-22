@@ -7,9 +7,10 @@ use App\Services\Queue\Interface\QueueRepositoryInterface;
 
 class QueueRepository implements QueueRepositoryInterface
 {
-    public function __construct(
-        protected Queue $model
-    )
+
+    protected Queue $model;
+
+    public function __construct()
     {
         $this->model = new Queue();
     }
@@ -21,7 +22,7 @@ class QueueRepository implements QueueRepositoryInterface
 
     public function getQueues(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->with(['outpatientVisit']);
+        $query = $this->model->with(['outpatientVisit', 'outpatientVisit.patient']);
 
 
         if (!empty($filters['search'])) {

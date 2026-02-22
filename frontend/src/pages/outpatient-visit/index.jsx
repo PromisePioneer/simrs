@@ -30,38 +30,51 @@ import {
 import {Badge} from "@/components/ui/badge.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Link} from "@tanstack/react-router";
-import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
+import {usePatientQueueStore} from "@/store/patientQueueStore.js";
+import {format} from "date-fns";
+import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
 
 function OutpatientPage() {
 
-    const {fetchOutPatientVisit, waitingPatients} = useOutpatientVisitStore();
+
+    const {fetchPatientQueues, patientQueues} = usePatientQueueStore()
+    const {
+        fetchPatientVisitCount,
+        patientTodayCount,
+        fetchTodayPatientCountByStatus,
+        todayPatientCountByStatus
+    } = useOutpatientDashboardReportStore();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("all");
     const [activeTab, setActiveTab] = useState("waiting");
 
 
     useEffect(() => {
-        fetchOutPatientVisit({perPage: 20});
+        fetchPatientQueues({perPage: 20});
+        fetchPatientVisitCount({status: "waiting"});
+        fetchPatientVisitCount({status: "in-progress"});
+        fetchPatientVisitCount({status: "completed"});
+        fetchTodayPatientCountByStatus();
     }, []);
 
     const stats = [
         {
             title: "Total Pasien Hari Ini",
-            value: "48",
+            value: patientTodayCount.total_today,
             icon: Users,
             color: "bg-blue-500",
-            change: "+8 dari kemarin"
+            change: `+ ${patientTodayCount.difference}dari kemarin`
         },
         {
             title: "Sedang Menunggu",
-            value: "12",
+            value: patientTodayCount,
             icon: Clock,
             color: "bg-yellow-500",
             change: "Antrian aktif"
         },
         {
             title: "Sedang Diperiksa",
-            value: "5",
+            value: patientTodayCount,
             icon: Stethoscope,
             color: "bg-green-500",
             change: "Di ruang dokter"
@@ -163,6 +176,24 @@ function OutpatientPage() {
         }
     };
 
+
+    const formatDate = (date) => {
+        const reformatDate = new Date(date);
+        return format(new Date(reformatDate), "dd MMMM yyyy");
+    }
+
+
+    const calculateAge = (dateOfBirth) => {
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
     const PatientCard = ({patient, showActions = true}) => {
         console.log(patient);
 
@@ -174,70 +205,70 @@ function OutpatientPage() {
                         <div className="flex gap-4 flex-1">
                             <div className="flex items-start justify-center min-w-20">
                                 <div className="text-center">
-                                    {/*<div className="text-3xl font-bold text-primary">{patient.queueNumber}</div>*/}
+                                    <div className="text-3xl font-bold text-primary">{patient.queue_number}</div>
                                     <div className="text-xs text-muted-foreground">No. Antrian</div>
                                 </div>
                             </div>
 
                             <div className="flex-1 space-y-3">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <h3 className="font-semibold text-lg">{patient.patient?.full_name}</h3>
-                                    {/*{getPriorityBadge(patient.priority)}*/}
+                                    <h3 className="font-semibold text-lg">{patient.outpatient_visit?.patient?.full_name}</h3>
+                                    {getPriorityBadge(patient.priority)}
                                     {getStatusBadge(patient.status)}
                                 </div>
 
-                                {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">*/}
-                                {/*        <span className="flex items-center gap-1">*/}
-                                {/*            <FileText className="w-4 h-4"/>*/}
-                                {/*            ID: {patient.patientId}*/}
-                                {/*        </span>*/}
-                                {/*    <span className="flex items-center gap-1">*/}
-                                {/*            <Users className="w-4 h-4"/>*/}
-                                {/*        {patient.age} tahun • {patient.gender}*/}
-                                {/*        </span>*/}
-                                {/*    <span className="flex items-center gap-1">*/}
-                                {/*            <Phone className="w-4 h-4"/>*/}
-                                {/*        {patient.phone}*/}
-                                {/*        </span>*/}
-                                {/*    <span className="flex items-center gap-1">*/}
-                                {/*            <Clock className="w-4 h-4"/>*/}
-                                {/*            Daftar: {patient.registrationTime}*/}
-                                {/*        </span>*/}
-                                {/*</div>*/}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">
+                                        <span className="flex items-center gap-1">
+                                            <FileText className="w-4 h-4"/>
+                                            ID: {patient.queue_number}
+                                        </span>
+                                    <span className="flex items-center gap-1">
+                                            <Users className="w-4 h-4"/>
+                                        {calculateAge(patient.outpatient_visit?.patient?.date_of_birth)} tahun • {patient.outpatient_visit?.patient?.gender.toUpperCase()}
+                                        </span>
+                                    <span className="flex items-center gap-1">
+                                            <Phone className="w-4 h-4"/>
+                                        {patient.outpatient_visit.patient.phone}
+                                        </span>
+                                    <span className="flex items-center gap-1">
+                                            <Clock className="w-4 h-4"/>
+                                            Daftar: {formatDate(patient.queue_date)}
+                                        </span>
+                                </div>
 
-                                {/*<div className="space-y-1">*/}
-                                {/*    <div className="flex items-start gap-1 text-sm">*/}
-                                {/*        <ClipboardList className="w-4 h-4 text-orange-500 mt-0.5"/>*/}
-                                {/*        <span className="font-medium">Keluhan: <span*/}
-                                {/*            className="font-normal text-muted-foreground">{patient.complaint}</span></span>*/}
-                                {/*    </div>*/}
-                                {/*    <div className="flex items-start gap-1 text-sm">*/}
-                                {/*        <Stethoscope className="w-4 h-4 text-blue-500 mt-0.5"/>*/}
-                                {/*        <span className="font-medium">Dokter: <span*/}
-                                {/*            className="font-normal text-muted-foreground">{patient.doctor}</span></span>*/}
-                                {/*    </div>*/}
-                                {/*    {patient.roomNumber && (*/}
-                                {/*        <div className="flex items-start gap-1 text-sm">*/}
-                                {/*            <MapPin className="w-4 h-4 text-green-500 mt-0.5"/>*/}
-                                {/*            <span className="font-medium">Lokasi: <span*/}
-                                {/*                className="font-normal text-muted-foreground">{patient.roomNumber}</span></span>*/}
-                                {/*        </div>*/}
-                                {/*    )}*/}
-                                {/*    {patient.diagnosis && (*/}
-                                {/*        <div className="flex items-start gap-1 text-sm">*/}
-                                {/*            <FileText className="w-4 h-4 text-purple-500 mt-0.5"/>*/}
-                                {/*            <span className="font-medium">Diagnosis: <span*/}
-                                {/*                className="font-normal text-muted-foreground">{patient.diagnosis}</span></span>*/}
-                                {/*        </div>*/}
-                                {/*    )}*/}
-                                {/*    {patient.completionTime && (*/}
-                                {/*        <div className="flex items-start gap-1 text-sm">*/}
-                                {/*            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5"/>*/}
-                                {/*            <span className="font-medium">Selesai: <span*/}
-                                {/*                className="font-normal text-muted-foreground">{patient.completionTime}</span></span>*/}
-                                {/*        </div>*/}
-                                {/*    )}*/}
-                                {/*</div>*/}
+                                <div className="space-y-1">
+                                    <div className="flex items-start gap-1 text-sm">
+                                        <ClipboardList className="w-4 h-4 text-orange-500 mt-0.5"/>
+                                        <span className="font-medium">Keluhan: <span
+                                            className="font-normal text-muted-foreground">{patient.outpatient_visit?.complain}</span></span>
+                                    </div>
+                                    <div className="flex items-start gap-1 text-sm">
+                                        <Stethoscope className="w-4 h-4 text-blue-500 mt-0.5"/>
+                                        <span className="font-medium">Dokter: <span
+                                            className="font-normal text-muted-foreground">{patient.outpatient_visit?.doctor?.name}</span></span>
+                                    </div>
+                                    {patient.roomNumber && (
+                                        <div className="flex items-start gap-1 text-sm">
+                                            <MapPin className="w-4 h-4 text-green-500 mt-0.5"/>
+                                            <span className="font-medium">Lokasi: <span
+                                                className="font-normal text-muted-foreground">{patient.roomNumber}</span></span>
+                                        </div>
+                                    )}
+                                    {patient.diagnosis && (
+                                        <div className="flex items-start gap-1 text-sm">
+                                            <FileText className="w-4 h-4 text-purple-500 mt-0.5"/>
+                                            <span className="font-medium">Diagnosis: <span
+                                                className="font-normal text-muted-foreground">{patient.diagnosis}</span></span>
+                                        </div>
+                                    )}
+                                    {patient.completionTime && (
+                                        <div className="flex items-start gap-1 text-sm">
+                                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5"/>
+                                            <span className="font-medium">Selesai: <span
+                                                className="font-normal text-muted-foreground">{patient.completionTime}</span></span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
@@ -379,7 +410,7 @@ function OutpatientPage() {
                             <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger value="waiting" className="gap-2">
                                     <Clock className="w-4 h-4"/>
-                                    {/*Menunggu ({waitingPatients.data.length})*/}
+                                    Menunggu ({patientQueues?.data?.length})
                                 </TabsTrigger>
                                 <TabsTrigger value="in-progress" className="gap-2">
                                     <Activity className="w-4 h-4"/>
@@ -392,8 +423,8 @@ function OutpatientPage() {
                             </TabsList>
 
                             <TabsContent value="waiting" className="space-y-4 mt-6">
-                                {waitingPatients ? (
-                                    waitingPatients.data?.map((patient) => (
+                                {patientQueues ? (
+                                    patientQueues.data?.map((patient) => (
                                         <PatientCard key={patient.id} patient={patient}/>
                                     ))
                                 ) : (

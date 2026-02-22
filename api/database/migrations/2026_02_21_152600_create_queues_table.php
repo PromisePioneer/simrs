@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('queue_number');
             $table->date('queue_date');
             $table->string('status')->default('waiting');
+            $table->string('priority')->default('normal'); //normal, urgent
             $table->timestamp('called_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();

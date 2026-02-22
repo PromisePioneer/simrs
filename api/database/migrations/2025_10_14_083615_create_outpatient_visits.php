@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->foreignUuid('doctor_id')->constrained('users')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
             $table->string('status')->default('waiting');
+            $table->text('complain');
             $table->timestamps();
         });
 

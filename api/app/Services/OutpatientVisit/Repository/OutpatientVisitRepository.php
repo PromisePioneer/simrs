@@ -29,14 +29,12 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
 
     public function getOutpatient(array $filters = [], ?int $perPage = null, $status = 'waiting'): ?object
     {
-        $query = $this->model->with(['patient', 'doctor', 'poli'])->where('status', $status);
+        $query = $this->model->with(['patient', 'doctor'])->where('status', $status);
 
         if (!empty($filters['search'])) {
             $query->whereHas('patient', function ($query) use ($filters) {
                 $query->where('name', 'like', '%' . $filters['search'] . '%');
             })->orWhereHas('doctor', function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['search'] . '%');
-            })->orWhereHas('poli', function ($query) use ($filters) {
                 $query->where('name', 'like', '%' . $filters['search'] . '%');
             });
         }
@@ -86,8 +84,11 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
                 'queue_number' => $this->queueService->generate($tenantId, $poli->name),
                 'service_unit' => $poli->name,
                 'queue_date' => now(),
-                'status' => $outpatientVisit->status,
+                'status' => 'waiting',
             ]);
+
+
+            return $outpatientVisit;
 
         });
     }
@@ -105,5 +106,32 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
     public function destroy(string $id): int
     {
         return $this->model->destroy($id);
+    }
+
+    public function countPatientVisit($today, $yesterday): array
+    {
+        $todayCount = $this->model->whereDate('date', $today)->count();
+        $yesterdayCount = $this->model->whereDate('date', $yesterday)->count();
+        $difference = $todayCount - $yesterdayCount;
+
+        return [
+            'total_today' => $todayCount,
+            'difference' => $difference,
+        ];
+
+    }
+
+    public function getPatientBasedOnStatusCount(string $today): array
+    {
+        $query = $this->model->whereDate('date', $today);
+        $waiting = $query->where('status', 'waiting')->count();
+        $inProgress = $query->where('status', 'in-progress')->count();
+        $completed = $query->where('status', 'completed')->count();
+
+        return [
+            'waiting' => $waiting,
+            'in_progress' => $inProgress,
+            'completed' => $completed,
+        ];
     }
 }

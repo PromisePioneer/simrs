@@ -47,14 +47,31 @@ function OutpatientForm(opts) {
     const {fetchPatients, patients} = usePatientStore();
     const {fetchDoctors, userData} = useUserStore();
     const {fetchPoli, poliData} = usePoliStore();
-    const {createOutpatientVisit, updateOutpatientVisit} = useOutpatientVisitStore();
+    const {
+        createOutpatientVisit,
+        updateOutpatientVisit,
+        allergies,
+        medicalHistory,
+        familyMedicalHistory,
+        medicationHistory,
+        psychologyConditions,
+        addAllergy,
+        removeAllergy,
+        updateAllergy,
+        addMedicalHistory,
+        removeMedicalHistory,
+        updateMedicalHistory,
+        addFamilyMedicalHistory,
+        removeFamilyMedicalHistory,
+        updateFamilyMedicalHistory,
+        addMedicationHistory,
+        removeMedicationHistory,
+        updateMedicationHistory,
+        addPsychologyCondition,
+        removePsychologyCondition,
+        updatePsychologyCondition,
+    } = useOutpatientVisitStore();
 
-
-    const [allergies, setAllergies] = useState([{name: ""}]);
-    const [medicalHistory, setMedicalHistory] = useState([{condition: ""}]);
-    const [familyMedicalHistory, setFamilyMedicalHistory] = useState([{condition: ""}]);
-    const [medicationHistory, setMedicationHistory] = useState([{medication: ""}]);
-    const [psychologyConditions, setPsychologyConditions] = useState([{condition: ""}]);
 
     const {
         register,
@@ -87,6 +104,7 @@ function OutpatientForm(opts) {
             marital_status: "",
             live_with: "",
             job: "",
+            complain: "",
         }
     });
 
@@ -119,48 +137,6 @@ function OutpatientForm(opts) {
             });
         }
     };
-
-    // Functions to handle dynamic fields
-    const addAllergy = () => setAllergies([...allergies, {name: ""}]);
-    const removeAllergy = (index) => setAllergies(allergies.filter((_, i) => i !== index));
-    const updateAllergy = (index, value) => {
-        const updated = [...allergies];
-        updated[index] = {name: value};
-        setAllergies(updated);
-    };
-
-    const addMedicalHistory = () => setMedicalHistory([...medicalHistory, {condition: ""}]);
-    const removeMedicalHistory = (index) => setMedicalHistory(medicalHistory.filter((_, i) => i !== index));
-    const updateMedicalHistory = (index, value) => {
-        const updated = [...medicalHistory];
-        updated[index] = {condition: value};
-        setMedicalHistory(updated);
-    };
-
-    const addFamilyMedicalHistory = () => setFamilyMedicalHistory([...familyMedicalHistory, {condition: ""}]);
-    const removeFamilyMedicalHistory = (index) => setFamilyMedicalHistory(familyMedicalHistory.filter((_, i) => i !== index));
-    const updateFamilyMedicalHistory = (index, value) => {
-        const updated = [...familyMedicalHistory];
-        updated[index] = {condition: value};
-        setFamilyMedicalHistory(updated);
-    };
-
-    const addMedicationHistory = () => setMedicationHistory([...medicationHistory, {medication: ""}]);
-    const removeMedicationHistory = (index) => setMedicationHistory(medicationHistory.filter((_, i) => i !== index));
-    const updateMedicationHistory = (index, value) => {
-        const updated = [...medicationHistory];
-        updated[index] = {medication: value};
-        setMedicationHistory(updated);
-    };
-
-    const addPsychologyCondition = () => setPsychologyConditions([...psychologyConditions, {condition: ""}]);
-    const removePsychologyCondition = (index) => setPsychologyConditions(psychologyConditions.filter((_, i) => i !== index));
-    const updatePsychologyCondition = (index, value) => {
-        const updated = [...psychologyConditions];
-        updated[index] = {condition: value};
-        setPsychologyConditions(updated);
-    };
-
     return (
         <Layout>
             <div className="space-y-6">
@@ -171,9 +147,8 @@ function OutpatientForm(opts) {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-6">
-                        {/* Back Button */}
                         <div className="flex items-center justify-between">
-                            <Link to="/outpatient">
+                            <Link to="/outpatient-visit">
                                 <Button type="button" variant="outline" size="sm" className="gap-2">
                                     <ArrowLeft className="w-4 h-4"/>
                                     Kembali ke Daftar Rawat Jalan
@@ -373,6 +348,20 @@ function OutpatientForm(opts) {
                                             <p className="text-sm text-destructive">{errors.poli_id.message}</p>
                                         )}
                                     </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="complain">
+                                        Komplain <span className="text-destructive">*</span>
+                                    </Label>
+                                    <Textarea
+                                        className="w-full"
+                                        {...register("complain", {
+                                            required: "Komplain wajib diisi",
+                                        })}
+                                    ></Textarea>
+                                    {errors.complain && (
+                                        <p className="text-sm text-destructive">{errors.complain.message}</p>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>

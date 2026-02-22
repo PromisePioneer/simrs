@@ -20,8 +20,8 @@ class OutpatientVisit extends TenantScopeBaseModel
         'referred_doctor',
         'patient_id',
         'doctor_id',
-        'poli_id',
-        'date'
+        'date',
+        'complain'
     ];
 
 
@@ -34,12 +34,6 @@ class OutpatientVisit extends TenantScopeBaseModel
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'doctor_id');
-    }
-
-
-    public function poli(): BelongsTo
-    {
-        return $this->belongsTo(Poli::class, 'poli_id');
     }
 
 
