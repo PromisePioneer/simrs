@@ -5,12 +5,10 @@ import apiCall from "@/services/apiCall.js";
 export const useOutpatientDashboardReportStore = create((set, get) => ({
     isLoading: false,
     openDeleteModal: false,
-    patientTodayCount: 0,
+    patientTodayCount: {},
     currentPage: 1,
     success: false,
-    patientWaitingCount: 0,
-    patientInProgressCount: 0,
-    patientCompletedCount: 0,
+    todayPatientCountByStatus: {},
     fetchPatientVisitCount: async () => {
         try {
             const response = await apiCall.get('/api/v1/outpatient-visit-dashboard-reports/today-patient-count',);
@@ -19,15 +17,10 @@ export const useOutpatientDashboardReportStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-    fetchTodayPatientCountByStatus: async ({status = 'waiting'}) => {
+    fetchTodayPatientCountByStatus: async () => {
         try {
-            const response = await apiCall.get(`/api/v1/outpatient-visit-dashboard-reports/today-patient-count?status=${status}`,);
-
-
-            if (status === 'waiting') set({
-                patientWaitingCount: response.data,
-            })
-            set({TodayPatientCountByStatus: response.data});
+            const response = await apiCall.get(`/api/v1/outpatient-visit-dashboard-reports/today-patient-count-by-status`,);
+            set({todayPatientCountByStatus: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }

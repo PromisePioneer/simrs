@@ -149,5 +149,5 @@ export const useOutpatientVisitStore = create((set, get) => ({
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
-    }
+    },
 }));

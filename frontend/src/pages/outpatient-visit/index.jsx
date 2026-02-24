@@ -29,20 +29,22 @@ import {
 } from "@/components/ui/select.jsx";
 import {Badge} from "@/components/ui/badge.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
-import {Link} from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 import {usePatientQueueStore} from "@/store/patientQueueStore.js";
 import {format} from "date-fns";
 import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
+import {stats} from "@/constants/outpatient-visits.js";
 
 function OutpatientPage() {
 
 
-    const {fetchPatientQueues, patientQueues} = usePatientQueueStore()
+    const {fetchPatientQueues, patientQueues} = usePatientQueueStore();
+    const {startDiagnose} = usePatientQueueStore();
     const {
         fetchPatientVisitCount,
         patientTodayCount,
         fetchTodayPatientCountByStatus,
-        todayPatientCountByStatus
+        todayPatientCountByStatus,
     } = useOutpatientDashboardReportStore();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("all");
@@ -51,94 +53,23 @@ function OutpatientPage() {
 
     useEffect(() => {
         fetchPatientQueues({perPage: 20});
-        fetchPatientVisitCount({status: "waiting"});
-        fetchPatientVisitCount({status: "in-progress"});
-        fetchPatientVisitCount({status: "completed"});
+        fetchPatientVisitCount();
         fetchTodayPatientCountByStatus();
     }, []);
 
-    const stats = [
-        {
-            title: "Total Pasien Hari Ini",
-            value: patientTodayCount.total_today,
-            icon: Users,
-            color: "bg-blue-500",
-            change: `+ ${patientTodayCount.difference}dari kemarin`
-        },
-        {
-            title: "Sedang Menunggu",
-            value: patientTodayCount,
-            icon: Clock,
-            color: "bg-yellow-500",
-            change: "Antrian aktif"
-        },
-        {
-            title: "Sedang Diperiksa",
-            value: patientTodayCount,
-            icon: Stethoscope,
-            color: "bg-green-500",
-            change: "Di ruang dokter"
-        },
-        {
-            title: "Selesai",
-            value: "31",
-            icon: CheckCircle,
-            color: "bg-purple-500",
-            change: "Hari ini"
-        },
-    ];
+    const navigate = useNavigate();
 
-    const inProgressPatients = [
-        {
-            id: 4,
-            queueNumber: "A004",
-            name: "Dewi Lestari",
-            patientId: "P001237",
-            age: 38,
-            gender: "Perempuan",
-            phone: "081234567893",
-            registrationTime: "08:15",
-            complaint: "Nyeri dada",
-            doctor: "Dr. Ahmad Rizki, Sp.PD",
-            priority: "urgent",
-            status: "in-progress",
-            roomNumber: "Ruang 1"
-        },
-        {
-            id: 5,
-            queueNumber: "A005",
-            name: "Rudi Hartono",
-            patientId: "P001238",
-            age: 55,
-            gender: "Laki-laki",
-            phone: "081234567894",
-            registrationTime: "08:20",
-            complaint: "Kontrol hipertensi",
-            doctor: "Dr. Sarah Wijaya, Sp.PD",
-            priority: "normal",
-            status: "in-progress",
-            roomNumber: "Ruang 2"
-        },
-    ];
+    const waitingPatients =
+        patientQueues?.data?.filter(p => p.status === "waiting") || [];
 
-    const completedPatients = [
-        {
-            id: 6,
-            queueNumber: "A006",
-            name: "Linda Permata",
-            patientId: "P001239",
-            age: 29,
-            gender: "Perempuan",
-            phone: "081234567895",
-            registrationTime: "07:30",
-            complaint: "ISPA",
-            doctor: "Dr. Ahmad Rizki, Sp.PD",
-            priority: "normal",
-            status: "completed",
-            completionTime: "08:15",
-            diagnosis: "ISPA (Infeksi Saluran Pernapasan Akut)"
-        },
-    ];
+    const inProgressPatients =
+        patientQueues?.data?.filter(p => p.status === "in-progress") || [];
+
+    const completedPatients =
+        patientQueues?.data?.filter(p => p.status === "completed") || [];
+
+
+    const statsData = stats(patientTodayCount, todayPatientCountByStatus);
 
     const getPriorityBadge = (priority) => {
         switch (priority) {
@@ -178,9 +109,14 @@ function OutpatientPage() {
 
 
     const formatDate = (date) => {
-        const reformatDate = new Date(date);
-        return format(new Date(reformatDate), "dd MMMM yyyy");
-    }
+        if (!date) return "-";
+
+        const parsedDate = new Date(date);
+
+        if (isNaN(parsedDate.getTime())) return "-";
+
+        return format(parsedDate, "dd MMMM yyyy");
+    };
 
 
     const calculateAge = (dateOfBirth) => {
@@ -193,6 +129,21 @@ function OutpatientPage() {
         }
         return age;
     }
+
+
+    const handleStartExamination = async (patient) => {
+        try {
+            // panggil API update status
+            await startDiagnose(patient.id);
+            await navigate({
+                to: `/outpatient-visit/diagnose/${patient.outpatient_visit.id}`
+            });
+
+        } catch (error) {
+            console.error("Gagal memulai pemeriksaan:", error);
+        }
+    };
+
 
     const PatientCard = ({patient, showActions = true}) => {
         console.log(patient);
@@ -212,7 +163,7 @@ function OutpatientPage() {
 
                             <div className="flex-1 space-y-3">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <h3 className="font-semibold text-lg">{patient.outpatient_visit?.patient?.full_name}</h3>
+                                    <h3 className="font-semibold text-lg">{patient?.outpatient_visit?.patient?.full_name}</h3>
                                     {getPriorityBadge(patient.priority)}
                                     {getStatusBadge(patient.status)}
                                 </div>
@@ -224,11 +175,11 @@ function OutpatientPage() {
                                         </span>
                                     <span className="flex items-center gap-1">
                                             <Users className="w-4 h-4"/>
-                                        {calculateAge(patient.outpatient_visit?.patient?.date_of_birth)} tahun • {patient.outpatient_visit?.patient?.gender.toUpperCase()}
+                                        {calculateAge(patient?.outpatient_visit?.patient?.date_of_birth)} tahun • {patient?.outpatient_visit?.patient?.gender.toUpperCase()}
                                         </span>
                                     <span className="flex items-center gap-1">
                                             <Phone className="w-4 h-4"/>
-                                        {patient.outpatient_visit.patient.phone}
+                                        {patient?.outpatient_visit?.patient.phone}
                                         </span>
                                     <span className="flex items-center gap-1">
                                             <Clock className="w-4 h-4"/>
@@ -276,7 +227,8 @@ function OutpatientPage() {
                             <div className="flex lg:flex-col gap-2 lg:min-w-[140px]">
                                 {patient.status === "waiting" && (
                                     <>
-                                        <Button size="sm" className="gap-2 flex-1 lg:flex-none">
+                                        <Button onClick={() => handleStartExamination(patient)} size="sm"
+                                                className="gap-2 flex-1 lg:flex-none">
                                             <Stethoscope className="w-4 h-4"/>
                                             Mulai Periksa
                                         </Button>
@@ -351,7 +303,7 @@ function OutpatientPage() {
 
                 {/* Stats Cards */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {stats.map((stat, index) => (
+                    {statsData.map((stat, index) => (
                         <Card key={index}>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
@@ -410,7 +362,7 @@ function OutpatientPage() {
                             <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger value="waiting" className="gap-2">
                                     <Clock className="w-4 h-4"/>
-                                    Menunggu ({patientQueues?.data?.length})
+                                    Menunggu ({waitingPatients.length})
                                 </TabsTrigger>
                                 <TabsTrigger value="in-progress" className="gap-2">
                                     <Activity className="w-4 h-4"/>
@@ -423,8 +375,8 @@ function OutpatientPage() {
                             </TabsList>
 
                             <TabsContent value="waiting" className="space-y-4 mt-6">
-                                {patientQueues ? (
-                                    patientQueues.data?.map((patient) => (
+                                {waitingPatients.length > 0 ? (
+                                    waitingPatients.data?.map((patient) => (
                                         <PatientCard key={patient.id} patient={patient}/>
                                     ))
                                 ) : (

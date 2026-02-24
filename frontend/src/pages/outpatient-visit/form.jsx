@@ -87,7 +87,7 @@ function OutpatientForm(opts) {
             patient_id: "",
             doctor_id: "",
             poli_id: "",
-            date: undefined,
+            date: new Date(),
             height: "",
             weight: "",
             temperature: "",
@@ -109,7 +109,6 @@ function OutpatientForm(opts) {
     });
 
     const visitType = watch("type");
-    const currentYear = new Date().getFullYear();
 
     useEffect(() => {
         fetchPatients();
@@ -130,7 +129,13 @@ function OutpatientForm(opts) {
 
         let result;
 
-        result = await createOutpatientVisit(formData);
+
+        if (isEditMode) {
+            result = await updateOutpatientVisit(id, formData);
+        } else {
+            result = await createOutpatientVisit(formData);
+        }
+
         if (result.success) {
             await navigate({
                 to: '/outpatient-visit',
@@ -306,7 +311,7 @@ function OutpatientForm(opts) {
                                                         <SelectValue placeholder="Pilih dokter"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {userData.map((doctor) => (
+                                                        {userData && userData.map((doctor) => (
                                                             <SelectItem key={doctor.id} value={doctor.id}>
                                                                 {doctor.name} - {doctor.poli.name}
                                                             </SelectItem>
@@ -808,7 +813,7 @@ function OutpatientForm(opts) {
 
                         {/* Submit Buttons */}
                         <div className="flex justify-end gap-4">
-                            <Link to="/outpatient-visits">
+                            <Link to="/outpatient-visit">
                                 <Button type="button" variant="outline">
                                     Batal
                                 </Button>

@@ -58,7 +58,7 @@ class OutpatientVisitService
     }
 
 
-    public function getPatientBasedOnStatusCount(Request $request): array
+    public function getPatientBasedOnStatusCount(): array
     {
         $today = now()->toDateString();
         return $this->outpatientVisitRepository->getPatientBasedOnStatusCount(today: $today);

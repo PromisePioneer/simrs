@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OutpatientVisit extends TenantScopeBaseModel
@@ -40,5 +41,22 @@ class OutpatientVisit extends TenantScopeBaseModel
     public function vitalSign(): HasOne
     {
         return $this->hasOne(PatientVitalSign::class, 'outpatient_visit_id');
+    }
+
+
+    public function diagnoses(): HasMany
+    {
+        return $this->hasMany(Diagnose::class, 'outpatient_visit_id');
+    }
+
+    public function procedures(): HasMany
+    {
+        return $this->hasMany(Procedure::class, 'outpatient_visit_id');
+    }
+
+
+    public function prescriptions(): HasMany
+    {
+        return $this->hasMany(Prescriptions::class, 'outpatient_visit_id');
     }
 }

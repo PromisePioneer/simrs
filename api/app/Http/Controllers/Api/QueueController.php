@@ -52,4 +52,11 @@ class QueueController extends Controller
         $data = $this->queueService->destroy($queue);
         return response()->json($data);
     }
+
+
+    public function startDiagnose(Queue $queue)
+    {
+        $this->queueService->startDiagnose($queue->id);
+        return $this->successResponse(message: 'Diagnose started successfully.');
+    }
 }

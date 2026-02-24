@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api\Outpatient;
 
 use App\Http\Requests\OutpatientVisitRequest;
 use App\Models\OutpatientVisit;
-use App\Models\Patient;
 use App\Services\OutpatientVisit\Service\OutpatientVisitService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class OutpatientVisitController
 {
@@ -28,6 +28,9 @@ class OutpatientVisitController
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(OutpatientVisitRequest $request)
     {
         $data = $this->outpatientVisitService->store($request);
@@ -46,5 +49,12 @@ class OutpatientVisitController
     {
         $data = $this->outpatientVisitService->destroy($outpatientVisit);
         return $this->successResponse($data, 'Outpatient visit deleted successfully.');
+    }
+
+
+    public function startDiagnose(OutpatientVisit $outpatientVisit)
+    {
+        $data = $this->outpatientVisitService->startDiagnose(outpatientVisit: $outpatientVisit);
+        return $this->successResponse($data, 'Diagnose started successfully.');
     }
 }

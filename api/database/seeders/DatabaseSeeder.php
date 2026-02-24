@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             PlanModuleSeeder::class,
             TenantSubscriptionSeeder::class,
             UserSeeder::class,
+            MedicineSeeder::class,
             RegistrationInstitutionSeeder::class,
             IndoRegionProvinceSeeder::class,
             IndoRegionRegencySeeder::class,

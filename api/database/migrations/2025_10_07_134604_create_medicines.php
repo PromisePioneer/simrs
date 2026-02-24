@@ -85,6 +85,23 @@ return new class extends Migration {
             $table->string('multiplier');
         });
 
+
+        Schema::create('medicine_stock_movements', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('batch_id')->constrained('medicine_batches')->cascadeOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
+            $table->foreignUuid('rack_id')->nullable()->constrained('medicine_racks')->nullOnDelete();
+            $table->enum('type', ['in', 'out', 'adjustment', 'transfer']);
+            $table->integer('quantity');
+            $table->string('reference_type')->nullable();
+            $table->uuid('reference_id')->nullable();
+            $table->text('notes')->nullable();
+            $table->timestamps();
+            $table->index(['medicine_id', 'batch_id']);
+        });
+
     }
 
     /**

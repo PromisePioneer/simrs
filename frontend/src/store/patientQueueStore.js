@@ -24,5 +24,12 @@ export const usePatientQueueStore = create((set, get) => ({
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
+    },
+    startDiagnose: async (id) => {
+        try {
+            await apiCall.post(`/api/v1/queues/${id}/start`);
+            toast.success("Berhasil memulai diagnosa.");
+        } catch (e) {
+        }
     }
 }));

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
 use App\Http\Controllers\Api\General\Patient\PatientController;
@@ -53,13 +54,26 @@ Route::prefix('sub-specializations')->group(function () {
 
 
 // Outpatients
-Route::apiResource('outpatient-visits', OutpatientVisitController::class);
 Route::apiResource('queues', QueueController::class);
+
+
+Route::prefix('queues')->group(function () {
+    Route::apiResource('/', QueueController::class);
+    Route::post('/{queue}/start', [QueueController::class, 'startDiagnose']);
+});
+
+
+Route::apiResource('/outpatient-visits', OutpatientVisitController::class);
 
 
 Route::prefix('outpatient-visit-dashboard-reports')->group(function () {
     Route::get('/today-patient-count', [OutpatientVisitDashboardCountController::class, 'getTodayPatientCount']);
     Route::get('/today-patient-count-by-status', [OutpatientVisitDashboardCountController::class, 'getPatientBasedOnStatus']);
+});
+
+
+Route::prefix('diagnoses')->group(function () {
+    Route::post('/{outpatientVisit}', [DiagnoseController::class, 'store']);
 });
 
 

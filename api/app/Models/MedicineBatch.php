@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MedicineBatch extends TenantScopeBaseModel
 {
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     protected $table = 'medicine_batches';
 

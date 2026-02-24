@@ -22,9 +22,9 @@ class OutpatientVisitDashboardCountController extends Controller
         return response()->json($data);
     }
 
-    public function getPatientBasedOnStatus(Request $request): JsonResponse
+    public function getPatientBasedOnStatus(): JsonResponse
     {
-        $data = $this->outpatientVisitService->getPatientBasedOnStatusCount(request: $request);
+        $data = $this->outpatientVisitService->getPatientBasedOnStatusCount();
         return response()->json($data);
     }
 }

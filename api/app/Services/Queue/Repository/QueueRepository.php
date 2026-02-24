@@ -49,6 +49,10 @@ class QueueRepository implements QueueRepositoryInterface
         return $this->findById($id)->fill($data)->save($data)->fresh();
     }
 
+    public function startDiagnose(string $id): bool
+    {
+        return $this->findById($id)->update(['status' => 'in-progress']);
+    }
 
     public function destroy(string $id): ?bool
     {

@@ -134,4 +134,20 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
             'completed' => $completed,
         ];
     }
+
+
+    public function appendProcedures(string $id, array $procedures): void
+    {
+        $this->findById($id)->procedures()->createMany($procedures);
+    }
+
+    public function appendPrescriptions(string $id, array $prescriptions): void
+    {
+        $this->findById($id)->prescriptions()->createMany($prescriptions);
+    }
+
+    public function appendDiagnoses(string $id, array $diagnoses): void
+    {
+        $this->findById($id)->diagnoses()->createMany($diagnoses);
+    }
 }

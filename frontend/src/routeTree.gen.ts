@@ -27,6 +27,7 @@ import { Route as ProtectedSettingsMedicineManagementIndexRouteImport } from './
 import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
 import { Route as ProtectedSettingsPatientsCreateRouteImport } from './routes/_protected/settings/patients/create'
 import { Route as ProtectedSettingsPatientsIdRouteImport } from './routes/_protected/settings/patients/$id'
+import { Route as ProtectedOutpatientVisitDiagnoseIdRouteImport } from './routes/_protected/outpatient-visit/diagnose/$id'
 import { Route as ProtectedSettingsUsersManagementRolesIndexRouteImport } from './routes/_protected/settings/users-management/roles/index'
 import { Route as ProtectedSettingsUsersManagementUsersCreateRouteImport } from './routes/_protected/settings/users-management/users/create'
 import { Route as ProtectedSettingsPatientsDetailsIdRouteImport } from './routes/_protected/settings/patients/details.$id'
@@ -137,6 +138,12 @@ const ProtectedSettingsPatientsIdRoute =
     path: '/settings/patients/$id',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedOutpatientVisitDiagnoseIdRoute =
+  ProtectedOutpatientVisitDiagnoseIdRouteImport.update({
+    id: '/outpatient-visit/diagnose/$id',
+    path: '/outpatient-visit/diagnose/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsUsersManagementRolesIndexRoute =
   ProtectedSettingsUsersManagementRolesIndexRouteImport.update({
     id: '/settings/users-management/roles/',
@@ -209,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/outpatient-visit': typeof ProtectedOutpatientVisitIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
+  '/outpatient-visit/diagnose/$id': typeof ProtectedOutpatientVisitDiagnoseIdRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
@@ -238,6 +246,7 @@ export interface FileRoutesByTo {
   '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/outpatient-visit': typeof ProtectedOutpatientVisitIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
+  '/outpatient-visit/diagnose/$id': typeof ProtectedOutpatientVisitDiagnoseIdRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
@@ -269,6 +278,7 @@ export interface FileRoutesById {
   '/_protected/electronic-medical-record/': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/_protected/outpatient-visit/': typeof ProtectedOutpatientVisitIndexRoute
   '/_protected/settings/': typeof ProtectedSettingsIndexRoute
+  '/_protected/outpatient-visit/diagnose/$id': typeof ProtectedOutpatientVisitDiagnoseIdRoute
   '/_protected/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/_protected/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
   '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | '/electronic-medical-record'
     | '/outpatient-visit'
     | '/settings'
+    | '/outpatient-visit/diagnose/$id'
     | '/settings/patients/$id'
     | '/settings/patients/create'
     | '/master/module'
@@ -329,6 +340,7 @@ export interface FileRouteTypes {
     | '/electronic-medical-record'
     | '/outpatient-visit'
     | '/settings'
+    | '/outpatient-visit/diagnose/$id'
     | '/settings/patients/$id'
     | '/settings/patients/create'
     | '/master/module'
@@ -359,6 +371,7 @@ export interface FileRouteTypes {
     | '/_protected/electronic-medical-record/'
     | '/_protected/outpatient-visit/'
     | '/_protected/settings/'
+    | '/_protected/outpatient-visit/diagnose/$id'
     | '/_protected/settings/patients/$id'
     | '/_protected/settings/patients/create'
     | '/_protected/master/module/'
@@ -515,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsPatientsIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/outpatient-visit/diagnose/$id': {
+      id: '/_protected/outpatient-visit/diagnose/$id'
+      path: '/outpatient-visit/diagnose/$id'
+      fullPath: '/outpatient-visit/diagnose/$id'
+      preLoaderRoute: typeof ProtectedOutpatientVisitDiagnoseIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/settings/users-management/roles/': {
       id: '/_protected/settings/users-management/roles/'
       path: '/settings/users-management/roles'
@@ -594,6 +614,7 @@ interface ProtectedRouteChildren {
   ProtectedElectronicMedicalRecordIndexRoute: typeof ProtectedElectronicMedicalRecordIndexRoute
   ProtectedOutpatientVisitIndexRoute: typeof ProtectedOutpatientVisitIndexRoute
   ProtectedSettingsIndexRoute: typeof ProtectedSettingsIndexRoute
+  ProtectedOutpatientVisitDiagnoseIdRoute: typeof ProtectedOutpatientVisitDiagnoseIdRoute
   ProtectedSettingsPatientsIdRoute: typeof ProtectedSettingsPatientsIdRoute
   ProtectedSettingsPatientsCreateRoute: typeof ProtectedSettingsPatientsCreateRoute
   ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
@@ -620,6 +641,8 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
     ProtectedElectronicMedicalRecordIndexRoute,
   ProtectedOutpatientVisitIndexRoute: ProtectedOutpatientVisitIndexRoute,
   ProtectedSettingsIndexRoute: ProtectedSettingsIndexRoute,
+  ProtectedOutpatientVisitDiagnoseIdRoute:
+    ProtectedOutpatientVisitDiagnoseIdRoute,
   ProtectedSettingsPatientsIdRoute: ProtectedSettingsPatientsIdRoute,
   ProtectedSettingsPatientsCreateRoute: ProtectedSettingsPatientsCreateRoute,
   ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,

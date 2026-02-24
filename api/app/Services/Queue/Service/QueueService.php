@@ -75,4 +75,10 @@ class QueueService
         });
     }
 
+
+    public function startDiagnose(string $id): bool
+    {
+        return $this->queueRepository->startDiagnose(id: $id);
+    }
+
 }

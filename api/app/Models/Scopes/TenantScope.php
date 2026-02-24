@@ -41,7 +41,6 @@ class TenantScope implements Scope
             return;
         }
 
-        // Default: strict tenant
         $builder->where($model->getTable() . '.tenant_id', $tenantId);
     }
 
