@@ -13,6 +13,7 @@ export const useOutpatientVisitStore = create((set, get) => ({
     familyMedicalHistory: [{condition: ""}],
     medicationHistory: [{medication: ""}],
     psychologyConditions: [{condition: ""}],
+    outpatientVisitValue: {},
     addMedicalHistory: () =>
         set((state) => ({
             medicalHistory: [...state.medicalHistory, {condition: ""}],
@@ -126,7 +127,8 @@ export const useOutpatientVisitStore = create((set, get) => ({
     },
     showOutPatientVisit: async (id) => {
         try {
-
+            const response = await apiCall.get(`/api/v1/outpatient-visits/${id}`);
+            set({outpatientVisitValue: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
 

@@ -24,12 +24,14 @@ class QueueRepository implements QueueRepositoryInterface
     {
         $query = $this->model->with(['outpatientVisit', 'outpatientVisit.patient']);
 
-
+        // ✅ FIX: pisahkan dua kondisi — jangan taruh && di dalam !empty()
         if (!empty($filters['search'])) {
-            $query->where('queue_number', 'like', '%' . $filters['search'] . '%')
-                ->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('queue_number', 'like', '%' . $filters['search'] . '%');
         }
 
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
 
         if ($perPage) {
             return $query->paginate($perPage);

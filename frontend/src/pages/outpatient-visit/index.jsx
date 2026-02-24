@@ -16,7 +16,7 @@ import {
     Edit,
     FileText,
     Phone,
-    MapPin
+    MapPin, X
 } from "lucide-react";
 import {Input} from "@/components/ui/input.jsx";
 import {useEffect, useState} from "react";
@@ -36,9 +36,7 @@ import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardRepo
 import {stats} from "@/constants/outpatient-visits.js";
 
 function OutpatientPage() {
-
-
-    const {fetchPatientQueues, patientQueues} = usePatientQueueStore();
+    const {fetchPatientQueues, patientQueues, search, setSearch} = usePatientQueueStore();
     const {startDiagnose} = usePatientQueueStore();
     const {
         fetchPatientVisitCount,
@@ -46,13 +44,17 @@ function OutpatientPage() {
         fetchTodayPatientCountByStatus,
         todayPatientCountByStatus,
     } = useOutpatientDashboardReportStore();
-    const [searchQuery, setSearchQuery] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("all");
     const [activeTab, setActiveTab] = useState("waiting");
 
 
     useEffect(() => {
-        fetchPatientQueues({perPage: 20});
+        fetchPatientQueues({
+            perPage: 20,
+        });
+    }, [search]);
+
+    useEffect(() => {
         fetchPatientVisitCount();
         fetchTodayPatientCountByStatus();
     }, []);
@@ -146,9 +148,6 @@ function OutpatientPage() {
 
 
     const PatientCard = ({patient, showActions = true}) => {
-        console.log(patient);
-
-
         return (
             <Card className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
@@ -244,10 +243,12 @@ function OutpatientPage() {
                                             <CheckCircle className="w-4 h-4"/>
                                             Selesai
                                         </Button>
-                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                            <Eye className="w-4 h-4"/>
-                                            Lihat Detail
-                                        </Button>
+                                        <Link to={`/outpatient-visit/diagnose/${patient.outpatient_visit.id}`}>
+                                            <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                                <Eye className="w-4 h-4"/>
+                                                Lihat Detail
+                                            </Button>
+                                        </Link>
                                     </>
                                 )}
                                 {patient.status === "completed" && (
@@ -339,9 +340,17 @@ function OutpatientPage() {
                                     <Input
                                         placeholder="Cari pasien..."
                                         className="pl-9"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
                                     />
+                                    {search && (
+                                        <button
+                                            onClick={() => setSearch('')}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
+                                        >
+                                            <X className="h-4 w-4"/>
+                                        </button>
+                                    )}
                                 </div>
                                 <Select value={selectedFilter} onValueChange={setSelectedFilter}>
                                     <SelectTrigger className="w-[140px]">

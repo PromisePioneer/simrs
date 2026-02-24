@@ -7,24 +7,40 @@ export const usePatientQueueStore = create((set, get) => ({
     openDeleteModal: false,
     patientQueues: [],
     currentPage: 1,
+    search: "",
+    setSearch: (search) => set({search}),
     success: false,
-    fetchPatientQueues: async ({perPage = null, status = 'waiting'}) => {
+    fetchPatientQueues: async ({perPage = null, status = null}) => {
         try {
-            set({isLoading: true, patientQueues: null});
             const {search} = get();
 
-            const params = {page: get().currentPage};
-            if (perPage) params.per_page = perPage;
-            if (search?.trim()) params.search = search;
+            const params = {
+                page: get().currentPage,
+            };
+
+            if (perPage) {
+                params.per_page = perPage;
+            }
+
+            if (search && search.trim() !== "") {
+                params.search = search;
+            }
+
+            if (status) {
+                params.status = status;
+            }
+
             const response = await apiCall.get('/api/v1/queues', {params});
 
-            if (status === 'waiting') {
-                set({patientQueues: response.data, isLoading: false});
-            }
+            set({
+                isLoading: false,
+                patientQueues: response.data,
+            });
         } catch (e) {
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error("Operasi Gagal");
         }
     },
+
     startDiagnose: async (id) => {
         try {
             await apiCall.post(`/api/v1/queues/${id}/start`);

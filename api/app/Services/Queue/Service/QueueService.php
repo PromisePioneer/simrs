@@ -20,7 +20,7 @@ class QueueService
 
     public function getQueues(Request $request)
     {
-        $filters = $request->only(['search']);
+        $filters = $request->only(['search', 'status']);
         $perPage = $request->input('per_page');
         return $this->queueRepository->getQueues(filters: $filters, perPage: $perPage);
     }

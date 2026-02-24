@@ -36,8 +36,8 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {useDiagnoseStore} from "@/store/diagnoseStore.js";
 import {Link, useParams} from "@tanstack/react-router";
-
-4
+import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
+import PatientInfoCard from "@/components/patient/patient-info-card.jsx";
 
 
 function DiagnoseForm(opts) {
@@ -45,9 +45,12 @@ function DiagnoseForm(opts) {
     const {id} = useParams(opts);
     const {fetchMedicines, medicines} = useMedicineStore();
     const {createDiagnose} = useDiagnoseStore();
+    const {showOutPatientVisit, outpatientVisitValue} = useOutpatientVisitStore();
+
 
     useEffect(() => {
         fetchMedicines();
+        showOutPatientVisit(id);
     }, []);
 
     const {
@@ -118,9 +121,9 @@ function DiagnoseForm(opts) {
             </div>
 
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <PatientInfoCard patientValue={outpatientVisitValue}/>
 
-                {/* ── DIAGNOSIS ───────────────────────────────────────── */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 <div className="space-y-4">
                     <SectionHeader icon={Stethoscope} color="text-teal-500" label="Diagnosis"/>
 

@@ -45,16 +45,16 @@ class OutpatientVisitController
     }
 
 
+    public function show(OutpatientVisit $outpatientVisit)
+    {
+        $outpatientVisit->load('patient');
+        return response()->json($outpatientVisit);
+    }
+
+
     public function destroy(OutpatientVisit $outpatientVisit)
     {
         $data = $this->outpatientVisitService->destroy($outpatientVisit);
         return $this->successResponse($data, 'Outpatient visit deleted successfully.');
-    }
-
-
-    public function startDiagnose(OutpatientVisit $outpatientVisit)
-    {
-        $data = $this->outpatientVisitService->startDiagnose(outpatientVisit: $outpatientVisit);
-        return $this->successResponse($data, 'Diagnose started successfully.');
     }
 }
