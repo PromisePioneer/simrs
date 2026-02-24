@@ -1,5 +1,4 @@
 import {
-    User,
     Phone,
     MapPin,
     Calendar,
@@ -14,30 +13,15 @@ import { Badge } from "@/components/ui/badge.jsx";
 import { Skeleton } from "@/components/ui/skeleton.jsx";
 import { format, differenceInYears } from "date-fns";
 import { id as localeId } from "date-fns/locale";
+import {formatDate} from "@/utils/formatDate.js";
 
-/**
- * PatientInfoCard
- *
- * Props:
- * @param {object}  patientValue  - data dari useOutpatientVisitStore().outpatientVisits
- *                                  shape: { id, complain, type, status, patient: {...} }
- * @param {boolean} isLoading     - optional loading state
- */
+
 function PatientInfoCard({ patientValue, isLoading = false }) {
 
     const calculateAge = (dob) => {
         if (!dob) return "-";
         return differenceInYears(new Date(), new Date(dob));
-    };
-
-    const formatDate = (date) => {
-        if (!date) return "-";
-        try {
-            return format(new Date(date), "dd MMMM yyyy", { locale: localeId });
-        } catch {
-            return "-";
-        }
-    };
+    }
 
     const getGenderLabel = (gender) => {
         if (!gender) return "-";

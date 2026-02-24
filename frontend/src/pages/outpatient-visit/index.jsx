@@ -34,6 +34,8 @@ import {usePatientQueueStore} from "@/store/patientQueueStore.js";
 import {format} from "date-fns";
 import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
 import {stats} from "@/constants/outpatient-visits.js";
+import {calculateAge} from "@/utils/calculateAge.js";
+import {formatDate} from "@/utils/formatDate.js";
 
 function OutpatientPage() {
     const {fetchPatientQueues, patientQueues, search, setSearch} = usePatientQueueStore();
@@ -108,29 +110,6 @@ function OutpatientPage() {
                 return null;
         }
     };
-
-
-    const formatDate = (date) => {
-        if (!date) return "-";
-
-        const parsedDate = new Date(date);
-
-        if (isNaN(parsedDate.getTime())) return "-";
-
-        return format(parsedDate, "dd MMMM yyyy");
-    };
-
-
-    const calculateAge = (dateOfBirth) => {
-        const today = new Date();
-        const birthDate = new Date(dateOfBirth);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    }
 
 
     const handleStartExamination = async (patient) => {
