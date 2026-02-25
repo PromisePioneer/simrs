@@ -35,13 +35,13 @@ import {cn} from "@/lib/utils.js";
 import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {useDiagnoseStore} from "@/store/diagnoseStore.js";
-import {Link, useParams} from "@tanstack/react-router";
+import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
 import PatientInfoCard from "@/components/patient/patient-info-card.jsx";
 
 
 function DiagnoseForm(opts) {
-
+    const navigate = useNavigate();
     const {id} = useParams(opts);
     const {fetchMedicines, medicines} = useMedicineStore();
     const {createDiagnose} = useDiagnoseStore();
@@ -90,7 +90,12 @@ function DiagnoseForm(opts) {
     const referralValue = watch("referral");
 
     const onSubmit = async (data) => {
-        await createDiagnose(data, id);
+        const result = await createDiagnose(data, id);
+        if (result.success) {
+            await navigate({
+                to: "/outpatient-visit"
+            });
+        }
     };
 
     const SectionHeader = ({icon: Icon, color, label}) => (
@@ -327,7 +332,7 @@ function DiagnoseForm(opts) {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        {medicines && medicines.map((medicine) => (
+                                                        {Array.isArray(medicines) && medicines.map((medicine) => (
                                                             <SelectItem key={medicine.id}
                                                                         value={medicine.id}>{medicine.name}</SelectItem>
                                                         ))}

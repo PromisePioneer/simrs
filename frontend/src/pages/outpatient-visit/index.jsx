@@ -73,6 +73,9 @@ function OutpatientPage() {
         patientQueues?.data?.filter(p => p.status === "completed") || [];
 
 
+    console.log(waitingPatients);
+
+
     const statsData = stats(patientTodayCount, todayPatientCountByStatus);
 
     const getPriorityBadge = (priority) => {
@@ -364,7 +367,7 @@ function OutpatientPage() {
 
                             <TabsContent value="waiting" className="space-y-4 mt-6">
                                 {waitingPatients.length > 0 ? (
-                                    waitingPatients.data?.map((patient) => (
+                                    waitingPatients.map((patient) => (
                                         <PatientCard key={patient.id} patient={patient}/>
                                     ))
                                 ) : (

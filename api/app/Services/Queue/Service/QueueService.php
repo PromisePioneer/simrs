@@ -78,7 +78,7 @@ class QueueService
 
     public function startDiagnose(string $id): bool
     {
-        return $this->queueRepository->startDiagnose(id: $id);
+        return $this->queueRepository->changeStatus(id: $id, status: "in-progress");
     }
 
 }

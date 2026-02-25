@@ -6,17 +6,15 @@ import {
     Stethoscope,
     ClipboardList,
     Activity,
-    Heart,
     Briefcase,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge.jsx";
-import { Skeleton } from "@/components/ui/skeleton.jsx";
-import { format, differenceInYears } from "date-fns";
-import { id as localeId } from "date-fns/locale";
+import {Badge} from "@/components/ui/badge.jsx";
+import {Skeleton} from "@/components/ui/skeleton.jsx";
+import {differenceInYears} from "date-fns";
 import {formatDate} from "@/utils/formatDate.js";
 
 
-function PatientInfoCard({ patientValue, isLoading = false }) {
+function PatientInfoCard({patientValue, isLoading = false}) {
 
     const calculateAge = (dob) => {
         if (!dob) return "-";
@@ -52,11 +50,11 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
     const getVisitTypeBadge = (type) => {
         if (!type) return null;
         const map = {
-            rujuk: { label: "Rujukan", color: "bg-yellow-50 text-yellow-700 border-yellow-200" },
-            normal: { label: "Umum", color: "bg-teal-50 text-teal-700 border-teal-200" },
-            bpjs: { label: "BPJS", color: "bg-blue-50 text-blue-700 border-blue-200" },
+            rujuk: {label: "Rujukan", color: "bg-yellow-50 text-yellow-700 border-yellow-200"},
+            normal: {label: "Umum", color: "bg-teal-50 text-teal-700 border-teal-200"},
+            bpjs: {label: "BPJS", color: "bg-blue-50 text-blue-700 border-blue-200"},
         };
-        const cfg = map[type.toLowerCase()] ?? { label: type, color: "bg-gray-100 text-gray-700 border-gray-200" };
+        const cfg = map[type.toLowerCase()] ?? {label: type, color: "bg-gray-100 text-gray-700 border-gray-200"};
         return (
             <Badge variant="outline" className={`text-xs ${cfg.color}`}>
                 {cfg.label}
@@ -68,18 +66,18 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
     if (isLoading) {
         return (
             <div className="rounded-xl border bg-card overflow-hidden">
-                <div className="h-1.5 bg-teal-500" />
+                <div className="h-1.5 bg-teal-500"/>
                 <div className="p-5 space-y-4">
                     <div className="flex items-center gap-3">
-                        <Skeleton className="w-14 h-14 rounded-full" />
+                        <Skeleton className="w-14 h-14 rounded-full"/>
                         <div className="space-y-2">
-                            <Skeleton className="h-5 w-40" />
-                            <Skeleton className="h-4 w-24" />
+                            <Skeleton className="h-5 w-40"/>
+                            <Skeleton className="h-4 w-24"/>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                            <Skeleton key={i} className="h-12 rounded-lg" />
+                        {Array.from({length: 6}).map((_, i) => (
+                            <Skeleton key={i} className="h-12 rounded-lg"/>
                         ))}
                     </div>
                 </div>
@@ -91,7 +89,7 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
 
     // JSON shape: { id, complain, type, status, doctor_id, patient: { full_name, ... } }
     const patient = patientValue.patient ?? patientValue;
-    const visit   = patientValue; // complain, type, status ada di root
+    const visit = patientValue; // complain, type, status ada di root
 
     const age = calculateAge(patient?.date_of_birth);
 
@@ -102,13 +100,14 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
     return (
         <div className="rounded-xl border bg-card overflow-hidden shadow-sm mb-4">
             {/* accent bar */}
-            <div className="h-1.5 bg-gradient-to-r from-teal-400 to-teal-600" />
+            <div className="h-1.5 bg-linear-to-r from-teal-400 to-teal-600"/>
 
             <div className="p-5 space-y-5">
 
                 {/* ── Header ──────────────────────────────────────────── */}
                 <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-teal-50 border-2 border-teal-200 shrink-0">
+                    <div
+                        className="flex items-center justify-center w-14 h-14 rounded-full bg-teal-50 border-2 border-teal-200 shrink-0">
                         <span className="text-lg font-bold text-teal-600">{initials}</span>
                     </div>
 
@@ -120,7 +119,8 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
                             {getBloodTypeBadge(patient?.blood_type)}
                             {getVisitTypeBadge(visit?.type)}
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1 text-sm text-muted-foreground">
+                        <div
+                            className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1 text-sm text-muted-foreground">
                             <span>{age} tahun</span>
                             <span className="text-muted-foreground/40">•</span>
                             <span>{getGenderLabel(patient?.gender)}</span>
@@ -136,7 +136,7 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
                     </div>
                 </div>
 
-                <div className="h-px bg-border" />
+                <div className="h-px bg-border"/>
 
                 {/* ── Info grid pasien ────────────────────────────────── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -180,7 +180,7 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
                 {/* ── Info kunjungan ───────────────────────────────────── */}
                 {visit?.complain && (
                     <>
-                        <div className="h-px bg-border" />
+                        <div className="h-px bg-border"/>
                         <div className="space-y-2.5">
                             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Kunjungan Ini
@@ -209,8 +209,8 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
                                         label="Status"
                                         value={
                                             visit.status === "in-progress" ? "Sedang Diperiksa"
-                                                : visit.status === "waiting"    ? "Menunggu"
-                                                    : visit.status === "completed"  ? "Selesai"
+                                                : visit.status === "waiting" ? "Menunggu"
+                                                    : visit.status === "completed" ? "Selesai"
                                                         : visit.status
                                         }
                                     />
@@ -225,11 +225,11 @@ function PatientInfoCard({ patientValue, isLoading = false }) {
 }
 
 /* ── Sub-component ───────────────────────────────────────────────────────── */
-function InfoItem({ icon: Icon, iconColor, label, value, mono = false }) {
+function InfoItem({icon: Icon, iconColor, label, value, mono = false}) {
     return (
         <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
             <div className={`mt-0.5 shrink-0 ${iconColor}`}>
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4"/>
             </div>
             <div className="min-w-0 flex-1">
                 <p className="text-xs text-muted-foreground mb-0.5">{label}</p>

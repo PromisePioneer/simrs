@@ -10,7 +10,7 @@ export const useDiagnoseStore = create((set, get) => ({
     createDiagnose: async (data, visitId) => {
         try {
             await apiCall.post(`/api/v1/diagnoses/${visitId}`, data);
-            toast.success("Berhasil menambahkan batch baru.");
+            toast.success("Data berhasil disimpan.");
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
