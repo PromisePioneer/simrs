@@ -97,19 +97,24 @@ export const useOutpatientVisitStore = create((set, get) => ({
 
     resetAllergies: () =>
         set({allergies: [{name: ""}]}),
-    fetchOutPatientVisit: async ({perPage = null, status = 'waiting'}) => {
+    fetchOutPatientVisit: async ({perPage = null, status = null} = {}) => {
         try {
             set({isLoading: true, outpatientVisit: null});
-            const {search} = get();
+            const {search, currentPage} = get();
 
-            const params = {page: get().currentPage};
+            const params = {page: currentPage};
+
             if (perPage) params.per_page = perPage;
             if (search?.trim()) params.search = search;
-            const response = await apiCall.get('/api/v1/outpatient-visits?status=waiting', {params});
+            if (status) params.status = status;
 
-            if (status === 'waiting') {
-                set({outpatientVisits: response.data, isLoading: false});
-            }
+            const response = await apiCall.get(
+                '/api/v1/outpatient-visits',
+                {params}
+            );
+
+            set({outpatientVisits: response.data, isLoading: false});
+
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }

@@ -44,4 +44,9 @@ class Patient extends TenantScopeBaseModel
     {
         return $this->hasMany(PatientAddress::class, 'patient_id');
     }
+
+    public function outpatientVisits(): HasMany
+    {
+        return $this->hasMany(OutpatientVisit::class, 'patient_id');
+    }
 }

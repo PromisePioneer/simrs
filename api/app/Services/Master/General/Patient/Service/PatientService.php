@@ -86,5 +86,12 @@ class PatientService
         });
     }
 
+    public function getPatientWithEMR(Request $request): object
+    {
+        $filters = $request->only(['search']);
+        $perPage = $request->input('per_page');
+        return $this->patientRepository->getPatientWithEMR(filters: $filters , perPage: $perPage);
+    }
+
 
 }

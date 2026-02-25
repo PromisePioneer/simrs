@@ -19,7 +19,12 @@ use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
 
 // Core Resources
-Route::apiResource('patients', PatientController::class);
+Route::prefix('/patients')->group(function () {
+    Route::apiResource('/', PatientController::class);
+    Route::get('/emr', [PatientController::class, 'emr']);
+});
+
+
 Route::apiResource('poli', PoliController::class);
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('visit-lists', VisitListController::class);

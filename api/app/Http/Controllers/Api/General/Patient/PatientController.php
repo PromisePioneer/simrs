@@ -68,4 +68,10 @@ class PatientController extends Controller
         $patient->delete();
         return $this->successResponse($patient);
     }
+
+    public function emr(Request $request): JsonResponse
+    {
+        $data = $this->patientService->getPatientWithEMR(request: $request);
+        return response()->json($data);
+    }
 }
