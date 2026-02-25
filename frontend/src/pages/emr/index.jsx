@@ -349,12 +349,12 @@ function ElectronicMedicalRecordPage() {
             title: "Total Pasien",
             value: patientsWhereHasEmr?.total ?? "–",
             icon: User,
-            color: "bg-blue-500",
+            color: "bg-teal-500",
             desc: "Pasien terdaftar"
         },
-        {title: "Kunjungan Hari Ini", value: "45", icon: Activity, color: "bg-emerald-500", desc: "+5% dari kemarin"},
-        {title: "Rekam Medis Baru", value: "23", icon: FileText, color: "bg-violet-500", desc: "+8% bulan ini"},
-        {title: "Pemeriksaan Aktif", value: "12", icon: Stethoscope, color: "bg-orange-500", desc: "Sedang berjalan"},
+        {title: "Kunjungan Hari Ini", value: "45", icon: Activity, color: "bg-teal-500", desc: "+5% dari kemarin"},
+        {title: "Rekam Medis Baru", value: "23", icon: FileText, color: "bg-teal-500", desc: "+8% bulan ini"},
+        {title: "Pemeriksaan Aktif", value: "12", icon: Stethoscope, color: "bg-teal-500", desc: "Sedang berjalan"},
     ];
 
     return (
