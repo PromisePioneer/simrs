@@ -1,5 +1,5 @@
 import {Controller, useFieldArray, useForm} from "react-hook-form";
-import {Separator} from "@/components/ui/separator";
+import {Separator} from "@/components/ui/separator.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import Layout from "@/pages/dashboard/layout.jsx";
 import {

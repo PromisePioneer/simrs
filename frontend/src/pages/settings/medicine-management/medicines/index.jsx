@@ -136,7 +136,7 @@ function MedicinePage() {
             <DataTable
                 title="Tabel Obat"
                 description="Daftar Obat yang dijual"
-                columns={columns()}
+            columns={columns()}
                 data={medicines?.data || []}
                 isLoading={isLoading}
                 pagination={medicines ? {

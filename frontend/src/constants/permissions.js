@@ -70,5 +70,10 @@ export const PERMISSIONS = {
         CREATE: 'Membuat Rawat Jalan',
         EDIT: 'Mengubah Rawat Jalan',
         DELETE: 'Menghapus Rawat Jalan'
+    },
+    PRESCRIPTION: {
+        VIEW: "Melihat Penebusan Obat",
+        CREATE: "Menambahkan Penebusan Obat",
+        EDIT: "Mengubah Penebusan Obat",
     }
 };
