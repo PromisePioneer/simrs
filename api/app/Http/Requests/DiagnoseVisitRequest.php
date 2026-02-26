@@ -49,6 +49,7 @@ class DiagnoseVisitRequest extends FormRequest
             'prescriptions.*.duration' => 'nullable|string|max:100',
             'prescriptions.*.route' => 'nullable|string|max:50',
             'prescriptions.*.notes' => 'nullable|string|max:500',
+            'prescriptions.*.quantity' => 'required|integer',
 
             /*
             |--------------------------------------------------------------------------

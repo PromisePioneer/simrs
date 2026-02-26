@@ -21,6 +21,8 @@ class MedicineStockMovement extends TenantScopeBaseModel
         'reference_type',
         'reference_id',
         'notes',
+        'stock_before',
+        'stock_after',
     ];
 
 

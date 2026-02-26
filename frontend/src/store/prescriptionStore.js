@@ -37,9 +37,9 @@ export const usePrescriptionStore = create((set, get) => ({
             toast.error(e.data.message || 'Operasi Gagal');
         }
     },
-    medicationDispensing: async (id) => {
+    updatePrescriptionStatus: async (id) => {
         try {
-            await apiCall.post(`/api/v1/prescriptions/${id}`);
+            await apiCall.post(`/api/v1/prescriptions/medication-dispensing/${id}`);
             toast.success("Berhasil!");
             await get().fetchPrescriptions({perPage: 20});
         } catch (e) {

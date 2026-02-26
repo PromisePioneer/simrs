@@ -70,6 +70,7 @@ function DiagnoseForm(opts) {
                     frequency: "",
                     duration: "",
                     route: "",
+                    quantity: "",
                     notes: "",
                 },
             ],
@@ -436,15 +437,31 @@ function DiagnoseForm(opts) {
                                         )}
                                     />
                                 </div>
-                            </div>
 
-                            {/* Catatan Obat */}
-                            <div className="space-y-2">
-                                <Label className="text-sm font-semibold">Keterangan</Label>
-                                <Input
-                                    placeholder="Sesudah makan, sebelum tidur, dll..."
-                                    {...register(`prescriptions.${index}.notes`)}
-                                />
+
+                                <div className="space-y-2">
+                                    <Label className="text-sm font-semibold">Jumlah / Quantity <span
+                                        className="text-destructive">*</span></Label>
+                                    <Input
+                                        type="number"
+                                        min={1}
+                                        {...register(`prescriptions.${index}.quantity`, {
+                                            required: "Quantity wajib diisi",
+                                            min: {value: 1, message: "Minimal 1"}
+                                        })}
+                                        placeholder="Jumlah obat"
+                                    />
+                                    {errors.prescriptions?.[index]?.quantity && (
+                                        <p className="text-sm text-destructive">{errors.prescriptions[index].quantity.message}</p>
+                                    )}
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-sm font-semibold">Keterangan</Label>
+                                    <Input
+                                        placeholder="Sesudah makan, sebelum tidur, dll..."
+                                        {...register(`prescriptions.${index}.notes`)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}

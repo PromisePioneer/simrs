@@ -85,7 +85,7 @@ Route::prefix('diagnoses')->group(function () {
 
 Route::prefix('prescriptions')->group(function () {
     Route::apiResource('/', PrescriptionController::class);
-    Route::post('/medication-dispensing/{prescriptions}', [PrescriptionController::class, 'medicationDispensing']);
+    Route::post('/medication-dispensing/{prescription}', [PrescriptionController::class, 'medicationDispensing']);
 });
 
 

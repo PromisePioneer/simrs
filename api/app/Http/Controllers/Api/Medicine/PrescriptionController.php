@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Prescription;
 use App\Services\Prescription\Service\PrescriptionService;
 use Illuminate\Http\Request;
+use Throwable;
 
 class PrescriptionController extends Controller
 {
@@ -48,6 +49,9 @@ class PrescriptionController extends Controller
 
     }
 
+    /**
+     * @throws Throwable
+     */
     public function medicationDispensing(Prescription $prescription)
     {
         $data = $this->prescriptionService->medicationDispensing($prescription);

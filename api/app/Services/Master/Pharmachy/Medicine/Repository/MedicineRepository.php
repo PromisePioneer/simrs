@@ -16,7 +16,7 @@ class MedicineRepository implements MedicineRepositoryInterface
 
     public function getMedicines(array $filters = [], ?int $perPage = null): ?object
     {
-    $query = $this->model->with(['tenant', 'category', 'units'])->orderBy('name');
+        $query = $this->model->with(['tenant', 'category', 'units'])->orderBy('name');
 
         if (!empty($filters['type'])) {
             $query->where('type', $filters['type']);
@@ -37,6 +37,12 @@ class MedicineRepository implements MedicineRepositoryInterface
     public function findById(string $id): ?object
     {
         return $this->model->findOrFail($id);
+    }
+
+
+    public function findByTenantId(string $tenantId): ?object
+    {
+        return $this->model->where('tenant_id', $tenantId)->first();
     }
 
     public function store(array $data = []): ?object
@@ -63,5 +69,21 @@ class MedicineRepository implements MedicineRepositoryInterface
     public function findLastSequence(): ?object
     {
         return $this->model->orderByDesc('sequence')->lockForUpdate()->first();
+    }
+
+
+    public function getNextBatchFEFO(object $medicine)
+    {
+
+        return $medicine->batches()               // relasi Medicine → MedicineBatch
+        ->whereHas('stock', function ($q) {
+            $q->where('stock_amount', '>', 0); // hanya batch yang ada stock
+        })
+            ->with(['stock' => function ($q) {
+                $q->where('stock_amount', '>', 0); // eager load stock
+            }])
+            ->orderBy('expired_date', 'asc')    // FEFO: batch paling cepat expired
+            ->first();
+
     }
 }

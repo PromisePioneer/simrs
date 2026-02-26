@@ -98,6 +98,8 @@ return new class extends Migration {
             $table->string('reference_type')->nullable();
             $table->uuid('reference_id')->nullable();
             $table->text('notes')->nullable();
+            $table->decimal('stock_before', 10, 2)->nullable();
+            $table->decimal('stock_after', 10, 2)->nullable();
             $table->timestamps();
             $table->index(['medicine_id', 'batch_id']);
         });
