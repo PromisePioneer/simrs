@@ -65,7 +65,7 @@ function DiagnoseForm(opts) {
             procedures: [{code: "", name: "", description: ""}],
             prescriptions: [
                 {
-                    medicine_name: "",
+                    medicine_id: "",
                     dosage: "",
                     frequency: "",
                     duration: "",
@@ -93,7 +93,7 @@ function DiagnoseForm(opts) {
         const result = await createDiagnose(data, id);
         if (result.success) {
             await navigate({
-                to: "/outpatient-visit"
+                to: "/outpatient"
             });
         }
     };
@@ -117,7 +117,7 @@ function DiagnoseForm(opts) {
                     title="Form Kunjungan Rawat Jalan"
                     description="Isi data kunjungan pasien rawat jalan"
                 />
-                <Link to="/outpatient-visit">
+                <Link to="/outpatient">
                     <Button type="button" variant="outline" size="sm" className="gap-2">
                         <ArrowLeft className="w-4 h-4"/>
                         Kembali ke Daftar Rawat Jalan
@@ -323,7 +323,7 @@ function DiagnoseForm(opts) {
                                         Nama Obat <span className="text-destructive">*</span>
                                     </Label>
                                     <Controller
-                                        name={`prescriptions.${index}.medicine_name`}
+                                        name={`prescriptions.${index}.medicine_id`}
                                         control={control}
                                         render={({field}) => (
                                             <Select onValueChange={field.onChange} value={field.value}>
@@ -341,9 +341,9 @@ function DiagnoseForm(opts) {
                                             </Select>
                                         )}
                                     />
-                                    {errors.prescriptions?.[index]?.medicine_name && (
+                                    {errors.prescriptions?.[index]?.medicine_id && (
                                         <p className="text-sm text-destructive">
-                                            {errors.prescriptions[index].medicine_name.message}
+                                            {errors.prescriptions[index].medicine_id.message}
                                         </p>
                                     )}
                                 </div>
@@ -456,7 +456,7 @@ function DiagnoseForm(opts) {
                         className="gap-2"
                         onClick={() =>
                             prescriptionFields.append({
-                                medicine_name: "",
+                                medicine_id: "",
                                 dosage: "",
                                 frequency: "",
                                 duration: "",
@@ -609,7 +609,7 @@ function DiagnoseForm(opts) {
 
                 {/* ── SUBMIT ──────────────────────────────────────────── */}
                 <div className="flex justify-end gap-3 pt-2 border-t">
-                    <Link to="/outpatient-visit">
+                    <Link to="/outpatient">
                         <Button type="button" variant="outline">
                             Batal
                         </Button>

@@ -138,7 +138,7 @@ function OutpatientForm(opts) {
 
         if (result.success) {
             await navigate({
-                to: '/outpatient-visit',
+                to: '/outpatient',
             });
         }
     };
@@ -153,7 +153,7 @@ function OutpatientForm(opts) {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <Link to="/outpatient-visit">
+                            <Link to="/outpatient">
                                 <Button type="button" variant="outline" size="sm" className="gap-2">
                                     <ArrowLeft className="w-4 h-4"/>
                                     Kembali ke Daftar Rawat Jalan
@@ -813,7 +813,7 @@ function OutpatientForm(opts) {
 
                         {/* Submit Buttons */}
                         <div className="flex justify-end gap-4">
-                            <Link to="/outpatient-visit">
+                            <Link to="/outpatient">
                                 <Button type="button" variant="outline">
                                     Batal
                                 </Button>

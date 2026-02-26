@@ -20,8 +20,14 @@ class PrescriptionService
     public function getPrescriptions(Request $request): ?object
     {
         $filters = $request->only(['search']);
-        $perPage = $request->input('perPage');
+        $perPage = $request->input('per_page');
         return $this->prescriptionRepository->getPrescriptions(filters: $filters, perPage: $perPage);
+    }
+
+
+    public function medicationDispensing(Prescription $prescription): ?object
+    {
+        return $this->prescriptionRepository->getPrescriptions($prescription->id);
     }
 
 }

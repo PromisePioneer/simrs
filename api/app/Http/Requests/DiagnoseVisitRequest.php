@@ -15,7 +15,6 @@ class DiagnoseVisitRequest extends FormRequest
     {
 
 
-
         return [
 
             /*
@@ -44,7 +43,7 @@ class DiagnoseVisitRequest extends FormRequest
             |--------------------------------------------------------------------------
             */
             'prescriptions' => 'nullable|array',
-            'prescriptions.*.medicine_name' => 'required|string|max:255',
+            'prescriptions.*.medicine_id' => 'required|string|max:255',
             'prescriptions.*.dosage' => 'required|string|max:100',
             'prescriptions.*.frequency' => 'required|string|max:50',
             'prescriptions.*.duration' => 'nullable|string|max:100',
@@ -95,7 +94,7 @@ class DiagnoseVisitRequest extends FormRequest
             'diagnoses.*.type.in' => 'Tipe diagnosis tidak valid.',
 
             // Prescription
-            'prescriptions.*.medicine_name.required' => 'Nama obat wajib diisi.',
+            'prescriptions.*.medicine_id.required' => 'Nama obat wajib diisi.',
             'prescriptions.*.dosage.required' => 'Dosis obat wajib diisi.',
             'prescriptions.*.frequency.required' => 'Frekuensi obat wajib dipilih.',
 

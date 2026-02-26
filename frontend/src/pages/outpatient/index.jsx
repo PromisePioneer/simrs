@@ -125,7 +125,7 @@ function OutpatientPage() {
         <Layout>
 
             {/* Header */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500">

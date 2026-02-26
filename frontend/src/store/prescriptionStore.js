@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import apiCall from "@/services/apiCall.js";
 import {toast} from "sonner";
+import axios from "axios";
 
 
 export const usePrescriptionStore = create((set, get) => ({
@@ -29,11 +30,20 @@ export const usePrescriptionStore = create((set, get) => ({
 
             set({
                 isLoading: false,
-                degrees: response.data
+                prescriptions: response.data
             })
         } catch (e) {
             set({isLoading: false});
-            toast.error(e.data.message);
+            toast.error(e.data.message || 'Operasi Gagal');
+        }
+    },
+    medicationDispensing: async (id) => {
+        try {
+            await apiCall.post(`/api/v1/prescriptions/${id}`);
+            toast.success("Berhasil!");
+            await get().fetchPrescriptions({perPage: 20});
+        } catch (e) {
+            toast.error(e.data.message || 'Operasi Gagal');
         }
     }
 }));

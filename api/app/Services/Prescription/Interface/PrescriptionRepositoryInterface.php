@@ -4,7 +4,7 @@ namespace App\Services\Prescription\Interface;
 
 interface PrescriptionRepositoryInterface
 {
-    public function getPrescriptions(array $filters = [], int $perPage = 20);
+    public function getPrescriptions(array $filters = [], ?int $perPage = null);
 
-    public function medicationDispensing();
+    public function medicationDispensing(string $id);
 }

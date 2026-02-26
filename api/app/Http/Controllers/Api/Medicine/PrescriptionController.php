@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Medicine;
 
 use App\Http\Controllers\Controller;
+use App\Models\Prescription;
 use App\Services\Prescription\Service\PrescriptionService;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,7 @@ class PrescriptionController extends Controller
     public function index(Request $request)
     {
         $data = $this->prescriptionService->getPrescriptions(request: $request);
+        return response()->json($data);
     }
 
 
@@ -44,5 +46,11 @@ class PrescriptionController extends Controller
     public function destroy()
     {
 
+    }
+
+    public function medicationDispensing(Prescription $prescription)
+    {
+        $data = $this->prescriptionService->medicationDispensing($prescription);
+        return response()->json($data);
     }
 }

@@ -16,20 +16,21 @@ class Prescription extends TenantScopeBaseModel
         'tenant_id',
         'outpatient_visit_id',
         'medicine_id',
-        'medicine_name',
         'dosage',
         'frequency',
         'duration',
         'route',
         'quantity',
         'status',
-        'notes'
+        'notes',
+        'dispensed_by',
+        'dispensed_at',
     ];
 
 
     public function outpatientVisit(): BelongsTo
     {
-        return $this->belongsTo(OutPatientVisit::class, 'outpatient_visit_id');
+        return $this->belongsTo(OutpatientVisit::class, 'outpatient_visit_id');
     }
 
 

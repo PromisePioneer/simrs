@@ -34,8 +34,8 @@ class DiagnoseService
         DB::transaction(function () use ($visitId, $visit, $data) {
             $this->outPatientVisitRepository->changeStatus(id: $visitId, status: 'in_progress');
             $this->queueRepository->changeStatusBasedOnVisitId(id: $visitId, status: "completed");
-            $this->appendDiagnose(visitId: $visitId, data: $data, visit: $visit);
-            $this->appendProcedure(visitId: $visitId, data: $data, visit: $visit);
+//            $this->appendDiagnose(visitId: $visitId, data: $data, visit: $visit);
+//            $this->appendProcedure(visitId: $visitId, data: $data, visit: $visit);
             $this->appendPrescription(visitId: $visitId, data: $data, visit: $visit);
 
 

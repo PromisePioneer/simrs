@@ -85,7 +85,6 @@ return new class extends Migration {
             $table->foreignUuid('medicine_id')
                 ->constrained('medicines')
                 ->restrictOnDelete();
-            $table->string('medicine_name');
             $table->string('dosage');        // 500mg, 1 tablet
             $table->string('frequency');     // 3x1
             $table->string('duration')->nullable();  // 3 hari

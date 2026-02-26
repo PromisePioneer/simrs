@@ -59,6 +59,7 @@ trait DiagnoseTrait
 
     public function appendPrescription(string $visitId, array $data, object $visit): void
     {
+
         if (!empty($data['prescriptions'])) {
 
             $prescriptions = collect($data['prescriptions'])
@@ -67,7 +68,6 @@ trait DiagnoseTrait
                     return [
                         'tenant_id' => $visit->tenant_id,
                         'medicine_id' => $item['medicine_id'],
-                        'medicine_name' => $item['medicine_name'],
                         'dosage' => $item['dosage'],
                         'frequency' => $item['frequency'],
                         'duration' => $item['duration'] ?? null,

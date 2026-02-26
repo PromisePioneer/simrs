@@ -1,14 +1,30 @@
 import {useEffect, useState} from "react";
 import {usePatientQueueStore} from "@/store/patientQueueStore.js";
 import {Link, useNavigate} from "@tanstack/react-router";
-import {Activity, AlertCircle, CheckCircle, Clock, Filter, Search, Stethoscope, UserPlus, Users, X} from "lucide-react";
+import {
+    Activity,
+    AlertCircle,
+    CheckCircle,
+    Clock,
+    Edit,
+    Filter,
+    Search,
+    Stethoscope,
+    UserPlus,
+    Users,
+    X,
+    FileText,
+    Phone,
+    ClipboardList, Eye
+} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {calculateAge} from "@/utils/calculateAge.js";
-import {formatDate} from "date-fns";
+import {Badge} from "@/components/ui/badge.jsx";
+import {formatDate} from "@/utils/formatDate.js";
 
 
 function OutpatientVisitPage() {
@@ -82,7 +98,7 @@ function OutpatientVisitPage() {
             // panggil API update status
             await startDiagnose(patient.id);
             await navigate({
-                to: `/outpatient-visit/diagnose/${patient.outpatient_visit.id}`
+                to: `/outpatient/diagnose/${patient.outpatient_visit.id}`
             });
 
         } catch (error) {
@@ -188,9 +204,9 @@ function OutpatientVisitPage() {
                                             <CheckCircle className="w-4 h-4"/>
                                             Selesai
                                         </Button>
-                                        <Link to={`/outpatient-visit/diagnose/${patient.outpatient_visit.id}`}>
+                                        <Link to={`/outpatient/diagnose/${patient.outpatient_visit.id}`}>
                                             <Button variant="outline" size="sm"
-                                                    className="gap-2 flex-1 lg:flex-none">
+                                                className="gap-2 flex-1 lg:flex-none">
                                                 <Eye className="w-4 h-4"/>
                                                 Lihat Detail
                                             </Button>
