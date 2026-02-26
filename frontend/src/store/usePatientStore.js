@@ -58,8 +58,6 @@ export const usePatientStore = create((set, get) => ({
             if (search?.trim()) params.search = search;
 
             const response = await apiCall.get("/api/v1/patients/emr", {params});
-
-            console.log(response)
             set({patientsWhereHasEmr: response.data, isLoading: false});
         } catch (e) {
             set({isLoading: false, error: e.response?.data?.message});
