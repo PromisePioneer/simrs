@@ -57,6 +57,6 @@ class OutpatientVisit extends TenantScopeBaseModel
 
     public function prescriptions(): HasMany
     {
-        return $this->hasMany(Prescriptions::class, 'outpatient_visit_id');
+        return $this->hasMany(Prescription::class, 'outpatient_visit_id');
     }
 }

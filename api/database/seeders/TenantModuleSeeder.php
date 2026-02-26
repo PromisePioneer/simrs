@@ -84,7 +84,7 @@ class TenantModuleSeeder extends Seeder
                 'parent_id' => null,
                 'order' => 3,
                 'icon' => 'CalendarDays',
-                'route' => '/outpatient-visit',
+                'route' => '/outpatient',
                 'permissions' => [
                     'Melihat Rawat Jalan',
                     'Menambahkan Rawat Jalan'
@@ -104,7 +104,7 @@ class TenantModuleSeeder extends Seeder
                         'name' => 'Rawat Jalan Poli',
                         'order' => 1,
                         'icon' => null,
-                        'route' => '/registration/poly-outpatient-visit',
+                        'route' => '/registration/poly-outpatient',
                         'permissions' => [
                             'Melihat Rawat Jalan Poli',
                         ]
@@ -412,6 +412,17 @@ class TenantModuleSeeder extends Seeder
             "Mengubah Obat",
             "Menghapus Obat",
 
+
+            "Melihat Penebusan Obat",
+            'Menambahkan Penebusan Obat',
+            'Mengubah Penebusan Obat',
+            'Menghapus Penebusan Obat',
+
+
+            'Melihat Rawat Jalan',
+            'Membuat Rawat Jalan',
+            'Mengubah Rawat Jalan',
+            'Menghapus Rawat Jalan',
         ];
 
         foreach ($permissions as $permissionName) {

@@ -31,15 +31,21 @@ import {Badge} from "@/components/ui/badge.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Link, useNavigate} from "@tanstack/react-router";
 import {usePatientQueueStore} from "@/store/patientQueueStore.js";
-import {format} from "date-fns";
-import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
 import {stats} from "@/constants/outpatient-visits.js";
 import {calculateAge} from "@/utils/calculateAge.js";
 import {formatDate} from "@/utils/formatDate.js";
+import {PERMISSIONS} from "@/constants/permissions.js";
+import MedicinePage from "@/pages/settings/medicine-management/medicines/index.jsx";
+import MedicineCategoriesPage from "@/pages/settings/medicine-management/categories/index.jsx";
+import MedicineWarehousePage from "@/pages/settings/medicine-management/warehouses /index.jsx";
+import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
+import {PermissionTabs} from "@/components/common/tabs.jsx";
+import {usePermission} from "@/hooks/usePermission.js";
 
 function OutpatientPage() {
     const {fetchPatientQueues, patientQueues, search, setSearch} = usePatientQueueStore();
     const {startDiagnose} = usePatientQueueStore();
+    const {hasPermission} = usePermission();
     const {
         fetchPatientVisitCount,
         patientTodayCount,
@@ -47,7 +53,69 @@ function OutpatientPage() {
         todayPatientCountByStatus,
     } = useOutpatientDashboardReportStore();
     const [selectedFilter, setSelectedFilter] = useState("all");
-    const [activeTab, setActiveTab] = useState("waiting");
+    const [outpatientActiveTab, setOutpatientActiveTab] = useState("waiting");
+    const [isInitialized, setIsInitialized] = useState(false);
+
+
+    const tabs = [
+        {
+            key: 'outpatient',
+            label: 'Manajemen Rawat Jalan',
+            permission: PERMISSIONS.MEDICINE.VIEW,
+            component: MedicinePage
+        },
+        {
+            key: 'prescription-dispensing',
+            label: 'Penebusan Obat',
+            permission: PERMISSIONS.MEDICINE_CATEGORY.VIEW,
+            component: MedicineCategoriesPage
+        },
+        {
+            key: 'medicine_warehouses',
+            label: 'Gudang obat',
+            permission: PERMISSIONS.MEDICINE_WAREHOUSE.VIEW,
+            component: MedicineWarehousePage
+        },
+    ];
+
+
+    const firstAccessibleTab = tabs.find(tab => hasPermission(tab.permission));
+    const activeTab = search?.tab || '';
+
+    useEffect(() => {
+        if (!search?.tab && firstAccessibleTab) {
+            navigate({
+                to: '.',
+                search: {tab: firstAccessibleTab.key},
+                replace: true
+            });
+        } else {
+            setIsInitialized(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (search?.tab) {
+            setIsInitialized(true);
+        }
+    }, [search?.tab]);
+
+    useEffect(() => {
+        if (activeTab && isInitialized) {
+            const currentTab = tabs.find(tab => tab.key === activeTab);
+            if (currentTab && !hasPermission(currentTab.permission)) {
+                if (firstAccessibleTab) {
+                    navigate({
+                        to: '.',
+                        search: {tab: firstAccessibleTab.key},
+                        replace: true
+                    });
+                }
+            }
+        }
+    }, [activeTab, isInitialized]);
+
+    const hasAnyTabAccess = tabs.some(tab => hasPermission(tab.permission));
 
 
     useEffect(() => {
@@ -305,7 +373,12 @@ function OutpatientPage() {
                         </Card>
                     ))}
                 </div>
-
+                {/* Tabs dengan content */}
+                <PermissionTabs
+                    activeTab={activeTab}
+                    tabs={tabs}
+                    gridCols={3}
+                />
                 {/* Main Content - Tabs */}
                 <Card>
                     <CardHeader>
@@ -349,7 +422,7 @@ function OutpatientPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                        <Tabs value={outpatientActiveTab} onValueChange={setOutpatientActiveTab} className="w-full">
                             <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger value="waiting" className="gap-2">
                                     <Clock className="w-4 h-4"/>
@@ -412,6 +485,8 @@ function OutpatientPage() {
                     </CardContent>
                 </Card>
             </div>
+
+
         </Layout>
     );
 }

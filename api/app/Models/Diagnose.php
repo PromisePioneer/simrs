@@ -27,9 +27,4 @@ class Diagnose extends TenantScopeBaseModel
         return $this->belongsTo(OutPatientVisit::class, 'outpatient_visit_id');
     }
 
-
-    public function diagnoses(): HasMany
-    {
-        return $this->hasMany(Diagnose::class, 'parent_id');
-    }
 }

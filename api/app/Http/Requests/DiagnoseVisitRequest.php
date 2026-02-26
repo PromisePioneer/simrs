@@ -94,7 +94,7 @@ class DiagnoseVisitRequest extends FormRequest
             'diagnoses.*.description.required' => 'Deskripsi diagnosis wajib diisi.',
             'diagnoses.*.type.in' => 'Tipe diagnosis tidak valid.',
 
-            // Prescriptions
+            // Prescription
             'prescriptions.*.medicine_name.required' => 'Nama obat wajib diisi.',
             'prescriptions.*.dosage.required' => 'Dosis obat wajib diisi.',
             'prescriptions.*.frequency.required' => 'Frekuensi obat wajib dipilih.',

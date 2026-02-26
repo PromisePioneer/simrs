@@ -94,6 +94,8 @@ return new class extends Migration {
             $table->decimal('quantity', 10, 2)->nullable(); // jumlah yang diberikan
             $table->string('status')->default('draft'); // draft | approved | dispended | cancelled
             $table->text('notes')->nullable();
+            $table->foreignUuid('dispensed_by')->nullable()->constrained('users');
+            $table->timestamp('dispensed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

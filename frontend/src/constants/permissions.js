@@ -64,5 +64,11 @@ export const PERMISSIONS = {
         CREATE: 'Membuat Poli',
         EDIT: 'Mengubah Poli',
         DELETE: 'Menghapus Poli'
+    },
+    OUTPATIENT_VISIT: {
+        VIEW: 'Melihat Rawat Jalan',
+        CREATE: 'Membuat Rawat Jalan',
+        EDIT: 'Mengubah Rawat Jalan',
+        DELETE: 'Menghapus Rawat Jalan'
     }
 };

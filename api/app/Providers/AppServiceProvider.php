@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Degree;
+use App\Models\OutpatientVisit;
 use App\Models\PaymentMethod;
 use App\Models\PaymentMethodType;
 use App\Models\Poli;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\MedicineRack;
+use App\Models\Prescription;
 use App\Models\ProductUnitType;
 use App\Models\MedicineWarehouse;
 use App\Models\Profession;
@@ -18,6 +20,7 @@ use App\Models\Specialization;
 use App\Models\SubSpecialization;
 use App\Models\User;
 use App\Policies\DegreePolicy;
+use App\Policies\OutpatientVisitPolicy;
 use App\Policies\PaymentMethodPolicy;
 use App\Policies\PaymentMethodTypePolicy;
 use App\Policies\PoliPolicy;
@@ -26,6 +29,7 @@ use App\Policies\MedicinePolicy;
 use App\Policies\MedicineRackPolicy;
 use App\Policies\MedicineUnitTypePolicy;
 use App\Policies\MedicineWarehousePolicy;
+use App\Policies\PrescriptionPolicy;
 use App\Policies\ProfessionPolicy;
 use App\Policies\RegistrationInstitutionPolicy;
 use App\Policies\RolePolicy;
@@ -88,6 +92,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(MedicineWarehouse::class, MedicineWarehousePolicy::class);
         Gate::policy(ProductUnitType::class, MedicineUnitTypePolicy::class);
         Gate::policy(Medicine::class, MedicinePolicy::class);
+
+
+        Gate::policy(OutpatientVisit::class, OutpatientVisitPolicy::class);
+        Gate::policy(Prescription::class, PrescriptionPolicy::class);
     }
 }
 

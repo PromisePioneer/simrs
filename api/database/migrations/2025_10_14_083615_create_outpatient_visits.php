@@ -32,6 +32,7 @@ return new class extends Migration {
         });
 
 
+
         Schema::create('patients_vital_sign', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();

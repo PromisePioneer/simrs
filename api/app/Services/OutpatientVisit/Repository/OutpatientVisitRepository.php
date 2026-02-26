@@ -150,4 +150,10 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
     {
         $this->findById($id)->diagnoses()->createMany($diagnoses);
     }
+
+
+    public function changeStatus(string $id, string $status): void
+    {
+        $this->findById($id)->update(['status' => $status]);
+    }
 }

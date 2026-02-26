@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Prescriptions extends TenantScopeBaseModel
+class Prescription extends TenantScopeBaseModel
 {
     use HasUuids, SoftDeletes;
 
@@ -36,5 +36,10 @@ class Prescriptions extends TenantScopeBaseModel
     public function medicine(): BelongsTo
     {
         return $this->belongsTo(Medicine::class, 'medicine_id');
+    }
+
+    public function pharmacist(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dispensed_by');
     }
 }

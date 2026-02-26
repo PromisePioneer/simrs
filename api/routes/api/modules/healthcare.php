@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodControlle
 use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodTypeController;
 use App\Http\Controllers\Api\Master\General\Poli\PoliController;
 use App\Http\Controllers\Api\Master\General\RegistrationInstitution\RegistrationInstitutionController;
+use App\Http\Controllers\Api\Medicine\PrescriptionController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
@@ -71,7 +72,7 @@ Route::prefix('queues')->group(function () {
 Route::apiResource('/outpatient-visits', OutpatientVisitController::class);
 
 
-Route::prefix('outpatient-visit-dashboard-reports')->group(function () {
+Route::prefix('outpatient-dashboard-reports')->group(function () {
     Route::get('/today-patient-count', [OutpatientVisitDashboardCountController::class, 'getTodayPatientCount']);
     Route::get('/today-patient-count-by-status', [OutpatientVisitDashboardCountController::class, 'getPatientBasedOnStatus']);
 });
@@ -80,6 +81,9 @@ Route::prefix('outpatient-visit-dashboard-reports')->group(function () {
 Route::prefix('diagnoses')->group(function () {
     Route::post('/{outpatientVisit}', [DiagnoseController::class, 'store']);
 });
+
+
+Route::apiResource('prescriptions', PrescriptionController::class);
 
 
 
