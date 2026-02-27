@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {
     Card, CardContent, CardDescription, CardHeader, CardTitle,
 } from "@/components/ui/card.jsx";
@@ -12,8 +12,11 @@ import {
     Pill, Search, Filter, X, Clock,
     PackageCheck, Eye, Printer, User, Stethoscope,
     CalendarDays, Hash, Repeat2, Timer, Route, StickyNote, Package,
-    FlaskConical, ChevronDown, Building2,
+    FlaskConical, ChevronDown,
 } from "lucide-react";
+import {
+    Document, Page, Text, View, StyleSheet, PDFViewer, pdf,
+} from "@react-pdf/renderer";
 import {usePrescriptionStore} from "@/store/prescriptionStore.js";
 import {formatDate} from "@/utils/formatDate.js";
 
@@ -28,39 +31,25 @@ typeof document !== "undefined" && (() => {
             from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-        @media print {
-            body * { visibility: hidden !important; }
-            #rx-print-area, #rx-print-area * { visibility: visible !important; }
-            #rx-print-area {
-                position: fixed !important;
-                inset: 0 !important;
-                width: 210mm !important;
-                min-height: 297mm !important;
-                margin: 0 auto !important;
-                padding: 16mm 20mm !important;
-                background: white !important;
-                font-family: 'Times New Roman', serif !important;
-            }
-        }
     `;
     document.head.appendChild(s);
 })();
 
 /* ─── Status meta ───────────────────────────────────────────── */
 const statusMeta = {
-    draft:      { label: "Draft",      icon: StickyNote,   cls: "bg-slate-50 text-slate-600 border-slate-200" },
-    pending:    { label: "Menunggu",   icon: Clock,        cls: "bg-yellow-50 text-yellow-700 border-yellow-200" },
-    processing: { label: "Diproses",   icon: FlaskConical, cls: "bg-blue-50 text-blue-700 border-blue-200" },
-    dispensed:  { label: "Diserahkan", icon: PackageCheck, cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-    cancelled:  { label: "Dibatalkan", icon: X,            cls: "bg-red-50 text-red-700 border-red-200" },
+    draft: {label: "Draft", icon: StickyNote, cls: "bg-slate-50 text-slate-600 border-slate-200"},
+    pending: {label: "Menunggu", icon: Clock, cls: "bg-yellow-50 text-yellow-700 border-yellow-200"},
+    processing: {label: "Diproses", icon: FlaskConical, cls: "bg-blue-50 text-blue-700 border-blue-200"},
+    dispensed: {label: "Diserahkan", icon: PackageCheck, cls: "bg-emerald-50 text-emerald-700 border-emerald-200"},
+    cancelled: {label: "Dibatalkan", icon: X, cls: "bg-red-50 text-red-700 border-red-200"},
 };
 
 const accentBar = {
-    draft:      "from-slate-300 to-slate-400",
-    pending:    "from-yellow-400 to-amber-400",
+    draft: "from-slate-300 to-slate-400",
+    pending: "from-yellow-400 to-amber-400",
     processing: "from-blue-400 to-sky-400",
-    dispensed:  "from-emerald-400 to-teal-400",
-    cancelled:  "from-red-400 to-rose-400",
+    dispensed: "from-emerald-400 to-teal-400",
+    cancelled: "from-red-400 to-rose-400",
 };
 
 const routeLabel = {
@@ -72,6 +61,347 @@ const frequencyLabel = {
     "1x1": "1×1 (Sekali sehari)", "2x1": "2×1 (Dua kali sehari)",
     "3x1": "3×1 (Tiga kali sehari)", "4x1": "4×1 (Empat kali sehari)", prn: "Jika perlu (p.r.n)",
 };
+
+/* ─── PDF Styles ─────────────────────────────────────────────── */
+const pdfStyles = StyleSheet.create({
+    page: {
+        padding: "16mm 20mm",
+        fontFamily: "Helvetica",
+        fontSize: 10,
+        color: "#1e293b",
+        backgroundColor: "#ffffff",
+    },
+    // KOP
+    headerRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        borderBottomWidth: 3,
+        borderBottomColor: "#0d9488",
+        paddingBottom: 10,
+        marginBottom: 16,
+        gap: 12,
+    },
+    logoBox: {
+        width: 48,
+        height: 48,
+        borderRadius: 8,
+        backgroundColor: "#0d9488",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    logoText: {color: "#ffffff", fontSize: 26, fontFamily: "Helvetica-Bold"},
+    clinicName: {fontSize: 18, fontFamily: "Helvetica-Bold", color: "#0d9488"},
+    clinicSub: {fontSize: 8, color: "#555555", marginTop: 2},
+    // Title
+    titleWrap: {alignItems: "center", marginBottom: 16},
+    titleText: {fontSize: 14, fontFamily: "Helvetica-Bold", letterSpacing: 2},
+    rxNumber: {fontSize: 9, color: "#666666", marginTop: 3},
+    // Info grid
+    infoGrid: {
+        flexDirection: "row",
+        gap: 10,
+        backgroundColor: "#f8fafc",
+        borderWidth: 1,
+        borderColor: "#e2e8f0",
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 16,
+    },
+    infoCol: {flex: 1},
+    infoLabel: {
+        fontSize: 7,
+        fontFamily: "Helvetica-Bold",
+        color: "#64748b",
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        marginBottom: 6,
+    },
+    infoRow: {flexDirection: "row", marginBottom: 3},
+    infoKey: {width: 55, color: "#64748b", fontSize: 9},
+    infoVal: {flex: 1, fontSize: 9},
+    infoValBold: {flex: 1, fontSize: 9, fontFamily: "Helvetica-Bold"},
+    // Section label
+    sectionLabel: {
+        fontSize: 7,
+        fontFamily: "Helvetica-Bold",
+        color: "#64748b",
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: "#e2e8f0",
+        paddingBottom: 4,
+        marginBottom: 8,
+    },
+    // Table
+    table: {marginBottom: 16},
+    tableHead: {
+        flexDirection: "row",
+        backgroundColor: "#f1f5f9",
+        borderWidth: 1,
+        borderColor: "#e2e8f0",
+    },
+    tableRow: {
+        flexDirection: "row",
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: "#e2e8f0",
+    },
+    thCell: {
+        flex: 1,
+        padding: "5px 7px",
+        fontSize: 8,
+        fontFamily: "Helvetica-Bold",
+        borderRightWidth: 1,
+        borderRightColor: "#e2e8f0",
+    },
+    tdCell: {
+        flex: 1,
+        padding: 7,
+        fontSize: 9,
+        borderRightWidth: 1,
+        borderRightColor: "#e2e8f0",
+    },
+    tdCellBold: {
+        flex: 1,
+        padding: 7,
+        fontSize: 9,
+        fontFamily: "Helvetica-Bold",
+        borderRightWidth: 1,
+        borderRightColor: "#e2e8f0",
+    },
+    notesBox: {
+        backgroundColor: "#fffbeb",
+        borderWidth: 1,
+        borderColor: "#fde68a",
+        borderRadius: 4,
+        padding: "7px 10px",
+        marginTop: 6,
+        fontSize: 9,
+    },
+    // Instruksi
+    instrBox: {
+        backgroundColor: "#f0fdf4",
+        borderWidth: 1,
+        borderColor: "#bbf7d0",
+        borderRadius: 6,
+        padding: "9px 12px",
+        marginBottom: 24,
+    },
+    instrTitle: {fontFamily: "Helvetica-Bold", color: "#166534", fontSize: 9, marginBottom: 4},
+    instrText: {color: "#15803d", fontSize: 8.5, lineHeight: 1.5},
+    // TTD
+    ttdGrid: {flexDirection: "row", gap: 30},
+    ttdCol: {flex: 1, alignItems: "center"},
+    ttdLabel: {fontSize: 9, marginBottom: 45},
+    ttdLabelSm: {fontSize: 9, marginBottom: 4},
+    ttdLabelMd: {fontSize: 9, marginBottom: 34},
+    ttdLine: {
+        borderTopWidth: 1,
+        borderTopColor: "#000000",
+        paddingTop: 4,
+        fontSize: 9,
+        width: "100%",
+        textAlign: "center",
+    },
+    ttdBold: {fontFamily: "Helvetica-Bold"},
+    // Footer
+    footer: {
+        marginTop: 20,
+        paddingTop: 8,
+        borderTopWidth: 1,
+        borderTopColor: "#cbd5e1",
+        textAlign: "center",
+        fontSize: 7.5,
+        color: "#94a3b8",
+    },
+});
+
+/* ─── PDF Document ───────────────────────────────────────────── */
+function ResepPDFDocument({prescription}) {
+    const visit = prescription.outpatient_visit;
+    const patient = visit?.patient;
+    const doctor = visit?.doctor;
+    const medicineName = prescription.medicine?.name ?? prescription.medicine_name ?? "—";
+    const printDate = new Date().toLocaleDateString("id-ID", {day: "numeric", month: "long", year: "numeric"});
+    const rxNumber = `RX-${prescription.id?.slice(-8).toUpperCase()}`;
+
+    return (
+        <Document title={`Resep - ${medicineName} - ${patient?.full_name ?? ""}`}>
+            <Page size="A4" style={pdfStyles.page}>
+
+                {/* KOP */}
+                <View style={pdfStyles.headerRow}>
+                    <View style={pdfStyles.logoBox}>
+                        <Text style={pdfStyles.logoText}>+</Text>
+                    </View>
+                    <View>
+                    <Text style={pdfStyles.clinicName}>{prescription?.tenant?.name}</Text>
+                        <Text style={pdfStyles.clinicSub}>Jl. Kesehatan No. 1, Jakarta Selatan Telp: (021)
+                            555-0100</Text>
+                        <Text style={pdfStyles.clinicSub}>SIP: 503/KL/DKK/2024 Buka: Senin-Sabtu 08.00-21.00</Text>
+                    </View>
+                </View>
+
+                {/* JUDUL */}
+                <View style={pdfStyles.titleWrap}>
+                    <Text style={pdfStyles.titleText}>RESEP OBAT</Text>
+                    <Text style={pdfStyles.rxNumber}>No. Resep: {rxNumber}</Text>
+                </View>
+
+                {/* INFO PASIEN & DOKTER */}
+                <View style={pdfStyles.infoGrid}>
+                    <View style={pdfStyles.infoCol}>
+                        <Text style={pdfStyles.infoLabel}>Data Pasien</Text>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>Nama</Text>
+                            <Text style={pdfStyles.infoValBold}>: {prescription.outpatient_visit.patient?.full_name ?? "—"}</Text>
+                        </View>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>No. MR</Text>
+                            <Text style={pdfStyles.infoVal}>: {prescription.outpatient_visit.patient?.medical_record_number ?? "—"}</Text>
+                        </View>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>Keluhan</Text>
+                            <Text style={pdfStyles.infoVal}>: {visit?.complain ?? "—"}</Text>
+                        </View>
+                    </View>
+                    <View style={pdfStyles.infoCol}>
+                        <Text style={pdfStyles.infoLabel}>Data Dokter & Tanggal</Text>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>Dokter</Text>
+                            <Text style={pdfStyles.infoValBold}>: {prescription.outpatient_visit?.doctor?.name ?? "—"}</Text>
+                        </View>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>Tanggal</Text>
+                            <Text style={pdfStyles.infoVal}>: {formatDate(prescription.created_at)}</Text>
+                        </View>
+                        <View style={pdfStyles.infoRow}>
+                            <Text style={pdfStyles.infoKey}>Status</Text>
+                            <Text
+                                style={pdfStyles.infoVal}>: {statusMeta[prescription.status]?.label ?? prescription.status}</Text>
+                        </View>
+                    </View>
+                </View>
+
+                {/* DETAIL OBAT */}
+                <View style={pdfStyles.table}>
+                    <Text style={pdfStyles.sectionLabel}>Detail Obat</Text>
+                    <View style={pdfStyles.tableHead}>
+                        {["Nama Obat", "Dosis", "Frekuensi", "Durasi", "Rute"].map((h) => (
+                            <Text key={h} style={pdfStyles.thCell}>{h}</Text>
+                        ))}
+                    </View>
+                    <View style={pdfStyles.tableRow}>
+                        <Text style={pdfStyles.tdCellBold}>{medicineName}</Text>
+                        <Text style={pdfStyles.tdCell}>{prescription.dosage ?? "—"}</Text>
+                        <Text
+                            style={pdfStyles.tdCell}>{frequencyLabel[prescription.frequency] ?? prescription.frequency ?? "—"}</Text>
+                        <Text style={pdfStyles.tdCell}>{prescription.duration ?? "—"}</Text>
+                        <Text
+                            style={pdfStyles.tdCell}>{routeLabel[prescription.route] ?? prescription.route ?? "—"}</Text>
+                    </View>
+                    {prescription.notes && (
+                        <View style={pdfStyles.notesBox}>
+                            <Text>
+                                <Text style={{fontFamily: "Helvetica-Bold"}}>Catatan: </Text>
+                                {prescription.notes}
+                            </Text>
+                        </View>
+                    )}
+                </View>
+
+                {/* INSTRUKSI */}
+                <View style={pdfStyles.instrBox}>
+                    <Text style={pdfStyles.instrTitle}>Instruksi Penggunaan:</Text>
+                    <Text style={pdfStyles.instrText}>
+                        Minum obat sesuai dosis yang tertera. Habiskan obat meskipun kondisi sudah membaik.{"\n"}
+                        Simpan di tempat sejuk dan kering, jauhkan dari jangkauan anak-anak.{"\n"}
+                        Segera hubungi dokter jika terjadi efek samping yang tidak diinginkan.
+                    </Text>
+                </View>
+
+                {/* TANDA TANGAN */}
+                <View style={pdfStyles.ttdGrid}>
+                    <View style={pdfStyles.ttdCol}>
+                        <Text style={pdfStyles.ttdLabel}>Apoteker / Petugas Farmasi</Text>
+                        <View style={pdfStyles.ttdLine}>
+                            <Text>(.................................)</Text>
+                        </View>
+                    </View>
+                    <View style={pdfStyles.ttdCol}>
+                        <Text style={pdfStyles.ttdLabelSm}>Jakarta, {printDate}</Text>
+                        <Text style={pdfStyles.ttdLabelMd}>Dokter Pemeriksa</Text>
+                        <View style={pdfStyles.ttdLine}>
+                            <Text
+                                style={pdfStyles.ttdBold}>{doctor?.name ?? "(.................................)"}</Text>
+                        </View>
+                    </View>
+                </View>
+
+                {/* FOOTER */}
+                <Text style={pdfStyles.footer}>
+                    Dokumen ini dicetak secara elektronik dari sistem rekam medis {rxNumber} {printDate}
+                </Text>
+
+            </Page>
+        </Document>
+    );
+}
+
+/* ─── PDF Modal ──────────────────────────────────────────────── */
+function PDFModal({prescription, onClose}) {
+    const [downloading, setDownloading] = useState(false);
+    const medicineName = prescription.medicine?.name ?? prescription.medicine_name ?? "resep";
+    const rxNumber = `RX-${prescription.id?.slice(-8).toUpperCase()}`;
+
+    const handleDownload = async () => {
+        setDownloading(true);
+        try {
+            const blob = await pdf(<ResepPDFDocument prescription={prescription}/>).toBlob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${rxNumber}-${medicineName}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } finally {
+            setDownloading(false);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl flex flex-col" style={{height: "90vh"}}>
+                {/* Toolbar */}
+                <div className="flex items-center justify-between px-6 py-4 border-b shrink-0">
+                    <span className="font-semibold text-sm">Preview PDF Resep</span>
+                    <div className="flex gap-2">
+                        <Button
+                            size="sm"
+                            className="gap-1.5 bg-teal-500 hover:bg-teal-600"
+                            onClick={handleDownload}
+                            disabled={downloading}
+                        >
+                            <Printer className="w-3.5 h-3.5"/>
+                            {downloading ? "Menyiapkan..." : "Download PDF"}
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={onClose}>
+                            <X className="w-3.5 h-3.5"/>
+                        </Button>
+                    </div>
+                </div>
+
+                {/* PDF Viewer — built-in toolbar browser bisa print/download langsung */}
+                <div className="flex-1 overflow-hidden rounded-b-xl">
+                    <PDFViewer width="100%" height="100%" showToolbar style={{border: "none"}}>
+                        <ResepPDFDocument prescription={prescription}/>
+                    </PDFViewer>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 /* ─── Status Badge ──────────────────────────────────────────── */
 const StatusBadge = ({status}) => {
@@ -106,217 +436,10 @@ function Collapse({open, children}) {
     );
 }
 
-/* ─── Print Modal ───────────────────────────────────────────── */
-function PrintModal({prescription, onClose}) {
-    const visit = prescription.outpatient_visit;
-    const patient = visit?.patient;
-    const doctor = visit?.doctor;
-    const medicineName = prescription.medicine?.name ?? prescription.medicine_name ?? "—";
-    const printDate = new Date().toLocaleDateString("id-ID", {day: "numeric", month: "long", year: "numeric"});
-    const rxNumber = `RX-${prescription.id?.slice(-8).toUpperCase()}`;
-
-    const handlePrint = () => window.print();
-
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-auto">
-                {/* modal toolbar */}
-                <div className="flex items-center justify-between px-6 py-4 border-b sticky top-0 bg-white z-10">
-                    <span className="font-semibold text-sm">Preview Cetak Resep</span>
-                    <div className="flex gap-2">
-                        <Button size="sm" className="gap-1.5 bg-teal-500 hover:bg-teal-600" onClick={handlePrint}>
-                            <Printer className="w-3.5 h-3.5"/> Cetak
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={onClose}>
-                            <X className="w-3.5 h-3.5"/>
-                        </Button>
-                    </div>
-                </div>
-
-                {/* A4 preview */}
-                <div className="p-6">
-                    <div
-                        id="rx-print-area"
-                        className="bg-white border border-gray-200 shadow-sm mx-auto"
-                        style={{width: "210mm", minHeight: "297mm", padding: "16mm 20mm", fontFamily: "'Times New Roman', serif"}}
-                    >
-                        {/* ── KOP KLINIK ── */}
-                        <div style={{borderBottom: "3px solid #0d9488", paddingBottom: "12px", marginBottom: "20px"}}>
-                            <div style={{display: "flex", alignItems: "center", gap: "16px"}}>
-                                <div style={{
-                                    width: "64px", height: "64px", borderRadius: "12px",
-                                    background: "#0d9488", display: "flex", alignItems: "center", justifyContent: "center",
-                                    flexShrink: 0,
-                                }}>
-                                    <span style={{color: "white", fontSize: "28px", fontWeight: "bold"}}>+</span>
-                                </div>
-                                <div>
-                                    <div style={{fontSize: "22px", fontWeight: "bold", color: "#0d9488", lineHeight: 1.2}}>
-                                        Klinik Sehat Bersama
-                                    </div>
-                                    <div style={{fontSize: "11px", color: "#555", marginTop: "4px"}}>
-                                        Jl. Kesehatan No. 1, Jakarta Selatan · Telp: (021) 555-0100
-                                    </div>
-                                    <div style={{fontSize: "11px", color: "#555"}}>
-                                        SIP: 503/KL/DKK/2024 · Buka: Senin–Sabtu 08.00–21.00
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* ── JUDUL ── */}
-                        <div style={{textAlign: "center", marginBottom: "20px"}}>
-                            <div style={{fontSize: "16px", fontWeight: "bold", letterSpacing: "3px", textTransform: "uppercase"}}>
-                                Resep Obat
-                            </div>
-                            <div style={{fontSize: "11px", color: "#666", marginTop: "4px"}}>
-                                No. Resep: <strong>{rxNumber}</strong>
-                            </div>
-                        </div>
-
-                        {/* ── INFO PASIEN & DOKTER ── */}
-                        <div style={{
-                            display: "grid", gridTemplateColumns: "1fr 1fr",
-                            gap: "12px", marginBottom: "20px",
-                            background: "#f8fafc", border: "1px solid #e2e8f0",
-                            borderRadius: "8px", padding: "14px",
-                        }}>
-                            <div>
-                                <div style={{fontSize: "10px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px"}}>
-                                    Data Pasien
-                                </div>
-                                <table style={{fontSize: "12px", width: "100%", borderCollapse: "collapse"}}>
-                                    <tbody>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px", width: "80px"}}>Nama</td>
-                                        <td style={{paddingBottom: "4px"}}>: <strong>{patient?.full_name ?? "—"}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px"}}>No. MR</td>
-                                        <td style={{paddingBottom: "4px"}}>: {patient?.medical_record_number ?? "—"}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px"}}>Keluhan</td>
-                                        <td style={{paddingBottom: "4px"}}>: {visit?.complain ?? "—"}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <div style={{fontSize: "10px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px"}}>
-                                    Data Dokter & Tanggal
-                                </div>
-                                <table style={{fontSize: "12px", width: "100%", borderCollapse: "collapse"}}>
-                                    <tbody>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px", width: "80px"}}>Dokter</td>
-                                        <td style={{paddingBottom: "4px"}}>: <strong>{doctor?.name ?? "—"}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px"}}>Tanggal</td>
-                                        <td style={{paddingBottom: "4px"}}>: {printDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color: "#64748b", paddingBottom: "4px"}}>Status</td>
-                                        <td style={{paddingBottom: "4px"}}>: {statusMeta[prescription.status]?.label ?? prescription.status}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        {/* ── DETAIL OBAT ── */}
-                        <div style={{marginBottom: "24px"}}>
-                            <div style={{
-                                fontSize: "10px", fontWeight: "bold", color: "#64748b",
-                                textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px",
-                                borderBottom: "1px solid #e2e8f0", paddingBottom: "6px",
-                            }}>
-                                Detail Obat
-                            </div>
-
-                            <table style={{width: "100%", borderCollapse: "collapse", fontSize: "13px"}}>
-                                <thead>
-                                <tr style={{background: "#f1f5f9"}}>
-                                    <th style={{padding: "8px 10px", textAlign: "left", border: "1px solid #e2e8f0", fontWeight: "600", fontSize: "12px"}}>Nama Obat</th>
-                                    <th style={{padding: "8px 10px", textAlign: "left", border: "1px solid #e2e8f0", fontWeight: "600", fontSize: "12px"}}>Dosis</th>
-                                    <th style={{padding: "8px 10px", textAlign: "left", border: "1px solid #e2e8f0", fontWeight: "600", fontSize: "12px"}}>Frekuensi</th>
-                                    <th style={{padding: "8px 10px", textAlign: "left", border: "1px solid #e2e8f0", fontWeight: "600", fontSize: "12px"}}>Durasi</th>
-                                    <th style={{padding: "8px 10px", textAlign: "left", border: "1px solid #e2e8f0", fontWeight: "600", fontSize: "12px"}}>Rute</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td style={{padding: "10px", border: "1px solid #e2e8f0", fontWeight: "600"}}>{medicineName}</td>
-                                    <td style={{padding: "10px", border: "1px solid #e2e8f0"}}>{prescription.dosage ?? "—"}</td>
-                                    <td style={{padding: "10px", border: "1px solid #e2e8f0"}}>{frequencyLabel[prescription.frequency] ?? prescription.frequency ?? "—"}</td>
-                                    <td style={{padding: "10px", border: "1px solid #e2e8f0"}}>{prescription.duration ?? "—"}</td>
-                                    <td style={{padding: "10px", border: "1px solid #e2e8f0"}}>{routeLabel[prescription.route] ?? prescription.route ?? "—"}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            {prescription.notes && (
-                                <div style={{
-                                    marginTop: "10px", padding: "10px 14px",
-                                    background: "#fffbeb", border: "1px solid #fde68a",
-                                    borderRadius: "6px", fontSize: "12px",
-                                }}>
-                                    <strong>Catatan:</strong> {prescription.notes}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* ── INSTRUKSI ── */}
-                        <div style={{
-                            marginBottom: "32px", padding: "12px 14px",
-                            background: "#f0fdf4", border: "1px solid #bbf7d0",
-                            borderRadius: "8px", fontSize: "12px",
-                        }}>
-                            <div style={{fontWeight: "bold", marginBottom: "6px", color: "#166534"}}>Instruksi Penggunaan:</div>
-                            <div style={{color: "#15803d"}}>
-                                Minum obat sesuai dosis yang tertera. Habiskan obat meskipun kondisi sudah membaik.
-                                Simpan di tempat sejuk dan kering, jauhkan dari jangkauan anak-anak.
-                                Segera hubungi dokter jika terjadi efek samping yang tidak diinginkan.
-                            </div>
-                        </div>
-
-                        {/* ── TANDA TANGAN ── */}
-                        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginTop: "auto"}}>
-                            <div style={{textAlign: "center"}}>
-                                <div style={{fontSize: "12px", marginBottom: "60px"}}>Apoteker / Petugas Farmasi</div>
-                                <div style={{borderTop: "1px solid #000", paddingTop: "6px", fontSize: "12px"}}>
-                                    (.................................)
-                                </div>
-                            </div>
-                            <div style={{textAlign: "center"}}>
-                                <div style={{fontSize: "12px", marginBottom: "4px"}}>Jakarta, {printDate}</div>
-                                <div style={{fontSize: "12px", marginBottom: "44px"}}>Dokter Pemeriksa</div>
-                                <div style={{borderTop: "1px solid #000", paddingTop: "6px", fontSize: "12px"}}>
-                                    <strong>{doctor?.name ?? "(.................................)"}</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* ── FOOTER ── */}
-                        <div style={{
-                            marginTop: "24px", paddingTop: "10px",
-                            borderTop: "1px dashed #cbd5e1",
-                            textAlign: "center", fontSize: "10px", color: "#94a3b8",
-                        }}>
-                            Dokumen ini dicetak secara elektronik dari sistem rekam medis · {rxNumber} · {printDate}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 /* ─── Prescription Card ─────────────────────────────────────── */
 function PrescriptionCard({prescription, onUpdateStatus, index}) {
     const [expanded, setExpanded] = useState(false);
-    const [showPrint, setShowPrint] = useState(false);
+    const [showPDF, setShowPDF] = useState(false);
     const visit = prescription.outpatient_visit;
     const patient = visit?.patient;
     const doctor = visit?.doctor;
@@ -325,18 +448,20 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
 
     return (
         <>
-            {showPrint && (
-                <PrintModal prescription={prescription} onClose={() => setShowPrint(false)}/>
+            {showPDF && (
+                <PDFModal prescription={prescription} onClose={() => setShowPDF(false)}/>
             )}
 
             <div style={{animation: "rx-fadeup 0.3s ease both", animationDelay: `${index * 60}ms`}}>
-                <Card className="overflow-hidden border border-border/60 hover:border-teal-300 hover:shadow-md transition-all duration-200">
+                <Card
+                    className="overflow-hidden border border-border/60 hover:border-teal-300 hover:shadow-md transition-all duration-200">
                     <div className={`h-1 w-full bg-gradient-to-r ${bar}`}/>
 
                     <CardContent className="p-5">
                         <div className="flex flex-col sm:flex-row justify-between gap-4">
                             <div className="flex gap-4 min-w-0 flex-1">
-                                <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-teal-50 border border-teal-100 shrink-0 transition-transform duration-200 hover:scale-110">
+                                <div
+                                    className="flex items-center justify-center w-11 h-11 rounded-xl bg-teal-50 border border-teal-100 shrink-0 transition-transform duration-200 hover:scale-110">
                                     <Pill className="w-5 h-5 text-teal-500"/>
                                 </div>
 
@@ -347,17 +472,26 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
                                     </div>
 
                                     <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                                        {prescription.dosage && <span className="flex items-center gap-1"><Hash className="w-3 h-3"/>{prescription.dosage}</span>}
-                                        {prescription.frequency && <span className="flex items-center gap-1"><Repeat2 className="w-3 h-3"/>{frequencyLabel[prescription.frequency] ?? prescription.frequency}</span>}
-                                        {prescription.duration && <span className="flex items-center gap-1"><Timer className="w-3 h-3"/>{prescription.duration}</span>}
-                                        {prescription.route && <span className="flex items-center gap-1"><Route className="w-3 h-3"/>{routeLabel[prescription.route] ?? prescription.route}</span>}
-                                        {prescription.quantity && <span className="flex items-center gap-1"><Package className="w-3 h-3"/>{prescription.quantity} unit</span>}
+                                        {prescription.dosage && <span className="flex items-center gap-1"><Hash
+                                            className="w-3 h-3"/>{prescription.dosage}</span>}
+                                        {prescription.frequency && <span className="flex items-center gap-1"><Repeat2
+                                            className="w-3 h-3"/>{frequencyLabel[prescription.frequency] ?? prescription.frequency}</span>}
+                                        {prescription.duration && <span className="flex items-center gap-1"><Timer
+                                            className="w-3 h-3"/>{prescription.duration}</span>}
+                                        {prescription.route && <span className="flex items-center gap-1"><Route
+                                            className="w-3 h-3"/>{routeLabel[prescription.route] ?? prescription.route}</span>}
+                                        {prescription.quantity && <span className="flex items-center gap-1"><Package
+                                            className="w-3 h-3"/>{prescription.quantity} unit</span>}
                                     </div>
 
                                     <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mt-0.5">
-                                        {patient && <span className="flex items-center gap-1"><User className="w-3 h-3"/>{patient.full_name}</span>}
-                                        {doctor  && <span className="flex items-center gap-1"><Stethoscope className="w-3 h-3"/>{doctor.name}</span>}
-                                        {prescription.created_at && <span className="flex items-center gap-1"><CalendarDays className="w-3 h-3"/>{formatDate(prescription.created_at)}</span>}
+                                        {patient && <span className="flex items-center gap-1"><User
+                                            className="w-3 h-3"/>{patient.full_name}</span>}
+                                        {doctor && <span className="flex items-center gap-1"><Stethoscope
+                                            className="w-3 h-3"/>{doctor.name}</span>}
+                                        {prescription.created_at &&
+                                            <span className="flex items-center gap-1"><CalendarDays
+                                                className="w-3 h-3"/>{formatDate(prescription.created_at)}</span>}
                                     </div>
                                 </div>
                             </div>
@@ -365,24 +499,28 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
                             {/* actions */}
                             <div className="flex sm:flex-col gap-2 shrink-0">
                                 {prescription.status === "draft" && (
-                                    <Button size="sm" className="gap-1.5 text-xs h-8 bg-yellow-500 hover:bg-yellow-600 active:scale-95 transition-all"
+                                    <Button size="sm"
+                                            className="gap-1.5 text-xs h-8 bg-yellow-500 hover:bg-yellow-600 active:scale-95 transition-all"
                                             onClick={() => onUpdateStatus(prescription.id, "pending")}>
                                         <Clock className="w-3.5 h-3.5"/> Ajukan
                                     </Button>
                                 )}
                                 {prescription.status === "pending" && (
-                                    <Button size="sm" className="gap-1.5 text-xs h-8 bg-teal-500 hover:bg-teal-600 active:scale-95 transition-all"
+                                    <Button size="sm"
+                                            className="gap-1.5 text-xs h-8 bg-teal-500 hover:bg-teal-600 active:scale-95 transition-all"
                                             onClick={() => onUpdateStatus(prescription.id, "processing")}>
                                         <FlaskConical className="w-3.5 h-3.5"/> Proses
                                     </Button>
                                 )}
                                 {prescription.status === "processing" && (
-                                    <Button size="sm" className="gap-1.5 text-xs h-8 bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all"
+                                    <Button size="sm"
+                                            className="gap-1.5 text-xs h-8 bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all"
                                             onClick={() => onUpdateStatus(prescription.id, "dispensed")}>
                                         <PackageCheck className="w-3.5 h-3.5"/> Serahkan
                                     </Button>
                                 )}
-                                <Button variant="outline" size="sm" className="gap-1.5 text-xs h-8 active:scale-95 transition-all"
+                                <Button variant="outline" size="sm"
+                                        className="gap-1.5 text-xs h-8 active:scale-95 transition-all"
                                         onClick={() => setExpanded((p) => !p)}>
                                     <Eye className="w-3.5 h-3.5"/>
                                     {expanded ? "Tutup" : "Detail"}
@@ -391,9 +529,9 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
                                         transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
                                     }}/>
                                 </Button>
-                                {/* Cetak always visible */}
-                                <Button variant="outline" size="sm" className="gap-1.5 text-xs h-8 active:scale-95 transition-all"
-                                        onClick={() => setShowPrint(true)}>
+                                <Button variant="outline" size="sm"
+                                        className="gap-1.5 text-xs h-8 active:scale-95 transition-all"
+                                        onClick={() => setShowPDF(true)}>
                                     <Printer className="w-3.5 h-3.5"/> Cetak
                                 </Button>
                             </div>
@@ -402,11 +540,23 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
                         <Collapse open={expanded}>
                             <div className="mt-4 pt-4 border-t border-dashed grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {[
-                                    {icon: Hash,    label: "Dosis",          value: prescription.dosage},
-                                    {icon: Repeat2, label: "Frekuensi",      value: frequencyLabel[prescription.frequency] ?? prescription.frequency},
-                                    {icon: Timer,   label: "Durasi",         value: prescription.duration},
-                                    {icon: Route,   label: "Rute Pemberian", value: routeLabel[prescription.route] ?? prescription.route},
-                                    {icon: Package, label: "Jumlah",         value: prescription.quantity ? `${prescription.quantity} unit` : null},
+                                    {icon: Hash, label: "Dosis", value: prescription.dosage},
+                                    {
+                                        icon: Repeat2,
+                                        label: "Frekuensi",
+                                        value: frequencyLabel[prescription.frequency] ?? prescription.frequency
+                                    },
+                                    {icon: Timer, label: "Durasi", value: prescription.duration},
+                                    {
+                                        icon: Route,
+                                        label: "Rute Pemberian",
+                                        value: routeLabel[prescription.route] ?? prescription.route
+                                    },
+                                    {
+                                        icon: Package,
+                                        label: "Jumlah",
+                                        value: prescription.quantity ? `${prescription.quantity} unit` : null
+                                    },
                                 ].filter((r) => r.value).map(({icon: Icon, label, value}) => (
                                     <div key={label} className="flex items-start gap-2 text-xs">
                                         <Icon className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0"/>
@@ -423,10 +573,15 @@ function PrescriptionCard({prescription, onUpdateStatus, index}) {
                                 )}
                                 {visit && (
                                     <div className="sm:col-span-2 p-3 rounded-lg bg-muted/40 border text-xs space-y-1">
-                                        <p className="font-semibold text-muted-foreground uppercase tracking-wide text-[10px] mb-2">Info Kunjungan</p>
-                                        {patient     && <p><span className="text-muted-foreground">Pasien: </span>{patient.full_name}</p>}
-                                        {doctor      && <p><span className="text-muted-foreground">Dokter: </span>{doctor.name}</p>}
-                                        {visit.complain && <p><span className="text-muted-foreground">Keluhan: </span>{visit.complain}</p>}
+                                        <p className="font-semibold text-muted-foreground uppercase tracking-wide text-[10px] mb-2">Info
+                                            Kunjungan</p>
+                                        {patient && <p><span
+                                            className="text-muted-foreground">Pasien: </span>{patient.full_name}</p>}
+                                        {doctor &&
+                                            <p><span className="text-muted-foreground">Dokter: </span>{doctor.name}</p>}
+                                        {visit.complain &&
+                                            <p><span className="text-muted-foreground">Keluhan: </span>{visit.complain}
+                                            </p>}
                                     </div>
                                 )}
                             </div>
@@ -464,10 +619,12 @@ function PrescriptionPage() {
         await fetchPrescriptions({perPage: 20});
     };
 
+
     return (
         <div className="space-y-6">
             <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500 shadow-lg shadow-teal-200">
+                <div
+                    className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500 shadow-lg shadow-teal-200">
                     <Pill className="w-6 h-6 text-white"/>
                 </div>
                 <div>
@@ -532,11 +689,14 @@ function PrescriptionPage() {
                         </div>
                     )}
                     {prescriptions?.last_page > 1 && (
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t text-xs text-muted-foreground">
+                        <div
+                            className="flex items-center justify-between mt-4 pt-4 border-t text-xs text-muted-foreground">
                             <span>Halaman {prescriptions.current_page} dari {prescriptions.last_page}</span>
                             <div className="flex gap-2">
-                                <Button variant="outline" size="sm" className="h-7 text-xs" disabled={!prescriptions.prev_page_url}>Sebelumnya</Button>
-                                <Button variant="outline" size="sm" className="h-7 text-xs" disabled={!prescriptions.next_page_url}>Berikutnya</Button>
+                                <Button variant="outline" size="sm" className="h-7 text-xs"
+                                        disabled={!prescriptions.prev_page_url}>Sebelumnya</Button>
+                                <Button variant="outline" size="sm" className="h-7 text-xs"
+                                        disabled={!prescriptions.next_page_url}>Berikutnya</Button>
                             </div>
                         </div>
                     )}

@@ -30,7 +30,7 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
     public function getPrescriptions(array $filters = [], ?int $perPage = null): object
     {
 
-        $query = $this->model->with(['outpatientVisit.patient', 'medicine', 'pharmacist']);
+        $query = $this->model->with(['outpatientVisit.patient', 'outpatientVisit.doctor', 'medicine', 'pharmacist', 'tenant']);
 
 
         if (!empty($filters['search'])) {
