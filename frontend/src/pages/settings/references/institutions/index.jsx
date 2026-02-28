@@ -222,7 +222,7 @@ function institutionPage() {
                     open={openModal}
                     onOpenChange={setOpenModal}
                     title={institutionValue ? "Edit Lembaga Pendaftaran" : "Create New Lembaga Pendaftaran"}
-                    description={institutionValue ? "Update payment method information" : "Add a new payment method to your system"}
+                    description={institutionValue ? "Update cashier method information" : "Add a new cashier method to your system"}
                     onSubmit={handleSubmit(onSubmit)}
                     submitText={institutionValue ? "Update Lembaga Pendaftaran" : "Create Lembaga Pendaftaran"}
                     isLoading={isSubmitting}

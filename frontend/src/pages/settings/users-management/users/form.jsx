@@ -18,6 +18,7 @@ import UserMediaSection from "@/components/user/form-sections/media.jsx";
 import {useImagePreview} from "@/hooks/useImagePreview.js";
 import {asset} from "@/services/apiCall.js";
 import SettingPage from "@/pages/settings/index.jsx";
+import UserDoctorScheduleSection from "@/components/user/form-sections/doctor-schedule.jsx";
 
 // Helper function to format user data for form
 const formatUserDataForForm = (userData) => ({
@@ -120,6 +121,14 @@ function UserForm(opts) {
             });
         }
 
+        if (data.doctor_schedules?.length) {
+            data.doctor_schedules.forEach((s, i) => {
+                formData.append(`doctor_schedules[${i}][day_of_week]`, s.day_of_week);
+                formData.append(`doctor_schedules[${i}][start_time]`, s.start_time);
+                formData.append(`doctor_schedules[${i}][end_time]`, s.end_time);
+            });
+        }
+
         if (isEditMode) {
             await handleEdit(id, formData);
         } else {
@@ -163,6 +172,15 @@ function UserForm(opts) {
                                         ? roleData.data
                                         : []
                             }
+                        />
+
+
+
+                        <UserDoctorScheduleSection
+                            control={control}
+                            register={register}
+                            errors={errors}
+                            isDoctor={isDoctor}
                         />
 
                         <UserSTRInfoSection

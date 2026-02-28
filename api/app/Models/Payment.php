@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    protected $table = 'payments';
+    protected $table = 'cashier';
     protected $fillable = [
         'order_id',
         'gateway_transaction_id',

@@ -114,7 +114,7 @@ class TenantModuleSeeder extends Seeder
                         'name' => 'Pembayaran',
                         'order' => 1,
                         'icon' => null,
-                        'route' => '/cashier/payment',
+                        'route' => '/cashier/cashier',
                         'permissions' => [
                             'Melihat Pembayaran',
                         ]

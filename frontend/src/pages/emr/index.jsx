@@ -454,52 +454,6 @@ function ElectronicMedicalRecordPage() {
                         )}
                     </CardContent>
                 </Card>
-
-                {/* quick actions */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {[
-                        {
-                            icon: ClipboardList,
-                            color: "bg-blue-100 text-blue-600",
-                            label: "Riwayat Pemeriksaan",
-                            desc: "Lihat riwayat pemeriksaan pasien"
-                        },
-                        {
-                            icon: Pill,
-                            color: "bg-emerald-100 text-emerald-600",
-                            label: "Resep Obat",
-                            desc: "Kelola resep dan obat pasien"
-                        },
-                        {
-                            icon: TestTube,
-                            color: "bg-violet-100 text-violet-600",
-                            label: "Hasil Lab",
-                            desc: "Lihat hasil laboratorium"
-                        },
-                        {
-                            icon: Heart,
-                            color: "bg-red-100 text-red-600",
-                            label: "Vital Signs",
-                            desc: "Monitor tanda vital pasien"
-                        },
-                    ].map(({icon: Icon, color, label, desc}) => (
-                        <Card key={label}
-                              className="hover:shadow-md hover:border-teal-200 transition-all duration-200 cursor-pointer group">
-                            <CardContent className="p-5 flex items-center gap-4">
-                                <div
-                                    className={`${color} p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform`}>
-                                    <Icon className="w-5 h-5"/>
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-sm">{label}</h3>
-                                    <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
-                                </div>
-                                <ArrowUpRight
-                                    className="w-4 h-4 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 transition-opacity"/>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
             </div>
         </Layout>
     );

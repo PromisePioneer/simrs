@@ -38,7 +38,7 @@ return new class extends Migration {
         });
 
 
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('cashier', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('order_id')->constrained('orders')->cascadeOnDelete();
             $table->string('gateway_transaction_id')->nullable(); // ID transaksi dari gateway

@@ -12,10 +12,10 @@ function PatientPaymentMethod({register, control, errors, watch, paymentMethodTy
         name: "payment_methods"
     });
 
-    // Watch semua payment methods untuk conditional rendering
+    // Watch semua cashier methods untuk conditional rendering
     const paymentMethods = watch("payment_methods");
 
-    // Function untuk menambah payment method baru
+    // Function untuk menambah cashier method baru
     const addPaymentMethod = () => {
         append({
             payment_method: "",
@@ -41,7 +41,7 @@ function PatientPaymentMethod({register, control, errors, watch, paymentMethodTy
                                 </div>
                             </div>
 
-                            {/* Tombol hapus (muncul jika ada lebih dari 1 payment method) */}
+                            {/* Tombol hapus (muncul jika ada lebih dari 1 cashier method) */}
                             {fields.length > 1 && (
                                 <Button
                                     type="button"
@@ -119,7 +119,7 @@ function PatientPaymentMethod({register, control, errors, watch, paymentMethodTy
 
                             {/* BPJS Number - conditional */}
                             {(() => {
-                                // Cari payment method yang dipilih
+                                // Cari cashier method yang dipilih
                                 const selectedMethod = paymentMethodTypes?.find(
                                     m => m.id.toString() === paymentMethods?.[index]?.payment_method_type_id
                                 );

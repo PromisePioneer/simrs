@@ -31,8 +31,8 @@ Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 
 // master Data
 Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
-Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
-Route::apiResource('payment-methods', PaymentMethodController::class);
+Route::apiResource('cashier-method-types', PaymentMethodTypeController::class);
+Route::apiResource('cashier-methods', PaymentMethodController::class);
 Route::apiResource('degrees', DegreeController::class);
 Route::apiResource('professions', ProfessionController::class);
 

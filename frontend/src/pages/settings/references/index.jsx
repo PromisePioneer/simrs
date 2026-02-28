@@ -28,7 +28,7 @@ function ReferencesPage() {
             component: DegreePage
         },
         {
-            key: 'payment-methods',
+            key: 'cashier-methods',
             label: 'Metode Pembayaran',
             permission: hasPermission(PERMISSIONS.PAYMENT_METHOD.VIEW),
             component: PaymentMethodPage

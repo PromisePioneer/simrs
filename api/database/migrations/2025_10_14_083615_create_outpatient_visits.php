@@ -26,11 +26,10 @@ return new class extends Migration {
             $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->foreignUuid('doctor_id')->constrained('users')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
-            $table->string('status')->default('waiting');
+            $table->string('status')->default('waiting'); //waiting, in_progress, completed
             $table->text('complain');
             $table->timestamps();
         });
-
 
 
         Schema::create('patients_vital_sign', function (Blueprint $table) {
