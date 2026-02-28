@@ -38,6 +38,6 @@ Route::prefix('pharmacy')->group(function () {
 
 
     Route::prefix('stocks')->group(function () {
-        Route::get('/stock-movements', [MedicineStockMovementController::class, 'index']);
+        Route::get('/movements', [MedicineStockMovementController::class, 'index']);
     });
 });

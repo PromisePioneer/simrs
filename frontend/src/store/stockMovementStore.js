@@ -33,7 +33,7 @@ export const useStockMovementStore = create((set, get) => ({
 
             set({
                 isLoading: false,
-                degrees: response.data
+                medicineMovementStocks: response.data
             })
         } catch (e) {
             set({

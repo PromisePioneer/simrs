@@ -94,7 +94,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(MedicineWarehouse::class, MedicineWarehousePolicy::class);
         Gate::policy(ProductUnitType::class, MedicineUnitTypePolicy::class);
         Gate::policy(Medicine::class, MedicinePolicy::class);
-        Gate::policiy(MedicineStockMovement::class, MedicineStockMovementPolicy::class);
+        Gate::policy(MedicineStockMovement::class, MedicineStockMovementPolicy::class);
 
 
         Gate::policy(OutpatientVisit::class, OutpatientVisitPolicy::class);

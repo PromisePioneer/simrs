@@ -37,7 +37,7 @@ function MedicineManagementPage() {
             component: MedicineWarehousePage
         },
         {
-            key: 'stock-movements',
+            key: 'medicine_stock_movements',
             label: 'Mutasi Obat',
             permission: PERMISSIONS.STOCK_MOVEMENT.VIEW,
             component: StockMovementPage

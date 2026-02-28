@@ -78,9 +78,9 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
 
                 $batch = $this->medicineRepository->getNextBatchFEFO(medicine: $medicine);
                 // Optional: cek stock cukup
-                if ($batch->stock->stock_amount < (integer)$prescription->quantity) {
-                    throw new \Exception('Insufficient stock for medicine: ' . $medicine->name);
-                }
+//                if ($batch->stock->stock_amount < (integer)$prescription->quantity) {
+//                    throw new \Exception('Insufficient stock for medicine: ' . $medicine->name);
+//                }
 
                 // Kurangi stock
 
