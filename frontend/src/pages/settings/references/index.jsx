@@ -1,4 +1,3 @@
-// src/pages/settings/ReferencesPage.jsx
 import {useState, useEffect} from 'react';
 import {usePermission} from '@/hooks/usePermission';
 import {PERMISSIONS} from '@/constants/permissions';
@@ -28,7 +27,7 @@ function ReferencesPage() {
             component: DegreePage
         },
         {
-            key: 'cashier-methods',
+            key: 'payment-methods',
             label: 'Metode Pembayaran',
             permission: hasPermission(PERMISSIONS.PAYMENT_METHOD.VIEW),
             component: PaymentMethodPage
