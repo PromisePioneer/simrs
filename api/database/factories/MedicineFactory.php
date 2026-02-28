@@ -31,15 +31,23 @@ class MedicineFactory extends Factory
             ]),
             'base_unit' => $this->faker->randomElement([
                 'tablet',
-                'capsule',
-                'bottle',
-                'ampoule',
                 'vial',
-                'sachet'
+                'ampul',
+                'botol',
+                'box',
+                'pcs',
+                'strip',
+                'sachet',
+                'tube',
+                'pot'
             ]),
             'type' => $this->faker->randomElement([
-                'medicine',
-                'consumable'
+                'tablets',
+                'capsule',
+                'injection',
+                'syrup',
+                'ointment',
+                'lainnya'
             ]),
             'must_has_receipt' => $this->faker->boolean(70),
             'is_for_sell' => true,

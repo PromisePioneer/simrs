@@ -31,6 +31,7 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {PERMISSIONS} from "@/constants/permissions.js";
+import {useMedicineStore} from "@/store/medicineStore.js";
 
 function MedicineStocks(opts) {
 
@@ -54,6 +55,8 @@ function MedicineStocks(opts) {
         setOpenDeleteModal,
         updateMedicineBatch,
     } = useMedicineBatchesStore();
+
+    const {showMedicine, medicineValue} = useMedicineStore();
 
     const {medicineWarehouses, fetchMedicineWarehouses} = useMedicineWarehouseStore();
     const {fetchByMedicineWarehouse, racksByMedicineWarehouse} = useMedicineRackStore();
@@ -81,6 +84,7 @@ function MedicineStocks(opts) {
             is_auto_batch: false,
             expired_date: undefined,
             stock_amount: "",
+            selling_price: "",
         }
     })
 
@@ -93,6 +97,7 @@ function MedicineStocks(opts) {
 
     // Clear batch_number when is_auto_batch is checked
     useEffect(() => {
+
         if (isAutoBatch) {
             setValue("batch_number", "");
         }
@@ -120,6 +125,18 @@ function MedicineStocks(opts) {
                 is_auto_batch: medicineBatchValue.is_auto_batch || false,
                 expired_date: expiredDate,
                 stock_amount: medicineBatchValue?.stock?.stock_amount || "",
+                selling_price: medicineBatchValue?.selling_price || "",
+            });
+        } else {
+            reset({
+                medicine_id: id,
+                warehouse_id: "",
+                rack_id: "",
+                batch_number: "",
+                is_auto_batch: false,
+                expired_date: undefined,
+                stock_amount: "",
+                selling_price: "",
             });
         }
     }, [warehouseId, fetchByMedicineWarehouse, medicineBatchValue])
@@ -160,7 +177,6 @@ function MedicineStocks(opts) {
 
 
         Object.keys(data).forEach(key => {
-            // Skip batch_number if is_auto_batch is true
             if (key === 'batch_number' && data.is_auto_batch) {
                 return;
             }
@@ -211,7 +227,7 @@ function MedicineStocks(opts) {
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                         <span
-                            className="font-semibold text-foreground">{format(medicineBatch.expired_date, 'd/M/Y')}</span>
+                            className="font-semibold text-foreground">{format(medicineBatch.expired_date, 'd/M/yyyy')}</span>
                     </div>
                 </div>
             </TableCell>
@@ -518,6 +534,25 @@ function MedicineStocks(opts) {
                         />
                         {errors.expired_date && (
                             <p className="text-sm text-destructive">{errors.expired_date.message}</p>
+                        )}
+                    </div>
+
+
+                    <div className="space-y-2">
+                        <Label htmlFor="selling_price">
+                            Harga Jual {medicineValue?.is_for_sell && <span className="text-destructive">*</span>}
+                        </Label>
+                        <Input
+                            type="number"
+                            {...register("selling_price", {
+                                required: medicineValue?.is_for_sell ? "Harga jual harus diisi" : false,
+                                min: {value: 0, message: "Harga jual tidak boleh negatif"}
+                            })}
+                            placeholder="0"
+                            className="w-full"
+                        />
+                        {errors.selling_price && (
+                            <p className="text-sm text-destructive">{errors.selling_price.message}</p>
                         )}
                     </div>
                     {/* Stock Base Unit */}

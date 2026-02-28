@@ -23,6 +23,8 @@ export const useMedicineBatchesStore = create((set, get) => ({
     setOpenModal: async (id) => {
         if (id) {
             await get().showMedicineBatch(id);
+        }else{
+            set({medicineBatchValue: null});
         }
         set({openModal: !get().openModal});
     },
@@ -31,7 +33,6 @@ export const useMedicineBatchesStore = create((set, get) => ({
     setCurrentPage: (page) => {
         set({currentPage: page});
     },
-
     setSearch: (searchValue) => {
         set({search: searchValue});
     },

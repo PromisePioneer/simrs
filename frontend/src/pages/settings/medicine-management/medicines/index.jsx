@@ -12,6 +12,7 @@ import {
     DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
+import {Badge} from "@/components/ui/badge.jsx";
 
 
 function MedicinePage() {
@@ -50,8 +51,17 @@ function MedicinePage() {
                 </TableCell>
                 <TableCell>
                     <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
                             <span className="font-semibold text-foreground">{medicine.name}</span>
+                            {medicine.is_for_sell ? (
+                                <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border border-emerald-200">
+                                    Dijual
+                                </Badge>
+                            ) : (
+                                <Badge className="bg-slate-100 text-slate-500 hover:bg-slate-100 border border-slate-200">
+                                    Tidak Dijual
+                                </Badge>
+                            )}
                         </div>
                     </div>
                 </TableCell>

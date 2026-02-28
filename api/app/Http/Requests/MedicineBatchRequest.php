@@ -2,12 +2,24 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Master\Pharmachy\Medicine\Repository\MedicineBatchRepository;
+use App\Services\Master\Pharmachy\Medicine\Repository\MedicineRepository;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class MedicineBatchRequest extends FormRequest
 {
+
+
+    protected MedicineRepository $medicineRepository;
+
+    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+    {
+        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
+        $this->medicineRepository = new MedicineRepository();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,6 +35,9 @@ class MedicineBatchRequest extends FormRequest
      */
     public function rules(): array
     {
+        $medicine = $this->medicineRepository->findById($this->input('medicine_id'));
+
+
         return [
             'medicine_id' => ['required'],
             'warehouse_id' => ['required'],
@@ -32,7 +47,10 @@ class MedicineBatchRequest extends FormRequest
             })],
             'expired_date' => ['required', 'date', 'date_format:Y-m-d', 'after:today'],
             'stock_amount' => ['required'],
-            'is_auto_batch' => ['required', 'in:true,false']
+            'is_auto_batch' => ['required', 'in:true,false'],
+            'selling_price' => [Rule::requiredIf(function () use ($medicine) {
+                return $medicine->is_for_sell === true;
+            })]
         ];
     }
 

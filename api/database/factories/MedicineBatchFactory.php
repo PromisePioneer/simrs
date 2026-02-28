@@ -21,6 +21,7 @@ class MedicineBatchFactory extends Factory
             'sequence' => random_int(1, 100),
             'is_auto_batch' => $this->faker->boolean(30),
             'expired_date' => $this->faker->dateTimeBetween('+1 month', '+2 years'),
+            'selling_price' => $this->faker->randomFloat(2, 10),
         ];
     }
 }

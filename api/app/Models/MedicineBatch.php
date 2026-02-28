@@ -21,7 +21,8 @@ class MedicineBatch extends TenantScopeBaseModel
         'sequence',
         'is_auto_batch',
         'expired_date',
-        'stock_base_unit'
+        'stock_base_unit',
+        'selling_price',
     ];
 
 
