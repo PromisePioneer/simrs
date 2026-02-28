@@ -12,7 +12,13 @@ Route::prefix('pharmacy')->group(function () {
     Route::apiResource('medicine-categories', MedicineCategoryController::class);
     Route::apiResource('medicine-warehouses', MedicineWarehouseController::class);
     Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
-    Route::apiResource('medicines', MedicineController::class);
+
+
+    Route::prefix('medicines')->group(function () {
+        Route::apiResource('/', MedicineController::class);
+        Route::get('/ready-stocks', [MedicineController::class, 'getReadyStocksMedicine']);
+    });
+
 
     Route::prefix('medicine-racks')->group(function () {
         Route::apiResource('/', MedicineRackController::class);

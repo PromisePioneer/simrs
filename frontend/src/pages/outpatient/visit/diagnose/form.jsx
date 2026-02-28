@@ -43,13 +43,13 @@ import PatientInfoCard from "@/components/patient/patient-info-card.jsx";
 function DiagnoseForm(opts) {
     const navigate = useNavigate();
     const {id} = useParams(opts);
-    const {fetchMedicines, medicines} = useMedicineStore();
+    const {fetchReadyStockMedicine, readyStockMedicines} = useMedicineStore();
     const {createDiagnose} = useDiagnoseStore();
     const {showOutPatientVisit, outpatientVisitValue} = useOutpatientVisitStore();
 
 
     useEffect(() => {
-        fetchMedicines();
+        fetchReadyStockMedicine();
         showOutPatientVisit(id);
     }, []);
 
@@ -333,7 +333,7 @@ function DiagnoseForm(opts) {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        {Array.isArray(medicines) && medicines.map((medicine) => (
+                                                        {Array.isArray(readyStockMedicines) && readyStockMedicines.map((medicine) => (
                                                             <SelectItem key={medicine.id}
                                                                         value={medicine.id}>{medicine.name}</SelectItem>
                                                         ))}

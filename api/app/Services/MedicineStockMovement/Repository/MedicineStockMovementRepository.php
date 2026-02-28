@@ -17,6 +17,32 @@ class MedicineStockMovementRepository implements MedicineStockMovementRepository
         $this->model = new MedicineStockMovement();
     }
 
+
+    public function getStockMovements(array $filters = [], ?int $perPage = null): object
+    {
+        $query = $this->model->with([
+            'medicine',
+            'batch',
+            'warehouse',
+            'rack'
+        ]);
+
+        if (!empty($filters['search'])) {
+            $query->whereHas('medicine', function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('sku', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+
+        if ($perPage) {
+            return $query->paginate($perPage);
+        }
+
+
+        return $query->get();
+    }
+
     public function store(
         string $tenantId,
         string $medicineId,

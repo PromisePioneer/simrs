@@ -31,7 +31,6 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {PERMISSIONS} from "@/constants/permissions.js";
-import {updateUnitName} from "@/constants/medicines.js";
 
 function MedicineStocks(opts) {
 

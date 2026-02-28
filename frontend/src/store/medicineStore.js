@@ -13,6 +13,7 @@ export const useMedicineStore = create((set, get) => ({
     isDeleteLoading: false,
     openAddStockModalModal: false,
     success: false,
+    readyStockMedicines: [],
     setOpenAddStockModalModal: () => !get().openAddStockModalModal,
     setOpenDeleteModal: async (id) => {
         if (id) {
@@ -46,6 +47,14 @@ export const useMedicineStore = create((set, get) => ({
             set({medicines: response.data, isLoading: false});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+    fetchReadyStockMedicine: async () => {
+        try {
+            const response = await apiCall.get('/api/v1/pharmacy/medicines/ready-stocks');
+            set({readyStockMedicines: response.data});
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal");
         }
     },
     createMedicine: async (data) => {

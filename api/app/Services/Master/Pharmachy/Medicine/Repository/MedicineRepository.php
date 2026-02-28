@@ -86,4 +86,20 @@ class MedicineRepository implements MedicineRepositoryInterface
             ->first();
 
     }
+
+
+    public function getReadyStocksMedicine(): ?object
+    {
+        return $this->model
+            ->whereHas('batches.stock', function ($query) {
+                $query->where('stock_amount', '>', 0);
+            })->with(['batches' => function ($batchQuery) {
+                $batchQuery->whereHas('stock', function ($stockQuery) {
+                    $stockQuery->where('stock_amount', '>', 0);
+                })->with(['stock' => function ($stockQuery) {
+                    $stockQuery->where('stock_amount', '>', 0)
+                        ->select(['id', 'batch_id', 'stock_amount']); // ambil kolom yang perlu saja
+                }])->orderBy('expired_date', 'asc'); // FEFO
+            }])->get();
+    }
 }

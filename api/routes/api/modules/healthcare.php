@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
 use App\Http\Controllers\Api\General\Patient\PatientController;
-use App\Http\Controllers\Api\General\Patient\VisitListController;
 use App\Http\Controllers\Api\Master\General\Degree\DegreeController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\ProfessionController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SpecializationController;
@@ -28,7 +27,6 @@ Route::prefix('/patients')->group(function () {
 
 Route::apiResource('poli', PoliController::class);
 Route::apiResource('appointments', AppointmentController::class);
-Route::apiResource('visit-lists', VisitListController::class);
 Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 
 // master Data

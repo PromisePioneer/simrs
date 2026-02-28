@@ -74,4 +74,11 @@ class MedicineController extends Controller
         $this->medicineService->destroy(medicine: $medicine);
         return $this->successResponse($medicine, 'Product deleted successfully.');
     }
+
+
+    public function getReadyStocksMedicine(): JsonResponse
+    {
+        $data = $this->medicineService->getReadyStockMedicine();
+        return response()->json($data);
+    }
 }
