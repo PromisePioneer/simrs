@@ -57,7 +57,7 @@ export const usePaymentMethodStore = create((set, get) => ({
             if (search && search.trim() !== "") {
                 params.search = search;
             }
-            const response = await apiCall.get('/api/v1/payment-methods', {params});
+            const response = await apiCall.get('/api/v1/cashier-methods', {params});
 
             set({
                 paymentMethodLoading: false,
@@ -84,7 +84,7 @@ export const usePaymentMethodStore = create((set, get) => ({
                 params.search = search;
             }
 
-            const response = await apiCall.get("/api/v1/payment-method-types", {params})
+            const response = await apiCall.get("/api/v1/cashier-method-types", {params})
 
             set({
                 paymentMethodTypeLoading: false,
@@ -99,7 +99,7 @@ export const usePaymentMethodStore = create((set, get) => ({
     async createPaymentMethod(data) {
         try {
             set({isLoading: true});
-            await apiCall.post("/api/v1/payment-methods", data);
+            await apiCall.post("/api/v1/cashier-methods", data);
             toast.success("Berhasil menambahkan.");
             await get().fetchPaymentMethods({perPage: 20});
             set({error: null, openModal: false});
@@ -114,7 +114,7 @@ export const usePaymentMethodStore = create((set, get) => ({
     async showPaymentMethod(id) {
         set({paymentMethodValueLoading: true, error: null});
         try {
-            const response = await apiCall.get(`/api/v1/payment-methods/${id}`);
+            const response = await apiCall.get(`/api/v1/cashier-methods/${id}`);
             set({
                 paymentMethodValue: response.data,
                 paymentMethodValueLoading: false,
@@ -129,7 +129,7 @@ export const usePaymentMethodStore = create((set, get) => ({
     },
     async updatePaymentMethod(id, data) {
         try {
-            await apiCall.put(`/api/v1/payment-methods/${id}`, data);
+            await apiCall.put(`/api/v1/cashier-methods/${id}`, data);
             toast.success("Berhasil menyimpan perubahan.");
             await get().fetchPaymentMethods({perPage: 20});
             set({error: null, openModal: false});
@@ -139,7 +139,7 @@ export const usePaymentMethodStore = create((set, get) => ({
     },
     async deletePaymentMethod() {
         try {
-            await apiCall.delete(`/api/v1/payment-methods/${get().paymentMethodValue.id}`);
+            await apiCall.delete(`/api/v1/cashier-methods/${get().paymentMethodValue.id}`);
             toast.success("Berhasil Menghapus");
             set({
                 openDeleteModal: false,
