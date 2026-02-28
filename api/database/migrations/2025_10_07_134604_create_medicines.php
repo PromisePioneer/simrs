@@ -65,6 +65,7 @@ return new class extends Migration {
             $table->bigInteger('sequence');
             $table->boolean('is_auto_batch')->default(false);
             $table->date('expired_date')->nullable();
+            $table->decimal('selling_price', 15, 2)->nullable();
             $table->timestamps();
             $table->unique(['batch_number', 'sequence']);
         });

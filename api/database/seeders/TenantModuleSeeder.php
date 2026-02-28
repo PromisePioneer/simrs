@@ -91,54 +91,6 @@ class TenantModuleSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Pendaftaran',
-                'parent_id' => null,
-                'order' => 4,
-                'icon' => 'Contact',
-                'route' => '/registration',
-                'permissions' => [
-                    'Melihat Registrasi',
-                ],
-                'children' => [
-                    [
-                        'name' => 'Rawat Jalan Poli',
-                        'order' => 1,
-                        'icon' => null,
-                        'route' => '/registration/poly-outpatient',
-                        'permissions' => [
-                            'Melihat Rawat Jalan Poli',
-                        ]
-                    ],
-                    [
-                        'name' => 'Antrian Cepat',
-                        'order' => 2,
-                        'icon' => null,
-                        'route' => '/registration/fast-queue',
-                        'permissions' => [
-                            'Melihat Antrian Cepat',
-                        ]
-                    ],
-                    [
-                        'name' => 'Antrian Awal',
-                        'order' => 3,
-                        'icon' => null,
-                        'route' => '/registration/early-queue',
-                        'permissions' => [
-                            'Melihat Antrian Awal',
-                        ]
-                    ],
-                    [
-                        'name' => 'Layar Antrian',
-                        'order' => 4,
-                        'icon' => null,
-                        'route' => '/registration/queue-screen',
-                        'permissions' => [
-                            'Melihat Layar Antrian',
-                        ]
-                    ],
-                ]
-            ],
-            [
                 'name' => 'Electronic Medical Record',
                 'parent_id' => null,
                 'order' => 5,
