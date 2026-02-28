@@ -75,5 +75,8 @@ export const PERMISSIONS = {
         VIEW: "Melihat Penebusan Obat",
         CREATE: "Menambahkan Penebusan Obat",
         EDIT: "Mengubah Penebusan Obat",
+    },
+    STOCK_MOVEMENT: {
+        VIEW: "Melihat Mutasi Stock",
     }
 };

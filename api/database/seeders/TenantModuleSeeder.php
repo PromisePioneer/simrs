@@ -423,6 +423,8 @@ class TenantModuleSeeder extends Seeder
             'Membuat Rawat Jalan',
             'Mengubah Rawat Jalan',
             'Menghapus Rawat Jalan',
+
+            'Melihat Mutasi Stock',
         ];
 
         foreach ($permissions as $permissionName) {

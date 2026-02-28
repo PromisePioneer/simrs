@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Master\Pharmachy\Medicine\MedicineController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineBatch\MedicineBatchController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineCategory\MedicineCategoryController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineRack\MedicineRackController;
+use App\Http\Controllers\Api\Master\Pharmachy\MedicineStockMovement\MedicineStockMovementController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineUnitType\MedicineUnitTypeController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineWarehouse\MedicineWarehouseController;
 use Illuminate\Support\Facades\Route;
@@ -33,5 +34,10 @@ Route::prefix('pharmacy')->group(function () {
         Route::post('/', [MedicineBatchController::class, 'store']);
         Route::put('/{medicineBatch}', [MedicineBatchController::class, 'update']);
         Route::delete('/{medicineBatch}', [MedicineBatchController::class, 'destroy']);
+    });
+
+
+    Route::prefix('stocks')->group(function () {
+        Route::get('/stock-movements', [MedicineStockMovementController::class, 'index']);
     });
 });

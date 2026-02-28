@@ -9,6 +9,7 @@ import MedicinePage from "@/pages/settings/medicine-management/medicines/index.j
 import MedicineCategoriesPage from "@/pages/settings/medicine-management/categories/index.jsx";
 import {PermissionTabs} from "@/components/common/tabs.jsx";
 import MedicineWarehousePage from "@/pages/settings/medicine-management/warehouses /index.jsx";
+import StockMovementPage from "@/pages/settings/medicine-management/stock-movements/index.jsx";
 
 function MedicineManagementPage() {
     const navigate = useNavigate();
@@ -35,6 +36,12 @@ function MedicineManagementPage() {
             permission: PERMISSIONS.MEDICINE_WAREHOUSE.VIEW,
             component: MedicineWarehousePage
         },
+        {
+            key: 'stock-movements',
+            label: 'Mutasi Obat',
+            permission: PERMISSIONS.STOCK_MOVEMENT.VIEW,
+            component: StockMovementPage
+        }
     ];
 
     const firstAccessibleTab = tabs.find(tab => hasPermission(tab.permission));
