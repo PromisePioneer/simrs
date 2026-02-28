@@ -8,44 +8,39 @@ export const useSidebarStore = create((set, get) => ({
     error: null,
     menuData: null,
     isOpen: true,
+    isFetched: false,
 
-    // Toggle sidebar
     toggleSidebar: () => {
         set((state) => ({isOpen: !state.isOpen}));
     },
 
-    // Set sidebar state
     setSidebarOpen: (isOpen) => {
         set({isOpen});
     },
 
-    // Fetch menu from API
     fetchMenu: async () => {
-        set({isLoading: true, error: null});
+        if (get().isFetched) return get().menuData;
+
+        set({isLoading: true, error: null, isFetched: true});
         try {
             const response = await apiCall.get("/api/v1/modules");
             const menuData = response.data;
 
-            // Save to localStorage
             localStorage.setItem('menuData', JSON.stringify(menuData));
 
             set({
-                menuData: menuData,
+                menuData,
                 isLoading: false,
-                error: null
+                error: null,
             });
 
             return menuData;
         } catch (e) {
-            set({
-                error: e,
-                isLoading: false
-            });
+            set({error: e, isLoading: false, isFetched: false});
             throw e;
         }
     },
 
-    // Load menu from localStorage
     loadMenuFromStorage: () => {
         try {
             const storedMenu = localStorage.getItem('menuData');
@@ -61,19 +56,16 @@ export const useSidebarStore = create((set, get) => ({
         }
     },
 
-
-    // Refresh menu (fetch new data and update localStorage)
     refreshMenu: async () => {
+        set({isFetched: false});
         return await get().fetchMenu();
     },
 
-    // Clear menu data
     clearMenu: () => {
         localStorage.removeItem('menuData');
-        set({menuData: null});
+        set({menuData: null, isFetched: false});
     },
 
-    // Transform menu data for display
     transformAllMenuData: (menuData, currentPath) => {
         if (!menuData || !Array.isArray(menuData)) return [];
 

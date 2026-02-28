@@ -1,5 +1,4 @@
 import SettingPage from "@/pages/settings/index.jsx";
-import {PermissionTabs} from "@/components/common/tabs.jsx";
 import {useMedicineBatchesStore} from "@/store/medicineBatchesStore.js";
 import {useEffect} from "react";
 import {Link, useNavigate, useParams} from "@tanstack/react-router";

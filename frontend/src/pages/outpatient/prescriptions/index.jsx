@@ -230,7 +230,6 @@ function ResepPDFDocument({prescription}) {
         <Document title={`Resep - ${medicineName} - ${patient?.full_name ?? ""}`}>
             <Page size="A4" style={pdfStyles.page}>
 
-                {/* KOP */}
                 <View style={pdfStyles.headerRow}>
                     <View style={pdfStyles.logoBox}>
                         <Text style={pdfStyles.logoText}>+</Text>
@@ -243,13 +242,11 @@ function ResepPDFDocument({prescription}) {
                     </View>
                 </View>
 
-                {/* JUDUL */}
                 <View style={pdfStyles.titleWrap}>
                     <Text style={pdfStyles.titleText}>RESEP OBAT</Text>
                     <Text style={pdfStyles.rxNumber}>No. Resep: {rxNumber}</Text>
                 </View>
 
-                {/* INFO PASIEN & DOKTER */}
                 <View style={pdfStyles.infoGrid}>
                     <View style={pdfStyles.infoCol}>
                         <Text style={pdfStyles.infoLabel}>Data Pasien</Text>
@@ -284,7 +281,6 @@ function ResepPDFDocument({prescription}) {
                     </View>
                 </View>
 
-                {/* DETAIL OBAT */}
                 <View style={pdfStyles.table}>
                     <Text style={pdfStyles.sectionLabel}>Detail Obat</Text>
                     <View style={pdfStyles.tableHead}>
@@ -321,7 +317,6 @@ function ResepPDFDocument({prescription}) {
                     </Text>
                 </View>
 
-                {/* TANDA TANGAN */}
                 <View style={pdfStyles.ttdGrid}>
                     <View style={pdfStyles.ttdCol}>
                         <Text style={pdfStyles.ttdLabel}>Apoteker / Petugas Farmasi</Text>
