@@ -18,7 +18,7 @@ export function PermissionTabs({
 
     const tabsWithPermissions = tabs.map(tab => ({
         ...tab,
-        hasAccess: hasPermission(tab.permission)
+        hasAccess: typeof tab.permission === 'boolean' ? tab.permission : hasPermission(tab.permission)
     }));
 
     const handleTabChange = (value) => {

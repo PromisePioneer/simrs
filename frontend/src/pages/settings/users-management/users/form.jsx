@@ -6,7 +6,6 @@ import {useEffect} from "react";
 import {useForm} from "react-hook-form";
 
 import {useRoleStore} from "@/store/useRoleStore.js";
-import {useUserCrud} from "@/hooks/useUserCrud.js";
 import {useRegistrationInstitutionStore} from "@/store/useRegistrationInstitutionStore.js";
 import {useUserStore} from "@/store/useUserStore.js";
 

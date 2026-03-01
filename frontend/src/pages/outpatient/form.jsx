@@ -282,7 +282,7 @@ function OutpatientForm(opts) {
                                                         <SelectValue placeholder="Pilih pasien"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {patients && patients?.map((patient) => (
+                                                        {Array.isArray(patients) && patients?.map((patient) => (
                                                             <SelectItem key={patient.id} value={patient.id.toString()}>
                                                                 {patient.full_name}
                                                             </SelectItem>
@@ -311,9 +311,9 @@ function OutpatientForm(opts) {
                                                         <SelectValue placeholder="Pilih dokter"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {userData && userData.map((doctor) => (
+                                                        {Array.isArray(userData) && userData.map((doctor) => (
                                                             <SelectItem key={doctor.id} value={doctor.id}>
-                                                                {doctor.name} - {doctor.poli.name}
+                                                                {doctor.name} - {doctor.poli?.name}
                                                             </SelectItem>
                                                         ))}
                                                     </SelectContent>

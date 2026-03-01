@@ -5,11 +5,12 @@ import {Label} from "@/components/ui/label.jsx";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.jsx";
-import {FileText, Calendar as CalendarIcon, ChevronsUpDown, Check} from "lucide-react";
+import {FileText, Calendar as CalendarIcon, ChevronsUpDown, Check, X} from "lucide-react";
 import {Controller} from "react-hook-form";
 import {useState} from "react";
 import {format} from "date-fns";
 import {cn} from "@/lib/utils";
+import {ClearSelectedOption} from "@/components/ui/clear-selected-option.jsx";
 
 export default function UserSTRInfoSection({register, control, errors, isDoctor, strData, handleInstituteType}) {
     return (
@@ -37,55 +38,59 @@ export default function UserSTRInfoSection({register, control, errors, isDoctor,
                             }}
                             render={({field}) => {
                                 const [open, setOpen] = useState(false);
+                                const selectedVal = strData.find((str) => str.id === field.value)?.name
                                 return (
-                                    <Popover open={open} onOpenChange={setOpen}>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                role="combobox"
-                                                aria-expanded={open}
-                                                className="w-full justify-between"
-                                                onClick={() => {
-                                                    if (strData.length === 0) {
-                                                        handleInstituteType("str");
-                                                    }
-                                                }}
-                                            >
-                                                {field.value
-                                                    ? strData.find((str) => str.id === field.value)?.name
-                                                    : "Pilih lembaga..."}
-                                                <ChevronsUpDown className="opacity-50"/>
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-full p-0">
-                                            <Command>
-                                                <CommandInput placeholder="Cari lembaga..." className="h-9"/>
-                                                <CommandList>
-                                                    <CommandEmpty>Lembaga tidak ditemukan.</CommandEmpty>
-                                                    <CommandGroup className="w-full">
-                                                        {strData.map((str) => (
-                                                            <CommandItem
-                                                                key={str.id}
-                                                                value={str.id}
-                                                                onSelect={() => {
-                                                                    field.onChange(str.id === field.value ? "" : str.id);
-                                                                    setOpen(false);
-                                                                }}
-                                                            >
-                                                                {str.name}
-                                                                <Check
-                                                                    className={cn(
-                                                                        "ml-auto",
-                                                                        field.value === str.id ? "opacity-100" : "opacity-0"
-                                                                    )}
-                                                                />
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
+                                    <div className="relative">
+                                        <Popover open={open} onOpenChange={setOpen}>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    aria-expanded={open}
+                                                    className="w-full justify-between"
+                                                    onClick={() => {
+                                                        if (strData.length === 0) {
+                                                            handleInstituteType("str");
+                                                        }
+                                                    }}
+                                                >
+                                                    {field.value
+                                                        ? selectedVal.substring(0, 40) + '...'
+                                                        : "Pilih lembaga..."}
+                                                    <ChevronsUpDown className="opacity-50"/>
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-full p-0">
+                                                <Command>
+                                                    <CommandInput placeholder="Cari lembaga..." className="h-9"/>
+                                                    <CommandList>
+                                                        <CommandEmpty>Lembaga tidak ditemukan.</CommandEmpty>
+                                                        <CommandGroup className="w-full">
+                                                            {strData.map((str) => (
+                                                                <CommandItem
+                                                                    key={str.id}
+                                                                    value={str.id}
+                                                                    onSelect={() => {
+                                                                        field.onChange(str.id === field.value ? "" : str.id);
+                                                                        setOpen(false);
+                                                                    }}
+                                                                >
+                                                                    {str.name}
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "ml-auto",
+                                                                            field.value === str.id ? "opacity-100" : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                </CommandItem>
+                                                            ))}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                        {field.value && <ClearSelectedOption field={field}/>}
+                                    </div>
                                 );
                             }}
                         />

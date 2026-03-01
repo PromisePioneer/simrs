@@ -83,4 +83,10 @@ class PatientRepository implements PatientRepositoryInterface
 
         return $query->get();
     }
+
+
+    public function getPatientCount(): int
+    {
+        return $this->model->count();
+    }
 }

@@ -5,7 +5,7 @@ import {toast} from "sonner";
 export const usePatientStore = create((set, get) => ({
     isLoading: false,
     error: null,
-    patients: null,
+    patients: [],
     search: "",
     currentPage: 1,
     openModal: false,
