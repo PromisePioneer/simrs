@@ -15,8 +15,8 @@ Route::prefix('pharmacy')->group(function () {
     Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
 
     // medicines
+    Route::get('/medicines/ready-stocks', [MedicineController::class, 'getReadyStocksMedicine']);
     Route::apiResource('/medicines', MedicineController::class);
-    Route::get('medicines/ready-stocks', [MedicineController::class, 'getReadyStocksMedicine']);
 
 
     Route::prefix('medicine-racks')->group(function () {

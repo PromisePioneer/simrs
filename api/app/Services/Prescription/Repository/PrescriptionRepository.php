@@ -3,6 +3,7 @@
 namespace App\Services\Prescription\Repository;
 
 use App\Models\Medicine;
+use App\Models\MedicineBatch;
 use App\Models\MedicineStockMovement;
 use App\Models\Prescription;
 use App\Services\Master\Pharmachy\Medicine\Repository\MedicineRepository;
@@ -59,48 +60,66 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
 
             $prescription = $this->model
                 ->with('medicine')
+                ->lockForUpdate()
                 ->findOrFail($id);
 
-
-            // Cegah double dispense
             if ($prescription->status === 'dispensed') {
-                throw new \Exception('Prescription already dispensed');
+                throw new \Exception('Resep ini sudah pernah dikeluarkan');
             }
 
             $medicine = $prescription->medicine;
-
             if (!$medicine) {
-                throw new \Exception('Medicine not found');
+                throw new \Exception('Obat tidak ditemukan');
             }
 
-            // Reduce stock
-            if ($prescription->quantity > 0) {
+            $quantity = (int)$prescription->quantity;
 
-                $batch = $this->medicineRepository->getNextBatchFEFO(medicine: $medicine);
-                // Optional: cek stock cukup
-//                if ($batch->stock->stock_amount < (integer)$prescription->quantity) {
-//                    throw new \Exception('Insufficient stock for medicine: ' . $medicine->name);
-//                }
+            if ($quantity > 0) {
 
-                // Kurangi stock
+                // Ambil batch FEFO dan validasi ulang stok (bisa berubah sejak resep dibuat)
+                $batches = MedicineBatch::where('medicine_id', $medicine->id)
+                    ->whereHas('stock', fn($q) => $q->where('stock_amount', '>', 0))
+                    ->with('stock')
+                    ->orderBy('expired_date', 'asc')
+                    ->lockForUpdate()
+                    ->get();
 
-                $beforeStock = $batch->stock->stock_amount;        // stock sebelum dispense
-                $stockAfter = $beforeStock - $prescription->quantity; // stock setelah dispense
-                $batch->stock->decrement('stock_amount', $prescription->quantity);
-                $tenantId = $this->medicineRepository->findByTenantId($medicine->tenant_id)->tenant_id;
+                $totalStock = $batches->sum(fn($b) => $b->stock->stock_amount ?? 0);
 
-                $stockMovement = $this->medicineStockMovementRepository->store(
-                    tenantId: $tenantId,
-                    medicineId: $medicine->id,
-                    batchId: $batch->id,
-                    warehouseId: $batch->stock->warehouse_id,
-                    rackId: $batch->stock->rack_id,
-                    beforeStock: $beforeStock,
-                    stockAfter: $stockAfter,
-                    prescriptionId: $id,
-                    quantity: $prescription->quantity,
-                );
+                if ($totalStock < $quantity) {
+                    throw new \Exception(
+                        "Stok tidak mencukupi untuk {$medicine->name}. Tersedia: {$totalStock}, diminta: {$quantity}"
+                    );
+                }
 
+                $tenantId = $medicine->tenant_id;
+                $remaining = $quantity;
+
+                // Kurangi stok FEFO — catat movement per batch
+                foreach ($batches as $batch) {
+                    if ($remaining <= 0) break;
+
+                    $available = $batch->stock->stock_amount;
+                    $deduct = min($available, $remaining);
+                    $beforeStock = $available;
+                    $stockAfter = $available - $deduct;
+
+                    $batch->stock->decrement('stock_amount', $deduct);
+
+                    $this->medicineStockMovementRepository->store(
+                        tenantId: $tenantId,
+                        medicineId: $medicine->id,
+                        batchId: $batch->id,
+                        warehouseId: $batch->stock->warehouse_id,
+                        rackId: $batch->stock->rack_id,
+                        beforeStock: $beforeStock,
+                        stockAfter: $stockAfter,
+                        prescriptionId: $id,
+                        quantity: $deduct,   // ← jumlah yang diambil dari batch ini
+                    );
+
+                    $remaining -= $deduct;
+                }
             }
 
             $prescription->status = 'dispensed';
@@ -108,7 +127,7 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
             $prescription->dispensed_at = now();
             $prescription->save();
 
-            return $prescription;
+            return $prescription->fresh('medicine');
         });
     }
 }

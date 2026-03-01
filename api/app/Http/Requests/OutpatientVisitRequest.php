@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class OutpatientVisitRequest extends FormRequest
 {
@@ -20,8 +21,9 @@ class OutpatientVisitRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
+
         return [
             'type' => ['required', 'in:rujuk,non_rujuk'],
             'referred_hospital' => ['nullable', 'string'],
@@ -45,6 +47,7 @@ class OutpatientVisitRequest extends FormRequest
             'companion_phone' => ['nullable'],
             'companion_address' => ['nullable'],
             'allergies.*.name' => ['nullable'],
+
         ];
     }
 

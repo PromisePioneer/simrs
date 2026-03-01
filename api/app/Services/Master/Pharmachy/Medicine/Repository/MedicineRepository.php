@@ -90,7 +90,7 @@ class MedicineRepository implements MedicineRepositoryInterface
 
     public function getReadyStocksMedicine(): ?object
     {
-        return $this->model
+        return $this->model->with(['batches.stock'])
             ->whereHas('batches.stock', function ($query) {
                 $query->where('stock_amount', '>', 0);
             })->with(['batches' => function ($batchQuery) {
@@ -98,7 +98,7 @@ class MedicineRepository implements MedicineRepositoryInterface
                     $stockQuery->where('stock_amount', '>', 0);
                 })->with(['stock' => function ($stockQuery) {
                     $stockQuery->where('stock_amount', '>', 0)
-                        ->select(['id', 'batch_id', 'stock_amount']); // ambil kolom yang perlu saja
+                        ->select(['id', 'batch_id', 'stock_amount']);
                 }])->orderBy('expired_date', 'asc'); // FEFO
             }])->get();
     }

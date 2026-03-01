@@ -55,9 +55,14 @@ class OutpatientVisitController extends Controller
     public function show(OutpatientVisit $outpatientVisit)
     {
 
-        $this->authorize('show', OutpatientVisit::class);
-
+        $this->authorize('view', OutpatientVisit::class);
         $outpatientVisit->load('patient');
+        $outpatientVisit->load('doctor');
+        $outpatientVisit->load('vitalSign');
+        $outpatientVisit->load('diagnoses');
+        $outpatientVisit->load('procedures');
+        $outpatientVisit->load('prescriptions');
+        $outpatientVisit->load('prescriptions.medicine');
         return response()->json($outpatientVisit);
     }
 

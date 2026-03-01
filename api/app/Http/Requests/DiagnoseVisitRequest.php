@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class DiagnoseVisitRequest extends FormRequest
 {
@@ -11,45 +12,46 @@ class DiagnoseVisitRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
+    public function rules(Request $request): array
     {
 
-
         return [
+
 
             /*
             |--------------------------------------------------------------------------
             | DIAGNOSES (ICD-10)
             |--------------------------------------------------------------------------
             */
-            'diagnoses' => 'required|array|min:1',
-            'diagnoses.*.icd_code' => 'required|string|max:10',
-            'diagnoses.*.description' => 'required|string|max:255',
-            'diagnoses.*.type' => 'required|in:primary,secondary,comorbid',
+            'diagnoses' => ['required', 'array', 'min:1'],
+            'diagnoses.*.icd10_code' => ['required', 'string', 'max:10'],
+            'diagnoses.*.description' => ['required', 'string', 'max:255'],
+            'diagnoses.*.type' => ['required', 'in:primary,secondary,comorbid'],
 
             /*
             |--------------------------------------------------------------------------
             | PROCEDURES (ICD-9)
             |--------------------------------------------------------------------------
             */
-            'procedures' => 'nullable|array',
-            'procedures.*.code' => 'nullable|string|max:10',
-            'procedures.*.name' => 'nullable|string|max:255',
-            'procedures.*.description' => 'required|string|max:255',
+
+            'procedures' => ['required', 'array', 'min:1'],
+            'procedures.*.icd9_code' => ['required', 'max:10', 'string'],
+            'procedures.*.description' => ['required'],
+            'procedures.*.procedure_date' => ['nullable'],
+            'procedures.*.notes' => ['nullable'],
 
             /*
             |--------------------------------------------------------------------------
             | PRESCRIPTIONS
             |--------------------------------------------------------------------------
             */
-            'prescriptions' => 'nullable|array',
-            'prescriptions.*.medicine_id' => 'required|string|max:255',
-            'prescriptions.*.dosage' => 'required|string|max:100',
-            'prescriptions.*.frequency' => 'required|string|max:50',
-            'prescriptions.*.duration' => 'nullable|string|max:100',
-            'prescriptions.*.route' => 'nullable|string|max:50',
-            'prescriptions.*.notes' => 'nullable|string|max:500',
-            'prescriptions.*.quantity' => 'required|integer',
+            'prescriptions.*.medicine_id' => ['required', 'exists:medicines,id'],
+            'prescriptions.*.dosage' => ['required', 'string'],
+            'prescriptions.*.frequency' => ['required', 'string'],
+            'prescriptions.*.duration' => ['required', 'string'],
+            'prescriptions.*.route' => ['required', 'string'],
+            'prescriptions.*.quantity' => ['required', 'integer', 'min:1'],
+            'prescriptions.*.notes' => ['nullable', 'string'],
 
             /*
             |--------------------------------------------------------------------------

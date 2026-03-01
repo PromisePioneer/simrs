@@ -143,8 +143,7 @@ class OutpatientVisitRepository implements OutpatientVisitRepositoryInterface
 
     public function appendPrescriptions(string $id, array $prescriptions): void
     {
-        $this->findById($id)->prescriptions()->createMany($prescriptions);
-
+        $this->model->insert($prescriptions);
     }
 
     public function appendDiagnoses(string $id, array $diagnoses): void

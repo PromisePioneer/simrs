@@ -206,7 +206,7 @@ function OutpatientVisitPage() {
                                         </Button>
                                         <Link to={`/outpatient/diagnose/${patient.outpatient_visit.id}`}>
                                             <Button variant="outline" size="sm"
-                                                className="gap-2 flex-1 lg:flex-none">
+                                                    className="gap-2 flex-1 lg:flex-none">
                                                 <Eye className="w-4 h-4"/>
                                                 Lihat Detail
                                             </Button>
@@ -215,10 +215,12 @@ function OutpatientVisitPage() {
                                 )}
                                 {patient.status === "completed" && (
                                     <>
-                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                            <Eye className="w-4 h-4"/>
-                                            Lihat Detail
-                                        </Button>
+                                        <Link to={`/outpatient/visit/${patient.outpatient_visit.id}`}>
+                                            <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                                <Eye className="w-4 h-4"/>
+                                                Lihat Detail
+                                            </Button>
+                                        </Link>
                                         <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
                                             <FileText className="w-4 h-4"/>
                                             Rekam Medis

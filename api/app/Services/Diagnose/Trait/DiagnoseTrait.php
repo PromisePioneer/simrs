@@ -2,6 +2,9 @@
 
 namespace App\Services\Diagnose\Trait;
 
+use App\Models\MedicineBatch;
+use Exception;
+
 trait DiagnoseTrait
 {
     public function appendDiagnose(string $visitId, array $data, object $visit): void
@@ -11,7 +14,7 @@ trait DiagnoseTrait
             $collection = collect($data['diagnoses'])->map(function ($item) use ($visit) {
                 return [
                     'tenant_id' => $visit->tenant_id,
-                    'icd10_code' => $item['icd_code'],
+                    'icd10_code' => $item['icd10_code'],
                     'description' => $item['description'],
                     'type' => $item['type'],
                     'is_confirmed' => true,
@@ -34,11 +37,11 @@ trait DiagnoseTrait
         if (!empty($data['procedures'])) {
 
             $procedures = collect($data['procedures'])
-                ->filter(fn($p) => !empty($p['code']))
+                ->filter(fn($p) => !empty($p['icd9_code']))
                 ->map(function ($item) use ($visit) {
                     return [
                         'tenant_id' => $visit->tenant_id,
-                        'icd9_code' => $item['code'],
+                        'icd9_code' => $item['icd9_code'],
                         'description' => $item['description'] ?? '',
                         'performed_by' => auth()->id(),
                         'procedure_date' => now(),
@@ -57,33 +60,43 @@ trait DiagnoseTrait
     }
 
 
+    // appendPrescription — hanya validasi, tidak kurangi stok
+
+    /**
+     * @throws Exception
+     */
     public function appendPrescription(string $visitId, array $data, object $visit): void
     {
+        if (empty($data['prescriptions'])) return;
 
-        if (!empty($data['prescriptions'])) {
+        $prescriptions = collect($data['prescriptions'])
+            ->filter(fn($p) => !empty($p['medicine_id']));
 
-            $prescriptions = collect($data['prescriptions'])
-                ->filter(fn($p) => !empty($p['medicine_id']))
-                ->map(function ($item) use ($visit) {
-                    return [
-                        'tenant_id' => $visit->tenant_id,
-                        'medicine_id' => $item['medicine_id'],
-                        'dosage' => $item['dosage'],
-                        'frequency' => $item['frequency'],
-                        'duration' => $item['duration'] ?? null,
-                        'route' => $item['route'] ?? null,
-                        'quantity' => $item['quantity'] ?? null,
-                        'notes' => $item['notes'] ?? null,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                })
-                ->toArray();
+        foreach ($prescriptions as $item) {
+            $quantity = (int)($item['quantity'] ?? 0);
+            $medicineId = $item['medicine_id'];
 
-            if (!empty($prescriptions)) {
-                $this->outPatientVisitRepository
-                    ->appendPrescriptions($visitId, $prescriptions);
+            // Validasi stok tersedia (tanpa dikurangi — dikurangi saat dispense)
+            $totalStock = MedicineBatch::where('medicine_id', $medicineId)
+                ->whereHas('stock', fn($q) => $q->where('stock_amount', '>', 0))
+                ->with('stock')
+                ->get()
+                ->sum(fn($b) => $b->stock->stock_amount ?? 0);
+
+            if ($totalStock < $quantity) {
+                throw new Exception("Stok obat tidak mencukupi. Tersedia: {$totalStock}, diminta: {$quantity}");
             }
+
+            $visit->prescriptions()->create([
+                'tenant_id' => $visit->tenant_id,
+                'medicine_id' => $medicineId,
+                'dosage' => $item['dosage'],
+                'frequency' => $item['frequency'],
+                'duration' => $item['duration'] ?? null,
+                'route' => $item['route'] ?? null,
+                'quantity' => $quantity,
+                'notes' => $item['notes'] ?? null,
+            ]);
         }
     }
 }
