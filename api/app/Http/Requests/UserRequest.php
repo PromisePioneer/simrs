@@ -4,25 +4,20 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
-     */
     public function rules(): array
     {
+
+
         return [
             'name' => 'required',
             'email' => ['required',
@@ -46,10 +41,10 @@ class UserRequest extends FormRequest
             'degrees' => ['nullable'],
             'degrees.*.id' => ['string', Rule::exists('degrees', 'id')],
             'signature' => ['nullable'],
-            'profile_picture' => ['required', 'image'],
-            'doctor_schedule' => ['nullable', 'json'],
-            'doctor_schedule.*.*.start' => ['date_format:H:i'],
-            'doctor_schedule.*.*.end' => ['date_format:H:i', 'after:doctor_schedule.*.*.start'],
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'doctor_schedule' => ['nullable', 'array'],
+            'doctor_schedule.*.*.start_time' => ['date_format:H:i'],
+            'doctor_schedule.*.*.end_time' => ['date_format:H:i', 'after:doctor_schedule.*.*.start'],
         ];
     }
 
@@ -62,8 +57,15 @@ class UserRequest extends FormRequest
             'phone.required' => 'Telepon tidak boleh kosong',
             'address.required' => 'Alamat tidak boleh kosong',
             'roles.required' => 'role tidak boleh kosong',
+            'roles.array' => 'role tidak boleh kosong',
             'str_active_period.required' => 'Tanggal Periode STR tidak boleh kosong',
             'sip_active_period.required' => 'Tanggal Periode SIP tidak boleh kosong',
+            'degrees.*.id.exists' => 'Gelar tidak ditemukan',
+            'profile_picture.image' => 'Gambar tidak valid',
+            'doctor_schedule.*.start_time' => 'Jam mulai praktek harus berformat H:i',
+            'doctor_schedule.*.end_time' => 'Jam berakhir harus berformat H:i',
+            'doctor_schedule.*.*.end_time.after' => 'Jam berakhir prakter harus melebihi jam mulai praktek',
+
         ];
     }
 }

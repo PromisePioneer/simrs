@@ -70,6 +70,7 @@ class UserController extends Controller
         $user->load('roles:uuid,name');
         $user->load('str:id,name');
         $user->load('sip:id,name');
+        $user->load('doctorSchedule');
         return response()->json($user);
     }
 

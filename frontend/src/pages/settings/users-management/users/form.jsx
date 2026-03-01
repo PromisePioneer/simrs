@@ -1,8 +1,7 @@
-import Layout from "@/pages/dashboard/layout.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {ArrowLeft, Save} from "lucide-react";
-import {Link, useParams} from "@tanstack/react-router";
+import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {useEffect} from "react";
 import {useForm} from "react-hook-form";
 
@@ -19,8 +18,8 @@ import {useImagePreview} from "@/hooks/useImagePreview.js";
 import {asset} from "@/services/apiCall.js";
 import SettingPage from "@/pages/settings/index.jsx";
 import UserDoctorScheduleSection from "@/components/user/form-sections/doctor-schedule.jsx";
+import {format} from "date-fns";
 
-// Helper function to format user data for form
 const formatUserDataForForm = (userData) => ({
     name: userData.name || '',
     email: userData.email || '',
@@ -36,16 +35,16 @@ const formatUserDataForForm = (userData) => ({
     roles: userData.roles?.map(r => r.name) || [],
     signature: userData.signature || null,
     profile_picture: userData.profile_picture || null,
+    doctor_schedule: userData.doctor_schedule || [],
 });
 
 function UserForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
 
-    const {showUser, userValue} = useUserStore();
+    const {showUser, userValue, updateUser, createUser} = useUserStore();
     const {fetchRoles, roleData} = useRoleStore();
     const {fetchInstitutions, strData, sipData} = useRegistrationInstitutionStore();
-    const {handleCreate, handleEdit} = useUserCrud();
 
     const {
         register,
@@ -54,13 +53,14 @@ function UserForm(opts) {
         watch,
         setValue,
         reset,
-        getValues,
         formState: {errors, isSubmitting}
     } = useForm({
         mode: "all",
         reValidateMode: "onChange",
         defaultValues: formatUserDataForForm({})
     });
+
+    const navigate = useNavigate();
 
     const {
         previewImage,
@@ -108,9 +108,10 @@ function UserForm(opts) {
     const onSubmit = async (data) => {
         let formData = new FormData();
 
-        const specialFields = ['roles'];
+        const specialFields = ['roles', 'doctor_schedule', 'str_active_period', 'sip_active_period'];
+
         Object.keys(data).forEach(key => {
-            if (!specialFields.includes(key) && data[key]) {
+            if (!specialFields.includes(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
                 formData.append(key, data[key]);
             }
         });
@@ -121,21 +122,33 @@ function UserForm(opts) {
             });
         }
 
-        if (data.doctor_schedules?.length) {
-            data.doctor_schedules.forEach((s, i) => {
-                formData.append(`doctor_schedules[${i}][day_of_week]`, s.day_of_week);
-                formData.append(`doctor_schedules[${i}][start_time]`, s.start_time);
-                formData.append(`doctor_schedules[${i}][end_time]`, s.end_time);
+        if (data.doctor_schedule?.length) {
+            data.doctor_schedule.forEach((s, i) => {
+                formData.append(`doctor_schedule[${i}][day_of_week]`, s.day_of_week);
+                formData.append(`doctor_schedule[${i}][start_time]`, s.start_time ?? '');
+                formData.append(`doctor_schedule[${i}][end_time]`, s.end_time ?? '');
             });
         }
 
+        if (data.str_active_period) {
+            formData.append('str_active_period', format(data.str_active_period, "yyyy-MM-dd"));
+        }
+
+        if (data.sip_active_period) {
+            formData.append('sip_active_period', format(data.sip_active_period, 'yyyy-MM-dd'));
+        }
+
+        let result;
         if (isEditMode) {
-            await handleEdit(id, formData);
+            result = await updateUser(id, formData);
         } else {
-            await handleCreate(formData);
+            result = await createUser(formData);
+        }
+
+        if (result.success) {
+            await navigate({ to: "/settings/users-management" });
         }
     };
-
     const handleInstituteType = async (type) => {
         await fetchInstitutions({type});
     };
@@ -149,7 +162,7 @@ function UserForm(opts) {
                         title={isEditMode ? `Ubah Pengguna ` : "Tambah Pengguna Baru"}
                         description={isEditMode ? "Ubah Pengguna" : "Tambahkan pengguna baru ke sistem"}
                     />
-                    <Link to="/master/user">
+                    <Link to="/settings/users-management">
                         <Button variant="outline" className="gap-2">
                             <ArrowLeft className="w-4 h-4"/>
                             Back to List
@@ -175,10 +188,10 @@ function UserForm(opts) {
                         />
 
 
-
                         <UserDoctorScheduleSection
                             control={control}
                             register={register}
+                            setValue={setValue}
                             errors={errors}
                             isDoctor={isDoctor}
                         />

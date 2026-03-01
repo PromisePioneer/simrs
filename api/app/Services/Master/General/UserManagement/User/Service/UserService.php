@@ -71,6 +71,7 @@ class UserService
                 $degrees = json_decode($degrees, true);
             }
 
+
             if (!empty($degrees)) {
                 if (isset($degrees[0]['id'])) {
                     $syncData = collect($degrees)->mapWithKeys(fn($degree) => [
@@ -89,7 +90,6 @@ class UserService
             }
 
             $this->syncDoctorSchedule($user, $request->input('doctor_schedule', []));
-
             return [
                 'user' => $user,
                 'roles' => $roles,
@@ -149,7 +149,7 @@ class UserService
             }
 
 
-            $schedule = $request->input('schedule', []);
+            $schedule = $request->input('doctor_schedule', []);
 
             if (is_string($schedule)) {
                 $schedule = json_decode($schedule, true);
@@ -170,24 +170,18 @@ class UserService
     private function syncDoctorSchedule(User $user, array $schedule): void
     {
         DB::table('doctor_schedules')->where('user_id', $user->id)->delete();
-
         if (!empty($schedule)) {
             foreach ($schedule as $shifts) {
-                foreach ($shifts as $shiftDay => $day) {
-                    foreach ($day as $shiftData) {
-                        DB::table('doctor_schedules')->insert([
-                            'id' => Str::uuid()->toString(),
-                            'user_id' => $user->id,
-                            'day_of_week' => $shiftDay,
-                            'start_time' => $shiftData['start'],
-                            'end_time' => $shiftData['end'],
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                    }
-                }
+                DB::table('doctor_schedules')->insert([
+                    'id' => Str::uuid()->toString(),
+                    'user_id' => $user->id,
+                    'day_of_week' => $shifts['day_of_week'],
+                    'start_time' => $shifts['start_time'],
+                    'end_time' => $shifts['end_time'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
         }
     }
-
 }

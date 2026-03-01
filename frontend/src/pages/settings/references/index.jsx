@@ -1,8 +1,7 @@
 import {useState, useEffect} from 'react';
 import {usePermission} from '@/hooks/usePermission';
 import {PERMISSIONS} from '@/constants/permissions';
-import {ShieldAlert, Lock} from 'lucide-react';
-import {toast} from 'sonner';
+import {ShieldAlert} from 'lucide-react';
 import DegreePage from "@/pages/settings/references/degrees/index.jsx";
 import PaymentMethodPage from "@/pages/settings/references/payment-methods/index.jsx";
 import Institutions from "@/pages/settings/references/institutions/index.jsx";
@@ -114,13 +113,10 @@ function ReferencesPage() {
 
     return (
         <SettingPage>
-            {/* Header ditempatkan di luar Tabs */}
             <div className="mb-6">
                 <h2 className="text-2xl font-bold tracking-tight">Manajemen Data Referensi</h2>
                 <p className="text-muted-foreground">Kelola data Referensi.</p>
             </div>
-
-            {/* Tabs dengan content */}
             <PermissionTabs
                 activeTab={activeTab}
                 tabs={tabs}

@@ -5,7 +5,6 @@ import {toast} from "sonner";
 
 export const useUserStore = create((set, get) => ({
     isLoading: false,
-    error: null,
     userData: [],
     search: "",
     userValue: null,
@@ -35,7 +34,7 @@ export const useUserStore = create((set, get) => ({
         set({search: searchValue});
     },
     fetchUsers: async ({perPage = null} = {}) => {
-        set({isLoading: true, error: null});
+        set({isLoading: true});
         try {
 
             const params = {
@@ -55,62 +54,45 @@ export const useUserStore = create((set, get) => ({
 
             set((state) => ({
                 ...state,
-                userData: response.data,
-                error: null
+                userData: response.data
             }));
 
         } catch (e) {
-            set({
-                error: e?.response?.data?.message || e.message || "Error fetching users"
-            });
-
+            toast.error(e?.response?.data?.message || e.message || "Terjadi kesalahan");
         } finally {
             set({isLoading: false});
         }
     },
     fetchDoctors: async () => {
-        set({isLoading: true, error: null});
+        set({isLoading: true});
         try {
             const response = await apiCall.get(`/api/v1/users?role=Dokter`);
 
-            set({userData: response.data, isLoading: false, error: null})
+            set({userData: response.data, isLoading: false})
         } catch (e) {
-            set({
-                error: e?.response?.data?.message || e.message || "Error fetching users"
-            });
-
+            toast.error(e?.response?.data?.message || e.message || "Terjadi kesalahan");
         } finally {
             set({isLoading: false});
         }
     },
     createUser: async (userData) => {
-        set({isLoading: true, error: null});
+        set({isLoading: true});
         try {
             await apiCall.post("/api/v1/users", userData);
-            set({isLoading: false, error: null});
+            set({isLoading: false});
             return {success: true};
         } catch (e) {
-            const errorMessage = e.response?.data?.message || "Failed to create user";
-            set({
-                error: errorMessage,
-                isLoading: false
-            });
-            return {success: false, message: errorMessage};
+            toast.error(e?.response?.data?.message || e.message || "Terjadi kesalahan");
         }
     },
     updateUser: async (uuid, data) => {
-        set({isLoading: true, error: null});
+        set({isLoading: true});
         try {
             await apiCall.put(`/api/v1/users/${uuid}`, data);
-            set({isLoading: false, error: null});
+            set({isLoading: false});
             return {success: true};
         } catch (e) {
-            const errorMessage = e.response?.data?.message || "Failed to update user";
-            set({
-                error: errorMessage,
-                isLoading: false
-            });
-            return {success: false, message: errorMessage};
+            toast.error(e?.response?.data?.message || e.message || "Terjadi kesalahan");
         }
     },
     deleteUser: async () => {
@@ -130,8 +112,7 @@ export const useUserStore = create((set, get) => ({
             const response = await apiCall.get(`/api/v1/users/${id}`);
             set({
                 userValue: response.data,
-                isLoading: false,
-                error: null
+                isLoading: false
             });
         } catch (e) {
             toast.error(e.response.data.message || "Terjadi kesalahan.");
