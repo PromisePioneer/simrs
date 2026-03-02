@@ -69,6 +69,7 @@ class PatientRepository implements PatientRepositoryInterface
                 'outpatientVisits.procedures',
                 'outpatientVisits.prescriptions',
                 'outpatientVisits.doctor',
+                'outpatientVisits.prescriptions.medicine'
             ]);
 
 
