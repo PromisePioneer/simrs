@@ -48,7 +48,12 @@ class PatientController extends Controller
     {
         $patient->load([
             'paymentMethods',
-            'addresses'
+            'addresses',
+            'outpatientVisits',
+            'outpatientVisits.vitalSign',
+            'outpatientVisits.diagnoses',
+            'outpatientVisits.procedures',
+            'outpatientVisits.prescriptions',
         ]);
         return response()->json($patient);
     }
