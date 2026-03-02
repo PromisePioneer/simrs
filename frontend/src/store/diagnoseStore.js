@@ -11,6 +11,7 @@ export const useDiagnoseStore = create((set, get) => ({
         try {
             await apiCall.post(`/api/v1/diagnoses/${visitId}`, data);
             toast.success("Data berhasil disimpan.");
+            return true;
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }

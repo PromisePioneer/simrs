@@ -35,6 +35,7 @@ const pathLabels = {
     'roles': 'Peran Pengguna',
     'details': 'Detail',
     'electronic-medical-record': 'Rekam Medis Elektronik',
+    'outpatient' : 'Rawat Jalan'
 };
 
 // Function to check if string is UUID
@@ -71,13 +72,14 @@ export default function Layout({children}) {
         });
 
     return (
-        <SidebarProvider>
+        <SidebarProvider
+            style={{"--sidebar-width": "72px", "--sidebar-width-icon": "72px"}}
+        >
             <AppSidebar/>
             <SidebarInset>
                 {/* Sticky Header with Breadcrumb */}
                 <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background">
                     <div className="flex items-center gap-2 px-4 w-full">
-                        <SidebarTrigger className="-ml-1"/>
                         <Separator orientation="vertical" className="mr-2 h-4"/>
 
                         <Breadcrumb>

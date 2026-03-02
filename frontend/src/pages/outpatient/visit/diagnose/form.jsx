@@ -31,11 +31,11 @@ import {Badge} from "@/components/ui/badge.jsx";
 /* ─── Section Card ──────────────────────────────────────────────────────── */
 function SectionCard({icon: Icon, label, accent = "teal", children, action}) {
     const accents = {
-        teal:   {icon: "text-teal-600",   bg: "bg-teal-50",   border: "border-teal-100"},
+        teal: {icon: "text-teal-600", bg: "bg-teal-50", border: "border-teal-100"},
         violet: {icon: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100"},
-        amber:  {icon: "text-amber-600",  bg: "bg-amber-50",  border: "border-amber-100"},
-        sky:    {icon: "text-sky-600",    bg: "bg-sky-50",    border: "border-sky-100"},
-        rose:   {icon: "text-rose-600",   bg: "bg-rose-50",   border: "border-rose-100"},
+        amber: {icon: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100"},
+        sky: {icon: "text-sky-600", bg: "bg-sky-50", border: "border-sky-100"},
+        rose: {icon: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100"},
     };
     const c = accents[accent];
     return (
@@ -78,16 +78,24 @@ function DiagnoseForm(opts) {
         defaultValues: {
             diagnoses: [{icd10_code: "", description: "", type: "primary"}],
             procedures: [{icd9_code: "", name: "", description: "", procedure_date: undefined, notes: ""}],
-            prescriptions: [{medicine_id: "", dosage: "", frequency: "", duration: "", route: "", quantity: "", notes: ""}],
+            prescriptions: [{
+                medicine_id: "",
+                dosage: "",
+                frequency: "",
+                duration: "",
+                route: "",
+                quantity: "",
+                notes: ""
+            }],
             lab_results: "", radiology_results: "", patient_education: "",
             follow_up: "", referral: "none", referral_destination: "", sick_leave_days: "",
         },
     });
 
-    const diagnoseFields     = useFieldArray({control, name: "diagnoses"});
-    const procedureFields    = useFieldArray({control, name: "procedures"});
+    const diagnoseFields = useFieldArray({control, name: "diagnoses"});
+    const procedureFields = useFieldArray({control, name: "procedures"});
     const prescriptionFields = useFieldArray({control, name: "prescriptions"});
-    const referralValue      = watch("referral");
+    const referralValue = watch("referral");
     const watchedPrescriptions = watch("prescriptions");
 
     // Hitung total stock tersedia untuk satu obat (sum semua batch)
@@ -100,7 +108,7 @@ function DiagnoseForm(opts) {
 
     const onSubmit = async (data) => {
         const result = await createDiagnose(data, id);
-        if (result.success) await navigate({to: "/outpatient"});
+        if (result) await navigate({to: "/outpatient/visit"});
     };
 
     return (
@@ -126,14 +134,19 @@ function DiagnoseForm(opts) {
                 <SectionCard icon={Stethoscope} label="Diagnosis" accent="teal"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
-                                         onClick={() => diagnoseFields.append({icd10_code: "", description: "", type: "secondary"})}>
+                                         onClick={() => diagnoseFields.append({
+                                             icd10_code: "",
+                                             description: "",
+                                             type: "secondary"
+                                         })}>
                                      <Plus className="w-3.5 h-3.5"/> Tambah Diagnosis
                                  </Button>
                              }
                 >
                     <div className="space-y-3">
                         {diagnoseFields.fields.map((field, index) => (
-                            <div key={field.id} className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
+                            <div key={field.id}
+                                 className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
                                 <div className="flex items-center justify-between">
                                     <Badge variant="outline" className="text-xs font-semibold">
                                         {index === 0 ? "Diagnosis Utama" : `Diagnosis ${index + 1}`}
@@ -148,7 +161,8 @@ function DiagnoseForm(opts) {
                                 </div>
                                 <div className="grid grid-cols-3 gap-3">
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Kode ICD-10 <span className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Kode ICD-10 <span
+                                            className="text-destructive">*</span></Label>
                                         <Input placeholder="A00, B01.1..."
                                                {...register(`diagnoses.${index}.icd10_code`, {required: "Kode ICD wajib diisi"})}/>
                                         {errors.diagnoses?.[index]?.icd10_code && (
@@ -160,7 +174,8 @@ function DiagnoseForm(opts) {
                                         <Controller name={`diagnoses.${index}.type`} control={control}
                                                     render={({field}) => (
                                                         <Select onValueChange={field.onChange} value={field.value}>
-                                                            <SelectTrigger className="w-full"><SelectValue/></SelectTrigger>
+                                                            <SelectTrigger
+                                                                className="w-full"><SelectValue/></SelectTrigger>
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     <SelectItem value="primary">Primer</SelectItem>
@@ -174,7 +189,8 @@ function DiagnoseForm(opts) {
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-slate-600">Deskripsi Diagnosis <span className="text-destructive">*</span></Label>
+                                    <Label className="text-xs font-semibold text-slate-600">Deskripsi Diagnosis <span
+                                        className="text-destructive">*</span></Label>
                                     <Textarea placeholder="Nama penyakit / kondisi" rows={2}
                                               {...register(`diagnoses.${index}.description`, {required: "Deskripsi wajib diisi"})}/>
                                     {errors.diagnoses?.[index]?.description && (
@@ -190,14 +206,21 @@ function DiagnoseForm(opts) {
                 <SectionCard icon={ClipboardList} label="Tindakan / Prosedur" accent="violet"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
-                                         onClick={() => procedureFields.append({icd9_code: "", name: "", description: "", procedure_date: undefined, notes: ""})}>
+                                         onClick={() => procedureFields.append({
+                                             icd9_code: "",
+                                             name: "",
+                                             description: "",
+                                             procedure_date: undefined,
+                                             notes: ""
+                                         })}>
                                      <Plus className="w-3.5 h-3.5"/> Tambah Tindakan
                                  </Button>
                              }
                 >
                     <div className="space-y-3">
                         {procedureFields.fields.map((field, index) => (
-                            <div key={field.id} className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
+                            <div key={field.id}
+                                 className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs font-semibold text-slate-500">Tindakan {index + 1}</span>
                                     {index > 0 && (
@@ -210,7 +233,8 @@ function DiagnoseForm(opts) {
                                 </div>
                                 <div className="grid grid-cols-3 gap-3">
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Kode ICD-9 / Tindakan</Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Kode ICD-9 /
+                                            Tindakan</Label>
                                         <Input placeholder="Kode prosedur"
                                                {...register(`procedures.${index}.icd9_code`, {required: "Prosedur tidak boleh kosong"})}/>
                                     </div>
@@ -225,22 +249,26 @@ function DiagnoseForm(opts) {
                                                     render={({field}) => (
                                                         <Popover>
                                                             <PopoverTrigger asChild>
-                                                                <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}>
+                                                                <Button variant="outline"
+                                                                        className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}>
                                                                     <CalendarIcon className="mr-2 h-4 w-4"/>
                                                                     {field.value ? format(field.value, "dd MMMM yyyy") : "Pilih tanggal"}
                                                                 </Button>
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto p-0" align="start">
-                                                                <Calendar mode="single" selected={field.value} onSelect={field.onChange}
+                                                                <Calendar mode="single" selected={field.value}
+                                                                          onSelect={field.onChange}
                                                                           initialFocus captionLayout="dropdown-buttons"
-                                                                          fromYear={2000} toYear={new Date().getFullYear()}/>
+                                                                          fromYear={2000}
+                                                                          toYear={new Date().getFullYear()}/>
                                                             </PopoverContent>
                                                         </Popover>
                                                     )}
                                         />
                                     </div>
                                     <div className="space-y-1.5 col-span-2">
-                                        <Label className="text-xs font-semibold text-slate-600">Deskripsi Tindakan <span className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Deskripsi Tindakan <span
+                                            className="text-destructive">*</span></Label>
                                         <Textarea placeholder="Uraian tindakan yang dilakukan" rows={2}
                                                   {...register(`procedures.${index}.description`, {required: "Deskripsi wajib diisi"})}/>
                                         {errors.procedures?.[index]?.description && (
@@ -257,14 +285,23 @@ function DiagnoseForm(opts) {
                 <SectionCard icon={Pill} label="Resep Obat" accent="amber"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
-                                         onClick={() => prescriptionFields.append({medicine_id: "", dosage: "", frequency: "", duration: "", route: "", quantity: "", notes: ""})}>
+                                         onClick={() => prescriptionFields.append({
+                                             medicine_id: "",
+                                             dosage: "",
+                                             frequency: "",
+                                             duration: "",
+                                             route: "",
+                                             quantity: "",
+                                             notes: ""
+                                         })}>
                                      <Plus className="w-3.5 h-3.5"/> Tambah Obat
                                  </Button>
                              }
                 >
                     <div className="space-y-3">
                         {prescriptionFields.fields.map((field, index) => (
-                            <div key={field.id} className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
+                            <div key={field.id}
+                                 className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs font-semibold text-slate-500">Obat {index + 1}</span>
                                     {index > 0 && (
@@ -277,15 +314,18 @@ function DiagnoseForm(opts) {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1.5 col-span-2">
-                                        <Label className="text-xs font-semibold text-slate-600">Nama Obat <span className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Nama Obat <span
+                                            className="text-destructive">*</span></Label>
                                         <Controller name={`prescriptions.${index}.medicine_id`} control={control}
                                                     render={({field}) => (
                                                         <Select onValueChange={field.onChange} value={field.value}>
-                                                            <SelectTrigger className="w-full"><SelectValue placeholder="Pilih Obat"/></SelectTrigger>
+                                                            <SelectTrigger className="w-full"><SelectValue
+                                                                placeholder="Pilih Obat"/></SelectTrigger>
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     {Array.isArray(readyStockMedicines) && readyStockMedicines.map((m) => (
-                                                                        <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+                                                                        <SelectItem key={m.id}
+                                                                                    value={m.id}>{m.name}</SelectItem>
                                                                     ))}
                                                                 </SelectGroup>
                                                             </SelectContent>
@@ -297,7 +337,8 @@ function DiagnoseForm(opts) {
                                         )}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Dosis <span className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Dosis <span
+                                            className="text-destructive">*</span></Label>
                                         <Input placeholder="500mg, 1 tablet..."
                                                {...register(`prescriptions.${index}.dosage`, {required: "Dosis wajib diisi"})}/>
                                         {errors.prescriptions?.[index]?.dosage && (
@@ -305,20 +346,27 @@ function DiagnoseForm(opts) {
                                         )}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Frekuensi <span className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Frekuensi <span
+                                            className="text-destructive">*</span></Label>
                                         <Controller name={`prescriptions.${index}.frequency`} control={control}
                                                     rules={{required: "Frekuensi wajib dipilih"}}
                                                     render={({field}) => (
                                                         <Select onValueChange={field.onChange} value={field.value}>
-                                                            <SelectTrigger className="w-full"><SelectValue placeholder="Pilih frekuensi"/></SelectTrigger>
+                                                            <SelectTrigger className="w-full"><SelectValue
+                                                                placeholder="Pilih frekuensi"/></SelectTrigger>
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     <SelectLabel>Frekuensi</SelectLabel>
-                                                                    <SelectItem value="1x1">1x1 (Sekali sehari)</SelectItem>
-                                                                    <SelectItem value="2x1">2x1 (Dua kali sehari)</SelectItem>
-                                                                    <SelectItem value="3x1">3x1 (Tiga kali sehari)</SelectItem>
-                                                                    <SelectItem value="4x1">4x1 (Empat kali sehari)</SelectItem>
-                                                                    <SelectItem value="prn">Jika perlu (p.r.n)</SelectItem>
+                                                                    <SelectItem value="1x1">1x1 (Sekali
+                                                                        sehari)</SelectItem>
+                                                                    <SelectItem value="2x1">2x1 (Dua kali
+                                                                        sehari)</SelectItem>
+                                                                    <SelectItem value="3x1">3x1 (Tiga kali
+                                                                        sehari)</SelectItem>
+                                                                    <SelectItem value="4x1">4x1 (Empat kali
+                                                                        sehari)</SelectItem>
+                                                                    <SelectItem value="prn">Jika perlu
+                                                                        (p.r.n)</SelectItem>
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
@@ -330,24 +378,28 @@ function DiagnoseForm(opts) {
                                     </div>
                                     <div className="space-y-1.5">
                                         <Label className="text-xs font-semibold text-slate-600">Durasi</Label>
-                                        <Input placeholder="3 hari, 1 minggu..." {...register(`prescriptions.${index}.duration`)}/>
+                                        <Input
+                                            placeholder="3 hari, 1 minggu..." {...register(`prescriptions.${index}.duration`)}/>
                                     </div>
                                     <div className="space-y-1.5">
                                         <Label className="text-xs font-semibold text-slate-600">Rute Pemberian</Label>
                                         <Controller name={`prescriptions.${index}.route`} control={control}
                                                     render={({field}) => (
                                                         <Select onValueChange={field.onChange} value={field.value}>
-                                                            <SelectTrigger className="w-full"><SelectValue placeholder="Pilih rute"/></SelectTrigger>
+                                                            <SelectTrigger className="w-full"><SelectValue
+                                                                placeholder="Pilih rute"/></SelectTrigger>
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     <SelectLabel>Rute</SelectLabel>
                                                                     <SelectItem value="oral">Oral (PO)</SelectItem>
                                                                     <SelectItem value="iv">Intravena (IV)</SelectItem>
-                                                                    <SelectItem value="im">Intramuskular (IM)</SelectItem>
+                                                                    <SelectItem value="im">Intramuskular
+                                                                        (IM)</SelectItem>
                                                                     <SelectItem value="sc">Subkutan (SC)</SelectItem>
                                                                     <SelectItem value="topical">Topikal</SelectItem>
                                                                     <SelectItem value="inhalasi">Inhalasi</SelectItem>
-                                                                    <SelectItem value="suppositoria">Suppositoria</SelectItem>
+                                                                    <SelectItem
+                                                                        value="suppositoria">Suppositoria</SelectItem>
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
@@ -356,7 +408,8 @@ function DiagnoseForm(opts) {
                                     </div>
                                     <div className="space-y-1.5">
                                         <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-semibold text-slate-600">Jumlah / Qty <span className="text-destructive">*</span></Label>
+                                            <Label className="text-xs font-semibold text-slate-600">Jumlah / Qty <span
+                                                className="text-destructive">*</span></Label>
                                             {(() => {
                                                 const medId = watchedPrescriptions?.[index]?.medicine_id;
                                                 const stock = getAvailableStock(medId);
@@ -365,7 +418,7 @@ function DiagnoseForm(opts) {
                                                     <span className={cn(
                                                         "text-[11px] font-medium px-2 py-0.5 rounded-full",
                                                         stock === 0 ? "bg-red-100 text-red-600" :
-                                                            stock < 10  ? "bg-amber-100 text-amber-600" :
+                                                            stock < 10 ? "bg-amber-100 text-amber-600" :
                                                                 "bg-emerald-100 text-emerald-600"
                                                     )}>
                                                         Stok: {stock}
@@ -420,7 +473,8 @@ function DiagnoseForm(opts) {
                 <SectionCard icon={FileText} label="Edukasi & Tindak Lanjut" accent="rose">
                     <div className="space-y-1.5">
                         <Label className="text-xs font-semibold text-slate-600">Edukasi Pasien</Label>
-                        <Textarea placeholder="Instruksi diet, aktivitas, tanda bahaya yang harus diwaspadai..." rows={2}
+                        <Textarea placeholder="Instruksi diet, aktivitas, tanda bahaya yang harus diwaspadai..."
+                                  rows={2}
                                   {...register("patient_education")}/>
                     </div>
 
@@ -434,11 +488,13 @@ function DiagnoseForm(opts) {
                                                     <Button type="button" variant="outline"
                                                             className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}>
                                                         <CalendarIcon className="mr-2 h-4 w-4"/>
-                                                        {field.value ? format(field.value, "PPP") : <span>Pilih tanggal</span>}
+                                                        {field.value ? format(field.value, "PPP") :
+                                                            <span>Pilih tanggal</span>}
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0">
-                                                    <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus/>
+                                                    <Calendar mode="single" selected={field.value}
+                                                              onSelect={field.onChange} initialFocus/>
                                                 </PopoverContent>
                                             </Popover>
                                         )}
@@ -461,7 +517,8 @@ function DiagnoseForm(opts) {
                         <Controller name="referral" control={control}
                                     render={({field}) => (
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="w-full"><SelectValue placeholder="Status rujukan"/></SelectTrigger>
+                                            <SelectTrigger className="w-full"><SelectValue
+                                                placeholder="Status rujukan"/></SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
                                                     <SelectLabel>Status Rujukan</SelectLabel>
@@ -478,7 +535,8 @@ function DiagnoseForm(opts) {
 
                     {referralValue && referralValue !== "none" && (
                         <div className="space-y-1.5">
-                            <Label className="text-xs font-semibold text-slate-600">Tujuan Rujukan <span className="text-destructive">*</span></Label>
+                            <Label className="text-xs font-semibold text-slate-600">Tujuan Rujukan <span
+                                className="text-destructive">*</span></Label>
                             <Input placeholder="Nama RS / Poli / Dokter tujuan"
                                    {...register("referral_destination", {required: "Tujuan rujukan wajib diisi"})}/>
                             {errors.referral_destination && (

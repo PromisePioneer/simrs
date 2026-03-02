@@ -200,15 +200,11 @@ function OutpatientVisitPage() {
                                 )}
                                 {patient.status === "in-progress" && (
                                     <>
-                                        <Button size="sm" className="gap-2 flex-1 lg:flex-none">
-                                            <CheckCircle className="w-4 h-4"/>
-                                            Selesai
-                                        </Button>
                                         <Link to={`/outpatient/diagnose/${patient.outpatient_visit.id}`}>
                                             <Button variant="outline" size="sm"
                                                     className="gap-2 flex-1 lg:flex-none">
-                                                <Eye className="w-4 h-4"/>
-                                                Lihat Detail
+                                                <Edit className="w-4 h-4"/>
+                                                Lanjut Diagnosa
                                             </Button>
                                         </Link>
                                     </>

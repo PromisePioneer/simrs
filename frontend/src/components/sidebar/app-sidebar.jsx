@@ -1,281 +1,407 @@
 "use client"
 
 import * as React from "react"
-import { Search, X, AlertCircle } from "lucide-react"
+import {useState, useEffect, useMemo} from "react"
+import {Link, useLocation} from "@tanstack/react-router"
+import {useAuthStore} from "@/store/authStore.js"
+import {useSidebarStore} from "@/store/useSidebarStore.js"
 import {
-    Sidebar, SidebarContent, SidebarRail, SidebarGroup, SidebarMenu,
-    SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton,
-    SidebarMenuSubItem, SidebarFooter, SidebarHeader,
+    Home, FolderOpen, LayoutTemplate, Palette,
+    Wand2, MoreHorizontal, Bell, Search, X
+} from "lucide-react"
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarRail,
+    SidebarSeparator,
 } from "@/components/ui/sidebar"
-import { useSidebarStore } from "@/store/useSidebarStore.js";
-import { useEffect, useMemo, useState } from "react";
-import { ChevronRight } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Link, useLocation } from "@tanstack/react-router";
-import { NavUser } from "@/components/sidebar/nav-user.jsx";
-import { useAuthStore } from "@/store/authStore.js";
-import { Input } from "@/components/ui/input.jsx";
-import { Skeleton } from "@/components/ui/skeleton.jsx";
+import {
+    Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+    Popover, PopoverContent, PopoverTrigger,
+} from "@/components/ui/popover"
+import {NavUser} from "@/components/sidebar/nav-user.jsx"
+import {Skeleton} from "@/components/ui/skeleton"
+import {cn} from "@/lib/utils"
 
-export function AppSidebar({ ...props }) {
-    const { userData } = useAuthStore();
-    const { fetchMenu, menuData, transformAllMenuData, loadMenuFromStorage, isLoading } = useSidebarStore();
-    const location = useLocation();
-    const currentPath = location.pathname;
-    const [searchQuery, setSearchQuery] = useState("");
-    const [hasError, setHasError] = useState(false);
+// ─── Icon map ─────────────────────────────────────────────────────────────
+const ICON_MAP = {
+    beranda: Home, home: Home,
+    proyek: FolderOpen, project: FolderOpen,
+    template: LayoutTemplate,
+    merek: Palette, brand: Palette,
+    "ai canva": Wand2, ai: Wand2,
+}
 
-    // ─── Fetch — guard ada di store (isFetched flag) ──────────────
-    // Komponen cukup panggil fetchMenu(), store yang memutuskan
-    // apakah perlu hit network atau skip karena sudah pernah fetch.
-    useEffect(() => {
-        const cachedMenu = loadMenuFromStorage();
-        fetchMenu().catch(error => {
-            console.error('Failed to fetch menu:', error);
-            if (!cachedMenu || cachedMenu.length === 0) {
-                setHasError(true);
-            }
-        });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+const getIcon = (title = "") => {
+    const key = title.toLowerCase()
+    for (const [k, Icon] of Object.entries(ICON_MAP)) {
+        if (key.includes(k)) return Icon
+    }
+    return LayoutTemplate
+}
 
-    // ─── Sinkronisasi antar tab ───────────────────────────────────
-    useEffect(() => {
-        const handleStorageChange = (e) => {
-            if (e.key === 'menuData' && e.newValue) {
-                loadMenuFromStorage();
-                setHasError(false);
-            }
-        };
-        window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+// ─── Shared Tooltip wrapper ───────────────────────────────────────────────
+// Selalu tampil (expanded maupun collapsed), muncul di sisi kanan
+function NavTooltip({label, children}) {
+    return (
+        <TooltipProvider delayDuration={300}>
+            <Tooltip>
+                <TooltipTrigger asChild>{children}</TooltipTrigger>
+                <TooltipContent side="right" sideOffset={8} className="text-xs font-medium rounded-lg">
+                    {label}
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
+    )
+}
 
-    // ─── Custom event (misal setelah login ulang / force refresh) ─
-    useEffect(() => {
-        const handleMenuUpdate = () => {
-            loadMenuFromStorage();
-            setHasError(false);
-        };
-        window.addEventListener('menuUpdated', handleMenuUpdate);
-        return () => window.removeEventListener('menuUpdated', handleMenuUpdate);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+// ─── Crown badge ──────────────────────────────────────────────────────────
+const CrownBadge = () => (
+    <span
+        className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-yellow-400 text-[7px] text-yellow-900 font-bold shadow z-10">
+        ♛
+    </span>
+)
 
-    // ─── Helper active check ──────────────────────────────────────
-    const isPathActive = (menuUrl, path) => {
-        if (!menuUrl || !path) return false;
-        if (menuUrl === path) return true;
-        return path.startsWith(menuUrl + "/");
-    };
-
-    // ─── Transform menu — hanya re-run saat menuData berubah ─────
-    const allMenuItems = useMemo(() => {
-        const transformed = transformAllMenuData(menuData, currentPath);
-        return transformed.map(item => {
-            let items = item.items;
-            if (items && typeof items === 'object' && !Array.isArray(items)) {
-                items = Object.values(items);
-            }
-            return { ...item, items: items && items.length > 0 ? items : null };
-        });
-    }, [menuData]); // currentPath SENGAJA tidak di-dep agar tidak re-transform saat navigasi
-
-    // ─── Filter untuk search ──────────────────────────────────────
-    const filteredMenuItems = useMemo(() => {
-        if (!searchQuery.trim()) {
-            return allMenuItems.map(item => ({
-                ...item,
-                isOpen: item.items?.some(child => isPathActive(child.url, currentPath)) || item.isOpen,
-            }));
-        }
-
-        const query = searchQuery.toLowerCase();
-        return allMenuItems
-            .map(item => {
-                const parentMatches = item.title.toLowerCase().includes(query);
-                const matchedChildren = item.items?.filter(child =>
-                    child.title.toLowerCase().includes(query)
-                ) ?? null;
-
-                if (parentMatches || matchedChildren?.length > 0) {
-                    return {
-                        ...item,
-                        items: parentMatches ? item.items : matchedChildren,
-                        isOpen: true,
-                    };
-                }
-                return null;
-            })
-            .filter(Boolean);
-    }, [allMenuItems, searchQuery, currentPath]);
+// ─── Nav item tanpa children ──────────────────────────────────────────────
+function NavItem({item, isActive}) {
+    const Icon = item.icon || getIcon(item.title)
+    const showCrown = ["merek", "brand"].some(k => item.title?.toLowerCase().includes(k))
 
     return (
-        <Sidebar collapsible="icon" {...props}>
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <a href="#" className="flex items-center gap-2">
-                                <div className="flex aspect-square size-9 items-center justify-center rounded-lg bg-teal-600 text-white">
-                                    <span className="text-lg font-bold">
-                                        {userData?.tenant?.name?.charAt(0) || 'Z'}
-                                    </span>
-                                </div>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold text-sm">
-                                        {userData?.tenant?.name || 'Zyntera'}
-                                    </span>
-                                    <span className="truncate text-sm text-muted-foreground">
-                                        {userData?.tenant?.plan || 'Administrator'}
-                                    </span>
-                                </div>
-                            </a>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+        <SidebarMenuItem>
+            <NavTooltip label={item.title}>
+                <SidebarMenuButton
+                    asChild
+                    isActive={isActive}
+                    className={cn(
+                        "relative flex items-center justify-center h-auto py-3 px-1 rounded-xl",
+                        isActive
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                            : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                    )}
+                >
+                    <Link to={item.url || "#"}>
+                        {isActive && (
+                            <span
+                                className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full"/>
+                        )}
+                        <div className="relative">
+                            <Icon
+                                className={cn(
+                                    "h-[22px] w-[22px] transition-transform duration-150 group-hover:scale-110 shrink-0",
+                                    isActive && "scale-110"
+                                )}
+                                strokeWidth={isActive ? 2.2 : 1.7}
+                            />
+                            {showCrown && <CrownBadge/>}
+                        </div>
+                    </Link>
+                </SidebarMenuButton>
+            </NavTooltip>
+        </SidebarMenuItem>
+    )
+}
 
-                {/* Search */}
-                <div className="px-3 py-2">
-                    <div className="relative group-data-[collapsible=icon]:hidden">
-                        <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                        <Input
-                            type="text"
-                            placeholder="Search menu..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-8 pr-8 h-9"
+// ─── Nav item WITH children → flyout ke kanan ────────────────────────────
+function NavItemFlyout({item, isActive, currentPath}) {
+    const [open, setOpen] = useState(false)
+    const Icon = item.icon || getIcon(item.title)
+    const showCrown = ["merek", "brand"].some(k => item.title?.toLowerCase().includes(k))
+
+    return (
+        <SidebarMenuItem>
+            <Popover open={open} onOpenChange={setOpen}>
+                <NavTooltip label={item.title}>
+                    <PopoverTrigger asChild>
+                        <SidebarMenuButton
+                            isActive={isActive || open}
+                            className={cn(
+                                "relative flex items-center justify-center h-auto py-3 px-1 rounded-xl",
+                                isActive || open
+                                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                                    : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                            )}
+                        >
+                            {(isActive || open) && (
+                                <span
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full"/>
+                            )}
+                            <div className="relative">
+                                <Icon
+                                    className={cn(
+                                        "h-[22px] w-[22px] transition-transform duration-150 group-hover:scale-110 shrink-0",
+                                        isActive && "scale-110"
+                                    )}
+                                    strokeWidth={isActive ? 2.2 : 1.7}
+                                />
+                                {showCrown && <CrownBadge/>}
+                            </div>
+                        </SidebarMenuButton>
+                    </PopoverTrigger>
+                </NavTooltip>
+
+                <PopoverContent
+                    side="right"
+                    align="start"
+                    sideOffset={8}
+                    className="w-52 p-1.5 rounded-xl shadow-2xl border-border"
+                >
+                    <p className="px-3 py-1.5 text-[11px] font-semibold  uppercase tracking-wider">
+                        {item.title}
+                    </p>
+                    <div className="space-y-0.5">
+                        {item.items.map(sub => {
+                            const SubIcon = getIcon(sub.title)
+                            const subActive = currentPath === sub.url || currentPath.startsWith(sub.url + "/")
+                            return (
+                                <Link
+                                    key={sub.title}
+                                    to={sub.url}
+                                    onClick={() => setOpen(false)}
+                                    className={cn(
+                                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                                        subActive
+                                            ? "bg-accent text-accent-foreground font-semibold"
+                                            : " hover:bg-accent hover:text-accent-foreground"
+                                    )}
+                                >
+                                    <SubIcon className="h-4 w-4 shrink-0" strokeWidth={1.8}/>
+                                    {sub.title}
+                                </Link>
+                            )
+                        })}
+                    </div>
+                </PopoverContent>
+            </Popover>
+        </SidebarMenuItem>
+    )
+}
+
+// ─── Overflow "Lainnya" popover ───────────────────────────────────────────
+function MorePopover({items = [], currentPath}) {
+    const [open, setOpen] = useState(false)
+    const [search, setSearch] = useState("")
+
+    const filtered = items.filter(i =>
+        i.title.toLowerCase().includes(search.toLowerCase())
+    )
+
+    return (
+        <SidebarMenuItem>
+            <Popover open={open} onOpenChange={setOpen}>
+                <NavTooltip label="Lainnya">
+                    <PopoverTrigger asChild>
+                        <SidebarMenuButton
+                            isActive={open}
+                            className={cn(
+                                "flex items-center justify-center h-auto py-3 px-1 rounded-xl",
+                                open
+                                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                                    : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                            )}
+                        >
+                            <MoreHorizontal className="h-[22px] w-[22px] shrink-0" strokeWidth={1.7}/>
+                        </SidebarMenuButton>
+                    </PopoverTrigger>
+                </NavTooltip>
+
+                <PopoverContent
+                    side="right"
+                    align="end"
+                    sideOffset={8}
+                    className="w-56 p-2 rounded-xl shadow-2xl border-border"
+                >
+                    <div className="relative mb-2">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 "/>
+                        <input
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            placeholder="Cari menu..."
+                            className="w-full bg-muted text-foreground text-xs rounded-lg py-2 pl-8 pr-7 outline-none focus:ring-1 focus:ring-ring transition"
                         />
-                        {searchQuery && (
+                        {search && (
                             <button
-                                onClick={() => setSearchQuery("")}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                onClick={() => setSearch("")}
+                                className="absolute right-2 top-1/2 -translate-y-1/2  hover:text-foreground transition-colors"
                             >
-                                <X className="h-4 w-4"/>
+                                <X className="h-3.5 w-3.5"/>
                             </button>
                         )}
                     </div>
-                </div>
+
+                    <div className="space-y-0.5 max-h-60 overflow-y-auto">
+                        {filtered.map(item => {
+                            const Icon = getIcon(item.title)
+                            const subActive = currentPath === item.url || currentPath.startsWith(item.url + "/")
+                            return (
+                                <Link
+                                    key={item.title}
+                                    to={item.url}
+                                    onClick={() => setOpen(false)}
+                                    className={cn(
+                                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                                        subActive
+                                            ? "bg-accent text-accent-foreground font-semibold"
+                                            : " hover:bg-accent hover:text-accent-foreground"
+                                    )}
+                                >
+                                    <Icon className="h-4 w-4 shrink-0" strokeWidth={1.8}/>
+                                    {item.title}
+                                </Link>
+                            )
+                        })}
+                        {filtered.length === 0 && (
+                            <p className="text-center text-xs  py-4">Tidak ditemukan</p>
+                        )}
+                    </div>
+                </PopoverContent>
+            </Popover>
+        </SidebarMenuItem>
+    )
+}
+
+// ─── Main AppSidebar ──────────────────────────────────────────────────────
+export function AppSidebar({...props}) {
+    const {userData} = useAuthStore()
+    const {fetchMenu, menuData, transformAllMenuData, loadMenuFromStorage, isLoading} = useSidebarStore()
+    const location = useLocation()
+    const currentPath = location.pathname
+
+    useEffect(() => {
+        loadMenuFromStorage()
+        fetchMenu().catch(console.error)
+    }, [])
+
+    const allMenuItems = useMemo(() => {
+        const transformed = transformAllMenuData(menuData, currentPath)
+        return transformed.map(item => {
+            let items = item.items
+            if (items && typeof items === "object" && !Array.isArray(items)) {
+                items = Object.values(items)
+            }
+            return {...item, items: items?.length > 0 ? items : null}
+        })
+    }, [menuData])
+
+    const MAX_VISIBLE = 6
+    const topItems = allMenuItems.slice(0, MAX_VISIBLE)
+    const moreItems = allMenuItems.slice(MAX_VISIBLE).flatMap(item =>
+        item.items ? item.items : [item]
+    )
+
+    const isActive = (url) => {
+        if (!url) return false
+        return url === currentPath || currentPath.startsWith(url + "/")
+    }
+
+    return (
+        <Sidebar
+            collapsible="icon"
+            className="w-[72px] *:data-[sidebar=sidebar]:w-[72px]"
+            {...props}
+        >
+            {/* ── Header: Logo & Nama Tenant ── */}
+            <SidebarHeader className="px-2.5 pb-0 pt-3">
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <NavTooltip label={
+                            <div>
+                                <p className="font-semibold">{userData?.tenant?.name || "Zyntera"}</p>
+                                <p className=" text-[10px]">{userData?.tenant?.plan || "Administrator"}</p>
+                            </div>
+                        }>
+                            <SidebarMenuButton
+                                className="flex items-center justify-center h-auto py-2 px-1 rounded-xl hover:bg-sidebar-accent/50 transition-all duration-150"
+                            >
+                                <div
+                                    className="flex aspect-square h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm shrink-0">
+                                    <span className="text-base font-bold">
+                                        {userData?.tenant?.name?.charAt(0)?.toUpperCase() || "Z"}
+                                    </span>
+                                </div>
+                            </SidebarMenuButton>
+                        </NavTooltip>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+                <SidebarSeparator className="mt-2 mx-auto w-10"/>
             </SidebarHeader>
 
-            <SidebarContent>
-                <SidebarGroup>
-                    {/* Loading */}
-                    {isLoading && (
-                        <div className="space-y-2 px-2">
-                            {[...Array(5)].map((_, i) => (
-                                <Skeleton key={i} className="h-10 w-full"/>
-                            ))}
-                        </div>
-                    )}
+            {/* ── Content: Nav Items ── */}
+            <SidebarContent className="px-2 py-1">
+                <SidebarMenu className="gap-0.5">
+                    {isLoading ? (
+                        [...Array(5)].map((_, i) => (
+                            <SidebarMenuItem key={i}>
+                                <div className="flex items-center justify-center py-3 px-1 w-full">
+                                    <Skeleton className="h-[22px] w-[22px] rounded-md"/>
+                                </div>
+                            </SidebarMenuItem>
+                        ))
+                    ) : (
+                        <>
+                            {topItems.map(item => {
+                                const hasActiveChild = item.items?.some(c => isActive(c.url))
+                                const itemActive = isActive(item.url) || hasActiveChild
 
-                    {/* Error */}
-                    {!isLoading && hasError && (
-                        <div className="px-4 py-8 text-center">
-                            <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground mb-4"/>
-                            <p className="text-sm font-medium mb-1">Failed to load menu</p>
-                            <p className="text-xs text-muted-foreground mb-4">Please refresh the page</p>
-                            <button
-                                onClick={() => {
-                                    setHasError(false);
-                                    fetchMenu().catch(() => setHasError(true));
-                                }}
-                                className="text-xs text-teal-600 hover:text-teal-700 font-medium"
-                            >
-                                Try Again
-                            </button>
-                        </div>
-                    )}
-
-                    {/* Empty — search */}
-                    {!isLoading && !hasError && filteredMenuItems.length === 0 && searchQuery && (
-                        <div className="px-4 py-8 text-center">
-                            <Search className="mx-auto h-12 w-12 text-muted-foreground mb-4"/>
-                            <p className="text-sm font-medium mb-1">No results found</p>
-                            <p className="text-xs text-muted-foreground">Try searching with different keywords</p>
-                        </div>
-                    )}
-
-                    {/* Empty — no menu */}
-                    {!isLoading && !hasError && filteredMenuItems.length === 0 && !searchQuery && (
-                        <div className="px-4 py-8 text-center">
-                            <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground mb-4"/>
-                            <p className="text-sm font-medium mb-1">No menu items</p>
-                            <p className="text-xs text-muted-foreground">Contact administrator for access</p>
-                        </div>
-                    )}
-
-                    {/* Menu */}
-                    {!isLoading && !hasError && filteredMenuItems.length > 0 && (
-                        <SidebarMenu>
-                            {filteredMenuItems.map((item) => {
-                                const Icon = item.icon;
-
-                                if (item.items && item.items.length > 0) {
-                                    const hasActiveChild = item.items.some(child =>
-                                        isPathActive(child.url, currentPath)
-                                    );
+                                if (item.items?.length > 0) {
                                     return (
-                                        <Collapsible
+                                        <NavItemFlyout
                                             key={item.title}
-                                            asChild
-                                            defaultOpen={item.isOpen || hasActiveChild}
-                                            className="group/collapsible"
-                                        >
-                                            <SidebarMenuItem>
-                                                <CollapsibleTrigger asChild>
-                                                    <SidebarMenuButton tooltip={item.title} isActive={hasActiveChild}>
-                                                        {Icon && <Icon/>}
-                                                        <span className={hasActiveChild ? "font-semibold" : ""}>
-                                                            {item.title}
-                                                        </span>
-                                                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
-                                                    </SidebarMenuButton>
-                                                </CollapsibleTrigger>
-                                                <CollapsibleContent>
-                                                    <SidebarMenuSub>
-                                                        {item.items.map((subItem) => {
-                                                            const isSubActive = isPathActive(subItem.url, currentPath);
-                                                            return (
-                                                                <SidebarMenuSubItem key={subItem.title}>
-                                                                    <SidebarMenuSubButton asChild isActive={isSubActive}>
-                                                                        <Link to={subItem.url}>
-                                                                            <span className={isSubActive ? "font-semibold" : ""}>
-                                                                                {subItem.title}
-                                                                            </span>
-                                                                        </Link>
-                                                                    </SidebarMenuSubButton>
-                                                                </SidebarMenuSubItem>
-                                                            );
-                                                        })}
-                                                    </SidebarMenuSub>
-                                                </CollapsibleContent>
-                                            </SidebarMenuItem>
-                                        </Collapsible>
-                                    );
+                                            item={item}
+                                            isActive={itemActive}
+                                            currentPath={currentPath}
+                                        />
+                                    )
                                 }
 
-                                const isItemActive = isPathActive(item.url, currentPath);
                                 return (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild tooltip={item.title} isActive={isItemActive}>
-                                            <Link to={item.url}>
-                                                {Icon && <Icon/>}
-                                                <span className={isItemActive ? "font-semibold" : ""}>
-                                                    {item.title}
-                                                </span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                );
+                                    <NavItem
+                                        key={item.title}
+                                        item={item}
+                                        isActive={itemActive}
+                                    />
+                                )
                             })}
-                        </SidebarMenu>
+
+                            {moreItems.length > 0 && (
+                                <MorePopover items={moreItems} currentPath={currentPath}/>
+                            )}
+                        </>
                     )}
-                </SidebarGroup>
+                </SidebarMenu>
             </SidebarContent>
 
-            <SidebarFooter>
-                <NavUser user={userData}/>
+            {/* ── Footer: Bell + NavUser ── */}
+            <SidebarFooter className="px-2 pb-3 pt-0">
+                <SidebarSeparator className="mb-2 mx-auto w-10"/>
+                <SidebarMenu className="gap-1">
+                    <SidebarMenuItem>
+                        <NavTooltip label="Notifikasi">
+                            <SidebarMenuButton
+                                className="relative flex items-center justify-center h-auto py-3 px-1 rounded-xl text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 transition-all duration-150"
+                            >
+                                <div className="relative">
+                                    <Bell className="h-[22px] w-[22px] shrink-0" strokeWidth={1.7}/>
+                                    <span
+                                        className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-destructive border-2 border-sidebar"/>
+                                </div>
+                            </SidebarMenuButton>
+                        </NavTooltip>
+                    </SidebarMenuItem>
+
+                    <NavUser user={userData}/>
+                </SidebarMenu>
             </SidebarFooter>
+
             <SidebarRail/>
         </Sidebar>
-    );
+    )
 }
