@@ -16,7 +16,6 @@ import {Badge} from "@/components/ui/badge.jsx";
 import {VitalChip} from "@/components/emr/vital-chip.jsx";
 
 
-
 const visitTypeMeta = {
     umum: {label: "Umum", cls: "bg-violet-50 text-violet-700 border-violet-200"},
     bpjs: {label: "BPJS", cls: "bg-emerald-50 text-emerald-700 border-emerald-200"},
@@ -37,7 +36,7 @@ const diagnosisTypeCls = {
     comorbid: "bg-yellow-50 text-yellow-700 border-yellow-200",
 };
 
-function VisitRow({visit, isLast}) {
+function VisitRow({visit, index, isLast}) {
     const [open, setOpen] = useState(true);
     const v = visit.vital_sign;
     const meta = visitTypeMeta[visit.type] ?? {label: visit.type, cls: ""};

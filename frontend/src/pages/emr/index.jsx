@@ -2,20 +2,12 @@ import Layout from "@/pages/dashboard/layout.jsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {
-    FileText, Plus, Search, User, Activity, Stethoscope,
-    ClipboardList, Pill, TestTube, Heart, Filter,
-    ChevronDown, Thermometer, Wind, Droplets,
-    Zap, BadgeCheck, ArrowUpRight, Clock,
-    Eye, CalendarDays,
+    FileText, Plus, Search, User, Activity, Stethoscope, Filter
 } from "lucide-react";
 import {Input} from "@/components/ui/input.jsx";
 import {useEffect, useState} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
-import {Badge} from "@/components/ui/badge.jsx";
 import {usePatientStore} from "@/store/usePatientStore.js";
-import {calculateAge} from "@/utils/calculateAge.js";
-import {formatDate} from "@/utils/formatDate.js";
-import {Link} from "@tanstack/react-router";
 import PatientEMRCard from "@/components/emr/patient-emr-card.jsx";
 
 
@@ -31,18 +23,17 @@ const VitalChip = ({icon: Icon, label, value, unit, warn}) => (
 
 /* ─── Page ──────────────────────────────────────────────────── */
 function ElectronicMedicalRecordPage() {
-    const [searchQuery, setSearchQuery] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("all");
-    const {fetchPatientWhereHasEmr, patientsWhereHasEmr} = usePatientStore();
+    const {fetchPatientWhereHasEmr, patientsWhereHasEmr, search, setSearch} = usePatientStore();
 
     useEffect(() => {
         fetchPatientWhereHasEmr({perPage: 20});
-    }, []);
+    }, [search]);
 
     const patients = Array.isArray(patientsWhereHasEmr?.data) ? patientsWhereHasEmr.data : [];
 
     const filtered = patients.filter((p) => {
-        const q = searchQuery.toLowerCase();
+        const q = search.toLowerCase();
         if (!q) return true;
         return (
             p.full_name.toLowerCase().includes(q) ||
@@ -59,7 +50,7 @@ function ElectronicMedicalRecordPage() {
     const stats = [
         {
             title: "Total Pasien",
-            value: patientsWhereHasEmr?.total ?? "–",
+            value: "–",
             icon: User,
             color: "bg-teal-500",
             desc: "Pasien terdaftar"
@@ -120,8 +111,8 @@ function ElectronicMedicalRecordPage() {
                                 <Input
                                     placeholder="Cari nama, No. MR, diagnosis, keluhan…"
                                     className="pl-9 h-9 text-sm"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
                                 />
                             </div>
                             <Select value={selectedFilter} onValueChange={setSelectedFilter}>
