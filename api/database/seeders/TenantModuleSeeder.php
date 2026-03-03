@@ -101,36 +101,6 @@ class TenantModuleSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Kasir',
-                'parent_id' => null,
-                'order' => 6,
-                'icon' => 'ShoppingCart',
-                'route' => '/cashier',
-                'permissions' => [
-                    'Melihat Kasir',
-                ],
-                'children' => [
-                    [
-                        'name' => 'Pembayaran',
-                        'order' => 1,
-                        'icon' => null,
-                        'route' => '/cashier/cashier',
-                        'permissions' => [
-                            'Melihat Pembayaran',
-                        ]
-                    ],
-                    [
-                        'name' => 'Pemesanan',
-                        'order' => 2,
-                        'icon' => null,
-                        'route' => '/cashier/booking',
-                        'permissions' => [
-                            'Melihat Pemesanan',
-                        ]
-                    ],
-                ]
-            ],
-            [
                 'name' => 'Profile',
                 'parent_id' => null,
                 'order' => 7,

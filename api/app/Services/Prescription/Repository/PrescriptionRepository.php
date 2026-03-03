@@ -2,10 +2,12 @@
 
 namespace App\Services\Prescription\Repository;
 
+use App\Enum\Queue\QueueStatus;
 use App\Models\Medicine;
 use App\Models\MedicineBatch;
 use App\Models\MedicineStockMovement;
 use App\Models\Prescription;
+use App\Models\Queue;
 use App\Services\Master\Pharmachy\Medicine\Repository\MedicineRepository;
 use App\Services\MedicineStockMovement\Repository\MedicineStockMovementRepository;
 use App\Services\Prescription\Interface\PrescriptionRepositoryInterface;
@@ -54,9 +56,9 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function medicationDispensing(string $id): object
+    public function medicationDispensing(string $id, string $status): object
     {
-        return DB::transaction(function () use ($id) {
+        return DB::transaction(function () use ($status, $id) {
 
             $prescription = $this->model
                 ->with('medicine')
@@ -74,9 +76,7 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
 
             $quantity = (int)$prescription->quantity;
 
-            if ($quantity > 0) {
-
-                // Ambil batch FEFO dan validasi ulang stok (bisa berubah sejak resep dibuat)
+            if ($quantity > 0 && $status !== "cancelled") {
                 $batches = MedicineBatch::where('medicine_id', $medicine->id)
                     ->whereHas('stock', fn($q) => $q->where('stock_amount', '>', 0))
                     ->with('stock')
@@ -95,7 +95,6 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
                 $tenantId = $medicine->tenant_id;
                 $remaining = $quantity;
 
-                // Kurangi stok FEFO — catat movement per batch
                 foreach ($batches as $batch) {
                     if ($remaining <= 0) break;
 
@@ -122,7 +121,7 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
                 }
             }
 
-            $prescription->status = 'dispensed';
+            $prescription->status = $status;
             $prescription->dispensed_by = Auth::id();
             $prescription->dispensed_at = now();
             $prescription->save();

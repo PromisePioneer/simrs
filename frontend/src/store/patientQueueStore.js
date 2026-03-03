@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {toast} from "sonner";
 import apiCall from "@/services/apiCall.js";
+import axios from "axios";
 
 export const usePatientQueueStore = create((set, get) => ({
     isLoading: false,
@@ -8,6 +9,7 @@ export const usePatientQueueStore = create((set, get) => ({
     patientQueues: [],
     currentPage: 1,
     search: "",
+    countTodayQueues: 0,
     setSearch: (search) => set({search}),
     success: false,
     fetchPatientQueues: async ({perPage = null, status = null}) => {
@@ -46,6 +48,16 @@ export const usePatientQueueStore = create((set, get) => ({
             await apiCall.post(`/api/v1/queues/${id}/start`);
             toast.success("Berhasil memulai diagnosa.");
         } catch (e) {
+        }
+    },
+    fetchCountTodayQueues: async () => {
+        try {
+            const response = await apiCall.get('/api/v1/queues/count-today-queues');
+            set({
+                countTodayQueues: response.data
+            })
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal")
         }
     }
 }));

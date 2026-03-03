@@ -22,7 +22,7 @@ class QueueRepository implements QueueRepositoryInterface
 
     public function getQueues(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->with(['outpatientVisit', 'outpatientVisit.patient']);
+        $query = $this->model->with(['outpatientVisit', 'outpatientVisit.patient', 'outpatientVisit.doctor']);
 
         // ✅ FIX: pisahkan dua kondisi — jangan taruh && di dalam !empty()
         if (!empty($filters['search'])) {
@@ -66,5 +66,19 @@ class QueueRepository implements QueueRepositoryInterface
     public function changeStatusBasedOnVisitId(string $id, string $status): bool
     {
         return $this->model->where('outpatient_visit_id', $id)->update(['status' => $status]);
+    }
+
+
+    public function countTodayQueues(string $date): int
+    {
+        return $this->model->whereDate('created_at', date('Y-m-d'))->count();
+    }
+
+
+    public function countTodayBasedOnQueueStatus(string $status): int
+    {
+        return $this->model->whereDate('created_at', date('Y-m-d'))
+            ->where('status', $status)
+            ->count();
     }
 }

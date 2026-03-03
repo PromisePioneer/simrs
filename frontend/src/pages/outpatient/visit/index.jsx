@@ -50,7 +50,7 @@ function OutpatientVisitPage() {
         patientQueues?.data?.filter(p => p.status === "waiting") || [];
 
     const inProgressPatients =
-        patientQueues?.data?.filter(p => p.status === "in-progress") || [];
+        patientQueues?.data?.filter(p => p.status === "in_progress") || [];
 
     const completedPatients =
         patientQueues?.data?.filter(p => p.status === "completed") || [];
@@ -77,7 +77,7 @@ function OutpatientVisitPage() {
                     <Clock className="w-3 h-3 mr-1"/>
                     Menunggu
                 </Badge>;
-            case "in-progress":
+            case "in_progress":
                 return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                     <Activity className="w-3 h-3 mr-1"/>
                     Sedang Diperiksa
@@ -198,7 +198,7 @@ function OutpatientVisitPage() {
                                         </Button>
                                     </>
                                 )}
-                                {patient.status === "in-progress" && (
+                                {patient.status === "in_progress" && (
                                     <>
                                         <Link to={`/outpatient/diagnose/${patient.outpatient_visit.id}`}>
                                             <Button variant="outline" size="sm"
@@ -213,14 +213,10 @@ function OutpatientVisitPage() {
                                     <>
                                         <Link to={`/outpatient/visit/${patient.outpatient_visit.id}`}>
                                             <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                                <Eye className="w-4 h-4"/>
+                                                <FileText className="w-4 h-4"/>
                                                 Lihat Detail
                                             </Button>
                                         </Link>
-                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                            <FileText className="w-4 h-4"/>
-                                            Rekam Medis
-                                        </Button>
                                     </>
                                 )}
                             </div>
@@ -287,7 +283,7 @@ function OutpatientVisitPage() {
                             <Clock className="w-4 h-4"/>
                             Menunggu ({waitingPatients.length})
                         </TabsTrigger>
-                        <TabsTrigger value="in-progress" className="gap-2">
+                        <TabsTrigger value="in_progress" className="gap-2">
                             <Activity className="w-4 h-4"/>
                             Sedang Diperiksa ({inProgressPatients.length})
                         </TabsTrigger>
@@ -311,7 +307,7 @@ function OutpatientVisitPage() {
                         )}
                     </TabsContent>
 
-                    <TabsContent value="in-progress" className="space-y-4 mt-6">
+                    <TabsContent value="in_progress" className="space-y-4 mt-6">
                         {inProgressPatients.length > 0 ? (
                             inProgressPatients.map((patient) => (
                                 <PatientCard key={patient.id} patient={patient}/>

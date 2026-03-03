@@ -2,16 +2,16 @@
 
 namespace App\Services\Payment\Order\Repository;
 
-use App\Models\Payment;
+use App\Models\SubscriptionPayment;
 use App\Services\Payment\Order\Interface\PaymentRepositoryInterface;
 
 class PaymentRepository implements PaymentRepositoryInterface
 {
-    private Payment $model;
+    private SubscriptionPayment $model;
 
     public function __construct()
     {
-        $this->model = new Payment();
+        $this->model = new SubscriptionPayment();
     }
 
     public function store(array $data = []): object

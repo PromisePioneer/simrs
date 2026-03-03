@@ -81,4 +81,15 @@ class QueueService
         return $this->queueRepository->changeStatus(id: $id, status: "in-progress");
     }
 
+
+    public function countTodayQueues(): array
+    {
+        $now = now()->toDateString();
+        return [
+            'today_queues' => $this->queueRepository->countTodayQueues($now),
+            'waiting' => $this->queueRepository->countTodayBasedOnQueueStatus('waiting'),
+            'in_progress' => $this->queueRepository->countTodayBasedOnQueueStatus('in_progress'),
+            'completed' => $this->queueRepository->countTodayBasedOnQueueStatus('completed'),
+        ];
+    }
 }

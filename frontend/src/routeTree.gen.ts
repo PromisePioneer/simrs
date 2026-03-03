@@ -25,7 +25,6 @@ import { Route as ProtectedSettingsPatientsIndexRouteImport } from './routes/_pr
 import { Route as ProtectedSettingsMedicineManagementIndexRouteImport } from './routes/_protected/settings/medicine-management/index'
 import { Route as ProtectedOutpatientVisitIndexRouteImport } from './routes/_protected/outpatient/visit/index'
 import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
-import { Route as ProtectedCashierPaymentIndexRouteImport } from './routes/_protected/cashier/payment/index'
 import { Route as ProtectedSettingsPatientsCreateRouteImport } from './routes/_protected/settings/patients/create'
 import { Route as ProtectedSettingsPatientsIdRouteImport } from './routes/_protected/settings/patients/$id'
 import { Route as ProtectedOutpatientVisitCreateRouteImport } from './routes/_protected/outpatient/visit/create'
@@ -127,12 +126,6 @@ const ProtectedMasterModuleIndexRoute =
   ProtectedMasterModuleIndexRouteImport.update({
     id: '/master/module/',
     path: '/master/module/',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
-const ProtectedCashierPaymentIndexRoute =
-  ProtectedCashierPaymentIndexRouteImport.update({
-    id: '/cashier/payment/',
-    path: '/cashier/payment/',
     getParentRoute: () => ProtectedRoute,
   } as any)
 const ProtectedSettingsPatientsCreateRoute =
@@ -241,7 +234,6 @@ export interface FileRoutesByFullPath {
   '/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
-  '/cashier/payment': typeof ProtectedCashierPaymentIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/outpatient/visit': typeof ProtectedOutpatientVisitIndexRoute
   '/settings/medicine-management': typeof ProtectedSettingsMedicineManagementIndexRoute
@@ -274,7 +266,6 @@ export interface FileRoutesByTo {
   '/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
-  '/cashier/payment': typeof ProtectedCashierPaymentIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/outpatient/visit': typeof ProtectedOutpatientVisitIndexRoute
   '/settings/medicine-management': typeof ProtectedSettingsMedicineManagementIndexRoute
@@ -309,7 +300,6 @@ export interface FileRoutesById {
   '/_protected/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
   '/_protected/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/_protected/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
-  '/_protected/cashier/payment/': typeof ProtectedCashierPaymentIndexRoute
   '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
   '/_protected/outpatient/visit/': typeof ProtectedOutpatientVisitIndexRoute
   '/_protected/settings/medicine-management/': typeof ProtectedSettingsMedicineManagementIndexRoute
@@ -344,7 +334,6 @@ export interface FileRouteTypes {
     | '/outpatient/visit/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
-    | '/cashier/payment'
     | '/master/module'
     | '/outpatient/visit'
     | '/settings/medicine-management'
@@ -377,7 +366,6 @@ export interface FileRouteTypes {
     | '/outpatient/visit/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
-    | '/cashier/payment'
     | '/master/module'
     | '/outpatient/visit'
     | '/settings/medicine-management'
@@ -411,7 +399,6 @@ export interface FileRouteTypes {
     | '/_protected/outpatient/visit/create'
     | '/_protected/settings/patients/$id'
     | '/_protected/settings/patients/create'
-    | '/_protected/cashier/payment/'
     | '/_protected/master/module/'
     | '/_protected/outpatient/visit/'
     | '/_protected/settings/medicine-management/'
@@ -553,13 +540,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMasterModuleIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/cashier/payment/': {
-      id: '/_protected/cashier/payment/'
-      path: '/cashier/payment'
-      fullPath: '/cashier/payment'
-      preLoaderRoute: typeof ProtectedCashierPaymentIndexRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
     '/_protected/settings/patients/create': {
       id: '/_protected/settings/patients/create'
       path: '/settings/patients/create'
@@ -678,7 +658,6 @@ interface ProtectedRouteChildren {
   ProtectedOutpatientVisitCreateRoute: typeof ProtectedOutpatientVisitCreateRoute
   ProtectedSettingsPatientsIdRoute: typeof ProtectedSettingsPatientsIdRoute
   ProtectedSettingsPatientsCreateRoute: typeof ProtectedSettingsPatientsCreateRoute
-  ProtectedCashierPaymentIndexRoute: typeof ProtectedCashierPaymentIndexRoute
   ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
   ProtectedOutpatientVisitIndexRoute: typeof ProtectedOutpatientVisitIndexRoute
   ProtectedSettingsMedicineManagementIndexRoute: typeof ProtectedSettingsMedicineManagementIndexRoute
@@ -708,7 +687,6 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedOutpatientVisitCreateRoute: ProtectedOutpatientVisitCreateRoute,
   ProtectedSettingsPatientsIdRoute: ProtectedSettingsPatientsIdRoute,
   ProtectedSettingsPatientsCreateRoute: ProtectedSettingsPatientsCreateRoute,
-  ProtectedCashierPaymentIndexRoute: ProtectedCashierPaymentIndexRoute,
   ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,
   ProtectedOutpatientVisitIndexRoute: ProtectedOutpatientVisitIndexRoute,
   ProtectedSettingsMedicineManagementIndexRoute:

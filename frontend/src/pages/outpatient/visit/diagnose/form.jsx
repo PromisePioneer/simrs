@@ -29,22 +29,14 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card.jsx";
 import {Badge} from "@/components/ui/badge.jsx";
 
 /* ─── Section Card ──────────────────────────────────────────────────────── */
-function SectionCard({icon: Icon, label, accent = "teal", children, action}) {
-    const accents = {
-        teal: {icon: "text-teal-600", bg: "bg-teal-50", border: "border-teal-100"},
-        violet: {icon: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100"},
-        amber: {icon: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100"},
-        sky: {icon: "text-sky-600", bg: "bg-sky-50", border: "border-sky-100"},
-        rose: {icon: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100"},
-    };
-    const c = accents[accent];
+function SectionCard({icon: Icon, label, children, action}) {
     return (
         <Card className="shadow-sm border-slate-100 overflow-hidden">
-            <CardHeader className={cn("px-5 py-4 border-b border-slate-100", c.bg)}>
+            <CardHeader className={cn("px-5 py-4 border-b border-slate-100")}>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                        <span className={cn("p-1.5 rounded-lg bg-white shadow-sm", c.border, "border")}>
-                            <Icon className={cn("w-4 h-4", c.icon)}/>
+                        <span className={cn("p-1.5 rounded-lg bg-white shadow-sm", "border")}>
+                            <Icon className={cn("w-4 h-4")}/>
                         </span>
                         <span className="font-semibold text-slate-700 text-[15px]">{label}</span>
                     </div>
@@ -72,7 +64,11 @@ function DiagnoseForm(opts) {
     }, []);
 
     const {
-        register, control, handleSubmit, watch,
+        register,
+        control,
+        handleSubmit,
+        reset,
+        watch,
         formState: {errors, isSubmitting},
     } = useForm({
         defaultValues: {
@@ -92,6 +88,57 @@ function DiagnoseForm(opts) {
         },
     });
 
+    useEffect(() => {
+        if (!outpatientVisitValue) return;
+
+        reset({
+            diagnoses: outpatientVisitValue?.diagnoses?.length > 0 ? outpatientVisitValue.diagnoses.map(diagnose => ({
+                icd10_code: diagnose.icd10_code ?? "",
+                description: diagnose.description ?? "",
+                type: diagnose.type ?? "primary"
+            })) : [{
+                icd10_code: "",
+                description: "",
+                type: "primary"
+            }],
+            procedures: outpatientVisitValue?.procedures?.length > 0
+                ? outpatientVisitValue.procedures.map(procedure => ({
+                    icd9_code: procedure.icd9_code ?? "",
+                    name: procedure.name ?? "",
+                    description: procedure.description ?? "",
+                    procedure_date: new Date(procedure.procedure_date) ?? undefined,
+                    notes: procedure.notes ?? ""
+                }))
+                : [{
+                    icd9_code: "",
+                    name: "",
+                    description: "",
+                    procedure_date: undefined,
+                    notes: ""
+                }],
+            prescriptions: outpatientVisitValue?.prescriptions?.length > 0
+                ? outpatientVisitValue.prescriptions.map(prescription => ({
+                    medicine_id: prescription.medicine_id ?? "",
+                    dosage: prescription.dosage ?? "",
+                    frequency: prescription.frequency ?? "",
+                    duration: prescription.duration ?? "",
+                    route: prescription.route ?? "",
+                    quantity: parseInt(prescription.quantity) ?? "",
+                    notes: prescription.notes ?? "",
+                    status: prescription.status
+                })) : [{
+                    medicine_id: "",
+                    dosage: "",
+                    frequency: "",
+                    duration: "",
+                    route: "",
+                    quantity: "",
+                    notes: ""
+                }],
+        });
+
+    }, [outpatientVisitValue]);
+
     const diagnoseFields = useFieldArray({control, name: "diagnoses"});
     const procedureFields = useFieldArray({control, name: "procedures"});
     const prescriptionFields = useFieldArray({control, name: "prescriptions"});
@@ -108,7 +155,7 @@ function DiagnoseForm(opts) {
 
     const onSubmit = async (data) => {
         const result = await createDiagnose(data, id);
-        if (result) await navigate({to: "/outpatient/visit"});
+        if (result) await navigate({to: "/outpatient?tab=outpatient-visit"});
     };
 
     return (
@@ -131,7 +178,7 @@ function DiagnoseForm(opts) {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-5">
 
                 {/* ── DIAGNOSIS ── */}
-                <SectionCard icon={Stethoscope} label="Diagnosis" accent="teal"
+                <SectionCard icon={Stethoscope} label="Diagnosis"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
                                          onClick={() => diagnoseFields.append({
@@ -146,7 +193,7 @@ function DiagnoseForm(opts) {
                     <div className="space-y-3">
                         {diagnoseFields.fields.map((field, index) => (
                             <div key={field.id}
-                                 className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 space-y-3">
+                                 className="p-4  border-slate-100 bg-slate-50/60 space-y-3">
                                 <div className="flex items-center justify-between">
                                     <Badge variant="outline" className="text-xs font-semibold">
                                         {index === 0 ? "Diagnosis Utama" : `Diagnosis ${index + 1}`}
@@ -203,7 +250,7 @@ function DiagnoseForm(opts) {
                 </SectionCard>
 
                 {/* ── TINDAKAN / PROSEDUR ── */}
-                <SectionCard icon={ClipboardList} label="Tindakan / Prosedur" accent="violet"
+                <SectionCard icon={ClipboardList} label="Tindakan / Prosedur"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
                                          onClick={() => procedureFields.append({
@@ -282,7 +329,7 @@ function DiagnoseForm(opts) {
                 </SectionCard>
 
                 {/* ── RESEP OBAT ── */}
-                <SectionCard icon={Pill} label="Resep Obat" accent="amber"
+                <SectionCard icon={Pill} label="Resep Obat"
                              action={
                                  <Button type="button" variant="outline" size="sm" className="gap-1.5 h-8 text-xs"
                                          onClick={() => prescriptionFields.append({
@@ -454,7 +501,7 @@ function DiagnoseForm(opts) {
                 </SectionCard>
 
                 {/* ── HASIL PENUNJANG ── */}
-                <SectionCard icon={FlaskConical} label="Hasil Pemeriksaan Penunjang" accent="sky">
+                <SectionCard icon={FlaskConical} label="Hasil Pemeriksaan Penunjang">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                             <Label className="text-xs font-semibold text-slate-600">Hasil Laboratorium</Label>
@@ -470,7 +517,7 @@ function DiagnoseForm(opts) {
                 </SectionCard>
 
                 {/* ── EDUKASI & TINDAK LANJUT ── */}
-                <SectionCard icon={FileText} label="Edukasi & Tindak Lanjut" accent="rose">
+                <SectionCard icon={FileText} label="Edukasi & Tindak Lanjut">
                     <div className="space-y-1.5">
                         <Label className="text-xs font-semibold text-slate-600">Edukasi Pasien</Label>
                         <Textarea placeholder="Instruksi diet, aktivitas, tanda bahaya yang harus diwaspadai..."

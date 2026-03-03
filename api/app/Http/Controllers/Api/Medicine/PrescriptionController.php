@@ -52,9 +52,9 @@ class PrescriptionController extends Controller
     /**
      * @throws Throwable
      */
-    public function medicationDispensing(Prescription $prescription)
+    public function medicationDispensing(Prescription $prescription, Request $request)
     {
-        $data = $this->prescriptionService->medicationDispensing($prescription);
+        $data = $this->prescriptionService->medicationDispensing(prescription: $prescription, request: $request);
         return response()->json($data);
     }
 }

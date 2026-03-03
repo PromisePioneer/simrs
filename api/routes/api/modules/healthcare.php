@@ -56,6 +56,7 @@ Route::prefix('sub-specializations')->group(function () {
 
 
 // Outpatients
+Route::get('queues/count-today-queues', [QueueController::class, 'countTodayQueues']);
 Route::apiResource('queues', QueueController::class);
 
 

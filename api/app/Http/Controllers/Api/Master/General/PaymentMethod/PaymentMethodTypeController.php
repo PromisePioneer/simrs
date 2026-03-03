@@ -33,7 +33,7 @@ class PaymentMethodTypeController extends Controller
     {
         $this->authorize('create', PaymentMethodType::class);
         $data = $this->paymentMethodTypeService->store($request);
-        return $this->successResponse($data, 'Payment method type successfully created.');
+        return $this->successResponse($data, 'SubscriptionPayment method type successfully created.');
     }
 
 
@@ -42,7 +42,7 @@ class PaymentMethodTypeController extends Controller
         $this->authorize('update', $paymentMethodType);
         $data = $request->validated();
         $data = $this->paymentMethodTypeService->update($paymentMethodType->id, $data);
-        return $this->successResponse($paymentMethodType, 'Payment method type successfully updated.');
+        return $this->successResponse($paymentMethodType, 'SubscriptionPayment method type successfully updated.');
     }
 
 
@@ -57,6 +57,6 @@ class PaymentMethodTypeController extends Controller
     {
         $this->authorize('delete', $paymentMethodType);
         $data = $this->paymentMethodTypeService->destroy($paymentMethodType->id);
-        return $this->successResponse($data, 'Payment method type successfully deleted.');
+        return $this->successResponse($data, 'SubscriptionPayment method type successfully deleted.');
     }
 }

@@ -37,11 +37,8 @@ class DiagnoseService
             $this->appendDiagnose(visitId: $visitId, data: $data, visit: $visit);
             $this->appendProcedure(visitId: $visitId, data: $data, visit: $visit);
             $this->appendPrescription(visitId: $visitId, data: $data, visit: $visit);
-
-
         }, 3);
 
-        return $this->outPatientVisitRepository->findById(id: $visitId)
-            ->load(['diagnoses', 'procedures', 'prescriptions']);
+        return $this->outPatientVisitRepository->findById(id: $visitId)->load(['diagnoses', 'procedures', 'prescriptions']);
     }
 }

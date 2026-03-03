@@ -42,6 +42,7 @@ trait DiagnoseTrait
                     return [
                         'tenant_id' => $visit->tenant_id,
                         'icd9_code' => $item['icd9_code'],
+                        'name' => $item['name'],
                         'description' => $item['description'] ?? '',
                         'performed_by' => auth()->id(),
                         'procedure_date' => now(),

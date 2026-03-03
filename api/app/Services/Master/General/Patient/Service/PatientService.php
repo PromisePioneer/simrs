@@ -80,7 +80,7 @@ class PatientService
             $patient->addresses()->delete();
             $patient->addresses()->createMany($data['addresses']);
 
-            // 3. Refresh Payment Methods
+            // 3. Refresh SubscriptionPayment Methods
             $patient->paymentMethods()->delete();
             $patient->paymentMethods()->createMany($data['payment_methods']);
         });

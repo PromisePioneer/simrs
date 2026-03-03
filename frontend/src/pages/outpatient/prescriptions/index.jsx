@@ -28,8 +28,6 @@ const statusMeta = {
 
 const accentBar = {
     draft: "from-slate-300 to-slate-400",
-    pending: "from-yellow-400 to-amber-400",
-    processing: "from-blue-400 to-sky-400",
     dispensed: "from-emerald-400 to-teal-400",
     cancelled: "from-red-400 to-rose-400",
 };
@@ -92,7 +90,7 @@ function buildPDFProps(p) {
 function PrescriptionPage() {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    const [printTarget, setPrintTarget] = useState(null); // prescription yg mau di-print
+    const [printTarget, setPrintTarget] = useState(null);
     const {fetchPrescriptions, prescriptions, updatePrescriptionStatus} = usePrescriptionStore();
 
     useEffect(() => {
@@ -112,7 +110,6 @@ function PrescriptionPage() {
 
     const handleUpdateStatus = async (id, status) => {
         await updatePrescriptionStatus(id, status);
-        await fetchPrescriptions({perPage: 20});
     };
 
     return (
@@ -183,29 +180,37 @@ function PrescriptionPage() {
                                 const patient = visit?.patient;
                                 const doctor = visit?.doctor;
                                 const medicineName = p.medicine?.name ?? p.medicine_name ?? "—";
+
+
                                 const status = statusMeta[p.status] ?? {label: p.status, className: ""};
 
                                 // Tombol workflow (berubah sesuai status)
                                 const workflowActions = [
-                                    ...(p.status === "draft" ? [{
-                                        label: "Ajukan",
-                                        icon: Clock,
-                                        className: "bg-yellow-500 hover:bg-yellow-600 text-white",
-                                        onClick: () => handleUpdateStatus(p.id, "pending"),
-                                    }] : []),
-                                    ...(p.status === "pending" ? [{
-                                        label: "Proses",
-                                        icon: FlaskConical,
-                                        className: "bg-teal-500 hover:bg-teal-600 text-white",
-                                        onClick: () => handleUpdateStatus(p.id, "processing"),
-                                    }] : []),
-                                    ...(p.status === "processing" ? [{
-                                        label: "Serahkan",
-                                        icon: PackageCheck,
-                                        className: "bg-emerald-500 hover:bg-emerald-600 text-white",
-                                        onClick: () => handleUpdateStatus(p.id, "dispensed"),
-                                    }] : []),
+                                    ...(p.status === "draft" ? [
+                                        {
+                                            label: "Serahkan Obat",
+                                            icon: Clock,
+                                            className: "bg-yellow-500 hover:bg-yellow-600 text-white",
+                                            onClick: () => handleUpdateStatus(p.id, "dispended"),
+                                        },
+                                        {
+                                            label: "Batalkan",
+                                            icon: PackageCheck,
+                                            className: "bg-emerald-500 hover:bg-red-600 text-white",
+                                            onClick: () => handleUpdateStatus(p.id, "cancelled"),
+                                        },
+                                    ] : []),
                                 ];
+
+                                let statusName;
+
+                                if (status.label === "dispended") {
+                                    statusName = "Diserahkan";
+                                } else if (status.label === "cancelled") {
+                                    statusName = "Dibatalkan";
+                                } else {
+                                    statusName = status;
+                                }
 
                                 return (
                                     <ListCard
@@ -220,7 +225,7 @@ function PrescriptionPage() {
                                         title={medicineName}
 
                                         badges={[{
-                                            label: status.label,
+                                            label: statusName,
                                             icon: status.icon,
                                             className: status.className,
                                         }]}
@@ -242,15 +247,17 @@ function PrescriptionPage() {
                                         ]}
 
                                         /* ── Cetak selalu di kanan atas, rapi & terpisah ── */
-                                        headerActions={[{
-                                            label: "Cetak",
-                                            icon: Printer,
-                                            variant: "outline",
-                                            onClick: () => setPrintTarget(p),
-                                        }]}
-
+                                        headerActions={[
+                                            {
+                                                label: "Cetak",
+                                                icon: Printer,
+                                                variant: "outline",
+                                                onClick: () => setPrintTarget(p),
+                                            },
+                                            ...workflowActions,
+                                        ]}
                                         /* ── Workflow di bawah kiri ── */
-                                        actions={workflowActions}
+                                        actions={[]}
 
                                         detail={
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

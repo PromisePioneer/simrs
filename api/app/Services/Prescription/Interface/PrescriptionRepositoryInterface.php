@@ -6,5 +6,5 @@ interface PrescriptionRepositoryInterface
 {
     public function getPrescriptions(array $filters = [], ?int $perPage = null);
 
-    public function medicationDispensing(string $id);
+    public function medicationDispensing(string $id, string $status);
 }

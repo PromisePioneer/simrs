@@ -37,7 +37,7 @@ class PaymentMethodController extends Controller
     {
         $this->authorize('create', PaymentMethod::class);
         $paymentMethod = $this->paymentMethodService->store($request);
-        return $this->successResponse($paymentMethod, 'Payment Method has been created successfully.');
+        return $this->successResponse($paymentMethod, 'SubscriptionPayment Method has been created successfully.');
     }
 
 
@@ -58,7 +58,7 @@ class PaymentMethodController extends Controller
     {
         $this->authorize('update', $paymentMethod);
         $paymentMethod = $this->paymentMethodService->update($request, $paymentMethod->id);
-        return $this->successResponse($paymentMethod, 'Payment Method has been updated successfully.');
+        return $this->successResponse($paymentMethod, 'SubscriptionPayment Method has been updated successfully.');
     }
 
 
@@ -69,6 +69,6 @@ class PaymentMethodController extends Controller
     {
         $this->authorize('delete', $paymentMethod);
         $paymentMethod = $this->paymentMethodService->destroy($paymentMethod);
-        return $this->successResponse($paymentMethod, 'Payment Method has been deleted successfully.');
+        return $this->successResponse($paymentMethod, 'SubscriptionPayment Method has been deleted successfully.');
     }
 }

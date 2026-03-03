@@ -10,9 +10,9 @@ import {Route} from "@/routes/_protected/outpatient/index.jsx";
 import {useOutpatientDashboardReportStore} from "@/store/outpatientDashboardReportStore.js";
 import {PermissionTabs} from "@/components/common/tabs.jsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.jsx";
-import {Users, UserPlus, ShieldAlert} from "lucide-react";
-import {Button} from "@/components/ui/button.jsx";
+import {Users, ShieldAlert} from "lucide-react";
 import SettingPage from "@/pages/settings/index.jsx";
+import {usePatientQueueStore} from "@/store/patientQueueStore.js";
 
 function OutpatientPage() {
     const {hasPermission} = usePermission();
@@ -21,14 +21,16 @@ function OutpatientPage() {
 
 
     const {
-        fetchPatientVisitCount,
         patientTodayCount,
         fetchTodayPatientCountByStatus,
         todayPatientCountByStatus,
     } = useOutpatientDashboardReportStore();
 
+
+    const {fetchCountTodayQueues, countTodayQueues} = usePatientQueueStore();
+
     useEffect(() => {
-        fetchPatientVisitCount();
+        fetchCountTodayQueues()
         fetchTodayPatientCountByStatus();
     }, []);
 
@@ -118,14 +120,14 @@ function OutpatientPage() {
     }
 
 
-    const statsData = stats(patientTodayCount, todayPatientCountByStatus);
+    const statsData = stats(countTodayQueues);
 
 
     return (
         <Layout>
 
             {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-500">

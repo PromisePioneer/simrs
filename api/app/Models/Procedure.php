@@ -16,6 +16,7 @@ class Procedure extends TenantScopeBaseModel
         'tenant_id',
         'outpatient_visit_id',
         'icd9_code',
+        'name',
         'performed_by',
         'procedure_date',
         'description'

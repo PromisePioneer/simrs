@@ -36,6 +36,7 @@ class DiagnoseVisitRequest extends FormRequest
 
             'procedures' => ['required', 'array', 'min:1'],
             'procedures.*.icd9_code' => ['required', 'max:10', 'string'],
+            'procedures.*.name' => ['required'],
             'procedures.*.description' => ['required'],
             'procedures.*.procedure_date' => ['nullable'],
             'procedures.*.notes' => ['nullable'],

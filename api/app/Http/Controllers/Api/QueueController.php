@@ -59,4 +59,11 @@ class QueueController extends Controller
         $this->queueService->startDiagnose($queue->id);
         return $this->successResponse(message: 'Diagnose started successfully.');
     }
+
+
+    public function countTodayQueues()
+    {
+        $data = $this->queueService->countTodayQueues();
+        return response()->json($data);
+    }
 }

@@ -58,7 +58,7 @@ function PatientPaymentMethod({register, control, errors, watch, paymentMethodTy
 
                     <CardContent className="space-y-4">
                         <div className="grid gap-4 md:grid-cols-2">
-                            {/* Payment Method */}
+                            {/* SubscriptionPayment Method */}
                             <div className="space-y-2">
                                 <Label htmlFor={`payment_methods.${index}.payment_method_type_id`}>
                                     Metode Pembayaran <span className="text-destructive">*</span>
@@ -154,7 +154,7 @@ function PatientPaymentMethod({register, control, errors, watch, paymentMethodTy
                 </Card>
             ))}
 
-            {/* Tombol Tambah Payment Method */}
+            {/* Tombol Tambah SubscriptionPayment Method */}
             <Button
                 type="button"
                 variant="outline"

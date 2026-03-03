@@ -87,6 +87,82 @@ return new class extends Migration {
             $table->string('job')->nullable();
             $table->timestamps();
         });
+
+
+        Schema::create('patient_payments', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+
+            $table->foreignUuid('tenant_id')
+                ->constrained('tenants')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('outpatient_visit_id')
+                ->constrained('outpatient_visits')
+                ->cascadeOnDelete();
+            $table->string('payer_type')->default('self'); // self, bpjs, insurance
+            $table->string('invoice_number')->unique();
+            $table->double('subtotal')->default(0);
+            $table->double('discount')->default(0);
+            $table->double('tax')->default(0);
+            $table->double('total')->default(0);
+            $table->double('amount_paid')->default(0);
+            $table->string('payment_status')->default('unpaid');
+            $table->string('payment_method')->nullable();
+            $table->dateTime('paid_at')->nullable();
+            $table->timestamps();
+        });
+
+
+        Schema::create('patient_payment_items', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('patient_payment_id')
+                ->constrained('patient_payments')
+                ->cascadeOnDelete();
+            $table->string('item_type'); // consultation, medicine, procedure, lab, admin
+            $table->string('item_name');
+            $table->integer('qty')->default(1);
+            $table->double('price')->default(0);
+            $table->double('total')->default(0);
+            $table->timestamps();
+        });
+
+
+        Schema::create('patient_insurance_claims', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+
+            $table->foreignUuid('tenant_id')
+                ->constrained('tenants')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('outpatient_visit_id')
+                ->constrained('outpatient_visits')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('patient_payment_id')
+                ->constrained('patient_payments')
+                ->cascadeOnDelete();
+
+            $table->string('claim_number')->nullable();
+
+            $table->string('insurance_provider');
+            // BPJS, Prudential, dll
+
+            $table->double('claim_amount')->default(0);
+
+            $table->string('claim_status')->default('pending');
+            /*
+            pending
+            submitted
+            approved
+            rejected
+            paid
+            */
+
+            $table->date('submitted_at')->nullable();
+            $table->date('paid_at')->nullable();
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -95,5 +171,15 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('outpatient_visits');
+        Schema::dropIfExists('allergies');
+        Schema::dropIfExists('patients_vital_sign');
+        Schema::dropIfExists('patient_companions');
+        Schema::dropIfExists('patient_allergies');
+        Schema::dropIfExists('patient_medical_history');
+        Schema::dropIfExists('patient_family_medical_history');
+        Schema::dropIfExists('patient_psychosocial_and_spirituals');
+        Schema::dropIfExists('payments');
+        Schema::dropIfExists('payment_items');
+        Schema::dropIfExists('patient_insurance_claims');
     }
 };

@@ -28,9 +28,10 @@ class PrescriptionService
     /**
      * @throws \Throwable
      */
-    public function medicationDispensing(Prescription $prescription): ?object
+    public function medicationDispensing(Prescription $prescription, Request $request): ?object
     {
-        return $this->prescriptionRepository->medicationDispensing($prescription->id);
+        $status = $request->input('status');
+        return $this->prescriptionRepository->medicationDispensing(id: $prescription->id, status: $status);
     }
 
 }

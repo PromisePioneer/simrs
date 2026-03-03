@@ -55,6 +55,7 @@ return new class extends Migration {
 
             // Snapshot ICD-9
             $table->string('icd9_code', 10)->index();
+            $table->string('name');
             $table->string('description');
 
             // Optional tapi recommended
@@ -93,6 +94,7 @@ return new class extends Migration {
             $table->decimal('quantity', 10, 2)->nullable(); // jumlah yang diberikan
             $table->string('status')->default('draft'); // draft | approved | dispended | cancelled
             $table->text('notes')->nullable();
+            $table->string('cancel_reason')->nullable();
             $table->foreignUuid('dispensed_by')->nullable()->constrained('users');
             $table->timestamp('dispensed_at')->nullable();
             $table->softDeletes();

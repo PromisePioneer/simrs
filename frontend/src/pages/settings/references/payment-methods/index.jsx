@@ -187,7 +187,7 @@ function PaymentMethodPage() {
                 showSearch={true}
             />
 
-            {/* Modal Payment: Add/Edit */}
+            {/* Modal SubscriptionPayment: Add/Edit */}
             <Modal
                 open={paymentOpenModal}
                 onOpenChange={setPaymentOpenModal}
@@ -261,7 +261,7 @@ function PaymentMethodPage() {
                 </div>
             </Modal>
 
-            {/* Modal Payment: Delete */}
+            {/* Modal SubscriptionPayment: Delete */}
             <Modal
                 open={paymentOpenDeleteModal}
                 onOpenChange={setPaymentOpenDeleteModal}
