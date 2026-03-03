@@ -35,7 +35,8 @@ const pathLabels = {
     'roles': 'Peran Pengguna',
     'details': 'Detail',
     'electronic-medical-record': 'Rekam Medis Elektronik',
-    'outpatient' : 'Rawat Jalan'
+    'outpatient': 'Rawat Jalan',
+    'visit': "Kunjungan",
 };
 
 // Function to check if string is UUID
