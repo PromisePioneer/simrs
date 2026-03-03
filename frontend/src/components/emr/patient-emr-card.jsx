@@ -275,9 +275,6 @@ function PatientEMRCard({patient}) {
 
                     {/* Tombol harus stopPropagation supaya tidak trigger toggle card */}
                     <div className="flex sm:flex-col gap-2 shrink-0" onClick={stopProp}>
-                        <Button variant="outline" size="sm" className="gap-1.5 text-xs h-8" asChild>
-                            <Link to={`/emr/${patient.id}`}><Eye className="w-3.5 h-3.5"/> Detail</Link>
-                        </Button>
                         <Button size="sm" className="gap-1.5 text-xs h-8 bg-teal-500 hover:bg-teal-600">
                             <Plus className="w-3.5 h-3.5"/> Catatan
                         </Button>

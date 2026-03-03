@@ -7,7 +7,7 @@ import {useAuthStore} from "@/store/authStore.js"
 import {useSidebarStore} from "@/store/useSidebarStore.js"
 import {
     Home, FolderOpen, LayoutTemplate, Palette,
-    Wand2, MoreHorizontal, Bell, Search, X
+    MoreHorizontal, Bell, Search, X, List
 } from "lucide-react"
 import {
     Sidebar,
@@ -34,9 +34,8 @@ import {cn} from "@/lib/utils"
 const ICON_MAP = {
     beranda: Home, home: Home,
     proyek: FolderOpen, project: FolderOpen,
-    template: LayoutTemplate,
+    template: List,
     merek: Palette, brand: Palette,
-    "ai canva": Wand2, ai: Wand2,
 }
 
 const getIcon = (title = "") => {
@@ -44,7 +43,7 @@ const getIcon = (title = "") => {
     for (const [k, Icon] of Object.entries(ICON_MAP)) {
         if (key.includes(k)) return Icon
     }
-    return LayoutTemplate
+    return List;
 }
 
 // ─── Shared Tooltip wrapper ───────────────────────────────────────────────
