@@ -22,7 +22,8 @@ class OutpatientVisit extends TenantScopeBaseModel
         'patient_id',
         'doctor_id',
         'date',
-        'complain'
+        'complain',
+        'status'
     ];
 
 
