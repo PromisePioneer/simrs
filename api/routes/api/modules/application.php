@@ -33,5 +33,3 @@ Route::prefix('roles')->group(function () {
     Route::apiResource('/', RoleController::class);
     Route::get('/tenant/{tenant}', [RoleController::class, 'getByTenant']);
 });
-
-

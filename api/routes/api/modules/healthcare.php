@@ -95,4 +95,3 @@ Route::prefix('facilities')->group(function () {
     Route::apiResource('buildings', BuildingController::class);
     Route::apiResource('wards', WardController::class);
 });
-

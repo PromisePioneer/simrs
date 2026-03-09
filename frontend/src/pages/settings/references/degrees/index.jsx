@@ -1,4 +1,3 @@
-import {usePaymentMethodStore} from "@/store/usePaymentMethodStore.js";
 import {Controller, useForm} from "react-hook-form";
 import {useEffect} from "react";
 import {useDegreeStore} from "@/store/useDegreeStore.js";
@@ -19,7 +18,6 @@ import {
     SelectValue
 } from "@/components/ui/select.jsx";
 import DataTable from "@/components/common/data-table.jsx";
-import {useAuthStore} from "@/store/authStore.js";
 import {usePermission} from "@/hooks/usePermission.js";
 
 function DegreePage() {

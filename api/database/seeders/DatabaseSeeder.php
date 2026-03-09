@@ -2,7 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Degree;
+use App\Models\TenantDefaultRole;
+use App\Models\User;
 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use AzisHapidin\IndoRegion\IndoRegion;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

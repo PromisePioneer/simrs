@@ -290,7 +290,7 @@ export function AppSidebar({...props}) {
         })
     }, [menuData])
 
-    const MAX_VISIBLE = 10
+    const MAX_VISIBLE = 10;
     const topItems = allMenuItems.slice(0, MAX_VISIBLE)
     const moreItems = allMenuItems.slice(MAX_VISIBLE).flatMap(item =>
         item.items ? item.items : [item]

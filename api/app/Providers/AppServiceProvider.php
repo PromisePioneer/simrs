@@ -93,6 +93,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Department::class, DepartmentPolicy::class);
 
 
+
         /*
          *  Pharmacy
          */

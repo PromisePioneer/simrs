@@ -41,7 +41,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     }
 
     /**
+<<<<<<< HEAD
      * Update the given verified user's facilities information.
+=======
+     * Update the given verified user's profile information.
+>>>>>>> 014ef0048b7422aa5c63fdd410d06f5341b26934
      *
      * @param  array<string, string>  $input
      */

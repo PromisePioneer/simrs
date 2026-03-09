@@ -1,6 +1,6 @@
-import Layout from "@/pages/dashboard/layout.jsx"
-import { useAuthStore } from "@/store/authStore.js"
-import { useState } from "react"
+import Layout from "@/pages/dashboard/layout.jsx";
+import {useAuthStore} from "@/store/authStore.js"
+import {useState} from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,51 +10,86 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import apiCall from "@/services/apiCall.js"
-import { toast } from "sonner"
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
+import {Badge} from "@/components/ui/badge"
+import {Button} from "@/components/ui/button"
+import {Separator} from "@/components/ui/separator"
 import ContentHeader from "@/components/ui/content-header.jsx"
 import {
     Users, CalendarDays, BedDouble, AlertTriangle,
     FlaskConical, FileText, Pill, Plus, TrendingUp
 } from "lucide-react"
+import apiCall from "@/services/apiCall.js";
+import {toast} from "sonner";
 
 // ── Dummy Data ────────────────────────────────────────────────────────────────
 const STATS = [
-    { label: "Total Pasien",     value: "1,284", delta: "+12 minggu ini",  icon: Users,         color: "text-teal-600",   bg: "bg-teal-50" },
-    { label: "Jadwal Hari Ini",  value: "24",    delta: "3 menunggu",       icon: CalendarDays,  color: "text-indigo-600", bg: "bg-indigo-50" },
-    { label: "Bed Occupancy",    value: "78%",   delta: "↑ 4% vs kemarin", icon: BedDouble,     color: "text-amber-600",  bg: "bg-amber-50" },
-    { label: "Kasus Kritis",     value: "6",     delta: "2 dipulangkan",   icon: AlertTriangle, color: "text-rose-600",   bg: "bg-rose-50" },
+    {
+        label: "Total Pasien",
+        value: "1,284",
+        delta: "+12 minggu ini",
+        icon: Users,
+        color: "text-teal-600",
+        bg: "bg-teal-50"
+    },
+    {
+        label: "Jadwal Hari Ini",
+        value: "24",
+        delta: "3 menunggu",
+        icon: CalendarDays,
+        color: "text-indigo-600",
+        bg: "bg-indigo-50"
+    },
+    {
+        label: "Bed Occupancy",
+        value: "78%",
+        delta: "↑ 4% vs kemarin",
+        icon: BedDouble,
+        color: "text-amber-600",
+        bg: "bg-amber-50"
+    },
+    {
+        label: "Kasus Kritis",
+        value: "6",
+        delta: "2 dipulangkan",
+        icon: AlertTriangle,
+        color: "text-rose-600",
+        bg: "bg-rose-50"
+    },
 ]
 
 const PATIENTS = [
-    { name: "Siti Rahayu",  age: 42, condition: "Hipertensi",       status: "Stabil",    initials: "SR", color: "bg-teal-500" },
-    { name: "Budi Santoso", age: 67, condition: "Diabetes Melitus", status: "Perhatian", initials: "BS", color: "bg-indigo-500" },
-    { name: "Dewi Lestari", age: 29, condition: "Post-operasi",     status: "Kritis",    initials: "DL", color: "bg-rose-500" },
-    { name: "Ahmad Fauzi",  age: 55, condition: "Pneumonia",        status: "Stabil",    initials: "AF", color: "bg-amber-500" },
-    { name: "Rina Wijaya",  age: 38, condition: "Anemia",           status: "Perhatian", initials: "RW", color: "bg-purple-500" },
+    {name: "Siti Rahayu", age: 42, condition: "Hipertensi", status: "Stabil", initials: "SR", color: "bg-teal-500"},
+    {
+        name: "Budi Santoso",
+        age: 67,
+        condition: "Diabetes Melitus",
+        status: "Perhatian",
+        initials: "BS",
+        color: "bg-indigo-500"
+    },
+    {name: "Dewi Lestari", age: 29, condition: "Post-operasi", status: "Kritis", initials: "DL", color: "bg-rose-500"},
+    {name: "Ahmad Fauzi", age: 55, condition: "Pneumonia", status: "Stabil", initials: "AF", color: "bg-amber-500"},
+    {name: "Rina Wijaya", age: 38, condition: "Anemia", status: "Perhatian", initials: "RW", color: "bg-purple-500"},
 ]
 
 const APPOINTMENTS = [
-    { time: "08.00", name: "Pak Hendra",  type: "Pemeriksaan Umum",  dot: "bg-teal-500" },
-    { time: "09.00", name: "Ibu Marlina", type: "Review Hasil Lab",  dot: "bg-indigo-500" },
-    { time: "11.00", name: "Pak Yusuf",   type: "Kardiologi",         dot: "bg-rose-500" },
-    { time: "13.00", name: "Ibu Kartika", type: "Konsultasi Gizi",   dot: "bg-amber-500" },
-    { time: "15.00", name: "Pak Ridwan",  type: "Follow-up",          dot: "bg-purple-500" },
+    {time: "08.00", name: "Pak Hendra", type: "Pemeriksaan Umum", dot: "bg-teal-500"},
+    {time: "09.00", name: "Ibu Marlina", type: "Review Hasil Lab", dot: "bg-indigo-500"},
+    {time: "11.00", name: "Pak Yusuf", type: "Kardiologi", dot: "bg-rose-500"},
+    {time: "13.00", name: "Ibu Kartika", type: "Konsultasi Gizi", dot: "bg-amber-500"},
+    {time: "15.00", name: "Pak Ridwan", type: "Follow-up", dot: "bg-purple-500"},
 ]
 
 const statusVariant = (s) => {
-    if (s === "Stabil")    return "default"
+    if (s === "Stabil") return "default"
     if (s === "Perhatian") return "secondary"
     return "destructive"
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 function DashboardPage() {
-    const { userData, isLoading, isEmailUnverified } = useAuthStore()
+    const {userData, isLoading, isEmailUnverified} = useAuthStore()
     const [sending, setSending] = useState(false)
 
     const handleResendEmail = async () => {
@@ -115,7 +150,7 @@ function DashboardPage() {
 
     return (
         <Layout>
-            <ContentHeader title="Dashboard" description="Ringkasan aktivitas klinik hari ini" />
+            <ContentHeader title="Dashboard" description="Ringkasan aktivitas klinik hari ini"/>
 
             <div className="p-6 space-y-6">
 
@@ -128,31 +163,31 @@ function DashboardPage() {
                 {/* Quick Actions */}
                 <div className="flex flex-wrap gap-2">
                     <Button size="sm" className="gap-2">
-                        <Plus className="w-4 h-4" /> Tambah Pasien
+                        <Plus className="w-4 h-4"/> Tambah Pasien
                     </Button>
                     <Button size="sm" variant="outline" className="gap-2">
-                        <FileText className="w-4 h-4" /> Buat Resep
+                        <FileText className="w-4 h-4"/> Buat Resep
                     </Button>
                     <Button size="sm" variant="outline" className="gap-2">
-                        <FlaskConical className="w-4 h-4" /> Order Lab
+                        <FlaskConical className="w-4 h-4"/> Order Lab
                     </Button>
                     <Button size="sm" variant="outline" className="gap-2">
-                        <TrendingUp className="w-4 h-4" /> Laporan
+                        <TrendingUp className="w-4 h-4"/> Laporan
                     </Button>
                     <Button size="sm" variant="outline" className="gap-2">
-                        <Pill className="w-4 h-4" /> Stok Obat
+                        <Pill className="w-4 h-4"/> Stok Obat
                     </Button>
                 </div>
 
                 {/* Stat Cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    {STATS.map(({ label, value, delta, icon: Icon, color, bg }) => (
+                    {STATS.map(({label, value, delta, icon: Icon, color, bg}) => (
                         <Card key={label}>
                             <CardContent className="pt-5 pb-4">
                                 <div className="flex items-center justify-between mb-3">
                                     <p className="text-sm text-muted-foreground">{label}</p>
                                     <div className={`p-2 rounded-lg ${bg}`}>
-                                        <Icon className={`w-4 h-4 ${color}`} />
+                                        <Icon className={`w-4 h-4 ${color}`}/>
                                     </div>
                                 </div>
                                 <p className="text-2xl font-bold">{value}</p>
@@ -192,7 +227,8 @@ function DashboardPage() {
                                         >
                                             <td className="px-6 py-3">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`w-8 h-8 rounded-full ${p.color} flex items-center justify-center text-white text-xs font-semibold shrink-0`}>
+                                                    <div
+                                                        className={`w-8 h-8 rounded-full ${p.color} flex items-center justify-center text-white text-xs font-semibold shrink-0`}>
                                                         {p.initials}
                                                     </div>
                                                     <span className="font-medium">{p.name}</span>
@@ -216,21 +252,23 @@ function DashboardPage() {
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-base">Jadwal Hari Ini</CardTitle>
                             <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                                <Plus className="w-3.5 h-3.5" />
+                                <Plus className="w-3.5 h-3.5"/>
                             </Button>
                         </CardHeader>
                         <CardContent className="p-0">
                             {APPOINTMENTS.map((a, i) => (
                                 <div key={a.name}>
-                                    <div className="flex items-center gap-3 px-5 py-3 hover:bg-muted/30 transition-colors">
-                                        <span className="text-sm font-mono text-muted-foreground w-12 shrink-0">{a.time}</span>
-                                        <div className={`w-2 h-2 rounded-full shrink-0 ${a.dot}`} />
+                                    <div
+                                        className="flex items-center gap-3 px-5 py-3 hover:bg-muted/30 transition-colors">
+                                        <span
+                                            className="text-sm font-mono text-muted-foreground w-12 shrink-0">{a.time}</span>
+                                        <div className={`w-2 h-2 rounded-full shrink-0 ${a.dot}`}/>
                                         <div className="min-w-0">
                                             <p className="text-sm font-medium truncate">{a.name}</p>
                                             <p className="text-xs text-muted-foreground truncate">{a.type}</p>
                                         </div>
                                     </div>
-                                    {i !== APPOINTMENTS.length - 1 && <Separator />}
+                                    {i !== APPOINTMENTS.length - 1 && <Separator/>}
                                 </div>
                             ))}
                         </CardContent>
