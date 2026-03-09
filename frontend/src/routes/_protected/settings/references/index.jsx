@@ -1,0 +1,16 @@
+// src/routes/_protected/settings/references.jsx
+import {createFileRoute} from '@tanstack/react-router';
+import {requirePermission} from '@/middleware/permissionMiddleware';
+import {PERMISSIONS} from '@/constants/permissions';
+import ReferencesPage from "@/pages/settings/references/index.jsx";
+import {z} from "zod";
+
+
+const referencesSearchSchema = z.object({
+    tab: z.enum(['degrees', 'payment-methods', 'registration-institutions', 'poli', 'departments']).optional().default('degrees')
+})
+
+export const Route = createFileRoute('/_protected/settings/references/')({
+    validateSearch: referencesSearchSchema,
+    component: ReferencesPage,
+});

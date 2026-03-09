@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers\Api\Medicine;
+
+use App\Http\Controllers\Controller;
+use App\Models\Prescription;
+use App\Services\Prescription\Service\PrescriptionService;
+use Illuminate\Http\Request;
+use Throwable;
+
+class PrescriptionController extends Controller
+{
+
+    protected PrescriptionService $prescriptionService;
+
+    public function __construct()
+    {
+        $this->prescriptionService = new PrescriptionService();
+    }
+
+
+    public function index(Request $request)
+    {
+        $data = $this->prescriptionService->getPrescriptions(request: $request);
+        return response()->json($data);
+    }
+
+
+    public function store()
+    {
+
+    }
+
+
+    public function update()
+    {
+
+    }
+
+
+    public function show()
+    {
+
+    }
+
+
+    public function destroy()
+    {
+
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function medicationDispensing(Prescription $prescription, Request $request)
+    {
+        $data = $this->prescriptionService->medicationDispensing(prescription: $prescription, request: $request);
+        return response()->json($data);
+    }
+}
