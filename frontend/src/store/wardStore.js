@@ -27,7 +27,7 @@ export const useWardStore = create((set, get) => ({
         {key: 'no', label: 'No', width: '5%'},
         {key: 'name', label: 'Nama', width: '25%'},
         {key: 'department', label: 'Departemen', width: '25%'},
-        {key: 'Gedung', label: 'Departemen', width: '25%'},
+        {key: 'rooms', label: 'Ruangan', width: '25%'},
         {key: 'actions', label: 'Action', width: '15%', align: 'right'},
     ]),
     setOpenDeleteModal: async (id = null) => {

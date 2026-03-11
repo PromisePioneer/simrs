@@ -64,7 +64,7 @@ function WardPage() {
             reset({
                 name: wardValue.name || "",
                 floor: wardValue.floor || "",
-                building_id: wardValue || "",
+                building_id: wardValue.building_id || "",
                 department_id: wardValue.department_id || "",
             });
         } else {
@@ -125,141 +125,139 @@ function WardPage() {
         return (
             <Fragment key={ward.id}>
                 {/* Baris Utama Ruang Rawat */}
-                    <TableRow
-                        key={ward.id}
-                        className="hover:bg-muted/50 transition-colors cursor-pointer select-none"
-                        onClick={() => roomCount > 0 && toggleExpand(ward.id)}
-                    >
-                        <TableCell className="font-medium text-muted-foreground">
-                            {wards.from + index}
-                        </TableCell>
-                        <TableCell>
-                            <div className="flex items-center gap-3">
-                                {/* Chevron toggle */}
-                                <div className="flex items-center justify-center w-5 h-5 text-muted-foreground/60">
-                                    {roomCount > 0 ? (
-                                        <ChevronRight
-                                            className="w-4 h-4"
-                                            style={{
-                                                transition: "transform 0.3s ease",
-                                                transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
-                                                color: isExpanded ? "var(--primary)" : "currentColor",
-                                            }}
-                                        />
-                                    ) : (
-                                        <span className="w-4 h-4"/>
-                                    )}
-                                </div>
-                                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                                    <Building2 className="w-5 h-5 text-primary"/>
-                                </div>
-                                <span className="font-semibold text-foreground">{ward.name}</span>
+                <TableRow
+                    key={ward.id}
+                    className="hover:bg-muted/50 transition-colors cursor-pointer select-none"
+                    onClick={() => roomCount > 0 && toggleExpand(ward.id)}
+                >
+                    <TableCell className="font-medium text-muted-foreground">
+                        {wards.from + index}
+                    </TableCell>
+                    <TableCell>
+                        <div className="flex items-center gap-3">
+                            {/* Chevron toggle */}
+                            <div className="flex items-center justify-center w-5 h-5 text-muted-foreground/60">
+                                {roomCount > 0 ? (
+                                    <ChevronRight
+                                        className="w-4 h-4"
+                                        style={{
+                                            transition: "transform 0.3s ease",
+                                            transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
+                                            color: isExpanded ? "var(--primary)" : "currentColor",
+                                        }}
+                                    />
+                                ) : (
+                                    <span className="w-4 h-4"/>
+                                )}
                             </div>
-                        </TableCell>
-                        <TableCell>
+                            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                                <Building2 className="w-5 h-5 text-primary"/>
+                            </div>
+                            <span className="font-semibold text-foreground">{ward.name}</span>
+                        </div>
+                    </TableCell>
+                    <TableCell>
                         <span className="text-sm text-muted-foreground line-clamp-2">
-                            {ward.description || (
-                                <span className="italic text-muted-foreground/50">Tidak ada deskripsi</span>
-                            )}
+                            {ward.department.name}
                         </span>
-                        </TableCell>
-                        <TableCell>
-                            <Badge
-                                variant={roomCount > 0 ? "secondary" : "outline"}
-                                className="flex items-center gap-1.5 w-fit px-2.5 py-1"
-                            >
-                                <DoorOpen className="w-3.5 h-3.5"/>
-                                <span>{roomCount} Ruangan</span>
-                            </Badge>
-                        </TableCell>
-                        <TableCell
-                            className="text-right"
-                            onClick={e => e.stopPropagation()}
+                    </TableCell>
+                    <TableCell>
+                        <Badge
+                            variant={roomCount > 0 ? "secondary" : "outline"}
+                            className="flex items-center gap-1.5 w-fit px-2.5 py-1"
                         >
-                            <div className="flex justify-end gap-1">
-                                <TooltipProvider>
-                                    <>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                                    onClick={() => setOpenModal(ward.id)}
-                                                >
-                                                    <Pencil className="h-4 w-4"/>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent><p>Ubah Ruang Rawat</p></TooltipContent>
-                                        </Tooltip>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                                    onClick={() => setOpenDeleteModal(ward.id)}
-                                                >
-                                                    <Trash2 className="h-4 w-4"/>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent><p>Hapus Ruang Rawat</p></TooltipContent>
-                                        </Tooltip>
-                                    </>
-                                </TooltipProvider>
-                            </div>
-                        </TableCell>
-                    </TableRow>
+                            <DoorOpen className="w-3.5 h-3.5"/>
+                            <span>{roomCount} Ruangan</span>
+                        </Badge>
+                    </TableCell>
+                    <TableCell
+                        className="text-right"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="flex justify-end gap-1">
+                            <TooltipProvider>
+                                <>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                                onClick={() => setOpenModal(ward.id)}
+                                            >
+                                                <Pencil className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent><p>Ubah Ruang Rawat</p></TooltipContent>
+                                    </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                                onClick={() => setOpenDeleteModal(ward.id)}
+                                            >
+                                                <Trash2 className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent><p>Hapus Ruang Rawat</p></TooltipContent>
+                                    </Tooltip>
+                                </>
+                            </TooltipProvider>
+                        </div>
+                    </TableCell>
+                </TableRow>
 
-                    {roomCount > 0 && (
-                        <TableRow key={`${ward.id}-rooms`}>
-                            <TableCell colSpan={colSpan} className="p-0! border-0">
-                                <div style={{
-                                    display: "grid",
-                                    gridTemplateRows: isExpanded ? "1fr" : "0fr",
-                                    transition: "grid-template-rows 0.3s cubic-bezier(0.4,0,0.2,1)",
-                                }}>
-                                    <div style={{overflow: "hidden"}}>
-                                        <div style={{
-                                            opacity: isExpanded ? 1 : 0,
-                                            transform: isExpanded ? "translateY(0)" : "translateY(-6px)",
-                                            transition: "opacity 0.25s ease, transform 0.25s ease",
-                                            transitionDelay: isExpanded ? "0.05s" : "0s",
-                                        }}>
-                                            <div className="py-3 pl-16 pr-4 bg-muted/30">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <Layers className="w-4 h-4 text-primary"/>
-                                                    <span
-                                                        className="text-xs font-semibold text-primary uppercase tracking-wider">
+                {roomCount > 0 && (
+                    <TableRow key={`${ward.id}-rooms`}>
+                        <TableCell colSpan={colSpan} className="p-0! border-0">
+                            <div style={{
+                                display: "grid",
+                                gridTemplateRows: isExpanded ? "1fr" : "0fr",
+                                transition: "grid-template-rows 0.3s cubic-bezier(0.4,0,0.2,1)",
+                            }}>
+                                <div style={{overflow: "hidden"}}>
+                                    <div style={{
+                                        opacity: isExpanded ? 1 : 0,
+                                        transform: isExpanded ? "translateY(0)" : "translateY(-6px)",
+                                        transition: "opacity 0.25s ease, transform 0.25s ease",
+                                        transitionDelay: isExpanded ? "0.05s" : "0s",
+                                    }}>
+                                        <div className="py-3 pl-16 pr-4 bg-muted/30">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Layers className="w-4 h-4 text-primary"/>
+                                                <span
+                                                    className="text-xs font-semibold text-primary uppercase tracking-wider">
                                                     Daftar Ruangan — {ward.name}
                                                 </span>
-                                                </div>
-                                                <div
-                                                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-1">
-                                                    {/* ✅ FIX 3: Ganti nama variable inner loop dari 'ward' ke 'room' */}
-                                                    {ward.rooms.map((room) => (
-                                                        <div key={room.id}
-                                                             className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background px-3 py-2 shadow-sm">
-                                                            <div
-                                                                className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 shrink-0">
-                                                                <DoorOpen className="w-3.5 h-3.5 text-primary"/>
-                                                            </div>
-                                                            <div className="min-w-0">
-                                                                {/* ✅ FIX 3: Pakai 'room' bukan 'ward' */}
-                                                                <p className="text-sm font-medium text-foreground truncate">{room.name}</p>
-                                                                <p className="text-xs text-muted-foreground">Nomor {room.room_number}</p>
-                                                                <p className="text-xs text-muted-foreground">Kapasitas {room.capacity}</p>
-                                                            </div>
+                                            </div>
+                                            <div
+                                                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-1">
+                                                {/* ✅ FIX 3: Ganti nama variable inner loop dari 'ward' ke 'room' */}
+                                                {ward.rooms.map((room) => (
+                                                    <div key={room.id}
+                                                         className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background px-3 py-2 shadow-sm">
+                                                        <div
+                                                            className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 shrink-0">
+                                                            <DoorOpen className="w-3.5 h-3.5 text-primary"/>
                                                         </div>
-                                                    ))}
-                                                </div>
+                                                        <div className="min-w-0">
+                                                            {/* ✅ FIX 3: Pakai 'room' bukan 'ward' */}
+                                                            <p className="text-sm font-medium text-foreground truncate">{room.name}</p>
+                                                            <p className="text-xs text-muted-foreground">Nomor {room.room_number}</p>
+                                                            <p className="text-xs text-muted-foreground">Kapasitas {room.capacity}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </TableCell>
-                        </TableRow>
-                    )}
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                )}
             </Fragment>
         );
     };
@@ -380,6 +378,7 @@ function WardPage() {
                                             onChange={field.onChange}
                                             placeholder="Cari ruang rawat..."
                                             debounce={300}
+                                            defaultLabel={wardValue?.building?.name ?? null}  // ✅
                                         />
                                     )}
                                 />
@@ -409,6 +408,7 @@ function WardPage() {
                                             onChange={field.onChange}
                                             placeholder="Cari departemen..."
                                             debounce={300}
+                                            defaultLabel={wardValue?.department?.name ?? null}  // ✅
                                         />
                                     )}
                                 />

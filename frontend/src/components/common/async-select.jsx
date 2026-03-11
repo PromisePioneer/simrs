@@ -14,6 +14,7 @@ export function AsyncSelect({
                                 debounce = 300,
                                 minChars = 0,
                                 className,
+                                defaultLabel = null
                             }) {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
@@ -72,10 +73,11 @@ export function AsyncSelect({
         setSelectedItems(
             vals.map(v => ({
                 value: v,
-                label: labelCache.current[v] ?? v, // fallback ke value kalau label belum ada
+                // ✅ Pakai defaultLabel kalau labelCache kosong
+                label: labelCache.current[v] ?? defaultLabel ?? v,
             }))
         );
-    }, [value]);
+    }, [value, defaultLabel]);
 
     // Close dropdown saat klik luar
     useEffect(() => {

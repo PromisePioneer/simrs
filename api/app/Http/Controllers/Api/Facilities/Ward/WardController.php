@@ -40,6 +40,7 @@ class WardController extends Controller
         $this->authorize('view', $ward);
         $ward->load('building');
         $ward->load('rooms');
+        $ward->load('department');
         return response()->json($ward);
     }
 
