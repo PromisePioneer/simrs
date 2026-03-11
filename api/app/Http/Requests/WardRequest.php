@@ -24,8 +24,8 @@ class WardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'building_id' => ['required', 'exists:inpatient,id'],
-            'department' => ['required'],
+            'building_id' => ['required', 'exists:buildings,id'],
+            'department_id' => ['required', 'exists:departments,id'],
             'name' => ['required', Rule::unique('wards', 'name')->ignore($this->route('ward'))],
             'floor' => ['required'],
         ];
@@ -36,7 +36,9 @@ class WardRequest extends FormRequest
     {
         return [
             'building_id.required' => 'Gedung tidak boleh kosong',
-            'department.required' => 'Departemen tidak boleh kosong',
+            'building_id.exists' => 'Gedung tidak valid',
+            'department_id.required' => 'Departemen tidak boleh kosong',
+            'department_id.exists' => 'Departemen tidak valid',
             'name.required' => 'Nama tidak boleh kosong',
             'floor.required' => 'Lantai tidak boleh kosong',
         ];

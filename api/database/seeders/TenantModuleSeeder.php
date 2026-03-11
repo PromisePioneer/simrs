@@ -316,16 +316,24 @@ class TenantModuleSeeder extends Seeder
             'Menghapus Gedung',
 
 
-            'Melihat Ruangan',
-            'Membuat Ruangan',
-            'Mengubah Ruangan',
-            'Menghapus Ruangan',
+            'Melihat Ruang Rawat',
+            'Membuat Ruang Rawat',
+            'Mengubah Ruang Rawat',
+            'Menghapus Ruang Rawat',
 
 
             'Melihat Tipe Ruangan',
             'Membuat Tipe Ruangan',
             'Mengubah Tipe Ruangan',
             'Menghapus Tipe Ruangan',
+
+
+            'Melihat  Ruangan',
+            'Membuat  Ruangan',
+            'Mengubah  Ruangan',
+            'Menghapus  Ruangan',
+
+
         ];
 
         foreach ($permissions as $permissionName) {

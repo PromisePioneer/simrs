@@ -54,6 +54,17 @@ export const useBuildingStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
+    fetchBuildingOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/facilities/buildings", {
+            params: {search}
+        });
+        // Sesuaikan dengan struktur response API kamu
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
+    },
     createBuilding: async (data) => {
         try {
             await apiCall.post('/api/v1/facilities/buildings', data);

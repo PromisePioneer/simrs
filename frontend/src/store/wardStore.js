@@ -58,6 +58,7 @@ export const useWardStore = create((set, get) => ({
         try {
             await apiCall.post('/api/v1/facilities/wards', data);
             toast.success("data berhasil disimpan");
+            set({openModal: false});
             await get().fetchWards({perPage: 20});
         } catch (e) {
             toast.error(e.response.data.message || "Operasi Gagal");

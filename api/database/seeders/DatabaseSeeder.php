@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             RegistrationInstitutionSeeder::class,
             IndoRegionProvinceSeeder::class,
             IndoRegionRegencySeeder::class,
+            RoomSeeder::class,
             IndoRegionDistrictSeeder::class,
             IndoRegionVillageSeeder::class,
         ]);

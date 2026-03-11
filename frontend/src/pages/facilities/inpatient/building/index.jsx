@@ -91,7 +91,7 @@ function BuildingPage() {
     const renderRow = (building, index) => {
         const isExpanded = expandedRows.has(building.id);
         const wardCount = building.wards?.length ?? 0;
-        // jumlah kolom total (no + nama + deskripsi + ruangan + aksi = 5)
+        // jumlah kolom total (no + nama + deskripsi + Ruang Rawat + aksi = 5)
         const colSpan = 5;
 
         return (
@@ -141,7 +141,7 @@ function BuildingPage() {
                             className="flex items-center gap-1.5 w-fit px-2.5 py-1"
                         >
                             <DoorOpen className="w-3.5 h-3.5"/>
-                            <span>{wardCount} Ruangan</span>
+                            <span>{wardCount} Ruang Rawat</span>
                         </Badge>
                     </TableCell>
                     <TableCell
@@ -183,53 +183,53 @@ function BuildingPage() {
                     </TableCell>
                 </TableRow>
 
-                {/* Baris Expand: Daftar Ruangan */}
+                {/* Baris Expand: Daftar Ruang Rawat */}
 
-                    <TableRow key={`${building.id}-wards`}>
-                        <TableCell colSpan={colSpan} className="!p-0 border-0">
-                            {/* Tiru persis Collapse component dari ListCard */}
-                            <div style={{
-                                display: "grid",
-                                gridTemplateRows: isExpanded ? "1fr" : "0fr",
-                                transition: "grid-template-rows 0.3s cubic-bezier(0.4,0,0.2,1)",
-                            }}>
-                                <div style={{overflow: "hidden"}}>
-                                    <div style={{
-                                        opacity: isExpanded ? 1 : 0,
-                                        transform: isExpanded ? "translateY(0)" : "translateY(-6px)",
-                                        transition: "opacity 0.25s ease, transform 0.25s ease",
-                                        transitionDelay: isExpanded ? "0.05s" : "0s",
-                                    }}>
-                                        <div className="py-3 pl-16 pr-4 bg-muted/30">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <Layers className="w-4 h-4 text-primary"/>
-                                                <span
-                                                    className="text-xs font-semibold text-primary uppercase tracking-wider">
-                                Daftar Ruangan — {building.name}
+                <TableRow key={`${building.id}-wards`}>
+                    <TableCell colSpan={colSpan} className="!p-0 border-0">
+                        {/* Tiru persis Collapse component dari ListCard */}
+                        <div style={{
+                            display: "grid",
+                            gridTemplateRows: isExpanded ? "1fr" : "0fr",
+                            transition: "grid-template-rows 0.3s cubic-bezier(0.4,0,0.2,1)",
+                        }}>
+                            <div style={{overflow: "hidden"}}>
+                                <div style={{
+                                    opacity: isExpanded ? 1 : 0,
+                                    transform: isExpanded ? "translateY(0)" : "translateY(-6px)",
+                                    transition: "opacity 0.25s ease, transform 0.25s ease",
+                                    transitionDelay: isExpanded ? "0.05s" : "0s",
+                                }}>
+                                    <div className="py-3 pl-16 pr-4 bg-muted/30">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Layers className="w-4 h-4 text-primary"/>
+                                            <span
+                                                className="text-xs font-semibold text-primary uppercase tracking-wider">
+                                Daftar Ruang Rawat — {building.name}
                             </span>
-                                            </div>
-                                            <div
-                                                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-1">
-                                                {building.wards.map((ward) => (
-                                                    <div key={ward.id}
-                                                         className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background px-3 py-2 shadow-sm">
-                                                        <div
-                                                            className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 shrink-0">
-                                                            <DoorOpen className="w-3.5 h-3.5 text-primary"/>
-                                                        </div>
-                                                        <div className="min-w-0">
-                                                            <p className="text-sm font-medium text-foreground truncate">{ward.name}</p>
-                                                            <p className="text-xs text-muted-foreground">Lantai {ward.floor}</p>
-                                                        </div>
+                                        </div>
+                                        <div
+                                            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-1">
+                                            {building.wards.map((ward) => (
+                                                <div key={ward.id}
+                                                     className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background px-3 py-2 shadow-sm">
+                                                    <div
+                                                        className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 shrink-0">
+                                                        <DoorOpen className="w-3.5 h-3.5 text-primary"/>
                                                     </div>
-                                                ))}
-                                            </div>
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-medium text-foreground truncate">{ward.name}</p>
+                                                        <p className="text-xs text-muted-foreground">Lantai {ward.floor}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </TableCell>
-                    </TableRow>
+                        </div>
+                    </TableCell>
+                </TableRow>
             </>
         );
     };
@@ -354,7 +354,7 @@ function BuildingPage() {
                                 </p>
                                 {buildingValue?.wards?.length > 0 && (
                                     <p className="text-sm text-destructive font-medium mt-1">
-                                        ⚠️ Gedung ini memiliki {buildingValue.wards.length} ruangan yang akan ikut
+                                        ⚠️ Gedung ini memiliki {buildingValue.wards.length} Ruang Rawat yang akan ikut
                                         terhapus.
                                     </p>
                                 )}

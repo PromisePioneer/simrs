@@ -89,10 +89,10 @@ export const PERMISSIONS = {
         VIEW: "Melihat Fasilitas"
     },
     WARD: {
-        VIEW: 'Melihat Ruangan',
-        CREATE: 'Membuat Ruangan',
-        EDIT: 'Mengubah Ruangan',
-        DELETE: 'Menghapus Ruangan'
+        VIEW: 'Melihat Ruang Rawat',
+        CREATE: 'Membuat Ruang Rawat',
+        EDIT: 'Mengubah Ruang Rawat',
+        DELETE: 'Menghapus Ruang Rawat'
     },
     DEPARTMENT: {
         VIEW: 'Melihat Departemen',

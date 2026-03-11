@@ -53,6 +53,17 @@ export const useDepartmentStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
+    fetchDepartmentOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/departments", {
+            params: {search}
+        });
+        // Sesuaikan dengan struktur response API kamu
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
+    },
     createDepartment: async (data) => {
         try {
             await apiCall.post('/api/v1/departments', data);

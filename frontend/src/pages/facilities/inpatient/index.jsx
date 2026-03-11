@@ -26,7 +26,7 @@ function InpatientFacilityPage() {
         },
         {
             key: 'wards',
-            label: 'Ruangan',
+            label: 'Ruang Rawat',
             permission: PERMISSIONS.WARD.VIEW,
             component: WardPage
         },

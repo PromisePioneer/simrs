@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\Facilities\Building\BuildingController;
+use App\Http\Controllers\Api\Facilities\Room\RoomController;
 use App\Http\Controllers\Api\Facilities\Room\RoomTypeController;
 use App\Http\Controllers\Api\Facilities\Ward\WardController;
 use App\Http\Controllers\Api\General\AppointmentController;
@@ -98,4 +99,5 @@ Route::prefix('prescriptions')->group(function () {
 Route::prefix('facilities')->group(function () {
     Route::apiResource('buildings', BuildingController::class);
     Route::apiResource('wards', WardController::class);
+    Route::apiResource('rooms', RoomController::class);
 });
