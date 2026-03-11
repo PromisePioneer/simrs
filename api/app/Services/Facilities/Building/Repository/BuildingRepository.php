@@ -14,9 +14,9 @@ class BuildingRepository implements BuildingRepositoryInterface
         $this->model = new Building();
     }
 
-    public function getBuildings(array $filters = [], int $perPage = 10): object
+    public function getBuildings(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->query();
+        $query = $this->model->with('wards');
 
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%' . $filters['name'] . '%');

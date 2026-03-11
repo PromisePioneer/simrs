@@ -18,7 +18,7 @@ class DepartmentRepository implements DepartmentRepositoryInterface
 
     public function getDepartments(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->with(['building', 'department']);
+        $query = $this->model->query();
 
         if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');

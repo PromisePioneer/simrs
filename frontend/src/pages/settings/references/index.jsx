@@ -11,6 +11,8 @@ import {useNavigate} from "@tanstack/react-router";
 import {Route} from "@/routes/_protected/settings/references/index.jsx";
 import {PermissionTabs} from "@/components/common/tabs.jsx";
 import DepartmentPage from "@/pages/settings/references/department/index.jsx";
+import RoomTypes from "@/pages/settings/references/room-types/index.jsx";
+import RoomTypePage from "@/pages/settings/references/room-types/index.jsx";
 
 function ReferencesPage() {
     const navigate = useNavigate();
@@ -49,6 +51,12 @@ function ReferencesPage() {
             label: 'Manajemen Departemen',
             permission: hasPermission(PERMISSIONS.DEPARTMENT.VIEW),
             component: DepartmentPage
+        },
+        {
+            key: 'room-types',
+            label: 'Tipe Ruangan',
+            permission: hasPermission(PERMISSIONS.ROOM_TYPE.VIEW),
+            component: RoomTypePage
         }
     ];
 

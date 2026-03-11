@@ -95,9 +95,15 @@ export const PERMISSIONS = {
         DELETE: 'Menghapus Ruangan'
     },
     DEPARTMENT: {
-        VIEW: 'Melihat Ruangan',
-        CREATE: 'Membuat Ruangan',
-        EDIT: 'Mengubah Ruangan',
-        DELETE: 'Menghapus Ruangan'
+        VIEW: 'Melihat Departemen',
+        CREATE: 'Membuat Departemen',
+        EDIT: 'Mengubah Departemen',
+        DELETE: 'Menghapus Departemen'
+    },
+    ROOM_TYPE: {
+        VIEW: 'Melihat Tipe Ruangan',
+        CREATE: 'Membuat Tipe Ruangan',
+        EDIT: 'Mengubah Tipe Ruangan',
+        DELETE: 'Menghapus Tipe Ruangan'
     }
 };

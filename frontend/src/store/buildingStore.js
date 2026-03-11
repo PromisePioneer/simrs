@@ -26,6 +26,7 @@ export const useBuildingStore = create((set, get) => ({
     columns: () => ([
         {key: 'no', label: 'No', width: '5%'},
         {key: 'name', label: 'Nama Ruangan', width: '25%'},
+        {key: 'ward', label: 'Ward', width: '25%'},
         {key: 'description', label: 'Deskripsi', width: '25%'},
         {key: 'actions', label: 'Action', width: '15%', align: 'right'},
     ]),

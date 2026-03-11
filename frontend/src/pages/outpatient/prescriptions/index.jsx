@@ -11,7 +11,7 @@ import {
 import {usePrescriptionStore} from "@/store/prescriptionStore.js";
 import {formatDate} from "@/utils/formatDate.js";
 import {ListCard} from "@/components/common/list-card.jsx";
-import {ClinicalPDFDocument, PDFModal} from "@/components/common/pdf-document.jsx";
+import {PDFModal} from "@/components/common/pdf-document.jsx";
 
 /* ─── Status meta ───────────────────────────────────────────── */
 const statusMeta = {
@@ -202,15 +202,11 @@ function PrescriptionPage() {
                                     ] : []),
                                 ];
 
-                                let statusName;
-
-                                if (status.label === "dispended") {
-                                    statusName = "Diserahkan";
-                                } else if (status.label === "cancelled") {
-                                    statusName = "Dibatalkan";
-                                } else {
-                                    statusName = status;
-                                }
+                                const statusLabel =
+                                    p.status === "dispensed" ? "Diserahkan" :
+                                        p.status === "dispended" ? "Diserahkan" : // typo dari handleUpdateStatus
+                                            p.status === "cancelled" ? "Dibatalkan" :
+                                                status.label;
 
                                 return (
                                     <ListCard
@@ -225,7 +221,7 @@ function PrescriptionPage() {
                                         title={medicineName}
 
                                         badges={[{
-                                            label: statusName,
+                                            label: statusLabel,
                                             icon: status.icon,
                                             className: status.className,
                                         }]}

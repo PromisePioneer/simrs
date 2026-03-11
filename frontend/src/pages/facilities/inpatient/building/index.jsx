@@ -1,9 +1,10 @@
 import {useBuildingStore} from "@/store/buildingStore.js";
 import {TableCell, TableRow} from "@/components/ui/table.jsx";
-import {Pencil, Plus, Trash2, Building2} from "lucide-react";
+import {Pencil, Plus, Trash2, Building2, DoorOpen, ChevronDown, ChevronRight, Layers} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {useEffect} from "react";
+import {Badge} from "@/components/ui/badge.jsx";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import DataTable from "@/components/common/data-table.jsx";
 import {Label} from "@/components/ui/label.jsx";
@@ -21,7 +22,6 @@ function BuildingPage() {
         openDeleteModal,
         buildingValue,
 
-
         setCurrentPage,
         setSearch,
         setOpenModal,
@@ -34,6 +34,15 @@ function BuildingPage() {
         setBuildingValue
     } = useBuildingStore();
 
+    const [expandedRows, setExpandedRows] = useState(new Set());
+
+    const toggleExpand = (id) => {
+        setExpandedRows(prev => {
+            const next = new Set(prev);
+            next.has(id) ? next.delete(id) : next.add(id);
+            return next;
+        });
+    };
 
     const {
         register,
@@ -49,7 +58,6 @@ function BuildingPage() {
         }
     });
 
-
     useEffect(() => {
         fetchBuildings({perPage: 20});
     }, [fetchBuildings, search, currentPage]);
@@ -59,7 +67,7 @@ function BuildingPage() {
             reset({
                 name: buildingValue.name || "",
                 description: buildingValue.description || ""
-            })
+            });
         } else {
             reset({name: "", description: ""});
         }
@@ -80,60 +88,151 @@ function BuildingPage() {
         }
     };
 
+    const renderRow = (building, index) => {
+        const isExpanded = expandedRows.has(building.id);
+        const wardCount = building.wards?.length ?? 0;
+        // jumlah kolom total (no + nama + deskripsi + ruangan + aksi = 5)
+        const colSpan = 5;
 
-    const renderRow = (building, index) => (
-        <TableRow key={building.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {buildings.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Building2 className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{building.name}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{building.description}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setOpenModal(building.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Ubah Gedung</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(building.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Hapus Gedung</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+        return (
+            <>
+                {/* Baris Utama Gedung */}
+                <TableRow
+                    key={building.id}
+                    className="hover:bg-muted/50 transition-colors cursor-pointer select-none"
+                    onClick={() => wardCount > 0 && toggleExpand(building.id)}
+                >
+                    <TableCell className="font-medium text-muted-foreground">
+                        {buildings.from + index}
+                    </TableCell>
+                    <TableCell>
+                        <div className="flex items-center gap-3">
+                            {/* Chevron toggle */}
+                            <div className="flex items-center justify-center w-5 h-5 text-muted-foreground/60">
+                                {wardCount > 0 ? (
+                                    <ChevronRight
+                                        className="w-4 h-4"
+                                        style={{
+                                            transition: "transform 0.3s ease",
+                                            transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
+                                            color: isExpanded ? "var(--primary)" : "currentColor",
+                                        }}
+                                    />
+                                ) : (
+                                    <span className="w-4 h-4"/>
+                                )}
+                            </div>
+                            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                                <Building2 className="w-5 h-5 text-primary"/>
+                            </div>
+                            <span className="font-semibold text-foreground">{building.name}</span>
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                        <span className="text-sm text-muted-foreground line-clamp-2">
+                            {building.description || (
+                                <span className="italic text-muted-foreground/50">Tidak ada deskripsi</span>
+                            )}
+                        </span>
+                    </TableCell>
+                    <TableCell>
+                        <Badge
+                            variant={wardCount > 0 ? "secondary" : "outline"}
+                            className="flex items-center gap-1.5 w-fit px-2.5 py-1"
+                        >
+                            <DoorOpen className="w-3.5 h-3.5"/>
+                            <span>{wardCount} Ruangan</span>
+                        </Badge>
+                    </TableCell>
+                    <TableCell
+                        className="text-right"
+                        onClick={e => e.stopPropagation()} // biar klik aksi tidak toggle expand
+                    >
+                        <div className="flex justify-end gap-1">
+                            <TooltipProvider>
+                                <>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                                onClick={() => setOpenModal(building.id)}
+                                            >
+                                                <Pencil className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent><p>Ubah Gedung</p></TooltipContent>
+                                    </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                                onClick={() => setOpenDeleteModal(building.id)}
+                                            >
+                                                <Trash2 className="h-4 w-4"/>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent><p>Hapus Gedung</p></TooltipContent>
+                                    </Tooltip>
+                                </>
+                            </TooltipProvider>
+                        </div>
+                    </TableCell>
+                </TableRow>
 
+                {/* Baris Expand: Daftar Ruangan */}
+
+                    <TableRow key={`${building.id}-wards`}>
+                        <TableCell colSpan={colSpan} className="!p-0 border-0">
+                            {/* Tiru persis Collapse component dari ListCard */}
+                            <div style={{
+                                display: "grid",
+                                gridTemplateRows: isExpanded ? "1fr" : "0fr",
+                                transition: "grid-template-rows 0.3s cubic-bezier(0.4,0,0.2,1)",
+                            }}>
+                                <div style={{overflow: "hidden"}}>
+                                    <div style={{
+                                        opacity: isExpanded ? 1 : 0,
+                                        transform: isExpanded ? "translateY(0)" : "translateY(-6px)",
+                                        transition: "opacity 0.25s ease, transform 0.25s ease",
+                                        transitionDelay: isExpanded ? "0.05s" : "0s",
+                                    }}>
+                                        <div className="py-3 pl-16 pr-4 bg-muted/30">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Layers className="w-4 h-4 text-primary"/>
+                                                <span
+                                                    className="text-xs font-semibold text-primary uppercase tracking-wider">
+                                Daftar Ruangan — {building.name}
+                            </span>
+                                            </div>
+                                            <div
+                                                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-1">
+                                                {building.wards.map((ward) => (
+                                                    <div key={ward.id}
+                                                         className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background px-3 py-2 shadow-sm">
+                                                        <div
+                                                            className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 shrink-0">
+                                                            <DoorOpen className="w-3.5 h-3.5 text-primary"/>
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <p className="text-sm font-medium text-foreground truncate">{ward.name}</p>
+                                                            <p className="text-xs text-muted-foreground">Lantai {ward.floor}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+            </>
+        );
+    };
 
     return (
         <>
@@ -163,7 +262,6 @@ function BuildingPage() {
                 </Button>
             </div>
 
-
             <DataTable
                 title="Tabel Gedung"
                 description="Daftar gedung yang tersedia"
@@ -171,8 +269,11 @@ function BuildingPage() {
                 data={buildings?.data || []}
                 isLoading={isLoading}
                 pagination={buildings ? {
-                    from: buildings.from, to: buildings.to, total: buildings.total,
-                    current_page: buildings.current_page, last_page: buildings.last_page
+                    from: buildings.from,
+                    to: buildings.to,
+                    total: buildings.total,
+                    current_page: buildings.current_page,
+                    last_page: buildings.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}
@@ -185,7 +286,7 @@ function BuildingPage() {
                 showSearch={true}
             />
 
-
+            {/* Modal Tambah / Edit */}
             <Modal
                 open={openModal}
                 onOpenChange={setOpenModal}
@@ -197,29 +298,35 @@ function BuildingPage() {
             >
                 <div className="space-y-5 py-2">
                     <div className="space-y-2.5">
-                        <Label htmlFor="name" className="text-sm font-semibold">Nama <span
-                            className="text-destructive">*</span></Label>
-                        <Input id="name" placeholder="Contoh: S.Kom, M.M"
-                               {...register("name", {required: "Nama gedung tidak boleh kosong"})}
+                        <Label htmlFor="name" className="text-sm font-semibold">
+                            Nama Gedung <span className="text-destructive">*</span>
+                        </Label>
+                        <Input
+                            id="name"
+                            placeholder="Contoh: Gedung A"
+                            {...register("name", {required: "Nama gedung tidak boleh kosong"})}
                         />
-                        {errors.name &&
-                            <p className="text-sm text-destructive">{errors.name.message}</p>}
+                        {errors.name && (
+                            <p className="text-sm text-destructive">{errors.name.message}</p>
+                        )}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="description">
-                            Deskripsi
-                            <span className="text-destructive">*</span>
+                            Deskripsi <span className="text-destructive">*</span>
                         </Label>
-                        <Textarea id="description"
-                                  {...register("description",)}
+                        <Textarea
+                            id="description"
+                            placeholder="Masukkan deskripsi gedung..."
+                            {...register("description")}
                         />
-                        {errors.description &&
-                            <p className="text-sm text-destructive">{errors.description.message}</p>}
+                        {errors.description && (
+                            <p className="text-sm text-destructive">{errors.description.message}</p>
+                        )}
                     </div>
                 </div>
             </Modal>
 
-
+            {/* Modal Hapus */}
             <Modal
                 open={openDeleteModal}
                 onOpenChange={setOpenDeleteModal}
@@ -241,17 +348,23 @@ function BuildingPage() {
                             </div>
                             <div className="flex-1 space-y-1">
                                 <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus gedung: <span
-                                    className="font-semibold text-foreground">{buildingValue?.name}</span></p>
+                                <p className="text-sm text-muted-foreground">
+                                    Anda akan menghapus gedung:{" "}
+                                    <span className="font-semibold text-foreground">{buildingValue?.name}</span>
+                                </p>
+                                {buildingValue?.wards?.length > 0 && (
+                                    <p className="text-sm text-destructive font-medium mt-1">
+                                        ⚠️ Gedung ini memiliki {buildingValue.wards.length} ruangan yang akan ikut
+                                        terhapus.
+                                    </p>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
             </Modal>
         </>
-    )
-
-
+    );
 }
 
 export default BuildingPage;

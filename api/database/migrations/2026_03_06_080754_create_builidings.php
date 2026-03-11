@@ -29,6 +29,26 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+
+        Schema::create('room_types', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->string('code');
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('default_capacity');
+            $table->timestamps();
+        });
+
+//        Schema::create('rooms', function (Blueprint $table) {
+//            $table->uuid('id')->primary();
+//            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
+//            $table->foreignUuid('building_id')->constrained('buildings')->cascadeOnDelete();
+//            $table->string('room_number');
+//            $table->string('name');
+//            $table->string('name');
+//        });
+
     }
 
     /**

@@ -13,7 +13,10 @@ class Building extends TenantScopeBaseModel
 
     protected $table = 'buildings';
     protected $fillable = [
+
         'tenant_id',
+        'building_id',
+        'department_id',
         'name',
         'description',
     ];
@@ -22,5 +25,11 @@ class Building extends TenantScopeBaseModel
     public function wards(): HasMany
     {
         return $this->hasMany(Ward::class, 'building_id');
+    }
+
+
+    public function departments(): HasMany
+    {
+        return $this->hasMany(Department::class, 'department_id');
     }
 }

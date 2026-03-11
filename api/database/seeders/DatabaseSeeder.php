@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ProfessionSeeder::class,
             TenantSeeder::class,
             DepartmentSeeder::class,
+            RoomTypeSeeder::class,
             PaymentMethodTypeSeeder::class,
             PaymentMethodSeeder::class,
             PoliSeeder::class,

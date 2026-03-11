@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\Facilities\Building\BuildingController;
+use App\Http\Controllers\Api\Facilities\Room\RoomTypeController;
 use App\Http\Controllers\Api\Facilities\Ward\WardController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
@@ -31,12 +32,15 @@ Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 Route::apiResource('departments', DepartmentController::class);
 
+
 // master Data
 Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
 Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
 Route::apiResource('payment-methods', PaymentMethodController::class);
 Route::apiResource('degrees', DegreeController::class);
 Route::apiResource('professions', ProfessionController::class);
+Route::apiResource('room-types', RoomTypeController::class);
+
 
 // Specializations
 Route::prefix('specializations')->group(function () {

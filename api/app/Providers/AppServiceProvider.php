@@ -19,6 +19,7 @@ use App\Models\MedicineWarehouse;
 use App\Models\Profession;
 use App\Models\RegistrationInstitution;
 use App\Models\Role;
+use App\Models\RoomType;
 use App\Models\Specialization;
 use App\Models\SubSpecialization;
 use App\Models\User;
@@ -40,6 +41,7 @@ use App\Policies\PrescriptionPolicy;
 use App\Policies\ProfessionPolicy;
 use App\Policies\RegistrationInstitutionPolicy;
 use App\Policies\RolePolicy;
+use App\Policies\RoomTypePolicy;
 use App\Policies\SpecializationPolicy;
 use App\Policies\SubSpecializationPolicy;
 use App\Policies\UserPolicy;
@@ -91,7 +93,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(SubSpecialization::class, SubSpecializationPolicy::class);
         Gate::policy(Specialization::class, SpecializationPolicy::class);
         Gate::policy(Department::class, DepartmentPolicy::class);
-
+        Gate::policy(RoomType::class, RoomTypePolicy::class);
 
 
         /*
