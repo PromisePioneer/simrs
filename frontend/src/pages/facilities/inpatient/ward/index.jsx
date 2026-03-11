@@ -19,18 +19,10 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import Modal from "@/components/common/modal.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Textarea} from "@/components/ui/textarea.jsx";
 import {useWardStore} from "@/store/wardStore.js";
 import {useDepartmentStore} from "@/store/departmentStore.js";
 import {useBuildingStore} from "@/store/buildingStore.js";
 import DataTable from "@/components/common/data-table.jsx";
-import {
-    MultiSelect,
-    MultiSelectContent,
-    MultiSelectGroup, MultiSelectItem,
-    MultiSelectTrigger,
-    MultiSelectValue
-} from "@/components/ui/multi-select.jsx";
 import {AsyncSelect} from "@/components/common/async-select.jsx";
 import {Fragment} from "react";
 
@@ -425,6 +417,44 @@ function WardPage() {
                         {errors.department_id && (
                             <p className="text-sm text-destructive">{errors.department_id.message}</p>
                         )}
+                    </div>
+                </div>
+            </Modal>
+
+
+            <Modal
+                open={openDeleteModal}
+                onOpenChange={setOpenDeleteModal}
+                title="Hapus Ruang Rawat"
+                description="Tindakan ini tidak dapat dibatalkan. Ruang Rawat akan dihapus permanen."
+                onSubmit={() => deleteWard(wardValue.id)}
+                submitText="Hapus Ruang Rawat"
+                type="danger"
+                isLoading={isLoading}
+            >
+                <div className="space-y-4 py-2">
+                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+                        <div className="flex gap-3">
+                            <div className="shrink-0">
+                                <div
+                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
+                                    <Trash2 className="w-5 h-5 text-destructive"/>
+                                </div>
+                            </div>
+                            <div className="flex-1 space-y-1">
+                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
+                                <p className="text-sm text-muted-foreground">
+                                    Anda akan menghapus ruang rawat:{" "}
+                                    <span className="font-semibold text-foreground">{wardValue?.name}</span>
+                                </p>
+                                {wardValue?.rooms?.length > 0 && (
+                                    <p className="text-sm text-destructive font-medium mt-1">
+                                        ⚠️ Ruang Rawat ini memiliki {wardValue.rooms.length} Ruangan yang akan ikut
+                                        terhapus.
+                                    </p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Modal>

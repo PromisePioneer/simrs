@@ -77,7 +77,7 @@ export const useWardStore = create((set, get) => ({
     showWard: async (id) => {
         try {
             const resp = await apiCall.get(`/api/v1/facilities/wards/${id}`);
-            set({buildingValue: resp.data})
+            set({wardValue: resp.data})
         } catch (e) {
             console.log(e)
         }
