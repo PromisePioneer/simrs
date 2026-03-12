@@ -53,6 +53,16 @@ export const useRoomTypeStore = create((set, get) => ({
             toast.error(e.data.message || 'Operasi Gagal');
         }
     },
+    fetchRoomTypeOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/room-types", {
+            params: {search}
+        });
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
+    },
     createRoomType: async (data) => {
         try {
             await apiCall.post("/api/v1/room-types", data);

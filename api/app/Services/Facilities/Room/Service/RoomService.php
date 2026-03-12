@@ -4,16 +4,24 @@ namespace App\Services\Facilities\Room\Service;
 
 use App\Http\Requests\RoomRequest;
 use App\Models\Room;
+use App\Services\Facilities\Bed\Repository\BedRepository;
+use App\Services\Facilities\Bed\Service\BedService;
 use App\Services\Facilities\Room\Repository\RoomRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RoomService
 {
     protected RoomRepository $roomRepository;
+    protected BedService $bedService;
+
+    protected BedRepository $bedRepository;
 
     public function __construct()
     {
         $this->roomRepository = new RoomRepository();
+        $this->bedService = new BedService();
+        $this->bedRepository = new BedRepository();
     }
 
 
@@ -28,8 +36,18 @@ class RoomService
 
     public function store(RoomRequest $request): object
     {
-        $data = $request->validated();
-        return $this->roomRepository->store($data);
+
+        return DB::transaction(function () use ($request) {
+            $data = $request->validated();
+            $room = $this->roomRepository->store($data);
+            for ($i = 0; $i <= $room->capacity; $i++) {
+                $this->bedRepository->store([
+                    'room_id' => $room->id,
+                    'bed_number' => $this->bedService->generateBedNumber(roomId: $room->id),
+                ]);
+            }
+            return $this->roomRepository->store($data);
+        });
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RoomType extends TenantScopeBaseModel
 {
@@ -17,6 +18,12 @@ class RoomType extends TenantScopeBaseModel
         'description',
         'default_capacity'
     ];
+
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class, 'room_type_id', 'id');
+    }
 
 
 }

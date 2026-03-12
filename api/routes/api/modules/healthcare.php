@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Diagnose\DiagnoseController;
+use App\Http\Controllers\Api\Facilities\Bed\BedController;
 use App\Http\Controllers\Api\Facilities\Building\BuildingController;
 use App\Http\Controllers\Api\Facilities\Room\RoomController;
 use App\Http\Controllers\Api\Facilities\Room\RoomTypeController;
@@ -100,4 +101,5 @@ Route::prefix('facilities')->group(function () {
     Route::apiResource('buildings', BuildingController::class);
     Route::apiResource('wards', WardController::class);
     Route::apiResource('rooms', RoomController::class);
+    Route::apiResource('beds', BedController::class);
 });

@@ -11,6 +11,7 @@ export const useRoomStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     deleteLoading: false,
+    openRoomDetailModal: false,
     columns: () => ([
         {key: 'no', label: 'No', width: '5%'},
         {key: 'room_number', label: 'Nomor', width: '15%'},
@@ -29,6 +30,13 @@ export const useRoomStore = create((set, get) => ({
             await get().showRoom(id);
         }
         set({openModal: !get().openModal})
+    },
+    setRoomDetailModal: async (id) => {
+        if (id) {
+            await get().showRoom(id)
+        }
+
+        set({openRoomDetailModal: !get().openRoomDetailModal})
     },
     setOpenDeleteModal: async (id) => {
         if (id) {
@@ -50,7 +58,7 @@ export const useRoomStore = create((set, get) => ({
             if (search && search.trim() !== "") {
                 params.search = search;
             }
-            const response = await apiCall.get('/api/v1/rooms', {params});
+            const response = await apiCall.get('/api/v1/facilities/rooms', {params});
 
             set({
                 isLoading: false,
@@ -62,17 +70,16 @@ export const useRoomStore = create((set, get) => ({
     },
     createRoom: async (data) => {
         try {
-            await apiCall.post("/api/v1/rooms", data);
+            await apiCall.post("/api/v1/facilities/rooms", data);
             toast.success("Berhasil menambahkan data.");
             set({openModal: false});
-            await get().fetchRoom({perPage: 20});
         } catch (e) {
             toast.error(e?.response.data.message || "Operasi Gagal");
         }
     },
     showRoom: async (id) => {
         try {
-            const response = await apiCall.get(`/api/v1/rooms/${id}`);
+            const response = await apiCall.get(`/api/v1/facilities/rooms/${id}`);
             set({roomValue: response.data});
         } catch (e) {
             toast.error(e.response.data.message || 'Operasi Gagal');
@@ -80,10 +87,9 @@ export const useRoomStore = create((set, get) => ({
     },
     updateRoom: async (id, data) => {
         try {
-            await apiCall.put(`/api/v1/rooms/${id}`, data);
+            await apiCall.put(`/api/v1/facilities/rooms/${id}`, data);
             toast.success("Berhasil menyimpan perubahan data.");
             set({openModal: false});
-            await get().fetchRoom({perPage: 20})
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
@@ -91,10 +97,9 @@ export const useRoomStore = create((set, get) => ({
     deleteRoom: async (id) => {
         try {
             set({deleteLoading: true});
-            await apiCall.delete(`/api/v1/rooms/${id}`);
+            await apiCall.delete(`/api/v1/facilities/rooms/${id}`);
             toast.success("Berhasil Menghapus data");
             set({openDeleteModal: false, deleteLoading: false});
-            await get().fetchRoom({perPage: 20});
         } catch (e) {
             const errorMessage = e.response?.data?.message || "Operasi Gagal";
             set({

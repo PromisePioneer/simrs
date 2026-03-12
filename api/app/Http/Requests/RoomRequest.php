@@ -27,6 +27,23 @@ class RoomRequest extends FormRequest
             'room_type_id' => ['required', 'exists:room_types,id'],
             'room_number' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'integer', 'min:1'],
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'room_type_id.required' => 'Tipe Ruangan tidak boleh kosong.',
+            'room_type_id.exists' => 'Tipe Ruangan tidak ditemukan.',
+            'room_number.required' => 'Nomor Ruangan tidak boleh kosong.',
+            'room_number.max' => 'Nomor Ruangan tidak boleh lebih dari :max.',
+            'name.required' => 'Nama Ruangan tidak boleh kosong.',
+            'name.max' => 'Nama Ruangan tidak boleh lebih dari :max.',
+            'capacity.required' => 'Kapasitas Ruangan tidak boleh kosong.',
+            'capacity.integer' => 'Kapasitas Ruangan harus berupa angka.',
+            'capacity.min' => 'Kapasitas Ruangan harus minimal 1.',
         ];
     }
 }

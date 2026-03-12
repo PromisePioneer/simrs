@@ -40,6 +40,9 @@ class RoomController extends Controller
     public function show(Room $room): JsonResponse
     {
         $this->authorize('view', $room);
+        $room->load('roomType');
+        $room->load('ward');
+        $room->load('beds');
         return response()->json($room);
     }
 

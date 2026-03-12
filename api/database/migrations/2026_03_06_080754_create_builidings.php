@@ -51,6 +51,15 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+
+        Schema::create('beds', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('room_id')->constrained('rooms')->cascadeOnDelete();
+            $table->string('bed_number');
+            $table->string('status')->default('available'); //available, occupied, cleaning, maintenance,reserved
+            $table->timestamps();
+        });
+
     }
 
     /**

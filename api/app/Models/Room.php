@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends TenantScopeBaseModel
 {
@@ -16,13 +17,20 @@ class Room extends TenantScopeBaseModel
         'ward_id',
         'room_type_id',
         'room_number',
-        'name'
+        'capacity',
+        'name',
     ];
 
 
-    public function type(): BelongsTo
+    public function roomType(): BelongsTo
     {
-        return $this->belongsTo(RoomType::class, 'room_type_id');
+        return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+    }
+
+
+    public function beds(): HasMany
+    {
+        return $this->hasMany(Bed::class, 'room_id', 'id');
     }
 
 

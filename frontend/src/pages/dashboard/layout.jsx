@@ -37,6 +37,8 @@ const pathLabels = {
     'electronic-medical-record': 'Rekam Medis Elektronik',
     'outpatient': 'Rawat Jalan',
     'visit': "Kunjungan",
+    'inpatient': "Rawat Inap",
+    'facilities': "Fasilitas"
 };
 
 // Function to check if string is UUID
