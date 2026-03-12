@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Facilities\Ward\WardController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
 use App\Http\Controllers\Api\General\Patient\PatientController;
+use App\Http\Controllers\Api\Inpatient\InpatientAdmission\InpatientAdmissionController;
 use App\Http\Controllers\Api\Master\General\Degree\DegreeController;
 use App\Http\Controllers\Api\Master\General\Department\DepartmentController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\ProfessionController;
@@ -103,3 +104,6 @@ Route::prefix('facilities')->group(function () {
     Route::apiResource('rooms', RoomController::class);
     Route::apiResource('beds', BedController::class);
 });
+
+
+Route::apiResource('inpatient-admissions', InpatientAdmissionController::class);

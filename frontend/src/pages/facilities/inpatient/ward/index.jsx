@@ -15,8 +15,18 @@ function WardPage() {
         ward, room,
         fetchBuildingOptions, fetchDepartmentOptions, fetchRoomTypeOptions,
         expandedRows, toggleExpand,
-        registerWard, handleSubmitWard, controlWard, wardErrors, wardSubmitting, onWardSubmit,
-        registerRoom, handleSubmitRoom, controlRoom, roomErrors, roomSubmitting, onRoomSubmit,
+        registerWard,
+        handleSubmitWard,
+        controlWard,
+        wardErrors,
+        wardSubmitting,
+        onWardSubmit,
+        registerRoom,
+        handleSubmitRoom,
+        controlRoom,
+        roomErrors,
+        roomSubmitting,
+        onRoomSubmit,
         openAddRoom,
     } = useWardPage();
 
@@ -106,7 +116,13 @@ function WardPage() {
                 fetchBuildingOptions={fetchBuildingOptions}
                 fetchDepartmentOptions={fetchDepartmentOptions}
             />
-
+$user
+$user
+$user
+$user
+$user
+$user
+$user
             <WardDeleteModal
                 open={ward.openDeleteModal}
                 onOpenChange={ward.setOpenDeleteModal}

@@ -91,6 +91,17 @@ class TenantModuleSeeder extends Seeder
                 ]
             ],
             [
+                'name' => 'Rawat Inap',
+                'parent_id' => null,
+                'order' => 3,
+                'icon' => 'Stethoscope',
+                'route' => '/inpatient',
+                'permissions' => [
+                    'Melihat Rawat Rawat Inap',
+                    'Menambahkan Rawat Rawat Inap'
+                ]
+            ],
+            [
                 'name' => 'Electronic Medical Record',
                 'parent_id' => null,
                 'order' => 5,
@@ -333,6 +344,11 @@ class TenantModuleSeeder extends Seeder
             'Mengubah  Ruangan',
             'Menghapus  Ruangan',
 
+
+            'Melihat Rawat Inap',
+            'Membuat Rawat Inap',
+            'Mengubah Rawat Inap',
+            'Menghapus Rawat Inap',
 
         ];
 

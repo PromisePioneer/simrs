@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Degree;
+use App\Models\InpatientAdmission;
 use App\Models\TenantDefaultRole;
 use App\Models\User;
 
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
             IndoRegionProvinceSeeder::class,
             IndoRegionRegencySeeder::class,
             RoomSeeder::class,
+            InpatientAdmissionSeeder::class,
             IndoRegionDistrictSeeder::class,
             IndoRegionVillageSeeder::class,
         ]);
