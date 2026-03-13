@@ -40,10 +40,25 @@ class RoomController extends Controller
     public function show(Room $room): JsonResponse
     {
         $this->authorize('view', $room);
-        $room->load('roomType');
-        $room->load('ward');
-        $room->load('beds');
-        return response()->json($room);
+
+        $room->load(['roomType', 'ward']);
+
+
+        $stats = [
+            'total' => $room->beds()->count(),
+            'available' => $room->beds()->where('status', 'available')->count(),
+            'occupied' => $room->beds()->where('status', 'occupied')->count(),
+        ];
+
+        $beds = $room->beds()
+            ->with('bedAssignments.inpatientAdmission.patient')
+            ->paginate(5);
+
+        return response()->json([
+            'room' => $room,
+            'beds' => $beds,
+            'stats' => $stats,
+        ]);
     }
 
     public function update(RoomRequest $request, Room $room): JsonResponse

@@ -5,6 +5,7 @@ import {toast} from "sonner";
 export const useInpatientAdmissionStore = create((set, get) => ({
     isLoading: false,
     inpatientAdmissions: [],
+    inpatientAdmissionValue: {},
     search: "",
     currentPage: 1,
     setCurrentPage: (page) => {
@@ -26,6 +27,28 @@ export const useInpatientAdmissionStore = create((set, get) => ({
             set({inpatientAdmissions: response.data, isLoading: false});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+    createInpatientAdmission: async (data) => {
+        try {
+            await apiCall.post('/api/v1/inpatient-admissions', data);
+            return {success: true}
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal!");
+        }
+    },
+    updateInpatientAdmission: async (data, id) => {
+        try {
+            await apiCall.post(`/api/v1/inpatient-admissions/${id}`, data);
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi Gagal");
+        }
+    },
+    deleteInpatientAdmission: async (id) => {
+        try {
+            await apiCall.delete(`/api/v1/inpatient-admissions/${id}`)
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal");
         }
     }
 }));

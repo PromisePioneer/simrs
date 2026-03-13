@@ -33,10 +33,11 @@ export const useRoomStore = create((set, get) => ({
     },
     setRoomDetailModal: async (id) => {
         if (id) {
-            await get().showRoom(id)
+            set({openRoomDetailModal: true, roomValue: null}); // ✅ buka modal langsung
+            await get().showRoom(id); // fetch di background
+        } else {
+            set({openRoomDetailModal: false, roomValue: null});
         }
-
-        set({openRoomDetailModal: !get().openRoomDetailModal})
     },
     setOpenDeleteModal: async (id) => {
         if (id) {
@@ -77,12 +78,25 @@ export const useRoomStore = create((set, get) => ({
             toast.error(e?.response.data.message || "Operasi Gagal");
         }
     },
-    showRoom: async (id) => {
+    showRoom: async (id, page = 1) => {
         try {
-            const response = await apiCall.get(`/api/v1/facilities/rooms/${id}`);
-            set({roomValue: response.data});
+            const response = await apiCall.get(`/api/v1/facilities/rooms/${id}`, {
+                params: {page, per_page: 3}
+            });
+
+            const room = response.data.room;
+            const beds = response.data.beds;
+
+            set({
+                roomValue: {
+                    ...room,
+                    beds: beds.data,
+                },
+                bedsPagination: beds,
+                roomStats: response.data.stats ?? null, // ✅ tambah ini
+            });
         } catch (e) {
-            toast.error(e.response.data.message || 'Operasi Gagal');
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
         }
     },
     updateRoom: async (id, data) => {

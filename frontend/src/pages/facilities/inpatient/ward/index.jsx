@@ -116,13 +116,6 @@ function WardPage() {
                 fetchBuildingOptions={fetchBuildingOptions}
                 fetchDepartmentOptions={fetchDepartmentOptions}
             />
-$user
-$user
-$user
-$user
-$user
-$user
-$user
             <WardDeleteModal
                 open={ward.openDeleteModal}
                 onOpenChange={ward.setOpenDeleteModal}

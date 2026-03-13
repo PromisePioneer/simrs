@@ -7,6 +7,7 @@ import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Plus, Users, BedDouble, LogOut, BanIcon, Thermometer, Heart} from "lucide-react";
 import DataTable from "@/components/common/data-table.jsx";
+import {Link} from "@tanstack/react-router";
 
 const statusMap = {
     admitted: {label: "Dirawat", variant: "default"},
@@ -79,7 +80,6 @@ function InpatientPage() {
     const renderRow = (admission) => {
         const statusCfg = statusMap[admission.status] || statusMap.admitted;
         const vital = latestVitalSign(admission.vital_signs);
-        const bedAssignment = admission.bed_assignments?.[0];
 
         return (
             <TableRow key={admission.id}>
@@ -103,18 +103,9 @@ function InpatientPage() {
 
                 {/* Tempat Tidur */}
                 <TableCell>
-                    {bedAssignment?.bed ? (
-                        <div className="flex flex-col gap-1">
-                            <span className="text-sm font-medium">
-                                {bedAssignment.bed.bed_number}
-                            </span>
-                            <Badge variant="outline" className="text-xs w-fit">
-                                {bedAssignment.released_at ? "Selesai" : "Aktif"}
-                            </Badge>
-                        </div>
-                    ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
-                    )}
+                    <span className="text-sm text-muted-foreground">
+                        {admission.bed_assignment?.bed.bed_number} - {admission.bed_assignment?.bed?.room?.name}
+                    </span>
                 </TableCell>
 
                 {/* Sumber */}
@@ -180,9 +171,11 @@ function InpatientPage() {
                             Manajemen admisi & monitoring pasien rawat inap
                         </p>
                     </div>
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4"/>
-                        Admisi Baru
+                    <Button asChild>
+                        <Link to="/inpatient/create">
+                            <Plus className="mr-2 h-4 w-4"/>
+                            Admisi Baru
+                        </Link>
                     </Button>
                 </div>
 

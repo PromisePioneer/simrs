@@ -19,19 +19,25 @@ class BedRepository implements BedRepositoryInterface
 
     public function getBeds(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->with('room');
+        $query = $this->model
+            ->select('id', 'bed_number', 'room_id', 'status')
+            ->with('room:id,name');
 
 
         if (!empty($filters['search'])) {
             $query->where('bed_number', 'like', '%' . $filters['search'] . '%');
         }
 
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
 
         if ($perPage) {
             return $query->paginate(perPage: $perPage);
         }
 
-        return $query->get();
+        // ✅ Tambahkan limit agar tidak return semua data sekaligus
+        return $query->limit(50)->get();
     }
 
     public function findById(string $id): object

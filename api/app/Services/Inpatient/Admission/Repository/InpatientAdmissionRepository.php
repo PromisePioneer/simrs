@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Inpatient\Repository;
+namespace App\Services\Inpatient\Admission\Repository;
 
 use App\Models\InpatientAdmission;
-use App\Services\Inpatient\Interface\InpatientAdmissionRepositoryInterface;
+use App\Services\Inpatient\Admission\Interface\InpatientAdmissionRepositoryInterface;
 
 class InpatientAdmissionRepository implements InpatientAdmissionRepositoryInterface
 {
@@ -17,7 +17,13 @@ class InpatientAdmissionRepository implements InpatientAdmissionRepositoryInterf
 
     public function getInpatientAdmissions(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->with(['doctor', 'patient', 'bedAssignments.bed', 'vitalSigns']);
+        $query = $this->model->with([
+            'doctor:id,name',
+            'patient:id,full_name',
+            'bedAssignment.bed.room',
+            'vitalSigns' => fn($q) => $q->latest()->limit(1), // ✅ hanya terbaru
+        ]);
+
 
         if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');

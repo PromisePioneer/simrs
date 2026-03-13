@@ -33,9 +33,9 @@ class InpatientAdmission extends TenantScopeBaseModel
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
-    public function bedAssignments(): HasMany
+    public function bedAssignment(): HasOne
     {
-        return $this->hasMany(BedAssignment::class, 'inpatient_admission_id');
+        return $this->hasOne(BedAssignment::class, 'inpatient_admission_id');
     }
 
 

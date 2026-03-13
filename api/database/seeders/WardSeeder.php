@@ -17,7 +17,7 @@ class WardSeeder extends Seeder
     {
         $tenants = Tenant::all();
         foreach ($tenants as $tenant) {
-            for ($i = 0; $i < 100; $i++) {
+            for ($i = 0; $i <= 5; $i++) {
                 Ward::create([
                     'tenant_id' => $tenant->id,
                     'building_id' => Building::inRandomOrder()->first()->id,

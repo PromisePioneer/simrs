@@ -8,16 +8,11 @@ use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\Ward;
 use App\Services\Facilities\Bed\Service\BedService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class RoomSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-
-
     protected BedService $bedService;
 
     public function __construct()
@@ -27,21 +22,35 @@ class RoomSeeder extends Seeder
 
     public function run(): void
     {
-        Tenant::all()->each(function ($tenant) {
-            for ($i = 0; $i < 100; $i++) {
-                $room = Room::create([
-                    'tenant_id' => $tenant->id,
-                    'ward_id' => Ward::all()->random()->id,
-                    'room_type_id' => RoomType::inRandomOrder()->first()->id,
-                    'room_number' => fake()->randomNumber(),
-                    'name' => fake()->name(),
-                    'capacity' => fake()->randomNumber(),
-                ]);
+        $tenants = Tenant::all();
+        $wards = Ward::all();
+        $roomTypes = RoomType::pluck('id');
 
-                 Bed::create([
-                    'room_id' => $room->id,
-                    'bed_number' => $this->bedService->generateBedNumber(roomId: $room->id),
-                ]);
+        $tenants->each(function ($tenant) use ($wards, $roomTypes) {
+            for ($i = 0; $i < 3; $i++) {
+                foreach ($wards as $ward) {
+                    $room = Room::create([
+                        'tenant_id' => $tenant->id,
+                        'ward_id' => $ward->id,
+                        'room_type_id' => $roomTypes->random(),
+                        'room_number' => fake()->randomNumber(),
+                        'name' => fake()->name(),
+                        'capacity' => fake()->randomNumber(),
+                    ]);
+
+                    $beds = [];
+                    for ($j = 0; $j < 5; $j++) {
+                        $beds[] = [
+                            'id' => Str::orderedUuid(),
+                            'room_id' => $room->id,
+                            'bed_number' => fake()->randomNumber(),
+                            'status' => 'available',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+                    Bed::insert($beds);
+                }
             }
         });
     }

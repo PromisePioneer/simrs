@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             IndoRegionProvinceSeeder::class,
             IndoRegionRegencySeeder::class,
             RoomSeeder::class,
-            InpatientAdmissionSeeder::class,
+//            InpatientAdmissionSeeder::class,
             IndoRegionDistrictSeeder::class,
             IndoRegionVillageSeeder::class,
         ]);

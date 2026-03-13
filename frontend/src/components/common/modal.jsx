@@ -21,7 +21,8 @@ function Modal({
                    cancelText = "Cancel",
                    isLoading = false,
                    size = "default",
-                   type = "default"
+                   type = "default",
+                   hideFooter = false,
                }) {
     const sizeClasses = {
         sm: "sm:max-w-[425px]",
@@ -56,31 +57,33 @@ function Modal({
                         {children}
                     </div>
 
-                    <DialogFooter>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={onCancel || (() => onOpenChange(false))}
-                            disabled={isLoading}
-                        >
-                            {cancelText}
-                        </Button>
-                        <Button
-                            type="submit"
-                            variant={type === "danger" ? "destructive" : "default"}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <div
-                                        className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2"></div>
-                                    Loading...
-                                </>
-                            ) : (
-                                submitText
-                            )}
-                        </Button>
-                    </DialogFooter>
+                    {!hideFooter && (
+                        <DialogFooter>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={onCancel || (() => onOpenChange(false))}
+                                disabled={isLoading}
+                            >
+                                {cancelText}
+                            </Button>
+                            <Button
+                                type="submit"
+                                variant={type === "danger" ? "destructive" : "default"}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div
+                                            className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2"/>
+                                        Loading...
+                                    </>
+                                ) : (
+                                    submitText
+                                )}
+                            </Button>
+                        </DialogFooter>
+                    )}
                 </form>
             </DialogContent>
         </Dialog>

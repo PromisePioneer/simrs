@@ -64,6 +64,16 @@ export const usePatientStore = create((set, get) => ({
             toast.error(get().error || "Operasi Gagal");
         }
     },
+    fetchPatientOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/patients", {
+            params: {search}
+        });
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.full_name,
+        }));
+    },
     createPatient: async (data) => {
         try {
             await apiCall.post("/api/v1/patients", data);

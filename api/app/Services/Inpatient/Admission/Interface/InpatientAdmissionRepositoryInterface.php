@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Inpatient\Interface;
+namespace App\Services\Inpatient\Admission\Interface;
 
 interface InpatientAdmissionRepositoryInterface
 {

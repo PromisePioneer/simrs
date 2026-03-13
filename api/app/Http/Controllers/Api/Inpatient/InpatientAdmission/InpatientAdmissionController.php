@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api\Inpatient\InpatientAdmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InpatientAdmissionRequest;
 use App\Models\InpatientAdmission;
-use App\Services\Inpatient\Service\InpatientAdmissionService;
+use App\Services\Inpatient\Admission\Service\InpatientAdmissionService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class InpatientAdmissionController extends Controller
 {
@@ -28,6 +29,9 @@ class InpatientAdmissionController extends Controller
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(InpatientAdmissionRequest $request): JsonResponse
     {
         $data = $this->inpatientAdmissionService->store(request: $request);

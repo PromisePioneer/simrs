@@ -75,6 +75,16 @@ export const useUserStore = create((set, get) => ({
             set({isLoading: false});
         }
     },
+    fetchDoctorOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/users?role=Dokter", {
+            params: {search}
+        });
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
+    },
     createUser: async (userData) => {
         set({isLoading: true});
         try {

@@ -1,8 +1,9 @@
 // @/components/common/async-select.jsx
 import {useState, useEffect, useRef, useCallback} from "react";
-import {Check, ChevronsUpDown, Loader2, X, Search} from "lucide-react";
+import {Check, ChevronsUpDown, Loader2, X, Search, Plus} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
+import {Link} from "@tanstack/react-router";
 
 export function AsyncSelect({
                                 fetchFn,
@@ -14,7 +15,8 @@ export function AsyncSelect({
                                 debounce = 300,
                                 minChars = 0,
                                 className,
-                                defaultLabel = null
+                                defaultLabel = null,
+                                emptyAction = null,
                             }) {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
@@ -204,11 +206,22 @@ export function AsyncSelect({
                         )}
 
                         {!loading && options.length === 0 && (
-                            <p className="py-6 text-center text-sm text-muted-foreground">
-                                {search.length < minChars
-                                    ? `Ketik minimal ${minChars} karakter`
-                                    : "Tidak ada hasil"}
-                            </p>
+                            <div className="py-6 text-center space-y-3">
+                                <p className="text-sm text-muted-foreground">
+                                    {search.length < minChars
+                                        ? `Ketik minimal ${minChars} karakter`
+                                        : "Tidak ada hasil"}
+                                </p>
+                                {emptyAction && search.length >= minChars && (
+                                    <Link
+                                        to={emptyAction.to}
+                                        className="inline-flex items-center gap-1.5 text-xs font-medium text-primary underline-offset-4 hover:underline"
+                                    >
+                                        <Plus className="w-3.5 h-3.5"/>
+                                        {emptyAction.label}
+                                    </Link>
+                                )}
+                            </div>
                         )}
 
                         {options.map(option => (

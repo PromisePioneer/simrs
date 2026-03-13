@@ -24,7 +24,7 @@ class BedService
 
     public function getBeds(Request $request): object
     {
-        $filters = $request->only(['search']);
+        $filters = $request->only(['search', 'status']);
         $perPage = $request->input('perPage');
         return $this->bedRepository->getBeds(filters: $filters, perPage: $perPage);
     }
