@@ -87,32 +87,50 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $tenantId = $user->getActiveTenantId();
+
         TenantContext::set($tenantId);
         setPermissionsTeamId($tenantId);
+
         $activeRole = $user->getActiveRole();
-        $tenant = Tenant::find($tenantId);
+        $tenant = $tenantId ? Tenant::find($tenantId) : null;
+        $subscription = $tenant?->getActiveSubscription();
+        $plan = $subscription?->plan;
+
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'profile_picture' => $user->profile_picture,
 
-            // Role & Permission yang AKTIF (ini yang dipakai di frontend)
-            'roles' => $activeRole ? [$activeRole] : $user->getRoleNames()->toArray(),
+            // Role & Permission aktif
+            'roles' => $activeRole ? [$activeRole->only('id', 'name')] : $user->getRoleNames()->toArray(),
             'permissions' => $user->getActivePermissions()->pluck('name'),
 
-            // Tenant info
-            'tenant' => [
-                'id' => $tenant->id ?? null,
-                'name' => $tenant->name ?? null,
-                'plan' => $tenant?->getCurrentPlan()?->name ?? null
-            ],
+            // Tenant & plan info
+            'tenant' => $tenant ? [
+                'id' => $tenant->id,
+                'name' => $tenant->name,
+            ] : null,
 
-            // Meta info (optional, untuk debugging atau indicator)
+            // Subscription info — null kalau tidak ada subscription aktif
+            'subscription' => $subscription ? [
+                'status' => $subscription->status,
+                'ends_at' => $subscription->ends_at,
+                'plan' => $plan ? [
+                    'id' => $plan->id,
+                    'name' => $plan->name,
+                    'slug' => $plan->slug,
+                    'max_users' => $plan->max_users,
+                    'billing_period' => $plan->billing_period,
+                ] : null,
+            ] : null,
+
+            // Meta (debugging / frontend indicator)
             'meta' => [
                 'is_switched' => $user->isSwitchedContext(),
                 'original_role' => $user->roles->first()?->name,
                 'active_role' => $activeRole?->name,
-            ]
+            ],
         ]);
     }
 }

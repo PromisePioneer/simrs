@@ -43,12 +43,12 @@ export function BedListCollapsible({beds}) {
                         transitionDelay: open ? "0.05s" : "0s",
                     }}>
                         {beds.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-8 gap-2 text-muted-foreground">
+                            <div className="flex items-center justify-center py-8 gap-2 text-muted-foreground">
                                 <BedSingle className="w-8 h-8 opacity-40"/>
                                 <p className="text-sm">Belum ada tempat tidur di ruangan ini</p>
                             </div>
                         ) : (
-                            <div className="flex flex-col gap-2 p-3">
+                            <div className="grid grid-cols-3 gap-2 p-3">
                                 {beds.map((bed) => {
                                     const isBedOpen = openBeds[bed.id];
                                     const activeAssignment = bed.bed_assignments?.[0] ?? null;

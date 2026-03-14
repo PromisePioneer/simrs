@@ -9,6 +9,7 @@ use App\Services\Facilities\Room\Service\RoomService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class RoomController extends Controller
 {
@@ -29,6 +30,9 @@ class RoomController extends Controller
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(RoomRequest $request): JsonResponse
     {
         $this->authorize('create', Room::class);

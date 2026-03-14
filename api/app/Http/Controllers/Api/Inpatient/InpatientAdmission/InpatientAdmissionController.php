@@ -39,6 +39,32 @@ class InpatientAdmissionController extends Controller
     }
 
 
+    public function show(InpatientAdmission $inpatientAdmission): JsonResponse
+    {
+        $inpatientAdmission->load('doctor');
+        $inpatientAdmission->load('patient');
+        $inpatientAdmission->load('bedAssignments');
+        $inpatientAdmission->load('vitalSigns');
+
+        $activeBed = $inpatientAdmission->bedAssignments()->with('bed')
+            ->whereHas('bed', function ($q) {
+                $q->where('status', 'occupied');
+            })->first();
+
+        $data = [
+            ...$inpatientAdmission->toArray(),
+            'active_bed' => $activeBed,
+        ];
+
+
+        $dailyCares = $inpatientAdmission->dailyCares()->orderBy('created_at', 'desc')->paginate(10);
+
+        return response()->json([
+            'data' => $data,
+            'daily_cares' => $dailyCares,
+        ]);
+    }
+
     public function update(InpatientAdmissionRequest $request, InpatientAdmission $inpatientAdmission): JsonResponse
     {
         $data = $this->inpatientAdmissionService->update(request: $request, inpatientAdmission: $inpatientAdmission);

@@ -44,8 +44,32 @@ class UserService
         return DB::transaction(function () use ($request) {
             $data = $request->validated();
 
-            $data['tenant_id'] = $request->get('tenant_id');
-            $data['password'] = Hash::make($request->get('zyntera'));
+            $tenantId = $request->get('tenant_id')
+                ?? auth()->user()?->getActiveTenantId();
+
+            // ── Cek max_users dari plan ──────────────────────────────────────
+            if ($tenantId) {
+                $tenant = \App\Models\Tenant::find($tenantId);
+
+                if ($tenant) {
+                    $plan = $tenant->getCurrentPlan();
+
+                    if ($plan && !is_null($plan->max_users)) {
+                        $currentUserCount = \App\Models\User::where('tenant_id', $tenantId)->count();
+
+                        if ($currentUserCount >= $plan->max_users) {
+                            throw new \Exception(
+                                "Batas maksimal pengguna untuk paket {$plan->name} adalah {$plan->max_users} pengguna. " .
+                                "Upgrade paket untuk menambah lebih banyak pengguna."
+                            );
+                        }
+                    }
+                }
+            }
+            // ────────────────────────────────────────────────────────────────
+
+            $data['tenant_id'] = $tenantId;
+            $data['password'] = Hash::make($request->get('password'));
 
             if ($request->hasFile('signature')) {
                 $data['signature'] = $this->fileUploadService->handle(
@@ -54,7 +78,6 @@ class UserService
                     request: $request
                 );
             }
-
 
             if ($request->hasFile('profile_picture')) {
                 $data['profile_picture'] = $this->fileUploadService->handle(
@@ -71,13 +94,11 @@ class UserService
                 $degrees = json_decode($degrees, true);
             }
 
-
             if (!empty($degrees)) {
                 if (isset($degrees[0]['id'])) {
                     $syncData = collect($degrees)->mapWithKeys(fn($degree) => [
                         $degree['id'] => ['order' => $degree['order'] ?? 0],
                     ])->toArray();
-
                     $user->degrees()->sync($syncData);
                 } else {
                     $user->degrees()->sync($degrees);
@@ -90,6 +111,7 @@ class UserService
             }
 
             $this->syncDoctorSchedule($user, $request->input('doctor_schedule', []));
+
             return [
                 'user' => $user,
                 'roles' => $roles,

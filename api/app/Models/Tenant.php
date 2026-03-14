@@ -79,15 +79,6 @@ class Tenant extends Model
 
 
     /**
-     * Get current active plan
-     */
-    public function getCurrentPlan(): ?object
-    {
-        return $this->subscription?->plan;
-    }
-
-
-    /**
      * Check if tenant's plan allows access to module
      */
     public function canAccessModule($moduleId): bool
@@ -108,4 +99,96 @@ class Tenant extends Model
     }
 
 
+// Tambahkan/replace method berikut di app/Models/Tenant.php
+// Ganti getCurrentPlan() yang sudah ada, tambah 3 method baru di bawahnya
+
+    /**
+     * Ambil active subscription beserta plan-nya.
+     * Lebih aman dari hasOne subscription yang bisa ambil yang expired.
+     */
+    public function getActiveSubscription(): ?object
+    {
+        return $this->subscriptions()
+            ->where('status', 'active')
+            ->where(function ($q) {
+                $q->whereNull('ends_at')
+                    ->orWhere('ends_at', '>=', now());
+            })
+            ->with('plan.modules')
+            ->latest('starts_at')
+            ->first();
+    }
+
+    /**
+     * Override getCurrentPlan() — ambil dari active subscription
+     * bukan dari hasOne yang bisa return plan dari subscription expired.
+     */
+    public function getCurrentPlan(): ?object
+    {
+        return $this->getActiveSubscription()?->plan;
+    }
+
+    /**
+     * Ambil daftar permission yang diizinkan untuk module tertentu.
+     * null  = semua permission boleh (tidak ada pembatasan)
+     * []    = tidak ada permission yang diizinkan
+     * [...] = hanya permission spesifik yang diizinkan
+     */
+    public function getAllowedPermissionsForModule(string $moduleId): ?array
+    {
+        if (!$this->hasActiveSubscription()) {
+            return [];
+        }
+
+        $plan = $this->getCurrentPlan();
+        if (!$plan) {
+            return [];
+        }
+
+        $pivot = $plan->modules()
+            ->where('modules.id', $moduleId)
+            ->where('plan_module.is_accessible', true)
+            ->first();
+
+        if (!$pivot) {
+            return [];
+        }
+
+        $allowed = $pivot->pivot->allowed_permissions ?? null;
+
+        if ($allowed === null) {
+            return null; // tidak ada pembatasan
+        }
+
+        return is_string($allowed)
+            ? (json_decode($allowed, true) ?? [])
+            : (array)$allowed;
+    }
+
+    /**
+     * Ambil limit record untuk module tertentu dari plan aktif.
+     * null = unlimited, 0 = tidak ada akses, N = maksimal N record
+     */
+    public function getModuleLimit(string $moduleId): ?int
+    {
+        if (!$this->hasActiveSubscription()) {
+            return 0;
+        }
+
+        $plan = $this->getCurrentPlan();
+        if (!$plan) {
+            return 0;
+        }
+
+        $pivot = $plan->modules()
+            ->where('modules.id', $moduleId)
+            ->where('plan_module.is_accessible', true)
+            ->first();
+
+        if (!$pivot) {
+            return 0;
+        }
+
+        return $pivot->pivot->limit; // null = unlimited
+    }
 }

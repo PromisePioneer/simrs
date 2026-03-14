@@ -2,122 +2,159 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tenant;
-use Illuminate\Database\Seeder;
+use App\Models\Module;
 use App\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
 {
-    public function run(): void
-    {
-        $permissions = [
-
-            //dashboard
+    /**
+     * Permission dikelompokkan per nama module.
+     * Nama module harus sama persis dengan yang ada di TenantModuleSeeder.
+     */
+    private array $permissions = [
+        'Dashboard' => [
             'Melihat Dashboard',
+        ],
 
-            // Role
-            'Melihat Role',
-            'Menambahkan Role',
-            'Mengubah Role',
-            'Menghapus Role',
+        'Rawat Jalan' => [
+            'Melihat Rawat Jalan',
+            'Menambahkan Rawat Jalan',
+            'Mengubah Rawat Jalan',
+            'Menghapus Rawat Jalan',
+        ],
 
-            // User Management
-            'Melihat User Management',
-            'Menambahkan User Management',
-            'Mengubah User Management',
-            'Menghapus User Management',
+        'Rawat Inap' => [
+            'Melihat Rawat Inap',
+            'Membuat Rawat Inap',
+            'Mengubah Rawat Inap',
+            'Menghapus Rawat Inap',
 
+            'Melihat Gedung',
+            'Membuat Gedung',
+            'Mengubah Gedung',
+            'Menghapus Gedung',
 
-            // Rak Obat
-            'Melihat Rak Obat',
-            'Membuat Rak Obat',
-            'Mengubah Rak Obat',
-            'Menghapus Rak Obat',
+            'Melihat Ruang Rawat',
+            'Membuat Ruang Rawat',
+            'Mengubah Ruang Rawat',
+            'Menghapus Ruang Rawat',
 
-            // Kategori Obat
-            'Melihat Kategori Obat',
-            'Menambah Kategori Obat',
-            'Mengubah Kategori Obat',
-            'Menghapus Kategori Obat',
+            'Melihat Tipe Ruangan',
+            'Membuat Tipe Ruangan',
+            'Mengubah Tipe Ruangan',
+            'Menghapus Tipe Ruangan',
 
-            // Satuan Obat
-            'Melihat Satuan Obat',
-            'Menambahkan Satuan Obat',
-            'Mengubah Satuan Obat',
-            'Menghapus Satuan Obat',
+            'Melihat Ruangan',
+            'Membuat Ruangan',
+            'Mengubah Ruangan',
+            'Menghapus Ruangan',
+        ],
 
-            // Obat
-            'Melihat Obat',
-            'Membuat Obat',
-            'Mengubah Obat',
-            'Menghapus Obat',
+        'Fasilitas' => [
+            'Melihat Fasilitas',
+        ],
 
-            // Lembaga Pendaftaran
-            'Melihat Lembaga Pendaftaran',
-            'Menambahkan Lembaga Pendaftaran',
-            'Mengubah Lembaga Pendaftaran',
-            'Menghapus Lembaga Pendaftaran',
+        'Electronic Medical Record' => [
+            'Melihat Electronic Medical Record',
+            'Melihat Penebusan Obat',
+            'Menambahkan Penebusan Obat',
+            'Mengubah Penebusan Obat',
+            'Menghapus Penebusan Obat',
+        ],
 
-            // Master
+        'Master' => [
             'Melihat Master',
-
-            // Pembayaran
             'Melihat Tipe Pembayaran',
             'Menambahkan Tipe Pembayaran',
             'Mengubah Tipe Metode Pembayaran',
             'Menghapus Tipe Metode Pembayaran',
 
-
-            // Profesi
             'Melihat Profesi',
             'Membuat Profesi',
             'Mengubah Profesi',
             'Menghapus Profesi',
 
-
-            // Spesialisasi
             'Melihat Spesialisasi',
-            "Membuat Spesialisasi",
-            "Mengubah Spesialisasi",
-            "Menghapus Spesialisasi",
+            'Membuat Spesialisasi',
+            'Mengubah Spesialisasi',
+            'Menghapus Spesialisasi',
 
+            'Melihat Sub Spesialisasi',
+            'Membuat Sub Spesialisasi',
+            'Mengubah Sub Spesialisasi',
+            'Menghapus Sub Spesialisasi',
 
-            // Sup SPesialisasi
-            "Melihat Sub Spesialisasi",
-            "Membuat Sub Spesialisasi",
-            "Mengubah Sub Spesialisasi",
-            "Menghapus Sub Spesialisasi",
+            'Melihat Lembaga Pendaftaran',
+            'Menambahkan Lembaga Pendaftaran',
+            'Mengubah Lembaga Pendaftaran',
+            'Menghapus Lembaga Pendaftaran',
 
+            'Melihat Gelar',
+            'Menambahkan Gelar',
+            'Mengubah Gelar',
+            'Menghapus Gelar',
+        ],
 
-            // setting
-            "Melihat Setting",
+        'Setting' => [
+            'Melihat Setting',
+            'Melihat Role',
+            'Menambahkan Role',
+            'Mengubah Role',
+            'Menghapus Role',
 
-            // Pasien
-            "Melihat Pasien",
-            "Menambahkan Pasien",
-            "Mengubah Pasien",
-            "Menghapus Pasien",
+            'Melihat User Management',
+            'Menambahkan User Management',
+            'Mengubah User Management',
+            'Menghapus User Management',
+        ],
 
+        'Office' => [
+            'Melihat Office',
 
-            "Melihat Gelar",
-            "Menambahkan Gelar",
-            "Mengubah Gelar",
-            "Menghapus Gelar",
+            'Melihat Pasien',
+            'Menambahkan Pasien',
+            'Mengubah Pasien',
+            'Menghapus Pasien',
+        ],
 
-        ];
+        // Module Management (child of Master)
+        'Module Management' => [
+            'Melihat Module Management',
+            'Menambahkan Module Management',
+            'Mengubah Module Management',
+            'Menghapus Module Management',
+        ],
+    ];
 
+    public function run(): void
+    {
+        // Cache module lookup by name
+        $moduleMap = Module::pluck('id', 'name');
 
-        $tenants = Tenant::all();
+        foreach ($this->permissions as $moduleName => $permissionNames) {
+            $moduleId = $moduleMap->get($moduleName);
 
-        foreach ($tenants as $tenant) {
-            foreach ($permissions as $permission) {
-                Permission::firstOrCreate([
-                    'name' => $permission,
-                    'module_id' => $tenant->id,
-                    'tenant_id' => $tenant->id,
-                    'guard_name' => 'web'
-                ]);
+            if (!$moduleId) {
+                $this->command->warn("Module '{$moduleName}' tidak ditemukan, permission dilewati.");
+                continue;
             }
+
+            foreach ($permissionNames as $permissionName) {
+                Permission::updateOrCreate(
+                    [
+                        'name'       => $permissionName,
+                        'guard_name' => 'sanctum',
+                    ],
+                    [
+                        'module_id' => $moduleId,
+                    ]
+                );
+            }
+
+            $this->command->info("Permission untuk module '{$moduleName}' ✓ (" . count($permissionNames) . " permission)");
         }
+
+        $this->command->info('PermissionSeeder selesai.');
     }
 }

@@ -54,13 +54,12 @@ export const useRoomTypeStore = create((set, get) => ({
         }
     },
     fetchRoomTypeOptions: async (search) => {
-        const res = await apiCall.get("/api/v1/room-types", {
-            params: {search}
-        });
+        const res = await apiCall.get("/api/v1/room-types", {params: {search}});
         const data = res.data?.data ?? res.data ?? [];
         return data.map(b => ({
             value: b.id,
             label: b.name,
+            capacity: b.default_capacity, // ✅ simpan data extra di sini
         }));
     },
     createRoomType: async (data) => {

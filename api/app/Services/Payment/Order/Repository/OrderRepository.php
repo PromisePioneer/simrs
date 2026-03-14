@@ -14,24 +14,24 @@ class OrderRepository implements OrderRepositoryInterface
         $this->model = new Order();
     }
 
-
-    public function getValidByTenantId(string $tenantId): ?object
+    public function getValidByTenantId(string $tenantId): ?Order
     {
-        return $this->model->where('tenant_id', $tenantId)
+        return $this->model
+            ->where('tenant_id', $tenantId)
+            ->whereIn('status', ['pending'])
             ->where('expires_at', '>', now())
-            ->latest()->first();
+            ->with(['plan', 'payment'])
+            ->latest()
+            ->first();
     }
 
-
-    public function findByOrderNumber(string $orderNumber): ?object
+    public function findByOrderNumber(string $orderNumber): ?Order
     {
         return $this->model->where('order_number', $orderNumber)->first();
     }
 
-    public function store(array $data): object
+    public function store(array $data): Order
     {
         return $this->model->create($data);
     }
-
-
 }

@@ -25,85 +25,75 @@ use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
 
-// Core Resources
-Route::get('/patients/emr', [PatientController::class, 'emr']);
-Route::apiResource('/patients', PatientController::class);
+// ── Free & semua plan ────────────────────────────────────────────────────────
+Route::middleware(['module:Rawat Jalan'])->group(function () {
+    Route::get('/patients/emr', [PatientController::class, 'emr']);
+    Route::apiResource('/patients', PatientController::class);
 
+    Route::apiResource('poli', PoliController::class);
+    Route::apiResource('appointments', AppointmentController::class);
+    Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 
-Route::apiResource('poli', PoliController::class);
-Route::apiResource('appointments', AppointmentController::class);
-Route::apiResource('doctor-schedules', DoctorScheduleController::class);
-Route::apiResource('departments', DepartmentController::class);
+    Route::get('queues/count-today-queues', [QueueController::class, 'countTodayQueues']);
+    Route::apiResource('queues', QueueController::class);
+    Route::post('/queues/{queue}/start', [QueueController::class, 'startDiagnose']);
 
+    Route::apiResource('/outpatient-visits', OutpatientVisitController::class);
 
-// master Data
-Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
-Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
-Route::apiResource('payment-methods', PaymentMethodController::class);
-Route::apiResource('degrees', DegreeController::class);
-Route::apiResource('professions', ProfessionController::class);
-Route::apiResource('room-types', RoomTypeController::class);
+    Route::prefix('outpatient-dashboard-reports')->group(function () {
+        Route::get('/today-patient-count', [OutpatientVisitDashboardCountController::class, 'getTodayPatientCount']);
+        Route::get('/today-patient-count-by-status', [OutpatientVisitDashboardCountController::class, 'getPatientBasedOnStatus']);
+    });
 
-
-// Specializations
-Route::prefix('specializations')->group(function () {
-    Route::get('/', [SpecializationController::class, 'index']);
-    Route::post('/', [SpecializationController::class, 'store']);
-    Route::get('/{specialization}', [SpecializationController::class, 'show']);
-    Route::put('/{specialization}', [SpecializationController::class, 'update']);
-    Route::delete('/{specialization}', [SpecializationController::class, 'destroy']);
-    Route::get('/professions/{profession}', [SpecializationController::class, 'getByProfession']);
+    Route::prefix('diagnoses')->group(function () {
+        Route::post('/{outpatientVisit}', [DiagnoseController::class, 'store']);
+    });
 });
 
-// Sub-Specializations
-Route::prefix('sub-specializations')->group(function () {
-    Route::get('/', [SubSpecializationController::class, 'index']);
-    Route::post('/', [SubSpecializationController::class, 'store']);
-    Route::get('/{sub_specialization}', [SubSpecializationController::class, 'show']);
-    Route::put('/{sub_specialization}', [SubSpecializationController::class, 'update']);
-    Route::delete('/{sub_specialization}', [SubSpecializationController::class, 'destroy']);
-    Route::get('/specializations/{specialization}', [SubSpecializationController::class, 'getBySpecializations']);
+// ── Basic & Pro ──────────────────────────────────────────────────────────────
+Route::middleware(['module:Master'])->group(function () {
+    Route::apiResource('departments', DepartmentController::class);
+    Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
+    Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
+    Route::apiResource('payment-methods', PaymentMethodController::class);
+    Route::apiResource('degrees', DegreeController::class);
+    Route::apiResource('professions', ProfessionController::class);
+    Route::apiResource('room-types', RoomTypeController::class);
+
+    Route::prefix('specializations')->group(function () {
+        Route::get('/', [SpecializationController::class, 'index']);
+        Route::post('/', [SpecializationController::class, 'store']);
+        Route::get('/{specialization}', [SpecializationController::class, 'show']);
+        Route::put('/{specialization}', [SpecializationController::class, 'update']);
+        Route::delete('/{specialization}', [SpecializationController::class, 'destroy']);
+        Route::get('/professions/{profession}', [SpecializationController::class, 'getByProfession']);
+    });
+
+    Route::prefix('sub-specializations')->group(function () {
+        Route::get('/', [SubSpecializationController::class, 'index']);
+        Route::post('/', [SubSpecializationController::class, 'store']);
+        Route::get('/{sub_specialization}', [SubSpecializationController::class, 'show']);
+        Route::put('/{sub_specialization}', [SubSpecializationController::class, 'update']);
+        Route::delete('/{sub_specialization}', [SubSpecializationController::class, 'destroy']);
+        Route::get('/specializations/{specialization}', [SubSpecializationController::class, 'getBySpecializations']);
+    });
 });
 
+Route::middleware(['module:Rawat Inap'])->group(function () {
+    Route::prefix('facilities')->group(function () {
+        Route::apiResource('buildings', BuildingController::class);
+        Route::apiResource('wards', WardController::class);
+        Route::apiResource('rooms', RoomController::class);
+        Route::apiResource('beds', BedController::class);
+    });
 
-// Outpatients
-Route::get('queues/count-today-queues', [QueueController::class, 'countTodayQueues']);
-Route::apiResource('queues', QueueController::class);
-
-
-Route::prefix('queues')->group(function () {
-    Route::apiResource('/', QueueController::class);
-    Route::post('/{queue}/start', [QueueController::class, 'startDiagnose']);
+    Route::apiResource('inpatient-admissions', InpatientAdmissionController::class);
 });
 
-
-Route::apiResource('/outpatient-visits', OutpatientVisitController::class);
-
-
-Route::prefix('outpatient-dashboard-reports')->group(function () {
-    Route::get('/today-patient-count', [OutpatientVisitDashboardCountController::class, 'getTodayPatientCount']);
-    Route::get('/today-patient-count-by-status', [OutpatientVisitDashboardCountController::class, 'getPatientBasedOnStatus']);
+// ── Pro only ─────────────────────────────────────────────────────────────────
+Route::middleware(['module:Electronic Medical Record'])->group(function () {
+    Route::prefix('prescriptions')->group(function () {
+        Route::apiResource('/', PrescriptionController::class);
+        Route::post('/medication-dispensing/{prescription}', [PrescriptionController::class, 'medicationDispensing']);
+    });
 });
-
-
-Route::prefix('diagnoses')->group(function () {
-    Route::post('/{outpatientVisit}', [DiagnoseController::class, 'store']);
-});
-
-
-Route::prefix('prescriptions')->group(function () {
-    Route::apiResource('/', PrescriptionController::class);
-    Route::post('/medication-dispensing/{prescription}', [PrescriptionController::class, 'medicationDispensing']);
-});
-
-
-// inpatient
-Route::prefix('facilities')->group(function () {
-    Route::apiResource('buildings', BuildingController::class);
-    Route::apiResource('wards', WardController::class);
-    Route::apiResource('rooms', RoomController::class);
-    Route::apiResource('beds', BedController::class);
-});
-
-
-Route::apiResource('inpatient-admissions', InpatientAdmissionController::class);

@@ -1,112 +1,61 @@
 export const plans = [
     {
-        id: 'starter',
-        title: 'Starter',
-        description: 'For developers testing out Liveblocks locally.',
-        currency: '$',
+        id: 'free',
+        title: 'Free',
+        description: 'Untuk mencoba fitur dasar sistem klinik.',
+        currency: 'Rp',
         monthlyPrice: '0',
         yearlyPrice: '0',
-        buttonText: 'Start today for free',
+        buttonText: 'Mulai Gratis',
         features: [
-            {
-                name: 'Presence',
-                icon: "check",
-                iconColor: 'text-green-500'
-            },
-            {
-                name: 'Comments',
-                icon: "check",
-                iconColor: 'text-orange-500'
-            },
-            {
-                name: 'Notifications',
-                icon: "check",
-                iconColor: 'text-teal-500'
-            },
-            {
-                name: 'Text Editor',
-                icon: "check",
-                iconColor: 'text-blue-500'
-            },
-            {
-                name: 'Sync Datastore',
-                icon: "check",
-                iconColor: 'text-zinc-500'
-            }
+            {name: 'Dashboard', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Rawat Jalan', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Antrian Pasien', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Maks. 3 pengguna', icon: 'check', iconColor: 'text-zinc-500'},
+            {name: 'Rawat Inap', icon: 'x', iconColor: 'text-red-400'},
+            {name: 'Farmasi & Obat', icon: 'x', iconColor: 'text-red-400'},
+            {name: 'EMR', icon: 'x', iconColor: 'text-red-400'},
+            {name: 'Akuntansi', icon: 'x', iconColor: 'text-red-400'},
+        ],
+    },
+    {
+        id: 'basic',
+        title: 'Basic',
+        description: 'Untuk klinik kecil dengan kebutuhan rawat jalan dan rawat inap.',
+        currency: 'Rp',
+        monthlyPrice: '99.000',
+        yearlyPrice: '990.000',
+        buttonText: 'Pilih Basic',
+        badge: 'Populer',
+        highlight: false,
+        features: [
+            {name: 'Semua fitur Free', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Rawat Inap', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Fasilitas (Gedung, Ruang, Bed)', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Master Data', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Maks. 5 pengguna', icon: 'check', iconColor: 'text-zinc-500'},
+            {name: 'Farmasi & Obat', icon: 'x', iconColor: 'text-red-400'},
+            {name: 'EMR', icon: 'x', iconColor: 'text-red-400'},
+            {name: 'Akuntansi', icon: 'x', iconColor: 'text-red-400'},
         ],
     },
     {
         id: 'pro',
         title: 'Pro',
-        description: 'For companies adding collaboration in production.',
-        currency: '$',
-        monthlyPrice: '20',
-        yearlyPrice: '199',
-        buttonText: 'Sign up',
-        badge: 'Most popular',
+        description: 'Paket lengkap untuk klinik dengan kebutuhan penuh.',
+        currency: 'Rp',
+        monthlyPrice: '199.000',
+        yearlyPrice: '1.990.000',
+        buttonText: 'Pilih Pro',
+        badge: 'Terlengkap',
         highlight: true,
         features: [
-            {
-                name: 'Presence',
-                icon: "check",
-                iconColor: 'text-green-500'
-            },
-            {
-                name: 'Comments',
-                icon: "check",
-                iconColor: 'text-orange-500'
-            },
-            {
-                name: 'Notifications',
-                icon: "check",
-                iconColor: 'text-teal-500'
-            },
-            {
-                name: 'Text Editor',
-                icon: "check",
-                iconColor: 'text-blue-500'
-            },
-            {
-                name: 'Sync Datastore',
-                icon: "check",
-                iconColor: 'text-zinc-500'
-            }
+            {name: 'Semua fitur Basic', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Farmasi & Obat', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Electronic Medical Record (EMR)', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Akuntansi', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Resep Digital', icon: 'check', iconColor: 'text-green-500'},
+            {name: 'Pengguna unlimited', icon: 'check', iconColor: 'text-green-500'},
         ],
     },
-    {
-        id: 'enterprise',
-        title: 'Enterprise',
-        description: 'For organizations that need more support and compliance features.',
-        currency: '$',
-        monthlyPrice: 'Custom',
-        yearlyPrice: 'Custom',
-        buttonText: 'Contact sales',
-        features: [
-            {
-                name: 'Presence',
-                icon: "check",
-                iconColor: 'text-green-500'
-            },
-            {
-                name: 'Comments',
-                icon: "check",
-                iconColor: 'text-orange-500'
-            },
-            {
-                name: 'Notifications',
-                icon: "check",
-                iconColor: 'text-teal-500'
-            },
-            {
-                name: 'Text Editor',
-                icon: "check",
-                iconColor: 'text-blue-500'
-            },
-            {
-                name: 'Sync Datastore',
-                icon: "check",
-                iconColor: 'text-zinc-500'
-            }
-        ],
-    }
 ];

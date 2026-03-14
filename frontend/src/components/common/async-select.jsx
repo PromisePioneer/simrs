@@ -1,4 +1,3 @@
-// @/components/common/async-select.jsx
 import {useState, useEffect, useRef, useCallback} from "react";
 import {Check, ChevronsUpDown, Loader2, X, Search, Plus} from "lucide-react";
 import {cn} from "@/lib/utils";
@@ -17,30 +16,30 @@ export function AsyncSelect({
                                 className,
                                 defaultLabel = null,
                                 emptyAction = null,
+                                // ✅ Dua prop baru — opsional, fallback ke label string
+                                renderOption = null, // (option) => ReactNode
+                                renderValue = null,  // (option) => ReactNode
                             }) {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]); // { value, label }[]
+    const [selectedItems, setSelectedItems] = useState([]);
 
     const containerRef = useRef(null);
     const inputRef = useRef(null);
     const debounceRef = useRef(null);
-    const labelCache = useRef({});
+    const labelCache = useRef({});   // value -> label (string)
+    const optionCache = useRef({});  // value -> full option object
 
-    // ── Fetch options ──────────────────────────────────────────────────
     const doFetch = useCallback(async (q) => {
-        if (q.length < minChars) {
-            setOptions([]);
-            return;
-        }
+        if (q.length < minChars) { setOptions([]); return; }
         setLoading(true);
         try {
             const results = await fetchFn(q);
-            // results: [{ value, label }]
             results.forEach(r => {
                 labelCache.current[r.value] = r.label;
+                optionCache.current[r.value] = r;
             });
             setOptions(results);
         } catch (e) {
@@ -50,14 +49,12 @@ export function AsyncSelect({
         }
     }, [fetchFn, minChars]);
 
-    // Debounce search input
     useEffect(() => {
         clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(() => doFetch(search), debounce);
         return () => clearTimeout(debounceRef.current);
     }, [search, doFetch, debounce]);
 
-    // Fetch awal saat dropdown dibuka
     useEffect(() => {
         if (open) {
             doFetch(search);
@@ -65,37 +62,28 @@ export function AsyncSelect({
         }
     }, [open]);
 
-    // Sync selectedItems saat value prop berubah (edit mode)
     useEffect(() => {
-        if (!value) {
-            setSelectedItems([]);
-            return;
-        }
+        if (!value) { setSelectedItems([]); return; }
         const vals = multiple ? (Array.isArray(value) ? value : [value]) : [value];
-        setSelectedItems(
-            vals.map(v => ({
+        setSelectedItems(vals.map(v => (
+            optionCache.current[v] ?? {
                 value: v,
-                // ✅ Pakai defaultLabel kalau labelCache kosong
                 label: labelCache.current[v] ?? defaultLabel ?? v,
-            }))
-        );
+            }
+        )));
     }, [value, defaultLabel]);
 
-    // Close dropdown saat klik luar
     useEffect(() => {
         const handler = (e) => {
-            if (containerRef.current && !containerRef.current.contains(e.target)) {
-                setOpen(false);
-            }
+            if (containerRef.current && !containerRef.current.contains(e.target)) setOpen(false);
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    // ── Handlers ───────────────────────────────────────────────────────
     const toggleOption = (option) => {
         labelCache.current[option.value] = option.label;
-
+        optionCache.current[option.value] = option;
         if (!multiple) {
             setSelectedItems([option]);
             onChange(option.value);
@@ -103,14 +91,10 @@ export function AsyncSelect({
             setSearch("");
             return;
         }
-
         const exists = selectedItems.find(s => s.value === option.value);
-        let next;
-        if (exists) {
-            next = selectedItems.filter(s => s.value !== option.value);
-        } else {
-            next = [...selectedItems, option];
-        }
+        const next = exists
+            ? selectedItems.filter(s => s.value !== option.value)
+            : [...selectedItems, option];
         setSelectedItems(next);
         onChange(next.map(s => s.value));
     };
@@ -124,7 +108,6 @@ export function AsyncSelect({
 
     const isSelected = (val) => selectedItems.some(s => s.value === val);
 
-    // ── Render ─────────────────────────────────────────────────────────
     return (
         <div ref={containerRef} className={cn("relative w-full", className)}>
             {/* Trigger */}
@@ -143,17 +126,10 @@ export function AsyncSelect({
                 {multiple ? (
                     <>
                         {selectedItems.map(item => (
-                            <Badge
-                                key={item.value}
-                                variant="secondary"
-                                className="flex items-center gap-1 pr-1 text-xs"
-                            >
-                                {item.label}
-                                <button
-                                    type="button"
-                                    onClick={(e) => removeItem(item.value, e)}
-                                    className="ml-0.5 rounded-full hover:bg-muted p-0.5"
-                                >
+                            <Badge key={item.value} variant="secondary" className="flex items-center gap-1 pr-1 text-xs">
+                                {renderValue ? renderValue(item) : item.label}
+                                <button type="button" onClick={(e) => removeItem(item.value, e)}
+                                        className="ml-0.5 rounded-full hover:bg-muted p-0.5">
                                     <X className="w-3 h-3"/>
                                 </button>
                             </Badge>
@@ -162,17 +138,17 @@ export function AsyncSelect({
                     </>
                 ) : (
                     selectedItems.length > 0 && (
-                        <span className="flex-1 truncate">{selectedItems[0].label}</span>
+                        <span className="flex-1 truncate">
+                            {/* ✅ renderValue kalau ada, fallback ke label string */}
+                            {renderValue ? renderValue(selectedItems[0]) : selectedItems[0].label}
+                        </span>
                     )
                 )}
 
                 <div className="flex items-center gap-1 ml-auto pl-1">
                     {!multiple && selectedItems.length > 0 && (
-                        <button
-                            type="button"
-                            onClick={(e) => removeItem(selectedItems[0].value, e)}
-                            className="text-muted-foreground hover:text-foreground"
-                        >
+                        <button type="button" onClick={(e) => removeItem(selectedItems[0].value, e)}
+                                className="text-muted-foreground hover:text-foreground">
                             <X className="w-3.5 h-3.5"/>
                         </button>
                     )}
@@ -182,9 +158,7 @@ export function AsyncSelect({
 
             {/* Dropdown */}
             {open && (
-                <div
-                    className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg animate-in fade-in-0 zoom-in-95">
-                    {/* Search input */}
+                <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg animate-in fade-in-0 zoom-in-95">
                     <div className="flex items-center border-b px-3 py-2 gap-2">
                         <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0"/>
                         <input
@@ -197,7 +171,6 @@ export function AsyncSelect({
                         {loading && <Loader2 className="w-3.5 h-3.5 text-muted-foreground animate-spin"/>}
                     </div>
 
-                    {/* Options list */}
                     <div className="max-h-56 overflow-y-auto py-1">
                         {loading && options.length === 0 && (
                             <div className="flex items-center justify-center py-6 text-sm text-muted-foreground gap-2">
@@ -208,15 +181,11 @@ export function AsyncSelect({
                         {!loading && options.length === 0 && (
                             <div className="py-6 text-center space-y-3">
                                 <p className="text-sm text-muted-foreground">
-                                    {search.length < minChars
-                                        ? `Ketik minimal ${minChars} karakter`
-                                        : "Tidak ada hasil"}
+                                    {search.length < minChars ? `Ketik minimal ${minChars} karakter` : "Tidak ada hasil"}
                                 </p>
                                 {emptyAction && search.length >= minChars && (
-                                    <Link
-                                        to={emptyAction.to}
-                                        className="inline-flex items-center gap-1.5 text-xs font-medium text-primary underline-offset-4 hover:underline"
-                                    >
+                                    <Link to={emptyAction.to}
+                                          className="inline-flex items-center gap-1.5 text-xs font-medium text-primary underline-offset-4 hover:underline">
                                         <Plus className="w-3.5 h-3.5"/>
                                         {emptyAction.label}
                                     </Link>
@@ -235,13 +204,14 @@ export function AsyncSelect({
                             >
                                 <div className={cn(
                                     "flex items-center justify-center w-4 h-4 rounded border shrink-0 transition-colors",
-                                    isSelected(option.value)
-                                        ? "bg-primary border-primary text-primary-foreground"
-                                        : "border-input"
+                                    isSelected(option.value) ? "bg-primary border-primary text-primary-foreground" : "border-input"
                                 )}>
                                     {isSelected(option.value) && <Check className="w-3 h-3"/>}
                                 </div>
-                                <span className="flex-1 truncate">{option.label}</span>
+                                {/* ✅ renderOption kalau ada, fallback ke label string */}
+                                {renderOption ? renderOption(option) : (
+                                    <span className="flex-1 truncate">{option.label}</span>
+                                )}
                             </div>
                         ))}
                     </div>

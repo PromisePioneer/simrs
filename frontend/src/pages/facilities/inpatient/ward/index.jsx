@@ -4,10 +4,10 @@ import DataTable from "@/components/common/data-table.jsx";
 import {useWardPage} from "@/pages/facilities/inpatient/ward/components/use-ward.jsx";
 import {WardRow} from "@/pages/facilities/inpatient/ward/components/ward-row.jsx";
 import {
-    RoomDeleteModal, RoomDetailModal,
+    RoomDeleteModal,
     RoomModal,
     WardDeleteModal,
-    WardModal
+    WardModal,
 } from "@/pages/facilities/inpatient/ward/modal/index.jsx";
 
 function WardPage() {
@@ -15,17 +15,9 @@ function WardPage() {
         ward, room,
         fetchBuildingOptions, fetchDepartmentOptions, fetchRoomTypeOptions,
         expandedRows, toggleExpand,
-        registerWard,
-        handleSubmitWard,
-        controlWard,
-        wardErrors,
-        wardSubmitting,
+        registerWard, handleSubmitWard, controlWard, wardErrors, wardSubmitting,
         onWardSubmit,
-        registerRoom,
-        handleSubmitRoom,
-        controlRoom,
-        roomErrors,
-        roomSubmitting,
+        registerRoom, handleSubmitRoom, controlRoom, roomErrors, roomSubmitting,
         onRoomSubmit,
         openAddRoom,
     } = useWardPage();
@@ -43,7 +35,6 @@ function WardPage() {
                 e.stopPropagation();
                 openAddRoom(w.id);
             }}
-            onRoomDetail={(r) => room.setRoomDetailModal(r.id)}
             onRoomEdit={(id) => room.setOpenModal(id)}
             onRoomDelete={async (id) => {
                 await room.deleteRoom(id);
@@ -58,8 +49,7 @@ function WardPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
-                        <div
-                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
                             <Building2 className="w-6 h-6 text-primary"/>
                         </div>
                         <div>
@@ -68,8 +58,11 @@ function WardPage() {
                         </div>
                     </div>
                 </div>
-                <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={() => ward.setOpenModal()} size="lg">
+                <Button
+                    className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
+                    onClick={() => ward.setOpenModal()}
+                    size="lg"
+                >
                     <Plus className="w-4 h-4"/> Tambah Ruang Rawat
                 </Button>
             </div>
@@ -98,12 +91,6 @@ function WardPage() {
             />
 
             {/* ── Modals ── */}
-            <RoomDetailModal
-                open={!!room.openRoomDetailModal}
-                onOpenChange={room.setRoomDetailModal}
-                roomValue={room.roomValue}
-            />
-
             <WardModal
                 open={ward.openModal}
                 onOpenChange={ward.setOpenModal}
@@ -123,7 +110,6 @@ function WardPage() {
                 onSubmit={() => ward.deleteWard(ward.wardValue.id)}
                 isLoading={ward.isLoading}
             />
-
             <RoomModal
                 open={room.openModal}
                 onOpenChange={room.setOpenModal}
@@ -135,7 +121,6 @@ function WardPage() {
                 roomErrors={roomErrors}
                 fetchRoomTypeOptions={fetchRoomTypeOptions}
             />
-
             <RoomDeleteModal
                 open={room.openDeleteModal}
                 onOpenChange={room.setOpenDeleteModal}

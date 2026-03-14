@@ -19,8 +19,8 @@ class InpatientAdmissionRepository implements InpatientAdmissionRepositoryInterf
     {
         $query = $this->model->with([
             'doctor:id,name',
-            'patient:id,full_name',
-            'bedAssignment.bed.room',
+            'patient:id,full_name,medical_record_number',
+            'bedAssignments.bed.room.ward',
             'vitalSigns' => fn($q) => $q->latest()->limit(1), // ✅ hanya terbaru
         ]);
 

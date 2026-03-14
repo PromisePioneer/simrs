@@ -1,39 +1,42 @@
-import {create} from "zustand/react";
-import apiCall from "@/services/apiCall.js";
+// src/store/usePricing.js
+import {create} from 'zustand';
+import apiCall from '@/services/apiCall.js';
+import {toast} from 'sonner';
 
-
-const usePricingStore = create((get, set) => ({
+const usePricingStore = create((set, get) => ({
     isLoading: false,
     pricingData: null,
+    activeSubscription: null,
     error: null,
-    fetchPricing: async (currentPage = 1) => {
+
+    fetchPlans: async () => {
+        if (get().pricingData) return;
         set({isLoading: true, error: null});
         try {
-            const {search} = get();
+            // Tanpa per_page → backend return Collection (array langsung)
+            // Dengan per_page → backend return paginated {data: [...]}
+            // Pakai tanpa per_page supaya dapat semua plan sekaligus
+            const response = await apiCall.get('/api/v1/subscriptions/plans');
+            const raw = response.data;
 
-            const params = {
-                page: currentPage,
-                per_page: 20,
-            };
-
-            if (search && search.trim() !== "") {
-                params.search = search;
-            }
-
-            const response = await apiCall.get("/api/v1/plans", {
-                params: params
-            });
-
-            set({
-                pricingData: response.data,
-                isLoading: false,
-                error: null
-            });
+            // Normalize: bisa array langsung atau paginated {data: [...]}
+            const data = Array.isArray(raw) ? raw : (raw?.data ?? []);
+            set({pricingData: {data}, isLoading: false});
         } catch (e) {
-            set({
-                error: e,
-                isLoading: false
-            });
+            set({error: e, isLoading: false});
         }
     },
-}))
+
+    fetchActiveSubscription: async () => {
+        try {
+            const response = await apiCall.get('/api/v1/subscriptions/active');
+            set({activeSubscription: response.data?.data ?? null});
+            return response.data?.data ?? null;
+        } catch {
+            set({activeSubscription: null});
+            return null;
+        }
+    },
+}));
+
+export default usePricingStore;

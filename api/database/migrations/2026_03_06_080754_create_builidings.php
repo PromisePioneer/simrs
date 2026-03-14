@@ -32,7 +32,7 @@ return new class extends Migration {
 
         Schema::create('room_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->foreignUuid('tenant_id')->nullable()->constrained('tenants')->cascadeOnDelete();
             $table->string('code');
             $table->string('name');
             $table->text('description')->nullable();

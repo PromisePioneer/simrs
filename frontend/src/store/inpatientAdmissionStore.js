@@ -37,6 +37,14 @@ export const useInpatientAdmissionStore = create((set, get) => ({
             toast.error(e.response.data.message || "Operasi gagal!");
         }
     },
+    showInpatientAdmission: async (id) => {
+        try {
+            const resp = await apiCall.get(`/api/v1/inpatient-admissions/${id}`);
+            set({inpatientAdmissionValue: resp.data});
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal!");
+        }
+    },
     updateInpatientAdmission: async (data, id) => {
         try {
             await apiCall.post(`/api/v1/inpatient-admissions/${id}`, data);

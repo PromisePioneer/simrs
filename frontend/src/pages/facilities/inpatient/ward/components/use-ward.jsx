@@ -10,12 +10,12 @@ export function useWardPage() {
     const [expandedRows, setExpandedRows] = useState(new Set());
     const [activeWardId, setActiveWardId] = useState(null);
 
-    // ── Stores ──────────────────────────────────────────────────────────────
+    // ── Stores ───────────────────────────────────────────────────────────────
     const ward = useWardStore();
     const room = useRoomStore();
-    const {fetchBuildingOptions}    = useBuildingStore();
-    const {fetchDepartmentOptions}  = useDepartmentStore();
-    const {fetchRoomTypeOptions}    = useRoomTypeStore();
+    const {fetchBuildingOptions}   = useBuildingStore();
+    const {fetchDepartmentOptions} = useDepartmentStore();
+    const {fetchRoomTypeOptions}   = useRoomTypeStore();
 
     // ── Ward form ────────────────────────────────────────────────────────────
     const {
@@ -60,11 +60,11 @@ export function useWardPage() {
     }, [ward.wardValue, ward.openDeleteModal]);
 
     useEffect(() => {
-        if (!ward.setOpenModal) {
+        if (!ward.openModal) {
             resetWard({name: "", floor: "", building_id: "", department_id: ""});
             if (ward.setWardValue) ward.setWardValue(null);
         }
-    }, [ward.setOpenModal]);
+    }, [ward.openModal]);
 
     useEffect(() => {
         if (room.roomValue) {
@@ -75,7 +75,7 @@ export function useWardPage() {
                 room_type_id: room.roomValue.room_type_id || "",
             });
         } else {
-            resetRoom({room_number: "", name: "", capacity: ""});
+            resetRoom({room_number: "", name: "", capacity: "", room_type_id: ""});
         }
     }, [room.openModal]);
 
@@ -93,7 +93,7 @@ export function useWardPage() {
         await ward.fetchWards({perPage: 20});
     };
 
-    // ── Row expand toggle ────────────────────────────────────────────────────
+    // ── Expand toggle ────────────────────────────────────────────────────────
     const toggleExpand = (id) => {
         setExpandedRows(prev => {
             const next = new Set(prev);
@@ -108,24 +108,17 @@ export function useWardPage() {
     };
 
     return {
-        // ward store
         ward,
-        // room store
         room,
-        // options fetchers
         fetchBuildingOptions,
         fetchDepartmentOptions,
         fetchRoomTypeOptions,
-        // expanded rows
         expandedRows,
         toggleExpand,
-        // ward form
         registerWard, handleSubmitWard, controlWard, wardErrors, wardSubmitting,
         onWardSubmit,
-        // room form
         registerRoom, handleSubmitRoom, controlRoom, roomErrors, roomSubmitting,
         onRoomSubmit,
-        // helpers
         openAddRoom,
     };
 }

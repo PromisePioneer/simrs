@@ -2,50 +2,57 @@
 
 namespace Database\Seeders;
 
-use App\Models\Degree;
-use App\Models\InpatientAdmission;
-use App\Models\TenantDefaultRole;
-use App\Models\User;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use AzisHapidin\IndoRegion\IndoRegion;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->call([
+            // ── Referensi dasar ─────────────────────────────────────────────
             ProfessionSeeder::class,
-            TenantSeeder::class,
+            DegreeSeeder::class,
             DepartmentSeeder::class,
-            RoomTypeSeeder::class,
+            PoliSeeder::class,
+            RegistrationInstitutionSeeder::class,
             PaymentMethodTypeSeeder::class,
             PaymentMethodSeeder::class,
-            PoliSeeder::class,
-            PatientSeeder::class,
-            RoleSeeder::class,
-            DegreeSeeder::class,
+            RoomTypeSeeder::class,
             MedicineCategorySeeder::class,
             MedicineWarehouseSeeder::class,
+
+            // ── Region (besar, taruh awal supaya tidak timeout di tengah) ───
+            IndoRegionProvinceSeeder::class,
+            IndoRegionRegencySeeder::class,
+            IndoRegionDistrictSeeder::class,
+            IndoRegionVillageSeeder::class,
+
+            // ── Role (harus sebelum User) ────────────────────────────────────
+            RoleSeeder::class,
+
+            // ── Module & Permission ──────────────────────────────────────────
+            // TenantModuleSeeder harus duluan — PermissionSeeder butuh module_id
             TenantModuleSeeder::class,
+            PermissionSeeder::class,
+
+            // ── Plan & module access ─────────────────────────────────────────
             PlanSeeder::class,
             PlanModuleSeeder::class,
+
+            // ── Tenant & subscription ────────────────────────────────────────
+            TenantSeeder::class,
             TenantSubscriptionSeeder::class,
+
+            // ── User (butuh tenant + role + permission sudah ada) ────────────
             UserSeeder::class,
+
+            // ── Data operasional ─────────────────────────────────────────────
+            PatientSeeder::class,
             MedicineSeeder::class,
             BuildingSeeder::class,
             WardSeeder::class,
-            RegistrationInstitutionSeeder::class,
-            IndoRegionProvinceSeeder::class,
-            IndoRegionRegencySeeder::class,
             RoomSeeder::class,
 //            InpatientAdmissionSeeder::class,
-            IndoRegionDistrictSeeder::class,
-            IndoRegionVillageSeeder::class,
         ]);
     }
 }

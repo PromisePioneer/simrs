@@ -1,36 +1,34 @@
+// src/routes/_protected.jsx
 import {createFileRoute, Outlet, redirect} from '@tanstack/react-router';
 import {useAuthStore} from '@/store/authStore.js';
-import {useEffect} from 'react';
-import {useLoadingStore} from "@/store/loadingStore.js";
+import {useLoadingStore} from '@/store/loadingStore.js';
 
 function ProtectedLayout() {
-    const {loggedIn, fetchUser, userData, isLoading} = useAuthStore();
-
-    useEffect(() => {
-        const initAuth = async () => {
-            if (loggedIn && !userData) {
-                await fetchUser();
-            }
-        };
-        initAuth();
-    }, [loggedIn, userData, fetchUser]);
-
     return <Outlet/>;
 }
 
 export const Route = createFileRoute('/_protected')({
     beforeLoad: async ({location}) => {
-        const {loggedIn, checkAuth} = useAuthStore.getState();
+        const {checkAuth} = useAuthStore.getState();
         const setLoading = useLoadingStore.getState().setLoading;
+
         setLoading(true);
-        const isAuthenticated = await checkAuth();
+        const result = await checkAuth();
         setLoading(false);
 
-        if (!isAuthenticated) {
+        if (!result) {
             throw redirect({
                 to: '/auth/login',
                 search: {redirect: location.href},
             });
+        }
+
+        // ✅ Redirect ke halaman upgrade kalau subscription expired/tidak ada
+        if (result === 'upgrade') {
+            // Jangan redirect kalau sudah di halaman upgrade
+            if (!location.href.includes('/upgrade')) {
+                throw redirect({to: '/upgrade'});
+            }
         }
     },
     component: ProtectedLayout,

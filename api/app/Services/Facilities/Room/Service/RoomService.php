@@ -4,11 +4,13 @@ namespace App\Services\Facilities\Room\Service;
 
 use App\Http\Requests\RoomRequest;
 use App\Models\Room;
+use App\Models\RoomType;
 use App\Services\Facilities\Bed\Repository\BedRepository;
 use App\Services\Facilities\Bed\Service\BedService;
 use App\Services\Facilities\Room\Repository\RoomRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class RoomService
 {
@@ -34,19 +36,28 @@ class RoomService
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function store(RoomRequest $request): object
     {
 
         return DB::transaction(function () use ($request) {
             $data = $request->validated();
+
+            $capacity = RoomType::find($data['room_type_id'])->first()?->capacity || $data['capacity'];
+            $data['capacity'] = $capacity;
             $room = $this->roomRepository->store($data);
+
             for ($i = 0; $i <= $room->capacity; $i++) {
                 $this->bedRepository->store([
                     'room_id' => $room->id,
                     'bed_number' => $this->bedService->generateBedNumber(roomId: $room->id),
                 ]);
             }
-            return $this->roomRepository->store($data);
+
+
+            return $room;
         });
     }
 

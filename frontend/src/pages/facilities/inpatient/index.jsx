@@ -9,6 +9,7 @@ import SettingPage from "@/pages/settings/index.jsx";
 import {ShieldAlert} from "lucide-react";
 import {PermissionTabs} from "@/components/common/tabs.jsx";
 import WardPage from "@/pages/facilities/inpatient/ward/index.jsx";
+import RoomPage from "@/pages/facilities/inpatient/room/index.jsx";
 
 function InpatientFacilityPage() {
     const navigate = useNavigate();
@@ -29,6 +30,12 @@ function InpatientFacilityPage() {
             label: 'Ruang Rawat',
             permission: PERMISSIONS.WARD.VIEW,
             component: WardPage
+        },
+        {
+            key: 'rooms',
+            label: 'Ruangan',
+            permission: PERMISSIONS.ROOM.VIEW,
+            component: RoomPage
         },
     ];
 

@@ -1,26 +1,16 @@
-import {Trash2, ChevronLeft, ChevronRight} from "lucide-react";
+import {Trash2, Info} from "lucide-react";
 import Modal from "@/components/common/modal.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Controller} from "react-hook-form";
 import {AsyncSelect} from "@/components/common/async-select.jsx";
-import {BedListCollapsible} from "@/pages/facilities/inpatient/ward/components/bedlist-collapsible.jsx";
-import {useRoomStore} from "@/store/roomStore.js";
-import {Button} from "@/components/ui/button.jsx";
-import {useState} from "react";
+import {Badge} from "@/components/ui/badge.jsx";
 
-// ── Ward Modal (Create / Edit) ──────────────────────────────────────────────
+// ── Ward Modal (Create / Edit) ────────────────────────────────────────────
 export function WardModal({
-                              open,
-                              onOpenChange,
-                              wardValue,
-                              onSubmit,
-                              isLoading,
-                              registerWard,
-                              controlWard,
-                              wardErrors,
-                              fetchBuildingOptions,
-                              fetchDepartmentOptions
+                              open, onOpenChange, wardValue, onSubmit, isLoading,
+                              registerWard, controlWard, wardErrors,
+                              fetchBuildingOptions, fetchDepartmentOptions,
                           }) {
     return (
         <Modal
@@ -89,7 +79,7 @@ export function WardModal({
     );
 }
 
-// ── Ward Delete Modal ───────────────────────────────────────────────────────
+// ── Ward Delete Modal ─────────────────────────────────────────────────────
 export function WardDeleteModal({open, onOpenChange, wardValue, onSubmit, isLoading}) {
     return (
         <Modal
@@ -129,17 +119,10 @@ export function WardDeleteModal({open, onOpenChange, wardValue, onSubmit, isLoad
     );
 }
 
-// ── Room Modal (Create / Edit) ──────────────────────────────────────────────
+// ── Room Modal (Create / Edit) ────────────────────────────────────────────
 export function RoomModal({
-                              open,
-                              onOpenChange,
-                              roomValue,
-                              onSubmit,
-                              isLoading,
-                              registerRoom,
-                              controlRoom,
-                              roomErrors,
-                              fetchRoomTypeOptions
+                              open, onOpenChange, roomValue, onSubmit, isLoading,
+                              registerRoom, controlRoom, roomErrors, fetchRoomTypeOptions,
                           }) {
     return (
         <Modal
@@ -170,9 +153,28 @@ export function RoomModal({
                         name="room_type_id" control={controlRoom}
                         rules={{required: "Tipe ruangan tidak boleh kosong"}}
                         render={({field}) => (
-                            <AsyncSelect fetchFn={fetchRoomTypeOptions} value={field.value} onChange={field.onChange}
-                                         placeholder="Cari tipe ruangan..." debounce={300}
-                                         defaultLabel={roomValue?.room_type?.name ?? null}/>
+                            <AsyncSelect
+                                fetchFn={fetchRoomTypeOptions}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Cari tipe ruangan..."
+                                debounce={300}
+                                defaultLabel={roomValue?.room_type?.name ?? null}
+                                renderOption={(option) => (
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium truncate">{option.label}</p>
+                                        <p className="text-xs text-muted-foreground">Kapasitas
+                                            bawaan: {option.capacity}</p>
+                                    </div>
+                                )}
+                                renderValue={(option) => (
+                                    <div className="flex items-center gap-2 py-0.5">
+                                        <span className="font-medium">{option.label}</span>
+                                        <span
+                                            className="text-xs text-muted-foreground">· Kapasitas bawaan: {option.capacity}</span>
+                                    </div>
+                                )}
+                            />
                         )}
                     />
                     {roomErrors.room_type_id &&
@@ -189,22 +191,29 @@ export function RoomModal({
                 </div>
 
                 <div className="space-y-2.5">
-                    <Label className="text-sm font-semibold">
-                        Kapasitas <span className="text-destructive">*</span>
-                    </Label>
-                    <Input type="number" placeholder="Contoh: 10"
-                           {...registerRoom("capacity", {
-                               required: "Kapasitas tidak boleh kosong",
-                               min: {value: 1, message: "Kapasitas minimal 1"}
-                           })}/>
-                    {roomErrors.capacity && <p className="text-sm text-destructive">{roomErrors.capacity.message}</p>}
+                    <Label className="text-sm font-semibold">Kapasitas</Label>
+                    <Input
+                        type="number"
+                        placeholder="Contoh: 10"
+                        {...registerRoom("capacity", {
+                            min: {value: 1, message: "Kapasitas minimal 1"},
+                        })}
+                    />
+                    {roomErrors.capacity && (
+                        <p className="text-sm text-destructive">{roomErrors.capacity.message}</p>
+                    )}
+                    <div
+                        className="flex items-center gap-1.5 w-fit rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600">
+                        <Info className="w-3.5 h-3.5 shrink-0"/>
+                        Kapasitas mengikuti tipe ruangan jika dikosongkan
+                    </div>
                 </div>
             </div>
         </Modal>
     );
 }
 
-// ── Room Delete Modal ───────────────────────────────────────────────────────
+// ── Room Delete Modal ─────────────────────────────────────────────────────
 export function RoomDeleteModal({open, onOpenChange, roomValue, onSubmit, isLoading}) {
     return (
         <Modal
@@ -237,97 +246,6 @@ export function RoomDeleteModal({open, onOpenChange, roomValue, onSubmit, isLoad
                     </div>
                 </div>
             </div>
-        </Modal>
-    );
-}
-
-// ── Room Detail Modal (Beds) ────────────────────────────────────────────────
-export function RoomDetailModal({open, onOpenChange, roomValue}) {
-    const {bedsPagination, showRoom, roomStats} = useRoomStore();
-    const [pageLoading, setPageLoading] = useState(false);
-    const beds = roomValue?.beds ?? [];
-
-    const loadPage = async (page) => {
-        setPageLoading(true);
-        await showRoom(roomValue.id, page);
-        setPageLoading(false);
-    };
-
-    return (
-        <Modal
-            open={open}
-            onOpenChange={onOpenChange}
-            title={roomValue?.name ?? ""}
-            description={roomValue
-                ? `No. ${roomValue.room_number} · Tipe: ${roomValue.room_type?.name ?? "-"} · Lantai ${roomValue.ward?.floor}`
-                : null}
-            hideFooter
-            size="xl"
-        >
-            {!roomValue ? (
-                <div className="space-y-4 py-2">
-                    <div className="grid grid-cols-3 gap-3">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="rounded-lg p-3 h-16 bg-muted animate-pulse"/>
-                        ))}
-                    </div>
-                    <div className="rounded-lg border h-40 bg-muted/30 animate-pulse"/>
-                </div>
-            ) : (
-                <div className="space-y-4 py-2">
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-3">
-                        {[
-                            {label: "Total",    value: roomStats?.total    ?? beds.length, color: "bg-slate-100 text-slate-700"},
-                            {label: "Tersedia", value: roomStats?.available ?? 0,          color: "bg-emerald-50 text-emerald-700"},
-                            {label: "Terisi",   value: roomStats?.occupied  ?? 0,          color: "bg-red-50 text-red-700"},
-                        ].map(s => (
-                            <div key={s.label} className={`rounded-lg p-3 text-center ${s.color}`}>
-                                <p className="text-2xl font-bold">{s.value}</p>
-                                <p className="text-xs font-medium mt-0.5">{s.label}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Bed list — skeleton saat ganti halaman */}
-                    {pageLoading ? (
-                        <div className="space-y-2">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="rounded-lg border h-14 bg-muted animate-pulse"/>
-                            ))}
-                        </div>
-                    ) : (
-                        <BedListCollapsible beds={beds}/>
-                    )}
-
-                    {/* Pagination */}
-                    {bedsPagination && bedsPagination.last_page > 1 && (
-                        <div className="flex items-center justify-center gap-3 pt-1">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                disabled={bedsPagination.current_page === 1 || pageLoading}
-                                onClick={() => loadPage(bedsPagination.current_page - 1)}
-                            >
-                                <ChevronLeft className="w-4 h-4"/>
-                            </Button>
-                            <span className="text-sm text-muted-foreground">
-                                {bedsPagination.current_page} / {bedsPagination.last_page}
-                            </span>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                disabled={bedsPagination.current_page === bedsPagination.last_page || pageLoading}
-                                onClick={() => loadPage(bedsPagination.current_page + 1)}
-                            >
-                                <ChevronRight className="w-4 h-4"/>
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            )}
         </Modal>
     );
 }

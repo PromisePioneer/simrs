@@ -4,7 +4,7 @@ import InpatientFacilityPage from "@/pages/facilities/inpatient/index.jsx";
 
 
 const searchSchema = z.object({
-    tab: z.enum(['buildings', 'wards']).optional().default('buildings')
+    tab: z.enum(['buildings', 'wards', 'rooms']).optional().default('buildings')
 })
 
 export const Route = createFileRoute('/_protected/facilities/inpatient/')({

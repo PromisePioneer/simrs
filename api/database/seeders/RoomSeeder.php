@@ -35,11 +35,11 @@ class RoomSeeder extends Seeder
                         'room_type_id' => $roomTypes->random(),
                         'room_number' => fake()->randomNumber(),
                         'name' => fake()->name(),
-                        'capacity' => fake()->randomNumber(),
+                        'capacity' => random_int(1, 5),
                     ]);
 
                     $beds = [];
-                    for ($j = 0; $j < 5; $j++) {
+                    for ($j = 0; $j < $room->capacity; $j++) {
                         $beds[] = [
                             'id' => Str::orderedUuid(),
                             'room_id' => $room->id,

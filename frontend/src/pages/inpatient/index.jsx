@@ -7,7 +7,7 @@ import {TableCell, TableRow} from "@/components/ui/table.jsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 import {Plus, Users, BedDouble, LogOut, BanIcon, Thermometer, Heart} from "lucide-react";
 import DataTable from "@/components/common/data-table.jsx";
-import {Link} from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 
 const statusMap = {
     admitted: {label: "Dirawat", variant: "default"},
@@ -77,17 +77,22 @@ function InpatientPage() {
         },
     ];
 
+
+    const navigate = useNavigate();
+
+
     const renderRow = (admission) => {
         const statusCfg = statusMap[admission.status] || statusMap.admitted;
         const vital = latestVitalSign(admission.vital_signs);
 
         return (
-            <TableRow key={admission.id}>
-
+            <TableRow key={admission.id} onClick={() => navigate({to: `/inpatient/${admission.id}`})}
+                      className="hover:cursor-pointer">
                 {/* Pasien */}
                 <TableCell>
                     <div className="flex flex-col gap-0.5">
                         <span className="font-medium text-sm">{admission.patient?.full_name || "—"}</span>
+
                         <span className="text-xs text-muted-foreground">
                             {admission.patient?.medical_record_number || "—"}
                         </span>
@@ -103,9 +108,19 @@ function InpatientPage() {
 
                 {/* Tempat Tidur */}
                 <TableCell>
+
+                    <div className="flex flex-col">
+
                     <span className="text-sm text-muted-foreground">
-                        {admission.bed_assignment?.bed.bed_number} - {admission.bed_assignment?.bed?.room?.name}
+                        No.{admission.bed_assignment?.bed.bed_number}
                     </span>
+                        <span className="text-sm text-muted-foreground">
+                         Ruangan {admission.bed_assignment?.bed?.room?.name}
+                    </span>
+                        <span className="text-sm text-muted-foreground">
+                         Ruang Rawat {admission.bed_assignment?.bed?.room?.ward?.name}
+                    </span>
+                    </div>
                 </TableCell>
 
                 {/* Sumber */}
@@ -154,7 +169,6 @@ function InpatientPage() {
                 <TableCell>
                     <Badge variant={statusCfg.variant}>{statusCfg.label}</Badge>
                 </TableCell>
-
             </TableRow>
         );
     };

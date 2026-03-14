@@ -6,6 +6,7 @@ use App\Models\RoomType;
 use App\Models\Tenant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class RoomTypeSeeder extends Seeder
 {
@@ -14,20 +15,55 @@ class RoomTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $tenants = Tenant::all();
-
-
-        foreach ($tenants as $tenant) {
-
-            for ($i = 0; $i < 10; $i++) {
-                RoomType::create([
-                    'tenant_id' => $tenant->id,
-                    'code' => fake()->currencyCode(),
-                    'name' => fake()->firstName(gender: "male"),
-                    'default_capacity' => fake()->randomNumber()
-                ]);
-            }
-        }
-
+        RoomType::insert([
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'VVIP',
+                'name' => 'VVIP',
+                'default_capacity' => 1
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'VIP',
+                'name' => 'VIP',
+                'default_capacity' => 1
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'KELAS_1',
+                'name' => 'Kelas 1',
+                'default_capacity' => 2
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'KELAS_2',
+                'name' => 'Kelas 2',
+                'default_capacity' => 3
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'KELAS_3',
+                'name' => 'Kelas 3',
+                'default_capacity' => 6
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'ICU',
+                'name' => 'ICU',
+                'default_capacity' => 1
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'NICU',
+                'name' => 'NICU',
+                'default_capacity' => 1
+            ],
+            [
+                'id' => Str::uuid()->toString(),
+                'code' => 'HCU',
+                'name' => 'HCU',
+                'default_capacity' => 2
+            ],
+        ]);
     }
 }

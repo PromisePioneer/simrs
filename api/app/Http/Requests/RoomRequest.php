@@ -27,7 +27,7 @@ class RoomRequest extends FormRequest
             'room_type_id' => ['required', 'exists:room_types,id'],
             'room_number' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            'capacity' => ['required', 'integer', 'min:1'],
+            'capacity' => ['nullable', 'integer', 'min:1'],
         ];
     }
 

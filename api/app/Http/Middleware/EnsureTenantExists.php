@@ -10,10 +10,19 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureTenantExists
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param Closure(Request): (Response) $next
+     * Route yang boleh diakses tanpa tenant context.
      */
+    private array $except = [
+        'api/v1/subscriptions/assign/*',
+        'api/v1/subscriptions/plans',
+        'api/v1/subscriptions/plans/*',
+        'api/v1/subscriptions/active',
+        'api/v1/me',
+        'api/v1/orders/generate',
+        'api/v1/orders/active',
+        'api/v1/orders/webhook/*',
+    ];
+
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check()) {
@@ -24,9 +33,16 @@ class EnsureTenantExists
             return $next($request);
         }
 
+        // Bypass untuk route subscription
+        foreach ($this->except as $pattern) {
+            if ($request->is($pattern)) {
+                return $next($request);
+            }
+        }
+
         if (!TenantContext::getId()) {
             return response()->json([
-                'message' => 'Tenant context not found. Please select or switch tenant.'
+                'message' => 'Tenant context not found. Please select or switch tenant.',
             ], 403);
         }
 

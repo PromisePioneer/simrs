@@ -3,34 +3,39 @@
 namespace Database\Seeders;
 
 use App\Models\Plan;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PlanSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $plans = [
             [
-                'id' => uuid_create(),
-                'name' => 'Basic',
-                'slug' => 'basic',
-                'description' => 'Paket basic untuk klinik kecil',
-                'price' => 99000,
+                'name'           => 'Free',
+                'slug'           => 'free',
+                'description'    => 'Paket gratis untuk mencoba fitur dasar',
+                'price'          => 0,
                 'billing_period' => 'monthly',
-                'max_users' => 5,
+                'max_users'      => 3,
+                'is_active'      => true,
             ],
             [
-                'id' => uuid_create(),
-                'name' => 'Pro',
-                'slug' => 'pro',
-                'description' => 'Paket lengkap tanpa batasan',
-                'price' => 199000,
+                'name'           => 'Basic',
+                'slug'           => 'basic',
+                'description'    => 'Paket untuk klinik kecil dengan kebutuhan rawat jalan dan rawat inap',
+                'price'          => 99000,
                 'billing_period' => 'monthly',
-                'max_users' => null,
+                'max_users'      => 5,
+                'is_active'      => true,
+            ],
+            [
+                'name'           => 'Pro',
+                'slug'           => 'pro',
+                'description'    => 'Paket lengkap dengan farmasi, EMR, dan akuntansi',
+                'price'          => 199000,
+                'billing_period' => 'monthly',
+                'max_users'      => null, // unlimited
+                'is_active'      => true,
             ],
         ];
 

@@ -102,7 +102,7 @@ function RoomTypePage() {
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{roomType.capacity}</span>
+                        <span className="font-semibold text-foreground">{roomType.default_capacity}</span>
                     </div>
                 </div>
             </TableCell>

@@ -1,7 +1,7 @@
-import {create} from "zustand";
-import apiCall from "@/services/apiCall.js";
+// src/store/useSidebarStore.js
+import {create} from 'zustand';
+import apiCall from '@/services/apiCall.js';
 import * as LucideIcons from 'lucide-react';
-
 
 export const useSidebarStore = create((set, get) => ({
     isLoading: false,
@@ -10,30 +10,19 @@ export const useSidebarStore = create((set, get) => ({
     isOpen: true,
     isFetched: false,
 
-    toggleSidebar: () => {
-        set((state) => ({isOpen: !state.isOpen}));
-    },
-
-    setSidebarOpen: (isOpen) => {
-        set({isOpen});
-    },
+    toggleSidebar: () => set((state) => ({isOpen: !state.isOpen})),
+    setSidebarOpen: (isOpen) => set({isOpen}),
 
     fetchMenu: async () => {
         if (get().isFetched) return get().menuData;
 
         set({isLoading: true, error: null, isFetched: true});
         try {
-            const response = await apiCall.get("/api/v1/modules");
+            const response = await apiCall.get('/api/v1/modules');
             const menuData = response.data;
 
             localStorage.setItem('menuData', JSON.stringify(menuData));
-
-            set({
-                menuData,
-                isLoading: false,
-                error: null,
-            });
-
+            set({menuData, isLoading: false, error: null});
             return menuData;
         } catch (e) {
             set({error: e, isLoading: false, isFetched: false});
@@ -58,6 +47,7 @@ export const useSidebarStore = create((set, get) => ({
 
     refreshMenu: async () => {
         set({isFetched: false});
+        localStorage.removeItem('menuData');
         return await get().fetchMenu();
     },
 
@@ -70,7 +60,7 @@ export const useSidebarStore = create((set, get) => ({
         if (!menuData || !Array.isArray(menuData)) return [];
 
         const transformItem = (item) => {
-            const hasChildren = item.children_recursive && item.children_recursive.length > 0;
+            const hasChildren = item.children_recursive?.length > 0;
             return {
                 title: item.name,
                 url: item.route || '#',
@@ -79,7 +69,7 @@ export const useSidebarStore = create((set, get) => ({
                 isOpen: false,
                 items: hasChildren
                     ? item.children_recursive.map(child => transformItem(child))
-                    : null
+                    : null,
             };
         };
 

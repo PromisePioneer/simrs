@@ -18,10 +18,12 @@ class WardRepository implements WardRepositoryInterface
 
     public function getWards(array $filters = [], ?int $perPage = null): object
     {
-        $query = $this->model->with(['rooms','department', 'building'])->orderBy('name');
+        $query = $this->model->with(['rooms', 'department', 'building'])->orderBy('name');
 
         if (!empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->whereHas('rooms', function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['search'] . '%');
+            })->orWhere('name', 'like', '%' . $filters['search'] . '%');
         }
 
         if ($perPage) {

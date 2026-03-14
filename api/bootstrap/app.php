@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckModuleAccess;
 use App\Http\Middleware\CheckTenantSubscription;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureTenantExists;
@@ -26,7 +27,6 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureFrontendRequestsAreStateful::class,
             SetTenantPermissionTeam::class,
             EnsureTenantExists::class,
-            SetTenantPermissionTeam::class,
             CheckTenantSubscription::class,
             SetActiveRolePermissions::class,
             SetActiveTenantContext::class,
@@ -37,16 +37,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
-            SetTenantPermissionTeam::class,
-            EnsureTenantExists::class,
-            SetTenantPermissionTeam::class,
-            CheckTenantSubscription::class,
-            SetActiveRolePermissions::class,
-            SetActiveTenantContext::class,
+            'module' => CheckModuleAccess::class, // ← tambahan
         ]);
-
-
-        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

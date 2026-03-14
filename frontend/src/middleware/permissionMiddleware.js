@@ -1,19 +1,33 @@
-// src/middleware/permissionMiddleware.js
 import {redirect} from '@tanstack/react-router';
 import {useAuthStore} from '@/store/authStore.js';
-import {checkPermission, checkAnyPermission, checkAllPermissions} from '@/utils/permissionCheck';
+import {
+    checkPermission,
+    checkAnyPermission,
+    checkAllPermissions,
+    hasActiveSubscription,
+    hasPlanAtLeast,
+} from '@/utils/permissionCheck';
+
+const ensureSubscription = (userData) => {
+    if (!hasActiveSubscription(userData)) {
+        throw redirect({to: '/upgrade'});
+    }
+};
 
 export const requirePermission = (permission) => {
     return async () => {
         const {userData} = useAuthStore.getState();
+
         const isSuperAdmin = userData?.roles?.some(
-            role => role.name === "Super Admin"
+            role => (typeof role === 'string' ? role : role?.name) === 'Super Admin'
         );
+        if (isSuperAdmin) return;
+
+        ensureSubscription(userData);
+
         const hasAccess = checkPermission(userData, permission);
-        if (!hasAccess || !isSuperAdmin) {
-            throw redirect({
-                to: '/403',
-            });
+        if (!hasAccess) {
+            throw redirect({to: '/403'});
         }
     };
 };
@@ -22,12 +36,16 @@ export const requireAnyPermission = (permissions = []) => {
     return async () => {
         const {userData} = useAuthStore.getState();
 
-        const hasAccess = checkAnyPermission(userData, permissions);
+        const isSuperAdmin = userData?.roles?.some(
+            role => (typeof role === 'string' ? role : role?.name) === 'Super Admin'
+        );
+        if (isSuperAdmin) return;
 
+        ensureSubscription(userData);
+
+        const hasAccess = checkAnyPermission(userData, permissions);
         if (!hasAccess) {
-            throw redirect({
-                to: '/403',
-            });
+            throw redirect({to: '/403'});
         }
     };
 };
@@ -36,12 +54,31 @@ export const requireAllPermissions = (permissions = []) => {
     return async () => {
         const {userData} = useAuthStore.getState();
 
-        const hasAccess = checkAllPermissions(userData, permissions);
+        const isSuperAdmin = userData?.roles?.some(
+            role => (typeof role === 'string' ? role : role?.name) === 'Super Admin'
+        );
+        if (isSuperAdmin) return;
 
+        ensureSubscription(userData);
+
+        const hasAccess = checkAllPermissions(userData, permissions);
         if (!hasAccess) {
-            throw redirect({
-                to: '/403',
-            });
+            throw redirect({to: '/403'});
+        }
+    };
+};
+
+export const requirePlan = (minPlanSlug) => {
+    return async () => {
+        const {userData} = useAuthStore.getState();
+
+        const isSuperAdmin = userData?.roles?.some(
+            role => (typeof role === 'string' ? role : role?.name) === 'Super Admin'
+        );
+        if (isSuperAdmin) return;
+
+        if (!hasPlanAtLeast(userData, minPlanSlug)) {
+            throw redirect({to: '/upgrade'});
         }
     };
 };
