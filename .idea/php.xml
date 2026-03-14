@@ -165,6 +165,7 @@
       <path value="$PROJECT_DIR$/api/vendor/pestphp/pest-plugin-profanity" />
       <path value="$PROJECT_DIR$/api/vendor/pestphp/pest-plugin-laravel" />
       <path value="$PROJECT_DIR$/api/vendor/pestphp/pest" />
+      <path value="$PROJECT_DIR$/api/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

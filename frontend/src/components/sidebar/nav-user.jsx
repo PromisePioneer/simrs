@@ -1,7 +1,7 @@
 "use client"
 
 import {
-    BadgeCheck, ChevronsUpDown, CreditCard,
+    ChevronsUpDown, CreditCard,
     LogOut, Sparkles, RotateCcw, ArrowUpDown, Crown,
 } from "lucide-react"
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
@@ -22,9 +22,9 @@ import {useNavigate} from "@tanstack/react-router"
 import UpgradePage from "@/pages/upgrade/index.jsx"
 
 const PLAN_BADGE = {
-    free: {label: "Free", className: "bg-muted text-muted-foreground"},
+    free:  {label: "Free",  className: "bg-muted text-muted-foreground"},
     basic: {label: "Basic", className: "bg-primary/10 text-primary"},
-    pro: {label: "Pro", className: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"},
+    pro:   {label: "Pro",   className: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"},
 }
 
 export function NavUser({user}) {
@@ -36,6 +36,7 @@ export function NavUser({user}) {
     const [upgradeOpen, setUpgradeOpen] = useState(false)
     const [openTenantContextModal, setOpenTenantContextModal] = useState(false)
 
+    // Listen event dari apiCall interceptor saat 403 upgrade
     useEffect(() => {
         const handler = () => setUpgradeOpen(true)
         window.addEventListener('open-upgrade-modal', handler)
@@ -136,10 +137,6 @@ export function NavUser({user}) {
                             <DropdownMenuSeparator/>
 
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                    <BadgeCheck/>
-                                    Account
-                                </DropdownMenuItem>
                                 {!isSuperAdmin && (
                                     <DropdownMenuItem onClick={() => setUpgradeOpen(true)}>
                                         <CreditCard/>

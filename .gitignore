@@ -11,6 +11,8 @@ frontend/.env
 /.nova
 /.phpunit.cache
 /.vscode
+./frontend/.env
+./api/.env
 /.zed
 /auth.json
 /node_modules
