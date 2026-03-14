@@ -17,6 +17,8 @@ class ExpireSubscriptions implements ShouldQueue
 
     public function handle(): void
     {
+
+
         $expired = Subscription::where('status', 'active')
             ->whereNotNull('ends_at')
             ->where('ends_at', '<', now())
