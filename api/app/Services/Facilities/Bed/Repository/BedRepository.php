@@ -66,7 +66,6 @@ class BedRepository implements BedRepositoryInterface
         return $bed;
     }
 
-
     public function countBasedRoomId(string $roomId): int
     {
         return $this->model->where('room_id', $roomId)->count();

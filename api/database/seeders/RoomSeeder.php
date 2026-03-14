@@ -25,7 +25,6 @@ class RoomSeeder extends Seeder
         $tenants = Tenant::all();
         $wards = Ward::all();
         $roomTypes = RoomType::pluck('id');
-
         $tenants->each(function ($tenant) use ($wards, $roomTypes) {
             for ($i = 0; $i < 3; $i++) {
                 foreach ($wards as $ward) {

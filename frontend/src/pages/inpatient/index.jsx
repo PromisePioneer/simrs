@@ -18,7 +18,6 @@ const statusMap = {
 const columns = () => [
     {label: "Pasien", width: "200px"},
     {label: "Dokter"},
-    {label: "Tempat Tidur"},
     {label: "Sumber"},
     {label: "Diagnosis"},
     {label: "Vital Sign Terakhir"},
@@ -105,24 +104,6 @@ function InpatientPage() {
                         {admission.doctor?.name || "—"}
                     </span>
                 </TableCell>
-
-                {/* Tempat Tidur */}
-                <TableCell>
-
-                    <div className="flex flex-col">
-
-                    <span className="text-sm text-muted-foreground">
-                        No.{admission.bed_assignment?.bed.bed_number}
-                    </span>
-                        <span className="text-sm text-muted-foreground">
-                         Ruangan {admission.bed_assignment?.bed?.room?.name}
-                    </span>
-                        <span className="text-sm text-muted-foreground">
-                         Ruang Rawat {admission.bed_assignment?.bed?.room?.ward?.name}
-                    </span>
-                    </div>
-                </TableCell>
-
                 {/* Sumber */}
                 <TableCell>
                     <span className="text-sm text-muted-foreground">

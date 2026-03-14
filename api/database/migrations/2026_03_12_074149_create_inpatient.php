@@ -41,7 +41,7 @@ return new class extends Migration {
             $table->foreignUuid('bed_id')
                 ->constrained('beds')
                 ->cascadeOnDelete();
-
+            $table->text('transfer_reason')->nullable();
             $table->dateTime('assigned_at');
 
             $table->dateTime('released_at')->nullable();

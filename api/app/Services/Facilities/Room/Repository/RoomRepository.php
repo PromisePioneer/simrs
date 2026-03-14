@@ -24,10 +24,10 @@ class RoomRepository implements RoomRepositoryInterface
 
     public function getRooms(array $filters = [], ?int $perPage = null): ?object
     {
-        $query = $this->model->with('ward');
+        $query = $this->model->with(['beds', 'ward', 'roomType']);
         if (!empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%')
-                ->orWhere('code', 'like', '%' . $filters['search'] . '%');
+                ->orWhere('room_number', 'like', '%' . $filters['search'] . '%');
         }
 
         if ($perPage) {

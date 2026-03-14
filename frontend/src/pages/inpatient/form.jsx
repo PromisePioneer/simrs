@@ -1,6 +1,5 @@
 import Layout from "@/pages/dashboard/layout.jsx";
 import {useForm, Controller} from "react-hook-form";
-import {useEffect} from "react";
 import {
     Card, CardContent, CardDescription, CardHeader, CardTitle,
 } from "@/components/ui/card.jsx";

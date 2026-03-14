@@ -43,7 +43,7 @@ class InpatientAdmissionController extends Controller
     {
         $inpatientAdmission->load('doctor');
         $inpatientAdmission->load('patient');
-        $inpatientAdmission->load('bedAssignments');
+        $inpatientAdmission->load('bedAssignments.bed');
         $inpatientAdmission->load('vitalSigns');
 
         $activeBed = $inpatientAdmission->bedAssignments()->with('bed')

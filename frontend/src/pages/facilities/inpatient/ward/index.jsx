@@ -3,12 +3,7 @@ import {Button} from "@/components/ui/button.jsx";
 import DataTable from "@/components/common/data-table.jsx";
 import {useWardPage} from "@/pages/facilities/inpatient/ward/components/use-ward.jsx";
 import {WardRow} from "@/pages/facilities/inpatient/ward/components/ward-row.jsx";
-import {
-    RoomDeleteModal,
-    RoomModal,
-    WardDeleteModal,
-    WardModal,
-} from "@/pages/facilities/inpatient/ward/modal/index.jsx";
+import {RoomDeleteModal, RoomModal, WardDeleteModal, WardModal} from "@/pages/facilities/inpatient/ward/modal/index.jsx";
 
 function WardPage() {
     const {
@@ -31,10 +26,7 @@ function WardPage() {
             onToggle={() => toggleExpand(w.id)}
             onEdit={() => ward.setOpenModal(w.id)}
             onDelete={() => ward.setOpenDeleteModal(w.id)}
-            onAddRoom={(e) => {
-                e.stopPropagation();
-                openAddRoom(w.id);
-            }}
+            onAddRoom={(e) => { e.stopPropagation(); openAddRoom(w.id); }}
             onRoomEdit={(id) => room.setOpenModal(id)}
             onRoomDelete={async (id) => {
                 await room.deleteRoom(id);
@@ -45,29 +37,18 @@ function WardPage() {
 
     return (
         <>
-            {/* ── Page Header ── */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
-                            <Building2 className="w-6 h-6 text-primary"/>
-                        </div>
-                        <div>
-                            <h1 className="text-3xl font-bold tracking-tight text-teal-500">Data Ruang Rawat</h1>
-                            <p className="text-sm text-muted-foreground mt-1">Kelola Ruang Rawat</p>
-                        </div>
-                    </div>
+            {/* Page header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div>
+                    <h3 className="text-sm font-semibold text-foreground">Data Ruang Rawat</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">Kelola ruang rawat dan ruangan di dalamnya</p>
                 </div>
-                <Button
-                    className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => ward.setOpenModal()}
-                    size="lg"
-                >
-                    <Plus className="w-4 h-4"/> Tambah Ruang Rawat
+                <Button size="sm" className="gap-1.5 h-8 text-xs bg-teal-600 hover:bg-teal-700 text-white"
+                        onClick={() => ward.setOpenModal()}>
+                    <Plus className="w-3.5 h-3.5"/> Tambah Ruang Rawat
                 </Button>
             </div>
 
-            {/* ── DataTable ── */}
             <DataTable
                 title="Tabel Ruang Rawat"
                 description="Daftar ruang rawat yang tersedia"
@@ -75,9 +56,8 @@ function WardPage() {
                 data={ward.wards?.data || []}
                 isLoading={ward.isLoading}
                 pagination={ward.wards ? {
-                    from: ward.wards.from, to: ward.wards.to,
-                    total: ward.wards.total, current_page: ward.wards.current_page,
-                    last_page: ward.wards.last_page,
+                    from: ward.wards.from, to: ward.wards.to, total: ward.wards.total,
+                    current_page: ward.wards.current_page, last_page: ward.wards.last_page,
                 } : null}
                 onPageChange={ward.setCurrentPage}
                 currentPage={ward.currentPage}
@@ -90,42 +70,28 @@ function WardPage() {
                 showSearch={true}
             />
 
-            {/* ── Modals ── */}
             <WardModal
-                open={ward.openModal}
-                onOpenChange={ward.setOpenModal}
-                wardValue={ward.wardValue}
-                onSubmit={handleSubmitWard(onWardSubmit)}
-                isLoading={wardSubmitting}
-                registerWard={registerWard}
-                controlWard={controlWard}
-                wardErrors={wardErrors}
-                fetchBuildingOptions={fetchBuildingOptions}
-                fetchDepartmentOptions={fetchDepartmentOptions}
+                open={ward.openModal} onOpenChange={ward.setOpenModal}
+                wardValue={ward.wardValue} onSubmit={handleSubmitWard(onWardSubmit)}
+                isLoading={wardSubmitting} registerWard={registerWard}
+                controlWard={controlWard} wardErrors={wardErrors}
+                fetchBuildingOptions={fetchBuildingOptions} fetchDepartmentOptions={fetchDepartmentOptions}
             />
             <WardDeleteModal
-                open={ward.openDeleteModal}
-                onOpenChange={ward.setOpenDeleteModal}
-                wardValue={ward.wardValue}
-                onSubmit={() => ward.deleteWard(ward.wardValue.id)}
+                open={ward.openDeleteModal} onOpenChange={ward.setOpenDeleteModal}
+                wardValue={ward.wardValue} onSubmit={() => ward.deleteWard(ward.wardValue.id)}
                 isLoading={ward.isLoading}
             />
             <RoomModal
-                open={room.openModal}
-                onOpenChange={room.setOpenModal}
-                roomValue={room.roomValue}
-                onSubmit={handleSubmitRoom(onRoomSubmit)}
-                isLoading={roomSubmitting}
-                registerRoom={registerRoom}
-                controlRoom={controlRoom}
-                roomErrors={roomErrors}
+                open={room.openModal} onOpenChange={room.setOpenModal}
+                roomValue={room.roomValue} onSubmit={handleSubmitRoom(onRoomSubmit)}
+                isLoading={roomSubmitting} registerRoom={registerRoom}
+                controlRoom={controlRoom} roomErrors={roomErrors}
                 fetchRoomTypeOptions={fetchRoomTypeOptions}
             />
             <RoomDeleteModal
-                open={room.openDeleteModal}
-                onOpenChange={room.setOpenDeleteModal}
-                roomValue={room.roomValue}
-                onSubmit={room.deleteRoom}
+                open={room.openDeleteModal} onOpenChange={room.setOpenDeleteModal}
+                roomValue={room.roomValue} onSubmit={room.deleteRoom}
                 isLoading={room.deleteLoading}
             />
         </>

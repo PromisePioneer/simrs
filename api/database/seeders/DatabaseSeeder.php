@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
             MedicineWarehouseSeeder::class,
 
             // ── Region (besar, taruh awal supaya tidak timeout di tengah) ───
-            IndoRegionProvinceSeeder::class,
-            IndoRegionRegencySeeder::class,
-            IndoRegionDistrictSeeder::class,
-            IndoRegionVillageSeeder::class,
+//            IndoRegionProvinceSeeder::class,
+//            IndoRegionRegencySeeder::class,
+//            IndoRegionDistrictSeeder::class,
+//            IndoRegionVillageSeeder::class,
 
             // ── Role (harus sebelum User) ────────────────────────────────────
             RoleSeeder::class,

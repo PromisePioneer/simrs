@@ -4,6 +4,7 @@ namespace App\Models\Scopes;
 
 use App\Models\MedicineCategory;
 use App\Models\Poli;
+use App\Models\RoomType;
 use App\Models\User;
 use App\Models\Role;
 use App\Services\Tenant\TenantContext;
@@ -26,6 +27,7 @@ class TenantScope implements Scope
             Role::class,
             MedicineCategory::class,
             Poli::class,
+            RoomType::class,
         ];
 
         if ($model instanceof User) {

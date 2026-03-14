@@ -20,4 +20,15 @@ class BedAssignmentRepository implements BedAssignmentInterface
     {
         return $this->model->create($data);
     }
+
+
+    public function findCurrentAssignment(string $inpatientAdmissionId): object
+    {
+        return $this->model->where('inpatient_admission_id', $inpatientAdmissionId)
+            ->whereNull('released_at')
+            ->first();
+    }
+
+
+
 }

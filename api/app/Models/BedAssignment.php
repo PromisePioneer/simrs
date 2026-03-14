@@ -15,6 +15,7 @@ class BedAssignment extends Model
         'inpatient_admission_id',
         'bed_id',
         'assigned_at',
+        'transfer_reason',
         'released_at',
     ];
 

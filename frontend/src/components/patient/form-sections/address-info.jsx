@@ -9,13 +9,11 @@ import {Button} from '@/components/ui/button';
 import {useFieldArray} from 'react-hook-form';
 
 function PatientAddressInfo({register, errors, control, isEditMode}) {
-    // Gunakan useFieldArray untuk mengelola array addresses
     const {fields, append, remove} = useFieldArray({
         control,
         name: "addresses"
     });
 
-    // Function untuk menambah alamat baru
     const addAddress = () => {
         append({
             address: "",

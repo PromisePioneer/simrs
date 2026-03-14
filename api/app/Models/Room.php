@@ -24,13 +24,13 @@ class Room extends TenantScopeBaseModel
 
     public function roomType(): BelongsTo
     {
-        return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+        return $this->belongsTo(RoomType::class, 'room_type_id');
     }
 
 
     public function beds(): HasMany
     {
-        return $this->hasMany(Bed::class, 'room_id', 'id');
+        return $this->hasMany(Bed::class, 'room_id');
     }
 
 
