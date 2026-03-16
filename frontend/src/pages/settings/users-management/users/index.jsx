@@ -1,4 +1,3 @@
-import Layout from "@/pages/dashboard/layout.jsx";
 import ContentHeader from "@/components/ui/content-header.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Pencil, Plus, Shield, Trash2, Phone, MapPin, MailCheck, MailWarning} from "lucide-react";
