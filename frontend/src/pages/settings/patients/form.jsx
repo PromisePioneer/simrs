@@ -16,6 +16,49 @@ import SettingPage from "@/pages/settings/index.jsx";
 import {useImagePreview} from "@/hooks/useImagePreview.js";
 import {asset} from "@/services/apiCall.js";
 
+
+const formatPatientDataForm = (patientData = {}) => ({
+    tenant_id: patientData.tenant_id || '',
+    full_name: patientData.full_name || '',
+    medical_record_number: patientData.medical_record_number || '',
+    city_of_birth: patientData.city_of_birth || '',
+    date_of_birth: patientData.date_of_birth ? new Date(patientData.date_of_birth) : null,
+    id_card_number: patientData.id_card_number || '',
+    gender: patientData.gender || '',
+    religion: patientData.religion || '',
+    blood_type: patientData.blood_type || '',
+    job: patientData.job || '',
+    kis_number: patientData.kis_number || '',
+    phone: patientData.phone || '',
+    email: patientData.email || '',
+    date_of_consultation: patientData.date_of_consultation
+        ? new Date(patientData.date_of_consultation)
+        : null,
+    profile_picture: patientData.profile_picture || null,
+
+    payment_methods: patientData.payment_methods?.length
+        ? patientData.payment_methods
+        : [
+            {
+                payment_method_type_id: '',
+                bpjs_number: ''
+            }
+        ],
+    addresses: patientData.addresses?.length
+        ? patientData.addresses
+        : [
+            {
+                address: '',
+                province: '',
+                city: '',
+                subdistrict: '',
+                ward: '',
+                postal_code: ''
+            }
+        ]
+});
+
+
 function PatientForm(opts) {
     const {id} = useParams(opts);
     const isEditMode = !!id;
@@ -38,39 +81,12 @@ function PatientForm(opts) {
         control,
         watch,
         setValue,
+        reset,
         formState: {errors, isSubmitting}
     } = useForm({
         mode: "all",
         reValidateMode: "onChange",
-        defaultValues: {
-            tenant_id: '',
-            full_name: '',
-            medical_record_number: '',
-            city_of_birth: '',
-            date_of_birth: null,
-            id_card_number: '',
-            gender: '',
-            religion: '',
-            blood_type: '',
-            job: '',
-            kis_number: '',
-            phone: '',
-            email: '',
-            date_of_consultation: null,
-            profile_picture: null,
-            payment_methods: [{
-                payment_method_type_id: '',
-                bpjs_number: ''
-            }],
-            addresses: [{
-                address: '',
-                province: '',
-                city: '',
-                subdistrict: '',
-                ward: '',
-                postal_code: ''
-            }]
-        }
+        defaultValues: formatPatientDataForm({})
     });
 
     const {
@@ -87,22 +103,37 @@ function PatientForm(opts) {
                 fetchPaymentMethodType()
             ]);
 
-            if (isEditMode && patientValue) {
+            if (isEditMode) {
                 await showPatient(id);
-                if (patientValue.profile_picture) {
-                    setPreviewImage(asset(patientValue.profile_picture));
-                }
-            } else {
-                const generateMedicalRecordNumber = () => {
-                    const timestamp = Date.now();
-                    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                    return `RM-${timestamp}${random}`;
-                };
-                setValue('medical_record_number', generateMedicalRecordNumber());
             }
         };
         init();
     }, [id, isEditMode, fetchTenants, fetchPaymentMethodType, showPatient, setValue]);
+
+
+    useEffect(() => {
+        if (patientValue.profile_picture) {
+            setPreviewImage(asset(patientValue.profile_picture));
+        } else {
+            const generateMedicalRecordNumber = () => {
+                const timestamp = Date.now();
+                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                return `RM-${timestamp}${random}`;
+            };
+            setValue('medical_record_number', generateMedicalRecordNumber());
+        }
+    }, []);
+
+    useEffect(() => {
+
+        if (isEditMode && patientValue) {
+            reset(formatPatientDataForm(patientValue));
+
+            if (patientValue.profile_picture) {
+                setPreviewImage(asset(patientValue.profile_picture));
+            }
+        }
+    }, [patientValue, isEditMode, reset, setPreviewImage]);
 
     useEffect(() => {
         return () => {

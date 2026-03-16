@@ -2,9 +2,9 @@
 
 namespace App\Services\Facilities\Room\Service;
 
-use App\Http\Requests\RoomTypeRequest;
 use App\Models\RoomType;
 use App\Services\Facilities\Room\Repository\RoomTypeRepository;
+use Domains\IAM\Presentation\Requests\RoomTypeRequest;
 use Illuminate\Http\Request;
 
 class RoomTypeService

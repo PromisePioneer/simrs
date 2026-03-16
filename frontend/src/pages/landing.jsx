@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import Navbar from "@/components/landing/navbar.jsx";
 import Hero from "@/components/landing/hero.jsx";
 import Featured from "@/components/landing/featured.jsx";
-import '../assets/css/landing.css'; // Pastikan file ini terhubung
+import '../assets/css/landing.css';
 import DeviceMockup from "@/components/landing/device-mockup.jsx";
 import Pricing from "@/components/landing/pricing.jsx";
 import Contact from "@/components/landing/contact.jsx";

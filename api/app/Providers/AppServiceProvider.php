@@ -86,16 +86,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Role::class, RolePolicy::class);
-        Gate::policy(Poli::class, PoliPolicy::class);
-        Gate::policy(RegistrationInstitution::class, RegistrationInstitutionPolicy::class);
         Gate::policy(PaymentMethodType::class, PaymentMethodTypePolicy::class);
         Gate::policy(PaymentMethod::class, PaymentMethodPolicy::class);
-        Gate::policy(Degree::class, DegreePolicy::class);
         Gate::policy(Profession::class, ProfessionPolicy::class);
         Gate::policy(SubSpecialization::class, SubSpecializationPolicy::class);
         Gate::policy(Specialization::class, SpecializationPolicy::class);
-        Gate::policy(Department::class, DepartmentPolicy::class);
-        Gate::policy(RoomType::class, RoomTypePolicy::class);
 
 
         /*

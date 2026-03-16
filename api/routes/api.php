@@ -3,9 +3,6 @@
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Master\General\Tenant\TenantController;
 use App\Http\Controllers\Api\Master\General\User\User\UserController;
-use App\Models\Role;
-use App\Models\Tenant;
-use App\Services\Tenant\TenantContext;
 use Illuminate\Support\Facades\Route;
 
 /*

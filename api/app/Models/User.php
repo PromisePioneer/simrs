@@ -7,6 +7,9 @@ use App\Services\Master\General\UserManagement\Permission\Repository\PermissionR
 use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
+use Domains\IAM\Infrastructure\Persistence\Models\DegreeModel;
+use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
+use Domains\IAM\Infrastructure\Persistence\Models\RegistrationInstitutionModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -118,7 +121,7 @@ class User extends Authenticatable
 
     public function poli(): BelongsTo
     {
-        return $this->belongsTo(Poli::class, 'poli_id');
+        return $this->belongsTo(PoliModel::class, 'poli_id');
     }
 
     public function sendEmailVerificationNotification(): void
@@ -223,9 +226,12 @@ class User extends Authenticatable
 
     public function degrees(): BelongsToMany
     {
-        return $this->belongsToMany(Degree::class, 'user_degrees')
-            ->withPivot('order')
-            ->withTimestamps();
+        return $this->belongsToMany(
+            DegreeModel::class,
+            'user_degrees',  // pivot table
+            'user_id',       // FK ke users
+            'degree_id'      // FK ke degrees ← eksplisit, bukan auto-generate
+        );
     }
 
 
@@ -242,13 +248,13 @@ class User extends Authenticatable
 
     public function str(): HasOne
     {
-        return $this->hasOne(RegistrationInstitution::class, 'id', 'str_institution_id');
+        return $this->hasOne(RegistrationInstitutionModel::class, 'id', 'str_institution_id');
     }
 
 
     public function sip(): HasOne
     {
-        return $this->hasOne(RegistrationInstitution::class, 'id', 'sip_institution_id');
+        return $this->hasOne(RegistrationInstitutionModel::class, 'id', 'sip_institution_id');
     }
 
     public function getFullNameWithDegreesAttribute(): string

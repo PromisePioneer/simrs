@@ -17,7 +17,6 @@ use App\Models\User;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->use(Tests\Concerns\WithTenant::class)
     ->in('Feature');
 
 uses()->beforeEach(fn() => $this->setUpWithTenant())->in('Feature');
@@ -31,10 +30,6 @@ uses()->beforeEach(fn() => $this->setUpWithTenant())->in('Feature');
 | to assert different things. Of course, you may extend the Expectation API at any time.
 |
 */
-
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
 
 /*
 |--------------------------------------------------------------------------

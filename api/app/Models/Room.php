@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -24,7 +24,7 @@ class Room extends TenantScopeBaseModel
 
     public function roomType(): BelongsTo
     {
-        return $this->belongsTo(RoomType::class, 'room_type_id');
+        return $this->belongsTo(RoomTypeModel::class, 'room_type_id');
     }
 
 

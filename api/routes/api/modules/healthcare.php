@@ -4,27 +4,31 @@ use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\Facilities\Bed\BedController;
 use App\Http\Controllers\Api\Facilities\Building\BuildingController;
 use App\Http\Controllers\Api\Facilities\Room\RoomController;
-use App\Http\Controllers\Api\Facilities\Room\RoomTypeController;
 use App\Http\Controllers\Api\Facilities\Ward\WardController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
-use App\Http\Controllers\Api\General\Patient\PatientController;
 use App\Http\Controllers\Api\Inpatient\BedAssignment\BedAssignmentController;
 use App\Http\Controllers\Api\Inpatient\InpatientAdmission\InpatientAdmissionController;
-use App\Http\Controllers\Api\Master\General\Degree\DegreeController;
-use App\Http\Controllers\Api\Master\General\Department\DepartmentController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\ProfessionController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SpecializationController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SubSpecializationController;
 use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodController;
 use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodTypeController;
-use App\Http\Controllers\Api\Master\General\Poli\PoliController;
-use App\Http\Controllers\Api\Master\General\RegistrationInstitution\RegistrationInstitutionController;
 use App\Http\Controllers\Api\Medicine\PrescriptionController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
+
+
+//Domains
+use Domains\Patient\Presentation\Controllers\PatientController;
+use Domains\IAM\Presentation\Controllers\DegreeController;
+use Domains\IAM\Presentation\Controllers\PoliController;
+use Domains\IAM\Presentation\Controllers\DepartmentController;
+use Domains\IAM\Presentation\Controllers\RegistrationInstitutionController;
+use Domains\IAM\Presentation\Controllers\RoomTypeController;
+
 
 // ── Free & semua plan ────────────────────────────────────────────────────────
 Route::middleware(['module:Rawat Jalan'])->group(function () {
