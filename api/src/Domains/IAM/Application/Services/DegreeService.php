@@ -8,11 +8,6 @@ use Domains\IAM\Domain\Repository\DegreeRepositoryInterface;
 use Domains\Shared\Application\Services\BaseCrudService;
 use Illuminate\Http\Request;
 
-/**
- * Extend BaseCrudService.
- * Semua CRUD sudah ada di base.
- * Override extractFilters untuk tambah filter spesifik Degree.
- */
 class DegreeService extends BaseCrudService
 {
     public function __construct(DegreeRepositoryInterface $repository)

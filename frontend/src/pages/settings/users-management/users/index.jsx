@@ -45,7 +45,7 @@ function UserPage() {
     const renderRow = (user, index) => (
         <TableRow key={user.id} className="group hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {Number(userData.from) + Number(index)}
+                {Number(userData.meta?.from) + Number(index)}
             </TableCell>
 
             <TableCell>
@@ -157,19 +157,19 @@ function UserPage() {
                     </Button>
                 </Link>
             </div>
-            {/* Data Table */}
+
             <DataTable
                 title="User"
                 description="Daftar lengkap semua pengguna"
                 columns={columns()}
-                data={userData?.data}
+                data={userData.data}
                 isLoading={isLoading}
                 pagination={userData ? {
-                    from: userData.from,
-                    to: userData.to,
-                    total: userData.total,
-                    current_page: userData.current_page,
-                    last_page: userData.last_page
+                    from: userData.meta?.from,
+                    to: userData.meta?.to,
+                    total: userData.meta?.total,
+                    current_page: userData.meta?.current_page,
+                    last_page: userData.meta?.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}

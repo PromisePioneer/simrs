@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Policies;
+declare(strict_types=1);
+
+namespace Domains\IAM\Presentation\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-
-
     public function view(User $user): bool
     {
         return $user->hasActivePermission(permission: 'Melihat User Management');

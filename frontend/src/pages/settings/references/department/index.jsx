@@ -84,7 +84,7 @@ function DepartmentPage() {
     const renderRow = (department, index) => (
         <TableRow key={department.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {departments.from + index}
+                {departments.meta?.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
@@ -171,8 +171,8 @@ function DepartmentPage() {
                 data={departments?.data || []}
                 isLoading={isLoading}
                 pagination={departments ? {
-                    from: departments.from, to: departments.to, total: departments.total,
-                    current_page: departments.current_page, last_page: departments.last_page
+                    from: departments.meta?.from, to: departments.meta?.to, total: departments.meta?.total,
+                    current_page: departments.meta?.current_page, last_page: departments.meta?.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}

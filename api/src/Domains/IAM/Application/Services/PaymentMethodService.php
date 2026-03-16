@@ -2,16 +2,18 @@
 
 namespace Domains\IAM\Application\Services;
 
-use Domains\IAM\Domain\Repository\RoomTypeRepositoryInterface;
+use Domains\IAM\Domain\Repository\PaymentMethodRepositoryInterface;
+use Domains\IAM\Domain\Repository\PoliRepositoryInterface;
 use Domains\Shared\Application\Services\BaseCrudService;
 use Illuminate\Http\Request;
 
-class RoomTypeService extends BaseCrudService
+class PaymentMethodService extends BaseCrudService
 {
-    public function __construct(RoomTypeRepositoryInterface $repository)
+    public function __construct(PaymentMethodRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }
+
 
     public function extractFilters(Request $request): array
     {

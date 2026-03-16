@@ -7,25 +7,27 @@ namespace Domains\Patient\Application\DTO;
 /**
  * Data Transfer Object untuk update data pasien.
  */
-final class UpdatePatientDTO
+final readonly class UpdatePatientDTO
 {
     public function __construct(
-        public readonly string  $patientId,
-        public readonly string  $tenantId,
-        public readonly string  $fullName,
-        public readonly string  $cityOfBirth,
-        public readonly string  $dateOfBirth,
-        public readonly string  $idCardNumber,
-        public readonly string  $gender,
-        public readonly ?string $religion,
-        public readonly ?string $bloodType,
-        public readonly string  $job,
-        public readonly string  $phone,
-        public readonly ?string $email,
-        public readonly ?string $dateOfConsultation,
-        public readonly ?string $kisNumber,
-        public readonly ?string $profilePicturePath,
-        public readonly array   $addresses,
-        public readonly array   $paymentMethods,
-    ) {}
+        public string  $patientId,
+        public string  $tenantId,
+        public string  $fullName,
+        public string  $cityOfBirth,
+        public string  $dateOfBirth,
+        public string  $idCardNumber,
+        public string  $gender,
+        public ?string $religion,
+        public ?string $bloodType,
+        public string  $job,
+        public string  $phone,
+        public ?string $email,
+        public ?string $dateOfConsultation,
+        public ?string $kisNumber,
+        public ?string $profilePicturePath,
+        public array   $addresses,
+        public array   $paymentMethods,
+    )
+    {
+    }
 }

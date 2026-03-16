@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\Master\General\PaymentMethod;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use App\Services\Master\General\PaymentMethod\Service\PaymentMethodService;
 use App\Traits\ApiResponse;
+use Domains\IAM\Presentation\Requests\PaymentMethodRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

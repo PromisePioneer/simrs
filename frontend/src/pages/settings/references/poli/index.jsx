@@ -32,7 +32,12 @@ function PoliPage() {
         deleteLoading,
     } = usePoliStore();
 
-    const poliForm = useForm({
+    const {
+        register,
+        reset,
+        handleSubmit,
+        formState: {isSubmitting, errors}
+    } = useForm({
         mode: "all",
         reValidateMode: "onChange",
         defaultValues: {
@@ -48,20 +53,20 @@ function PoliPage() {
 
     useEffect(() => {
         if (poliValue && !openDeleteModal) {
-            poliForm.reset({
+            reset({
                 name: poliValue.name || "",
             })
         } else {
-            poliForm.reset({name: ""});
+            reset({name: ""});
         }
-    }, [poliValue, poliForm, openDeleteModal]);
+    }, [poliValue, openDeleteModal]);
 
     useEffect(() => {
         if (!openModal) {
-            poliForm.reset({name: ""});
+            reset({name: ""});
             if (setPoliValue) setPoliValue(null);
         }
-    }, [openModal, poliForm, setPoliValue]);
+    }, [openModal, setPoliValue]);
 
     const onSubmit = async (data) => {
         if (poliValue) {
@@ -75,7 +80,7 @@ function PoliPage() {
     const renderRow = (poli, index) => (
         <TableRow key={poli.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {poliData.from + index}
+                {poliData.meta?.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
@@ -161,8 +166,8 @@ function PoliPage() {
                 data={poliData?.data || []}
                 isLoading={isLoading}
                 pagination={poliData ? {
-                    from: poliData.from, to: poliData.to, total: poliData.total,
-                    current_page: poliData.current_page, last_page: poliData.last_page
+                    from: poliData.meta?.from, to: poliData.meta?.to, total: poliData.meta?.total,
+                    current_page: poliData.meta?.current_page, last_page: poliData.meta?.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}
@@ -179,19 +184,19 @@ function PoliPage() {
                 onOpenChange={setOpenModal}
                 title={poliValue ? "Edit Poli" : "Tambah Poli"}
                 description={poliValue ? "Ubah informasi Poli" : "Tambahkan Poli baru ke sistem."}
-                onSubmit={poliForm.handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
                 submitText={poliValue ? "Simpan Perubahan" : "Tambah Poli"}
-                isLoading={poliForm.formState.isSubmitting}
+                isLoading={isSubmitting}
             >
                 <div className="space-y-5 py-2">
                     <div className="space-y-2.5">
                         <Label htmlFor="name" className="text-sm font-semibold">Nama <span
                             className="text-destructive">*</span></Label>
                         <Input id="name" placeholder="Contoh: Umum, Gigi, Jantung, Kandungan"
-                               {...poliForm.register("name", {required: "Nama Poli tidak boleh kosong"})}
+                               {...register("name", {required: "Nama Poli tidak boleh kosong"})}
                                disabled={isLoading}/>
-                        {poliForm.formState.errors.name &&
-                            <p className="text-sm text-destructive">{poliForm.formState.errors.name.message}</p>}
+                        {errors.name &&
+                            <p className="text-sm text-destructive">{errors.name.message}</p>}
                     </div>
                 </div>
             </Modal>

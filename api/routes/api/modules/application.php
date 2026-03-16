@@ -5,8 +5,11 @@ use App\Http\Controllers\Api\Master\General\Subscriptions\PlanController;
 use App\Http\Controllers\Api\Master\General\Subscriptions\SubscriptionController;
 use App\Http\Controllers\Api\Master\General\User\Permission\PermissionController;
 use App\Http\Controllers\Api\Master\General\User\Role\RoleController;
-use App\Http\Controllers\Api\Master\General\User\User\UserController;
 use Illuminate\Support\Facades\Route;
+
+
+
+use Domains\IAM\Presentation\Controllers\UserController;
 
 Route::get('/modules', [ModuleController::class, 'index']);
 

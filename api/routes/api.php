@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Master\General\Tenant\TenantController;
-use App\Http\Controllers\Api\Master\General\User\User\UserController;
 use Illuminate\Support\Facades\Route;
+
+
+use Domains\IAM\Presentation\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,43 +61,34 @@ Route::middleware(['auth:sanctum', 'verified'])
     ->group(function () {
         // User Profile
         Route::get('/me', [UserController::class, 'me'])->name('me');
-
         /*
         |--------------------------------------------------------------------------
         | Application Core Module
         |--------------------------------------------------------------------------
         */
         require __DIR__ . '/api/modules/application.php';
-
         /*
         |--------------------------------------------------------------------------
         | Accounting Module
         |--------------------------------------------------------------------------
         */
         require __DIR__ . '/api/modules/accounting.php';
-
         /*
         |--------------------------------------------------------------------------
         | Healthcare Management Module
         |--------------------------------------------------------------------------
         */
         require __DIR__ . '/api/modules/healthcare.php';
-
         /*
         |--------------------------------------------------------------------------
         | Pharmacy Module
         |--------------------------------------------------------------------------
         */
         require __DIR__ . '/api/modules/pharmacy.php';
-
-
         /*
           |--------------------------------------------------------------------------
           | Payments Module
           |--------------------------------------------------------------------------
          */
-
         require __DIR__ . '/api/modules/payments.php';
-
-
     });

@@ -18,7 +18,6 @@ import {
     SelectValue
 } from "@/components/ui/select.jsx";
 import DataTable from "@/components/common/data-table.jsx";
-import {usePermission} from "@/hooks/usePermission.js";
 
 function DegreePage() {
     const {
@@ -42,7 +41,13 @@ function DegreePage() {
         deleteDegree
     } = useDegreeStore();
 
-    const degreeForm = useForm({
+    const {
+        register,
+        reset,
+        control,
+        handleSubmit,
+        formState: {isSubmitting, errors}
+    } = useForm({
         mode: "all",
         reValidateMode: "onChange",
         defaultValues: {
@@ -50,9 +55,6 @@ function DegreePage() {
             type: ""
         }
     });
-    const {hasPermission} = usePermission();
-
-    // console.log(canView);
 
 
     useEffect(() => {
@@ -61,21 +63,21 @@ function DegreePage() {
 
     useEffect(() => {
         if (degreeValue && !degreeOpenDeleteModal) {
-            degreeForm.reset({
+            reset({
                 name: degreeValue.name || "",
                 type: degreeValue.type || ""
             })
         } else {
-            degreeForm.reset({name: "", type: ""});
+            reset({name: "", type: ""});
         }
-    }, [degreeValue, degreeForm, degreeOpenDeleteModal]);
+    }, [degreeValue, degreeOpenDeleteModal]);
 
     useEffect(() => {
         if (!degreeOpenModal) {
-            degreeForm.reset({name: "", type: ""});
+            reset({name: "", type: ""});
             if (setDegreeValue) setDegreeValue(null);
         }
-    }, [degreeOpenModal, degreeForm, setDegreeValue]);
+    }, [degreeOpenModal, setDegreeValue]);
 
     const onSubmitDegree = async (data) => {
         if (degreeValue) {
@@ -89,7 +91,7 @@ function DegreePage() {
     const renderRow = (degree, index) => (
         <TableRow key={degree.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {degrees.from + index}
+                {degrees.meta?.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
@@ -175,8 +177,8 @@ function DegreePage() {
                 data={degrees?.data || []}
                 isLoading={degreeLoading}
                 pagination={degrees ? {
-                    from: degrees.from, to: degrees.to, total: degrees.total,
-                    current_page: degrees.current_page, last_page: degrees.last_page
+                    from: degrees.meta?.from, to: degrees.meta?.to, total: degrees.meta?.total,
+                    current_page: degrees.meta?.current_page, last_page: degrees.meta?.last_page
                 } : null}
                 onPageChange={setDegreeCurrentPage}
                 currentPage={degreeCurrentPage}
@@ -193,24 +195,24 @@ function DegreePage() {
                 onOpenChange={setDegreeOpenModal}
                 title={degreeValue ? "Edit Gelar" : "Tambah Gelar"}
                 description={degreeValue ? "Ubah informasi gelar" : "Tambahkan gelar baru ke sistem."}
-                onSubmit={degreeForm.handleSubmit(onSubmitDegree)}
+                onSubmit={handleSubmit(onSubmitDegree)}
                 submitText={degreeValue ? "Simpan Perubahan" : "Tambah Gelar"}
-                isLoading={degreeForm.formState.isSubmitting}
+                isLoading={isSubmitting}
             >
                 <div className="space-y-5 py-2">
                     <div className="space-y-2.5">
                         <Label htmlFor="degree-name" className="text-sm font-semibold">Nama <span
                             className="text-destructive">*</span></Label>
                         <Input id="degree-name" placeholder="Contoh: S.Kom, M.M"
-                               {...degreeForm.register("name", {required: "Nama gelar tidak boleh kosong"})}
+                               {...register("name", {required: "Nama gelar tidak boleh kosong"})}
                                disabled={degreeValueLoading}/>
-                        {degreeForm.formState.errors.name &&
-                            <p className="text-sm text-destructive">{degreeForm.formState.errors.name.message}</p>}
+                        {errors.name &&
+                            <p className="text-sm text-destructive">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="degree-type">Tipe <span
                             className="text-destructive">*</span></Label>
-                        <Controller name="type" control={degreeForm.control}
+                        <Controller name="type" control={control}
                                     disabled={degreeValueLoading}
                                     rules={{required: "Tipe Gelar harus dipilih"}}
                                     render={({field}) => (
@@ -227,8 +229,8 @@ function DegreePage() {
                                             </SelectContent>
                                         </Select>
                                     )}/>
-                        {degreeForm.formState.errors.type &&
-                            <p className="text-sm text-destructive">{degreeForm.formState.errors.type.message}</p>}
+                        {errors.type &&
+                            <p className="text-sm text-destructive">{errors.type.message}</p>}
                     </div>
                 </div>
             </Modal>

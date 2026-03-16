@@ -7,5 +7,4 @@ use Domains\Shared\Domain\Repository\BaseRepositoryInterface;
 
 interface RegistrationInstitutionRepositoryInterface extends BaseRepositoryInterface
 {
-
 }

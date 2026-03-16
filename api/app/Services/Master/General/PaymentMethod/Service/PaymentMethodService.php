@@ -2,9 +2,9 @@
 
 namespace App\Services\Master\General\PaymentMethod\Service;
 
-use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use App\Services\Master\General\PaymentMethod\Repository\PaymentMethodRepository;
+use Domains\IAM\Presentation\Requests\PaymentMethodRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
