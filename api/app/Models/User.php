@@ -10,6 +10,7 @@ use Database\Factories\UserFactory;
 use Domains\IAM\Infrastructure\Persistence\Models\DegreeModel;
 use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RegistrationInstitutionModel;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -203,7 +204,7 @@ class User extends Authenticatable
             return [];
         }
 
-        return Role::whereIn('id', $backDegreeIds)->pluck('name')->toArray();
+        return RoleModel::whereIn('id', $backDegreeIds)->pluck('name')->toArray();
     }
 
 

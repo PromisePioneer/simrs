@@ -21,13 +21,13 @@ return [
         /*
          * When using the "HasRoles" trait from this package, we need to know which
          * Eloquent model should be used to retrieve your roles. Of course, it
-         * is often just the "role" model but you may use whatever you like.
+         * is often just the "role" model, but you may use whatever you like.
          *
          * The model you want to use as a role model needs to implement the
          * `Spatie\Permission\Contracts\role` contract.
          */
 
-        'role' => \App\Models\Role::class,
+        'role' => \Domains\IAM\Infrastructure\Persistence\Models\RoleModel::class,
 
     ],
 

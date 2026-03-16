@@ -4,12 +4,12 @@ use App\Http\Controllers\Api\Master\General\Module\ModuleController;
 use App\Http\Controllers\Api\Master\General\Subscriptions\PlanController;
 use App\Http\Controllers\Api\Master\General\Subscriptions\SubscriptionController;
 use App\Http\Controllers\Api\Master\General\User\Permission\PermissionController;
-use App\Http\Controllers\Api\Master\General\User\Role\RoleController;
 use Illuminate\Support\Facades\Route;
 
 
 
 use Domains\IAM\Presentation\Controllers\UserController;
+use Domains\IAM\Presentation\Controllers\RoleController;
 
 Route::get('/modules', [ModuleController::class, 'index']);
 

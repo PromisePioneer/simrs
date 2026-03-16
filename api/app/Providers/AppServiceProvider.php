@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Building;
-use App\Models\Degree;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\MedicineRack;
@@ -12,21 +11,14 @@ use App\Models\MedicineWarehouse;
 use App\Models\OutpatientVisit;
 use App\Models\PaymentMethod;
 use App\Models\PaymentMethodType;
-use App\Models\Poli;
 use App\Models\Prescription;
 use App\Models\ProductUnitType;
 use App\Models\Profession;
-use App\Models\RegistrationInstitution;
-use App\Models\Role;
 use App\Models\Room;
-use App\Models\RoomType;
 use App\Models\Specialization;
 use App\Models\SubSpecialization;
-use App\Models\User;
 use App\Models\Ward;
 use App\Policies\BuildingPolicy;
-use App\Policies\DegreePolicy;
-use App\Policies\DepartmentPolicy;
 use App\Policies\MedicineCategoryPolicy;
 use App\Policies\MedicinePolicy;
 use App\Policies\MedicineRackPolicy;
@@ -35,16 +27,11 @@ use App\Policies\MedicineUnitTypePolicy;
 use App\Policies\MedicineWarehousePolicy;
 use App\Policies\OutpatientVisitPolicy;
 use App\Policies\PaymentMethodTypePolicy;
-use App\Policies\PoliPolicy;
 use App\Policies\PrescriptionPolicy;
 use App\Policies\ProfessionPolicy;
-use App\Policies\RegistrationInstitutionPolicy;
-use App\Policies\RolePolicy;
 use App\Policies\RoomPolicy;
-use App\Policies\RoomTypePolicy;
 use App\Policies\SpecializationPolicy;
 use App\Policies\SubSpecializationPolicy;
-use App\Policies\UserPolicy;
 use App\Policies\WardPolicy;
 use Domains\IAM\Presentation\Policies\PaymentMethodPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -83,7 +70,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function registerPolicies(): void
     {
-        Gate::policy(Role::class, RolePolicy::class);
         Gate::policy(PaymentMethodType::class, PaymentMethodTypePolicy::class);
         Gate::policy(PaymentMethod::class, PaymentMethodPolicy::class);
         Gate::policy(Profession::class, ProfessionPolicy::class);

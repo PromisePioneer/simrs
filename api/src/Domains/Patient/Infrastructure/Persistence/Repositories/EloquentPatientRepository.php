@@ -154,7 +154,7 @@ final readonly class EloquentPatientRepository implements PatientRepositoryInter
         return $query->paginate(perPage: $perPage, page: $page);
     }
 
-    public function findAllWithEMR(string $tenantId, array $filters = [], int $perPage = 15): object
+    public function findAllWithEMR(?string $tenantId, array $filters = [], int $perPage = 15): object
     {
         $query = PatientModel::withoutGlobalScopes()
             ->when(!empty($tenantId), fn($q) => $q->where('tenant_id', $tenantId))

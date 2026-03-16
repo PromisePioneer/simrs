@@ -236,7 +236,7 @@ class PatientController extends Controller
     public function emr(Request $request): JsonResponse
     {
         $result = $this->getEMRHandler->handle(new GetPatientEMRQuery(
-            tenantId: $request->user()->tenant_id,
+            tenantId: $request->user()->tenant_id ?? $request->tenant_id,
             search: $request->input('search'),
             perPage: (int)$request->input('per_page', 15),
         ));

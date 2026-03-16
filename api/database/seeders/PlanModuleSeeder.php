@@ -9,63 +9,62 @@ use Illuminate\Database\Seeder;
 class PlanModuleSeeder extends Seeder
 {
     /**
-     * Mapping module name -> akses per plan.
-     *
+     * Mapping module name → akses per plan.
      * 'limit' => null  = unlimited
-     * 'limit' => N     = maksimal N record (enforce di service layer)
-     * 'is_accessible'  => false = module dikunci untuk plan ini
+     * 'limit' => N     = maksimal N record
      */
     private array $matrix = [
-        // ── Selalu tersedia di semua plan ──────────────────────────────────
         'Dashboard' => [
-            'free' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => true, 'limit' => null],
             'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'pro'   => ['is_accessible' => true, 'limit' => null],
         ],
         'Rawat Jalan' => [
-            'free' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => true, 'limit' => null],
             'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'pro'   => ['is_accessible' => true, 'limit' => null],
         ],
-
-        // ── Tersedia di Basic & Pro, dikunci di Free ───────────────────────
         'Rawat Inap' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
-            'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
         'Fasilitas' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
-            'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
         'Master' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
-            'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
         'Setting' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
-            'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
-
-        // ── Hanya Pro ──────────────────────────────────────────────────────
         'Electronic Medical Record' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
-            'basic' => ['is_accessible' => true, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
+        ],
+        // BARU: Farmasi — Basic & Pro saja
+        'Farmasi' => [
+            'free'  => ['is_accessible' => false, 'limit' => null],
+            'basic' => ['is_accessible' => true,  'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
         'Office' => [
-            'free' => ['is_accessible' => false, 'limit' => null],
+            'free'  => ['is_accessible' => false, 'limit' => null],
             'basic' => ['is_accessible' => false, 'limit' => null],
-            'pro' => ['is_accessible' => true, 'limit' => null],
+            'pro'   => ['is_accessible' => true,  'limit' => null],
         ],
     ];
 
     public function run(): void
     {
-        $plans = Plan::all()->keyBy('slug');
+        $plans   = Plan::all()->keyBy('slug');
         $modules = Module::whereNull('parent_id')->get()->keyBy('name');
 
         foreach ($this->matrix as $moduleName => $planAccess) {
@@ -84,17 +83,15 @@ class PlanModuleSeeder extends Seeder
                     continue;
                 }
 
-                $plan->modules()->syncWithoutDetaching([
-                    $module->id => [
+                $module->plans()->syncWithoutDetaching([
+                    $plan->id => [
                         'is_accessible' => $pivot['is_accessible'],
-                        'limit' => $pivot['limit'],
+                        'limit'         => $pivot['limit'],
                     ],
                 ]);
             }
 
-            $this->command->info("Module '{$moduleName}' ✓");
+            $this->command->info("✓ '{$moduleName}' plan access seeded.");
         }
-
-        $this->command->info('PlanModuleSeeder selesai.');
     }
 }

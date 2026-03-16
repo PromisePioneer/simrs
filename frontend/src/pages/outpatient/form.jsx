@@ -37,6 +37,7 @@ import {Calendar} from "@/components/ui/calendar.jsx";
 import {useUserStore} from "@/store/useUserStore.js";
 import {usePoliStore} from "@/store/poliStore.js";
 import {useOutpatientVisitStore} from "@/store/outpatientVisitStore.js";
+import {AsyncSelect} from "@/components/common/async-select.jsx";
 
 function OutpatientForm(opts) {
 
@@ -44,9 +45,9 @@ function OutpatientForm(opts) {
     const isEditMode = !!id;
     const navigate = useNavigate();
 
-    const {fetchPatients, patients} = usePatientStore();
-    const {fetchDoctors, userData} = useUserStore();
-    const {fetchPoli, poliData} = usePoliStore();
+    const {fetchPatientOptions, patients} = usePatientStore();
+    const {fetchDoctorOptions} = useUserStore();
+    const {fetchPoliOptions} = usePoliStore();
     const {
         createOutpatientVisit,
         updateOutpatientVisit,
@@ -55,6 +56,7 @@ function OutpatientForm(opts) {
         familyMedicalHistory,
         medicationHistory,
         psychologyConditions,
+        outpatientVisitValue,
         addAllergy,
         removeAllergy,
         updateAllergy,
@@ -110,11 +112,6 @@ function OutpatientForm(opts) {
 
     const visitType = watch("type");
 
-    useEffect(() => {
-        fetchPatients();
-        fetchDoctors();
-        fetchPoli();
-    }, []);
 
     const onSubmit = async (data) => {
         const formData = {
@@ -277,18 +274,17 @@ function OutpatientForm(opts) {
                                             control={control}
                                             rules={{required: "Pasien wajib dipilih"}}
                                             render={({field}) => (
-                                                <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Pilih pasien"/>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {Array.isArray(patients) && patients?.map((patient) => (
-                                                            <SelectItem key={patient.id} value={patient.id.toString()}>
-                                                                {patient.full_name}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
+                                                <AsyncSelect fetchFn={fetchPatientOptions}
+                                                             value={field.value}
+                                                             onChange={field.onChange}
+                                                             placeholder="Cari pasien..."
+                                                             debounce={300}
+                                                             defaultLabel={outpatientVisitValue.patient?.full_name ?? null}
+                                                             emptyAction={{
+                                                                 label: "Tambah Pasien Baru",
+                                                                 to: "/settings/patients/create"
+                                                             }}
+                                                />
                                             )}
                                         />
                                         {errors.patient_id && (
@@ -306,18 +302,13 @@ function OutpatientForm(opts) {
                                             control={control}
                                             rules={{required: "Dokter wajib dipilih"}}
                                             render={({field}) => (
-                                                <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Pilih dokter"/>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {Array.isArray(userData) && userData.map((doctor) => (
-                                                            <SelectItem key={doctor.id} value={doctor.id}>
-                                                                {doctor.name} - {doctor.poli?.name}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
+                                                <AsyncSelect fetchFn={fetchDoctorOptions}
+                                                             value={field.value}
+                                                             onChange={field.onChange}
+                                                             placeholder="Cari Dokter..."
+                                                             debounce={300}
+                                                             defaultLabel={outpatientVisitValue.doctor?.name ?? null}
+                                                />
                                             )}
                                         />
                                         {errors.doctor_id && (
@@ -335,18 +326,13 @@ function OutpatientForm(opts) {
                                             control={control}
                                             rules={{required: "Poli wajib dipilih"}}
                                             render={({field}) => (
-                                                <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Pilih poli"/>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {poliData.map((p) => (
-                                                            <SelectItem key={p.id} value={p.id}>
-                                                                {p.name}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
+                                                <AsyncSelect fetchFn={fetchPoliOptions}
+                                                             value={field.value}
+                                                             onChange={field.onChange}
+                                                             placeholder="Cari Poli..."
+                                                             debounce={300}
+                                                             defaultLabel={outpatientVisitValue.poli?.name ?? null}
+                                                />
                                             )}
                                         />
                                         {errors.poli_id && (

@@ -8,23 +8,13 @@ use App\Models\User;
 
 class UserPolicy
 {
-    public function view(User $user): bool
+    public function viewAny(User $user): bool { return $user->hasActivePermission('Melihat User Management'); }
+    public function view(User $user, User $target): bool { return $user->hasActivePermission('Melihat User Management'); }
+    public function create(User $user): bool  { return $user->hasActivePermission('Menambahkan User Management'); }
+    public function update(User $user, User $target): bool { return $user->hasActivePermission('Mengubah User Management'); }
+    public function delete(User $user, User $target): bool
     {
-        return $user->hasActivePermission(permission: 'Melihat User Management');
-    }
-
-    public function create(User $user): bool
-    {
-        return $user->hasActivePermission(permission: 'Menambahkan User Management');
-    }
-
-    public function update(User $user): bool
-    {
-        return $user->hasActivePermission(permission: 'Mengubah User Management');
-    }
-
-    public function delete(User $user): bool
-    {
-        return $user->hasActivePermission(permission: 'Menghapus User Management');
+        if ($user->id === $target->id) return false;
+        return $user->hasActivePermission('Menghapus User Management');
     }
 }

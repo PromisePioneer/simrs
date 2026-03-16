@@ -20,18 +20,13 @@ function OutpatientPage() {
     const search = Route.useSearch();
 
 
-    const {
-        patientTodayCount,
-        fetchTodayPatientCountByStatus,
-        todayPatientCountByStatus,
-    } = useOutpatientDashboardReportStore();
+
 
 
     const {fetchCountTodayQueues, countTodayQueues} = usePatientQueueStore();
 
     useEffect(() => {
         fetchCountTodayQueues()
-        fetchTodayPatientCountByStatus();
     }, []);
 
 

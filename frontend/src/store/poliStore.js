@@ -48,15 +48,27 @@ export const usePoliStore = create((set, get) => ({
             if (search && search.trim() !== "") {
                 params.search = search;
             }
+
             const response = await apiCall.get('/api/v1/poli', {params});
 
             set({
                 isLoading: false,
-                poliData: response.data
+                poliData: response.data.data
             })
         } catch (e) {
             toast.error("Operasi Gagal");
         }
+    },
+    fetchPoliOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/poli", {
+            params: {search}
+        });
+        // Sesuaikan dengan struktur response API kamu
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
     },
     createPoli: async (data) => {
         try {

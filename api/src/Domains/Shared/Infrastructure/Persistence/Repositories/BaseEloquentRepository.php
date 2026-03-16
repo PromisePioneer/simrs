@@ -39,9 +39,8 @@ abstract class BaseEloquentRepository
     public function findAll(array $filters = [], ?int $perPage = null): object
     {
         $query = $this->model->newQuery()->orderBy('created_at', 'desc');
-
-        // Override applyFilters() di subclass untuk filter spesifik
         $query = $this->applyFilters($query, $filters);
+
 
         return $perPage ? $query->paginate($perPage) : (object)$query->get();
     }

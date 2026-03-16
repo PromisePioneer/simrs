@@ -34,7 +34,7 @@ abstract class BaseCrudService
     public function getAll(Request $request): object
     {
         $filters = $this->extractFilters($request);
-        $perPage = $request->integer('per_page') ?: 15;
+        $perPage = $request->integer('per_page') ?: null;
 
         return $this->repository->findAll($filters, $perPage);
     }

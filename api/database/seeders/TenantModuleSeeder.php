@@ -6,9 +6,6 @@ use App\Models\Module;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Tenant;
-use App\Models\TenantDefaultPermission;
-use App\Models\TenantDefaultRole;
-use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -49,11 +46,9 @@ class TenantModuleSeeder extends Seeder
                 'name' => 'Dashboard',
                 'parent_id' => null,
                 'order' => 1,
-                'icon' => "House",
+                'icon' => 'House',
                 'route' => '/dashboard',
-                'permissions' => [
-                    'Melihat Dashboard',
-                ]
+                'permissions' => ['Melihat Dashboard'],
             ],
             [
                 'name' => 'Master',
@@ -61,85 +56,159 @@ class TenantModuleSeeder extends Seeder
                 'order' => 2,
                 'icon' => 'Database',
                 'route' => null,
-                'permissions' => [
-                    'Melihat Master',
-                ],
+                'permissions' => ['Melihat Master'],
                 'children' => [
                     [
-                        'name' => 'Module Management',
+                        'name'  => 'Module Management',
                         'order' => 3,
-                        'icon' => null,
+                        'icon'  => null,
                         'route' => '/master/module',
                         'permissions' => [
                             'Melihat Module Management',
                             'Menambahkan Module Management',
                             'Mengubah Module Management',
                             'Menghapus Module Management',
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'name' => 'Rawat Jalan',
-                'parent_id' => null,
-                'order' => 3,
-                'icon' => 'CalendarDays',
-                'route' => '/outpatient',
-                'permissions' => [
-                    'Melihat Rawat Jalan',
-                    'Menambahkan Rawat Jalan'
-                ]
-            ],
-            [
-                'name' => 'Rawat Inap',
-                'parent_id' => null,
-                'order' => 3,
-                'icon' => 'Stethoscope',
-                'route' => '/inpatient',
-                'permissions' => [
-                    'Melihat Rawat Rawat Inap',
-                    'Menambahkan Rawat Rawat Inap'
-                ]
-            ],
-            [
-                'name' => 'Electronic Medical Record',
-                'parent_id' => null,
-                'order' => 5,
-                'icon' => 'Clipboard',
-                'route' => '/electronic-medical-record',
-                'permissions' => [
-                    'Melihat Electronic Medical Record',
-                ]
-            ],
-            [
-                'name' => 'Fasilitas',
-                'parent_id' => null,
-                'order' => 7,
-                'icon' => 'Hospital',
-                'route' => '/facilities',
-                'permissions' => [
-                    'Melihat Profile',
+                        ],
+                    ],
                 ],
             ],
             [
-                'name' => 'Office',
+                'name'  => 'Rawat Jalan',
+                'parent_id' => null,
+                'order' => 3,
+                'icon'  => 'CalendarDays',
+                'route' => '/outpatient',
+                'permissions' => [
+                    'Melihat Rawat Jalan',
+                    'Menambahkan Rawat Jalan',
+                    'Mengubah Rawat Jalan',
+                    'Menghapus Rawat Jalan',
+                ],
+            ],
+            [
+                'name'  => 'Rawat Inap',
+                'parent_id' => null,
+                'order' => 4,
+                'icon'  => 'Stethoscope',
+                'route' => '/inpatient',
+                'permissions' => [
+                    'Melihat Rawat Inap',
+                    'Membuat Rawat Inap',
+                    'Mengubah Rawat Inap',
+                    'Menghapus Rawat Inap',
+                    // Facility
+                    'Melihat Gedung',
+                    'Membuat Gedung',
+                    'Mengubah Gedung',
+                    'Menghapus Gedung',
+                    'Melihat Ruang Rawat',
+                    'Membuat Ruang Rawat',
+                    'Mengubah Ruang Rawat',
+                    'Menghapus Ruang Rawat',
+                    'Melihat Tipe Ruangan',
+                    'Membuat Tipe Ruangan',
+                    'Mengubah Tipe Ruangan',
+                    'Menghapus Tipe Ruangan',
+                    'Melihat Ruangan',
+                    'Membuat Ruangan',
+                    'Mengubah Ruangan',
+                    'Menghapus Ruangan',
+                    // Bed
+                    'Melihat Tempat Tidur',
+                    'Membuat Tempat Tidur',
+                    'Mengubah Tempat Tidur',
+                    'Menghapus Tempat Tidur',
+                    // Inpatient Prescription (FITUR BARU)
+                    'Melihat Resep Rawat Inap',
+                    'Membuat Resep Rawat Inap',
+                    'Dispensing Resep Rawat Inap',
+                    'Membatalkan Resep Rawat Inap',
+                ],
+            ],
+            [
+                'name'  => 'Electronic Medical Record',
+                'parent_id' => null,
+                'order' => 5,
+                'icon'  => 'Clipboard',
+                'route' => '/electronic-medical-record',
+                'permissions' => [
+                    'Melihat Electronic Medical Record',
+                    'Melihat Penebusan Obat',
+                    'Menambahkan Penebusan Obat',
+                    'Mengubah Penebusan Obat',
+                    'Menghapus Penebusan Obat',
+                ],
+            ],
+            // ── BARU: Farmasi ──────────────────────────────────────────────
+            [
+                'name'  => 'Farmasi',
+                'parent_id' => null,
+                'order' => 6,
+                'icon'  => 'Pill',
+                'route' => '/pharmacy',
+                'permissions' => [
+                    'Melihat Farmasi',
+                    'Melihat Obat',
+                    'Menambahkan Obat',
+                    'Mengubah Obat',
+                    'Menghapus Obat',
+                    'Melihat Kategori Obat',
+                    'Menambahkan Kategori Obat',
+                    'Mengubah Kategori Obat',
+                    'Menghapus Kategori Obat',
+                    'Melihat Gudang Obat',
+                    'Menambahkan Gudang Obat',
+                    'Mengubah Gudang Obat',
+                    'Menghapus Gudang Obat',
+                    'Melihat Rak Obat',
+                    'Menambahkan Rak Obat',
+                    'Mengubah Rak Obat',
+                    'Menghapus Rak Obat',
+                    'Melihat Batch Obat',
+                    'Menambahkan Batch Obat',
+                    'Mengubah Batch Obat',
+                    'Menghapus Batch Obat',
+                ],
+            ],
+            [
+                'name'  => 'Fasilitas',
+                'parent_id' => null,
+                'order' => 7,
+                'icon'  => 'Hospital',
+                'route' => '/facilities',
+                'permissions' => ['Melihat Fasilitas'],
+            ],
+            [
+                'name'  => 'Office',
                 'parent_id' => null,
                 'order' => 8,
-                'icon' => 'File',
+                'icon'  => 'File',
                 'route' => '/office',
                 'permissions' => [
                     'Melihat Office',
-                ]
+                    'Melihat Pasien',
+                    'Menambahkan Pasien',
+                    'Mengubah Pasien',
+                    'Menghapus Pasien',
+                ],
             ],
             [
-                'name' => 'Setting',
+                'name'  => 'Setting',
                 'parent_id' => null,
                 'order' => 9,
-                'icon' => 'Settings',
+                'icon'  => 'Settings',
                 'route' => '/settings',
                 'permissions' => [
                     'Melihat Setting',
-                ]
+                    'Melihat Role',
+                    'Menambahkan Role',
+                    'Mengubah Role',
+                    'Menghapus Role',
+                    'Melihat User Management',
+                    'Menambahkan User Management',
+                    'Mengubah User Management',
+                    'Menghapus User Management',
+                ],
             ],
         ];
 
@@ -150,15 +219,17 @@ class TenantModuleSeeder extends Seeder
         return $moduleIds;
     }
 
-    private function storeModuleStructure(array $moduleData, $parentId, &$moduleIds): void
+    private function storeModuleStructure(array $moduleData, $parentId, array &$moduleIds): void
     {
-        $module = Module::create([
-            'name' => $moduleData['name'],
-            'parent_id' => $parentId,
-            'route' => $moduleData['route'] ?? null,
-            'icon' => $moduleData['icon'] ?? null,
-            'order' => $moduleData['order'] ?? 0,
-        ]);
+        $module = Module::updateOrCreate(
+            ['name' => $moduleData['name']],
+            [
+                'parent_id' => $parentId,
+                'route'     => $moduleData['route'] ?? null,
+                'icon'      => $moduleData['icon'] ?? null,
+                'order'     => $moduleData['order'] ?? 0,
+            ]
+        );
 
         if (!empty($moduleData['permissions'])) {
             $moduleIds[$module->id] = $moduleData['permissions'];
@@ -176,18 +247,14 @@ class TenantModuleSeeder extends Seeder
         foreach ($moduleIds as $moduleId => $permissions) {
             foreach ($permissions as $permissionName) {
                 Permission::updateOrCreate(
-                    [
-                        'name' => $permissionName,
-                        'guard_name' => 'sanctum',
-                    ], [
-                        'module_id' => $moduleId ?? null,
-                    ]
+                    ['name' => $permissionName, 'guard_name' => 'sanctum'],
+                    ['module_id' => $moduleId]
                 );
             }
         }
     }
 
-    private function assignPermissionsToRoles($tenantId): void
+    private function assignPermissionsToRoles(string $tenantId): void
     {
         setPermissionsTeamId(null);
 
@@ -198,169 +265,83 @@ class TenantModuleSeeder extends Seeder
         }
 
         foreach ($roles as $role) {
-            switch ($role->name) {
-                case 'Owner':
-                    try {
-                        $this->generateOwnerDefaultPermission();
-                    } catch (\Exception $e) {
-                        $this->command->error("Error syncing permissions for Owner role: " . $e->getMessage());
-                    }
-                    break;
-                case 'Admin':
-                    break;
+            if ($role->name === 'Owner') {
+                $this->generateOwnerDefaultPermission();
             }
         }
 
-        // Reset team_id setelah selesai
         setPermissionsTeamId(null);
     }
-
 
     public function generateOwnerDefaultPermission(): void
     {
         $role = Role::where('name', 'Owner')->first();
-        if (!$role) {
-            return;
-        }
+        if (!$role) return;
 
         $permissions = [
+            // Dashboard
             'Melihat Dashboard',
-            'Melihat Role',
-            'Menambahkan Role',
-            'Mengubah Role',
-            'Menghapus Role',
 
-            'Melihat User Management',
-            'Menambahkan User Management',
-            'Mengubah User Management',
-            'Menghapus User Management',
+            // Setting
+            'Melihat Setting',
+            'Melihat Role', 'Menambahkan Role', 'Mengubah Role', 'Menghapus Role',
+            'Melihat User Management', 'Menambahkan User Management', 'Mengubah User Management', 'Menghapus User Management',
 
-            'Melihat Rak Produk',
-            'Membuat Rak Produk',
-            'Mengubah Rak Produk',
-            'Menghapus Rak Produk',
-
-            'Melihat Kategori Produk',
-            'Menambah Kategori Produk',
-            'Mengubah Kategori Produk',
-            'Menghapus Kategori Produk',
-            'Melihat Satuan Produk',
-            'Menambahkan Satuan Produk',
-            'Mengubah Satuan Produk',
-            'Menghapus Satuan Produk',
-            'Melihat Produk',
-            'Membuat Produk',
-            'Mengubah Produk',
-            'Menghapus Produk',
-
+            // Master
             'Melihat Master',
-            'Melihat Tipe Pembayaran',
-            'Menambahkan Tipe Pembayaran',
-            'Mengubah Tipe Metode Pembayaran',
-            'Menghapus Tipe Metode Pembayaran',
+            'Melihat Tipe Pembayaran', 'Menambahkan Tipe Pembayaran', 'Mengubah Tipe Metode Pembayaran', 'Menghapus Tipe Metode Pembayaran',
+            'Melihat Profesi', 'Membuat Profesi', 'Mengubah Profesi', 'Menghapus Profesi',
+            'Melihat Spesialisasi', 'Membuat Spesialisasi', 'Mengubah Spesialisasi', 'Menghapus Spesialisasi',
+            'Melihat Sub Spesialisasi', 'Membuat Sub Spesialisasi', 'Mengubah Sub Spesialisasi', 'Menghapus Sub Spesialisasi',
+            'Melihat Lembaga Pendaftaran', 'Menambahkan Lembaga Pendaftaran', 'Mengubah Lembaga Pendaftaran', 'Menghapus Lembaga Pendaftaran',
+            'Melihat Gelar', 'Menambahkan Gelar', 'Mengubah Gelar', 'Menghapus Gelar',
+            'Melihat Departemen', 'Menambahkan Departemen', 'Mengubah Departemen', 'Menghapus Departemen',
+            'Melihat Poli', 'Menambahkan Poli', 'Mengubah Poli', 'Menghapus Poli',
 
-            'Melihat Profesi',
-            'Membuat Profesi',
-            'Mengubah Profesi',
-            'Menghapus Profesi',
+            // Pasien
+            'Melihat Office',
+            'Melihat Pasien', 'Menambahkan Pasien', 'Mengubah Pasien', 'Menghapus Pasien',
 
-            'Melihat Spesialisasi',
-            "Membuat Spesialisasi",
-            "Mengubah Spesialisasi",
-            "Menghapus Spesialisasi",
+            // Rawat Jalan
+            'Melihat Rawat Jalan', 'Menambahkan Rawat Jalan', 'Mengubah Rawat Jalan', 'Menghapus Rawat Jalan',
 
-            "Melihat Sub Spesialisasi",
-            "Membuat Sub Spesialisasi",
-            "Mengubah Sub Spesialisasi",
-            "Menghapus Sub Spesialisasi",
+            // EMR
+            'Melihat Electronic Medical Record',
+            'Melihat Penebusan Obat', 'Menambahkan Penebusan Obat', 'Mengubah Penebusan Obat', 'Menghapus Penebusan Obat',
 
-            "Melihat Setting",
+            // Farmasi
+            'Melihat Farmasi',
+            'Melihat Obat', 'Menambahkan Obat', 'Mengubah Obat', 'Menghapus Obat',
+            'Melihat Kategori Obat', 'Menambahkan Kategori Obat', 'Mengubah Kategori Obat', 'Menghapus Kategori Obat',
+            'Melihat Gudang Obat', 'Menambahkan Gudang Obat', 'Mengubah Gudang Obat', 'Menghapus Gudang Obat',
+            'Melihat Rak Obat', 'Menambahkan Rak Obat', 'Mengubah Rak Obat', 'Menghapus Rak Obat',
+            'Melihat Batch Obat', 'Menambahkan Batch Obat', 'Mengubah Batch Obat', 'Menghapus Batch Obat',
 
-            "Melihat Pasien",
-            "Menambahkan Pasien",
-            "Mengubah Pasien",
-            "Menghapus Pasien",
+            // Rawat Inap
+            'Melihat Rawat Inap', 'Membuat Rawat Inap', 'Mengubah Rawat Inap', 'Menghapus Rawat Inap',
+            // Facility
+            'Melihat Gedung', 'Membuat Gedung', 'Mengubah Gedung', 'Menghapus Gedung',
+            'Melihat Ruang Rawat', 'Membuat Ruang Rawat', 'Mengubah Ruang Rawat', 'Menghapus Ruang Rawat',
+            'Melihat Tipe Ruangan', 'Membuat Tipe Ruangan', 'Mengubah Tipe Ruangan', 'Menghapus Tipe Ruangan',
+            'Melihat Ruangan', 'Membuat Ruangan', 'Mengubah Ruangan', 'Menghapus Ruangan',
+            'Melihat Tempat Tidur', 'Membuat Tempat Tidur', 'Mengubah Tempat Tidur', 'Menghapus Tempat Tidur',
+            // Inpatient Prescription
+            'Melihat Resep Rawat Inap', 'Membuat Resep Rawat Inap', 'Dispensing Resep Rawat Inap', 'Membatalkan Resep Rawat Inap',
 
-            "Melihat User Management",
-            "Menambahkan User Management",
-            "Mengubah User Management",
-            "Menghapus User Management",
-
-
-            "Melihat Gudang Obat",
-            "Membuat Gudang Obat",
-            "Mengubah Gudang Obat",
-            "Menghapus Gudang Obat",
-
-
-            "Melihat Kategori Obat",
-            "Membuat Kategori Obat",
-            "Mengubah Kategori Obat",
-            "Menghapus Kategori Obat",
-
-
-            "Melihat Obat",
-            "Membuat Obat",
-            "Mengubah Obat",
-            "Menghapus Obat",
-
-
-            "Melihat Penebusan Obat",
-            'Menambahkan Penebusan Obat',
-            'Mengubah Penebusan Obat',
-            'Menghapus Penebusan Obat',
-
-
-            'Melihat Rawat Jalan',
-            'Membuat Rawat Jalan',
-            'Mengubah Rawat Jalan',
-            'Menghapus Rawat Jalan',
-
-            'Melihat Mutasi Stock',
-
-
+            // Fasilitas
             'Melihat Fasilitas',
-
-            'Melihat Gedung',
-            'Membuat Gedung',
-            'Mengubah Gedung',
-            'Menghapus Gedung',
-
-
-            'Melihat Ruang Rawat',
-            'Membuat Ruang Rawat',
-            'Mengubah Ruang Rawat',
-            'Menghapus Ruang Rawat',
-
-
-            'Melihat Tipe Ruangan',
-            'Membuat Tipe Ruangan',
-            'Mengubah Tipe Ruangan',
-            'Menghapus Tipe Ruangan',
-
-
-            'Melihat  Ruangan',
-            'Membuat  Ruangan',
-            'Mengubah  Ruangan',
-            'Menghapus  Ruangan',
-
-
-            'Melihat Rawat Inap',
-            'Membuat Rawat Inap',
-            'Mengubah Rawat Inap',
-            'Menghapus Rawat Inap',
-
         ];
 
         foreach ($permissions as $permissionName) {
-            Permission::updateOrCreate([
-                'name' => $permissionName,
-                'guard_name' => 'sanctum',
-            ]);
+            $permission = Permission::updateOrCreate(
+                ['name' => $permissionName, 'guard_name' => 'sanctum']
+            );
 
-            Role::where('name', 'Owner')
-                ->first()
-                ->givePermissionTo($permissionName);
+            if (!$role->hasPermissionTo($permissionName)) {
+                $role->givePermissionTo($permission);
+            }
         }
+
+        $this->command->info('Owner default permissions updated ✓');
     }
 }

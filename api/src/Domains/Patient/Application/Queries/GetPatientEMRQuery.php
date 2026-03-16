@@ -7,11 +7,13 @@ namespace Domains\Patient\Application\Queries;
 /**
  * Query: Ambil pasien beserta Electronic Medical Record (EMR) lengkap.
  */
-final class GetPatientEMRQuery
+final readonly class GetPatientEMRQuery
 {
     public function __construct(
-        public readonly string  $tenantId,
-        public readonly ?string $search  = null,
-        public readonly int     $perPage = 15,
-    ) {}
+        public ?string $tenantId,
+        public ?string $search = null,
+        public int     $perPage = 15,
+    )
+    {
+    }
 }

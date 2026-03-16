@@ -8,6 +8,9 @@ use App\Models\RoomType;
 use App\Models\User;
 use App\Models\Role;
 use App\Services\Tenant\TenantContext;
+use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
+use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -24,10 +27,10 @@ class TenantScope implements Scope
         }
 
         $allowGlobalModels = [
-            Role::class,
+            RoleModel::class,
             MedicineCategory::class,
-            Poli::class,
-            RoomType::class,
+            PoliModel::class,
+            RoomTypeModel::class,
         ];
 
         if ($model instanceof User) {
