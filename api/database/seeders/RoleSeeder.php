@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\TenantDefaultRole;
 use App\Models\User;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -26,7 +27,7 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($defaultRoles as $roleName) {
-            Role::create([
+            RoleModel::create([
                 'name' => $roleName,
                 'tenant_id' => null,
                 'guard_name' => 'sanctum'

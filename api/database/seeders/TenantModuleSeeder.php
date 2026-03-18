@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Module;
 use App\Models\Permission;
-use App\Models\Role;
 use App\Models\Tenant;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -258,7 +258,7 @@ class TenantModuleSeeder extends Seeder
     {
         setPermissionsTeamId(null);
 
-        $roles = Role::get();
+        $roles = RoleModel::get();
         if ($roles->isEmpty()) {
             $this->command->warn("No roles found for tenant: {$tenantId}");
             return;
@@ -275,7 +275,7 @@ class TenantModuleSeeder extends Seeder
 
     public function generateOwnerDefaultPermission(): void
     {
-        $role = Role::where('name', 'Owner')->first();
+        $role = RoleModel::where('name', 'Owner')->first();
         if (!$role) return;
 
         $permissions = [

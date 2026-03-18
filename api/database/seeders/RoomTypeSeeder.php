@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\RoomType;
 use App\Models\Tenant;
+use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class RoomTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        RoomType::insert([
+        RoomTypeModel::insert([
             [
                 'id' => Str::uuid()->toString(),
                 'code' => 'VVIP',

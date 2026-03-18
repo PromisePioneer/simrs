@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Poli;
+use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
 use Illuminate\Database\Seeder;
 
 class PoliSeeder extends Seeder
@@ -12,19 +12,19 @@ class PoliSeeder extends Seeder
      */
     public function run(): void
     {
-        Poli::create([
+        PoliModel::create([
             'name' => 'Poli Umum'
         ]);
 
-        Poli::create([
+        PoliModel::create([
             'name' => 'Poli Gigi'
         ]);
 
-        Poli::create([
+        PoliModel::create([
             'name' => 'Poli Kandungan'
         ]);
 
-        Poli::create([
+        PoliModel::create([
             'name' => 'Poli Anak'
         ]);
     }

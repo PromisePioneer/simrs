@@ -8,6 +8,7 @@ use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\Ward;
 use App\Services\Facilities\Bed\Service\BedService;
+use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ class RoomSeeder extends Seeder
     {
         $tenants = Tenant::all();
         $wards = Ward::all();
-        $roomTypes = RoomType::pluck('id');
+        $roomTypes = RoomTypeModel::pluck('id');
         $tenants->each(function ($tenant) use ($wards, $roomTypes) {
             for ($i = 0; $i < 3; $i++) {
                 foreach ($wards as $ward) {

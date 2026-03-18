@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Degree;
+use Domains\IAM\Infrastructure\Persistence\Models\DegreeModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -335,7 +336,7 @@ class DegreeSeeder extends Seeder
         ];
 
         foreach ($degrees as $degree) {
-            Degree::create($degree);
+            DegreeModel::create($degree);
         }
     }
 }

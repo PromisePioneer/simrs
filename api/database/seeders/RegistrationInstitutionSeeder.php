@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\RegistrationInstitution;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\IAM\Infrastructure\Persistence\Models\RegistrationInstitutionModel;
 use Illuminate\Database\Seeder;
 
 class RegistrationInstitutionSeeder extends Seeder
@@ -118,7 +117,7 @@ class RegistrationInstitutionSeeder extends Seeder
 
 
         foreach ($data as $item) {
-            RegistrationInstitution::create($item);
+            RegistrationInstitutionModel::create($item);
         }
     }
 }

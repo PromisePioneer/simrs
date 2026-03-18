@@ -6,6 +6,8 @@ use App\Models\Poli;
 use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\User;
+use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -25,7 +27,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('zyntera'),
             'email_verified_at' => now()
         ]);
-        $superAdmin->assignRole(Role::where('name', 'Super Admin')->first()->name);
+        $superAdmin->assignRole(RoleModel::where('name', 'Super Admin')->first()->name);
         $tenants = Tenant::all();
         foreach ($tenants as $tenant) {
             /*
@@ -40,7 +42,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('zyntera'),
                 'email_verified_at' => now()
             ]);
-            $role = Role::where('name', 'Owner')
+            $role = RoleModel::where('name', 'Owner')
                 ->first();
 
             if (!$role) {
@@ -60,7 +62,7 @@ class UserSeeder extends Seeder
                     'email_verified_at' => now()
                 ]);
                 setPermissionsTeamId(null);
-                $nurse->assignRole(Role::where('name', 'Perawat')->first()->name);
+                $nurse->assignRole(RoleModel::where('name', 'Perawat')->first()->name);
             }
 
 
@@ -71,10 +73,10 @@ class UserSeeder extends Seeder
                     'tenant_id' => $tenant->id,
                     'password' => Hash::make('zyntera'),
                     'email_verified_at' => now(),
-                    'poli_id' => Poli::inRandomOrder()->first()->id
+                    'poli_id' => PoliModel::inRandomOrder()->first()->id
                 ]);
                 setPermissionsTeamId(null);
-                $doctor->assignRole(Role::where('name', 'Dokter')->first()->name);
+                $doctor->assignRole(RoleModel::where('name', 'Dokter')->first()->name);
             }
 
             for ($i = 0; $i < 3; $i++) {
@@ -86,7 +88,7 @@ class UserSeeder extends Seeder
                     'email_verified_at' => now()
                 ]);
                 setPermissionsTeamId(null);
-                $admin->assignRole(Role::where('name', 'Admin')->first()->name);
+                $admin->assignRole(RoleModel::where('name', 'Admin')->first()->name);
             }
 
 
@@ -99,7 +101,7 @@ class UserSeeder extends Seeder
                     'email_verified_at' => now()
                 ]);
                 setPermissionsTeamId(null);
-                $kasir->assignRole(Role::where('name', 'Kasir')->first()->name);
+                $kasir->assignRole(RoleModel::where('name', 'Kasir')->first()->name);
             }
         }
     }
