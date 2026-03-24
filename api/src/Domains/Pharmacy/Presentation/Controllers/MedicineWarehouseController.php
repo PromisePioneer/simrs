@@ -16,7 +16,9 @@ class MedicineWarehouseController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private MedicineWarehouseService $warehouseService) {}
+    public function __construct(private readonly MedicineWarehouseService $warehouseService)
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {

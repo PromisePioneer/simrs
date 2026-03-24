@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\Master\Pharmachy\Medicine\MedicineController;
-use App\Http\Controllers\Api\Master\Pharmachy\MedicineBatch\MedicineBatchController;
-use App\Http\Controllers\Api\Master\Pharmachy\MedicineCategory\MedicineCategoryController;
-use App\Http\Controllers\Api\Master\Pharmachy\MedicineRack\MedicineRackController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineStockMovement\MedicineStockMovementController;
 use App\Http\Controllers\Api\Master\Pharmachy\MedicineUnitType\MedicineUnitTypeController;
-use App\Http\Controllers\Api\Master\Pharmachy\MedicineWarehouse\MedicineWarehouseController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineCategoryController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineWarehouseController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineRackController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineBatchController;
 use Illuminate\Support\Facades\Route;
+
 
 // ── Pro only ──────────────────────────────────────────────────────────────────
 Route::middleware(['module:Electronic Medical Record'])->group(function () {

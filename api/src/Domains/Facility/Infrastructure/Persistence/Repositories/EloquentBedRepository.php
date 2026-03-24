@@ -7,15 +7,19 @@ namespace Domains\Facility\Infrastructure\Persistence\Repositories;
 use Domains\Facility\Domain\Repository\BedRepositoryInterface;
 use Domains\Facility\Infrastructure\Persistence\Models\BedModel;
 
-class EloquentBedRepository implements BedRepositoryInterface
+readonly class EloquentBedRepository implements BedRepositoryInterface
 {
-    public function __construct(private BedModel $model) {}
+    public function __construct(private BedModel $model)
+    {
+    }
 
     public function getBeds(array $filters = [], ?int $perPage = null): object
     {
         $query = $this->model
             ->select('id', 'bed_number', 'room_id', 'status')
-            ->with('room:id,name');
+            ->with(['room' => function ($q) {
+                $q->withoutGlobalScopes()->select('id', 'name');
+            }]);
 
         if (!empty($filters['search'])) {
             $query->where('bed_number', 'like', '%' . $filters['search'] . '%');

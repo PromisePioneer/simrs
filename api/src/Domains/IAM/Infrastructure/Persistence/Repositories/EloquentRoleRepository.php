@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domains\IAM\Infrastructure\Persistence\Repositories;
 
 use Domains\IAM\Domain\Repository\RoleRepositoryInterface;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Domains\Shared\Infrastructure\Persistence\Repositories\BaseEloquentRepository;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class EloquentRoleRepository extends BaseEloquentRepository implements RoleRepositoryInterface
 {
@@ -25,4 +27,11 @@ class EloquentRoleRepository extends BaseEloquentRepository implements RoleRepos
         return $query;
     }
 
+
+    public function getByTenant(string $tenantId): Collection
+    {
+        return RoleModel::where('tenant_id', $tenantId)->orWhere('tenant_id', null)
+            ->orderBy('name')
+            ->get();
+    }
 }

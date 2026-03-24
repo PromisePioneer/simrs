@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\MedicineRack;
 use App\Models\MedicineWarehouse;
 use App\Models\Tenant;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineRackModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
 use Illuminate\Database\Seeder;
 
 class MedicineWarehouseSeeder extends Seeder
@@ -19,7 +21,7 @@ class MedicineWarehouseSeeder extends Seeder
         foreach ($tenants as $tenant) {
 
             // Buat 1 warehouse per tenant
-            $warehouse = MedicineWarehouse::create([
+            $warehouse = MedicineWarehouseModel::create([
                 'tenant_id' => $tenant->id,
                 'code' => fake()->unique()->randomNumber(3),
                 'name' => 'Gudang Central',
@@ -27,7 +29,7 @@ class MedicineWarehouseSeeder extends Seeder
             ]);
 
             // Buat 1 rack di warehouse ini
-            MedicineRack::create([
+            MedicineRackModel::create([
                 'tenant_id' => $tenant->id,
                 'warehouse_id' => $warehouse->id,
                 'code' => 'RACK-0',
@@ -36,7 +38,7 @@ class MedicineWarehouseSeeder extends Seeder
 
             // Tambah minimal 9 rack lagi (tidak terikat warehouse)
             for ($i = 1; $i <= 9; $i++) {
-                MedicineRack::create([
+                MedicineRackModel::create([
                     'tenant_id' => $tenant->id,
                     'warehouse_id' => null,
                     'code' => 'RACK-' . $i,

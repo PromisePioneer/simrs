@@ -1,0 +1,54 @@
+import { create } from "zustand";
+import { toast } from "sonner";
+import apiCall from "@/shared/services/apiCall.js";
+
+export const useTenantStore = create((set, get) => ({
+    isLoading: false,
+    error: null,
+    tenants: [],
+    search: "",
+    currentPage: 1,
+    tenantValue: null,
+    tenantValueLoading: false,
+
+    setSearch: (search) => set({ search }),
+    setCurrentPage: (page) => set({ currentPage: page }),
+
+    fetchTenants: async ({ perPage = null } = {}) => {
+        set({ isLoading: true, error: null });
+        try {
+            const { currentPage } = get();
+            const params = { page: currentPage };
+            if (perPage) params.per_page = perPage;
+            const response = await apiCall.get("/api/v1/tenants", { params });
+            set({ isLoading: false, tenants: response.data });
+        } catch (e) {
+            set({ isLoading: false });
+            toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+
+    switchTenant: async (data) => {
+        try {
+            await apiCall.post("/api/v1/tenants/switch/", data);
+            toast.success("Berhasil mengganti tenant.");
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1000);
+        } catch (e) {
+            toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+
+    resetTenant: async () => {
+        try {
+            await apiCall.post("/api/v1/tenants/reset/");
+            toast.success("Berhasil reset!");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (e) {
+            toast.error(e.response?.data?.message || "Operasi Gagal");
+        }
+    },
+}));

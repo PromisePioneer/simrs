@@ -13,6 +13,7 @@ class AccountCategory extends TenantScopeBaseModel
     protected $table = 'account_categories';
     protected $fillable = [
         'tenant_id',
+        'code',
         'name'
     ];
 

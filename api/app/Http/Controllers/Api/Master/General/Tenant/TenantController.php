@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Master\General\Tenant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TenantRequest;
-use App\Models\Role;
 use App\Models\Tenant;
 use App\Services\Master\General\Tenant\Repository\TenantRepository;
 use App\Services\Master\General\Tenant\Service\TenantService;

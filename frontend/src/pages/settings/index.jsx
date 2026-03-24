@@ -2,7 +2,7 @@ import Layout from "@/pages/dashboard/layout.jsx";
 import {Card} from "@/components/ui/card.jsx";
 import {Link, useLocation} from '@tanstack/react-router';
 import {cn} from "@/lib/utils";
-import {Users, Database, UserCog, Pill, Lock} from "lucide-react";
+import {Users, Database, UserCog, Lock} from "lucide-react";
 import {usePermission} from "@/hooks/usePermission.js";
 import {PERMISSIONS} from "@/constants/permissions.js";
 import SystemInfo from "@/components/settings/system-info.jsx";
@@ -39,17 +39,7 @@ function SettingPage({children}) {
                 PERMISSIONS.ROLE.VIEW
             ]),
         },
-        {
-            title: "Manajemen Obat",
-            href: "/settings/medicine-management",
-            icon: Pill,
-            description: "Kelola data obat",
-            permission: hasAnyPermission([
-                PERMISSIONS.MEDICINE.VIEW,
-                PERMISSIONS.MEDICINE_CATEGORY.VIEW,
-                PERMISSIONS.MEDICINE_WAREHOUSE.VIEW
-            ]),
-        }
+
     ];
 
     const accessibleMenuItems = menuItems.filter(item => item.permission);

@@ -3,10 +3,7 @@
 namespace App\Models\Scopes;
 
 use App\Models\MedicineCategory;
-use App\Models\Poli;
-use App\Models\RoomType;
 use App\Models\User;
-use App\Models\Role;
 use App\Services\Tenant\TenantContext;
 use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;

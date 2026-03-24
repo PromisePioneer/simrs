@@ -8,6 +8,11 @@ use App\Models\MedicineBatchStock;
 use App\Models\Tenant;
 use App\Models\MedicineWarehouse;
 use App\Models\MedicineRack;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchStockModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineRackModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
 use Illuminate\Database\Seeder;
 
 class MedicineSeeder extends Seeder
@@ -18,15 +23,15 @@ class MedicineSeeder extends Seeder
 
         foreach ($tenants as $tenant) {
 
-            $warehouse = MedicineWarehouse::where('tenant_id', $tenant->id)->first();
-            $rack = MedicineRack::where('tenant_id', $tenant->id)->first();
+            $warehouse = MedicineWarehouseModel::where('tenant_id', $tenant->id)->first();
+            $rack = MedicineRackModel::where('tenant_id', $tenant->id)->first();
 
             if (!$warehouse || !$rack) {
                 $this->command->warn("Warehouse or Rack not found for tenant {$tenant->id}. Skipping batch stock.");
             }
 
             // Buat medicines per tenant
-            Medicine::factory()
+            MedicineModel::factory()
                 ->count(10)
                 ->create([
                     'tenant_id' => $tenant->id,
@@ -34,7 +39,7 @@ class MedicineSeeder extends Seeder
                 ->each(function ($medicine) use ($warehouse, $rack, $tenant) {
 
                     // Setiap medicine punya 1–3 batch
-                    $batches = MedicineBatch::factory()
+                    $batches = MedicineBatchModel::factory()
                         ->count(rand(1, 3))
                         ->create([
                             'medicine_id' => $medicine->id,
@@ -43,7 +48,7 @@ class MedicineSeeder extends Seeder
 
                     foreach ($batches as $batch) {
                         if ($warehouse && $rack) {
-                            MedicineBatchStock::create([
+                            MedicineBatchStockModel::create([
                                 'batch_id' => $batch->id,
                                 'warehouse_id' => $warehouse->id,
                                 'rack_id' => $rack->id,

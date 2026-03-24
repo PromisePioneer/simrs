@@ -16,7 +16,11 @@ class BedAssignmentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private BedAssignmentService $bedAssignmentService) {}
+    public function __construct(
+        private readonly BedAssignmentService $bedAssignmentService
+    )
+    {
+    }
 
     /** @throws Throwable */
     public function transferBed(Request $request, InpatientAdmissionModel $inpatientAdmission): JsonResponse

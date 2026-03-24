@@ -12,15 +12,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class MedicineService
+readonly class MedicineService
 {
-    public function __construct(private MedicineRepositoryInterface $medicineRepository) {}
+    public function __construct(private MedicineRepositoryInterface $medicineRepository)
+    {
+    }
 
     public function getMedicines(Request $request): object
     {
         return $this->medicineRepository->getMedicines(
             filters: $request->only(['search', 'type']),
-            perPage: $request->input('per_page'),
+            perPage: (int)$request->input('per_page'),
         );
     }
 
@@ -33,11 +35,18 @@ class MedicineService
 
             return [
                 'sequence' => $next,
-                'sku'      => 'MED-' . str_pad($next, 6, '0', STR_PAD_LEFT),
-                'code'     => 'MED-' . date('Y') . '-' . str_pad($next, 4, '0', STR_PAD_LEFT),
+                'sku' => 'MED-' . str_pad((string)$next, 6, '0', STR_PAD_LEFT),
+                'code' => 'MED-' . date('Y') . '-' . str_pad((string)$next, 4, '0', STR_PAD_LEFT),
             ];
         });
     }
+
+
+    public function searchWithStock(string $search = '', int $limit = 20): array
+    {
+        return $this->medicineRepository->searchWithStock($search, $limit);
+    }
+
 
     /** @throws Throwable */
     public function store(array $data): ?object
@@ -46,24 +55,24 @@ class MedicineService
             $sku = $this->generateSKU();
 
             $medicine = MedicineModel::create([
-                'tenant_id'                 => TenantContext::getId(),
-                'sku'                       => $sku['sku'],
-                'sequence'                  => $sku['sequence'],
-                'name'                      => $data['name'],
-                'base_unit'                 => $data['base_unit'],
-                'type'                      => $data['type'],
-                'is_for_sell'               => $data['is_for_sell'] ?? true,
-                'must_has_receipt'          => $data['must_has_receipt'] ?? false,
-                'category_id'               => $data['category_id'],
-                'reference_purchase_price'  => $data['reference_purchase_price'] ?? null,
+                'tenant_id' => TenantContext::getId(),
+                'sku' => $sku['sku'],
+                'sequence' => $sku['sequence'],
+                'name' => $data['name'],
+                'base_unit' => $data['base_unit'],
+                'type' => $data['type'],
+                'is_for_sell' => $data['is_for_sell'] ?? true,
+                'must_has_receipt' => $data['must_has_receipt'] ?? false,
+                'category_id' => $data['category_id'],
+                'reference_purchase_price' => $data['reference_purchase_price'] ?? null,
             ]);
 
             $units = json_decode($data['units'] ?? '[]');
             foreach ($units as $unit) {
                 MedicineUnitModel::create([
                     'medicine_id' => $medicine->id,
-                    'unit_name'   => $unit->unit_name,
-                    'multiplier'  => $unit->multiplier,
+                    'unit_name' => $unit->unit_name,
+                    'multiplier' => $unit->multiplier,
                 ]);
             }
 
@@ -76,12 +85,12 @@ class MedicineService
     {
         return DB::transaction(function () use ($data, $medicine) {
             $medicine->update([
-                'name'                     => $data['name'],
-                'base_unit'                => $data['base_unit'],
-                'type'                     => $data['type'],
-                'is_for_sell'              => $data['is_for_sell'] ?? true,
-                'must_has_receipt'         => $data['must_has_receipt'] ?? false,
-                'category_id'              => $data['category_id'],
+                'name' => $data['name'],
+                'base_unit' => $data['base_unit'],
+                'type' => $data['type'],
+                'is_for_sell' => $data['is_for_sell'] ?? true,
+                'must_has_receipt' => $data['must_has_receipt'] ?? false,
+                'category_id' => $data['category_id'],
                 'reference_purchase_price' => $data['reference_purchase_price'] ?? null,
             ]);
 
@@ -90,8 +99,8 @@ class MedicineService
             foreach ($units as $unit) {
                 MedicineUnitModel::create([
                     'medicine_id' => $medicine->id,
-                    'unit_name'   => $unit->unit_name,
-                    'multiplier'  => $unit->multiplier,
+                    'unit_name' => $unit->unit_name,
+                    'multiplier' => $unit->multiplier,
                 ]);
             }
 

@@ -6,6 +6,9 @@ use App\Models\Building;
 use App\Models\Department;
 use App\Models\Tenant;
 use App\Models\Ward;
+use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
+use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
+use Domains\IAM\Infrastructure\Persistence\Models\DepartmentModel;
 use Illuminate\Database\Seeder;
 
 class WardSeeder extends Seeder
@@ -18,10 +21,10 @@ class WardSeeder extends Seeder
         $tenants = Tenant::all();
         foreach ($tenants as $tenant) {
             for ($i = 0; $i <= 5; $i++) {
-                Ward::create([
+                WardModel::create([
                     'tenant_id' => $tenant->id,
-                    'building_id' => Building::inRandomOrder()->first()->id,
-                    'department_id' => Department::inRandomOrder()->first()->id,
+                    'building_id' => BuildingModel::inRandomOrder()->first()->id,
+                    'department_id' => DepartmentModel::inRandomOrder()->first()->id,
                     'name' => fake()->firstName(),
                     'floor' => fake()->randomNumber(),
                 ]);

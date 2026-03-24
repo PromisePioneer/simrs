@@ -12,19 +12,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class RoomService
+readonly class RoomService
 {
     public function __construct(
         private RoomRepositoryInterface $roomRepository,
         private BedRepositoryInterface  $bedRepository,
         private BedService              $bedService,
-    ) {}
+    )
+    {
+    }
+
 
     public function getRooms(Request $request): object
     {
         $filters = $request->only(['search']);
         $perPage = $request->input('per_page');
-        return $this->roomRepository->getRooms(filters: $filters, perPage: $perPage);
+        return $this->roomRepository->getRooms(
+            filters: $filters,
+            perPage: $perPage ? (int)$perPage : null
+        );
     }
 
     /**
@@ -33,14 +39,14 @@ class RoomService
     public function store(array $data): object
     {
         return DB::transaction(function () use ($data) {
-            $capacity       = RoomTypeModel::find($data['room_type_id'])->first()?->capacity ?? $data['capacity'];
+            $capacity = RoomTypeModel::find($data['room_type_id'])->first()?->capacity ?? $data['capacity'];
             $data['capacity'] = $capacity;
 
             $room = $this->roomRepository->store($data);
 
             for ($i = 0; $i <= $room->capacity; $i++) {
                 $this->bedRepository->store([
-                    'room_id'    => $room->id,
+                    'room_id' => $room->id,
                     'bed_number' => $this->bedService->generateBedNumber(roomId: $room->id),
                 ]);
             }

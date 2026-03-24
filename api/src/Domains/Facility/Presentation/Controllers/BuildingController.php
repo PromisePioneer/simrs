@@ -16,7 +16,11 @@ class BuildingController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private BuildingService $buildingService) {}
+    public function __construct(
+        private readonly BuildingService $buildingService
+    )
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {

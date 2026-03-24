@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Building;
 use App\Models\Tenant;
+use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -49,7 +49,7 @@ class BuildingSeeder extends Seeder
                 ];
             })->toArray();
 
-            Building::insert($data);
+            BuildingModel::insert($data);
         }
     }
 }

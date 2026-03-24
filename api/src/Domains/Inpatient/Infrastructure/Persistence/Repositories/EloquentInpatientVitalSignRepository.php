@@ -7,7 +7,7 @@ namespace Domains\Inpatient\Infrastructure\Persistence\Repositories;
 use Domains\Inpatient\Domain\Repository\InpatientVitalSignRepositoryInterface;
 use Domains\Inpatient\Infrastructure\Persistence\Models\InpatientVitalSignModel;
 
-class EloquentInpatientVitalSignRepository implements InpatientVitalSignRepositoryInterface
+readonly class EloquentInpatientVitalSignRepository implements InpatientVitalSignRepositoryInterface
 {
     public function __construct(private InpatientVitalSignModel $model) {}
 

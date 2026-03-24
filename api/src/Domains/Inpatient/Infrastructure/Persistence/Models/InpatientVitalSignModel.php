@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Domains\Inpatient\Infrastructure\Persistence\Models;
 
 use App\Models\TenantScopeBaseModel;
+use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class InpatientVitalSignModel extends TenantScopeBaseModel
+class InpatientVitalSignModel extends BaseModel
 {
-    use HasUuids;
-
     protected $table = 'inpatient_vital_signs';
     protected $fillable = [
         'inpatient_admission_id',

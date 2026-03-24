@@ -1,5 +1,7 @@
 import {useInpatientAdmissionStore} from "@/store/inpatientAdmissionStore.js";
 import {useRoomStore} from "@/store/roomStore.js";
+import InpatientDailyMedicationTab from "@/pages/inpatient/detail/daily-medication-tab.jsx";
+import InpatientDailyCareTab from "@/pages/inpatient/detail/daily-care-tab.jsx";
 import {useNavigate, useParams} from "@tanstack/react-router";
 import {useEffect, useState, useCallback, useMemo} from "react";
 import Layout from "@/pages/dashboard/layout.jsx";
@@ -7,13 +9,13 @@ import {TableCell, TableRow} from "@/components/ui/table";
 import {
     ArrowLeft, User, BedDouble, Activity,
     Calendar, MapPin, Phone, Briefcase, HeartPulse,
-    Thermometer, Wind, Droplets, FileText,
+    Thermometer, Wind, Droplets,
     ArrowRightLeft, X, ChevronRight, Check,
     Search, AlertCircle, Loader2, Building2, Layers,
     History, LogIn, LogOut, MoveRight,
 } from "lucide-react";
-import DataTable from "@/components/common/data-table.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import apiCall from "@/services/apiCall.js";
 
 /* ─── Status ─────────────────────────────────────────────────── */
 const STATUS_MAP = {
@@ -265,11 +267,10 @@ function BedTransferModal({
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
-            // 🔌 Replace mock with your real API call:
-            // await apiCall.post(`/api/v1/inpatient/${admissionId}/transfer-bed`, {
-            //     bed_id: selectedBed.id,
-            //     reason: effectiveReason,
-            // });
+            await apiCall.post(`/api/v1/inpatient-admissions/${admissionId}/transfer-bed`, {
+                bed_id: selectedBed.id,
+                transfer_reason: effectiveReason,  // ⚠️ ini juga — bukan 'reason'
+            });
             await new Promise((r) => setTimeout(r, 1400));
             setDone(true);
             setTimeout(() => {
@@ -1026,31 +1027,16 @@ function InpatientDetailPage(opts) {
                             )}
 
                             {/* ── Row 4: Perawatan Harian ── */}
-                            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                                <SectionLabel icon={FileText}>Perawatan Harian</SectionLabel>
-                                <DataTable
-                                    title=""
-                                    columns={dailyCareColumns()}
-                                    data={dailyCares?.data ?? []}
-                                    isLoading={isLoading}
-                                    pagination={dailyCares?.from ? {
-                                        from: dailyCares.from,
-                                        to: dailyCares.to,
-                                        total: dailyCares.total,
-                                        current_page: dailyCares.current_page,
-                                        last_page: dailyCares.last_page,
-                                    } : null}
-                                    onPageChange={setCurrentPage}
-                                    currentPage={currentPage}
-                                    onSearch={setSearch}
-                                    search={search}
-                                    searchPlaceholder="Cari catatan perawatan..."
-                                    emptyStateIcon={Activity}
-                                    emptyStateText="Belum ada data perawatan harian"
-                                    renderRow={renderDailyCareRow}
-                                    showSearch={true}
-                                />
-                            </div>
+                            <InpatientDailyCareTab
+                                admissionId={id}
+                                admissionStatus={data?.status}
+                            />
+
+                            {/* ── Row 5: Obat Harian ── */}
+                            <InpatientDailyMedicationTab
+                                admissionId={id}
+                                admissionStatus={data?.status}
+                            />
 
                         </div>
                     )}

@@ -2,17 +2,16 @@
 
 namespace App\Traits\Tenant;
 
-use App\Models\Role;
 use App\Models\Tenant;
 use App\Services\Tenant\TenantContext;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 
 trait HasActiveTenant
 {
     public function hasActivePermission($permission): bool
     {
-        // Jika ada active role di session
         if (session()->has('active_role_id')) {
-            $activeRole = Role::where('uuid', session('active_role_id'))->first();
+            $activeRole = RoleModel::where('uuid', session('active_role_id'))->first();
 
             if ($activeRole) {
                 return $activeRole->hasPermissionTo($permission);
@@ -28,13 +27,20 @@ trait HasActiveTenant
 
         if (session()->has('active_role_id')) {
             $activeRoleId = session('active_role_id');
-            $role = Role::where('uuid', $activeRoleId)->first();
-            $roleWithoutScope = Role::withoutGlobalScope(\App\Models\Scopes\TenantScope::class)
-                ->where('uuid', $activeRoleId)
-                ->first();
+
+            $role = RoleModel::where('uuid', $activeRoleId)->first();
 
             if ($role) {
                 return $role;
+            }
+
+            // Fallback: coba tanpa TenantScope
+            $roleWithoutScope = RoleModel::withoutGlobalScope(\App\Models\Scopes\TenantScope::class)
+                ->where('uuid', $activeRoleId)
+                ->first();
+
+            if ($roleWithoutScope) {
+                return $roleWithoutScope;
             }
         }
 
@@ -62,7 +68,7 @@ trait HasActiveTenant
         return session()->has('active_tenant_id') || session()->has('active_role_id');
     }
 
-    public function getActivePermissions(): object  // ← Pertimbangkan juga ubah ini
+    public function getActivePermissions(): object
     {
         $activeRole = $this->getActiveRole();
 
@@ -89,7 +95,7 @@ trait HasActiveTenant
         return $this->getRoleNames()->toArray();
     }
 
-    public function getActiveTenant(): ?object  // ← Ubah juga ini untuk konsistensi
+    public function getActiveTenant(): ?object
     {
         $tenantId = $this->getActiveTenantId();
 
@@ -100,7 +106,7 @@ trait HasActiveTenant
         return Tenant::query()->find($tenantId);
     }
 
-    public function getCurrentTenantPlan(): ?object  // ← Dan ini
+    public function getCurrentTenantPlan(): ?object
     {
         $tenant = $this->getActiveTenant();
 
@@ -114,31 +120,31 @@ trait HasActiveTenant
     public function getActiveUserData(): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
-            'roles' => $this->getActiveRoleNames(),
-            'permissions' => $this->getActivePermissionNames(),
-            'tenant' => $this->getActiveTenant(),
-            'is_switched' => $this->isSwitchedContext(),
+            'id'                 => $this->id,
+            'name'               => $this->name,
+            'email'              => $this->email,
+            'email_verified_at'  => $this->email_verified_at,
+            'roles'              => $this->getActiveRoleNames(),
+            'permissions'        => $this->getActivePermissionNames(),
+            'tenant'             => $this->getActiveTenant(),
+            'is_switched'        => $this->isSwitchedContext(),
         ];
     }
 
-    #TODO: FOR DEBUGGING
+    // TODO: FOR DEBUGGING
     public function getContextInfo(): array
     {
-        $activeRole = $this->getActiveRole();
+        $activeRole   = $this->getActiveRole();
         $originalRole = $this->roles->first();
 
         return [
             'original' => [
                 'tenant_id' => $this->tenant_id,
-                'role' => $originalRole?->name,
+                'role'      => $originalRole?->name,
             ],
             'active' => [
                 'tenant_id' => $this->getActiveTenantId(),
-                'role' => $activeRole?->name,
+                'role'      => $activeRole?->name,
             ],
             'is_switched' => $this->isSwitchedContext(),
         ];

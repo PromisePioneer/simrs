@@ -18,10 +18,12 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedUpgradeIndexRouteImport } from './routes/_protected/upgrade/index'
 import { Route as ProtectedSettingsIndexRouteImport } from './routes/_protected/settings/index'
+import { Route as ProtectedPharmacyIndexRouteImport } from './routes/_protected/pharmacy/index'
 import { Route as ProtectedOutpatientIndexRouteImport } from './routes/_protected/outpatient/index'
 import { Route as ProtectedInpatientIndexRouteImport } from './routes/_protected/inpatient/index'
 import { Route as ProtectedFacilitiesIndexRouteImport } from './routes/_protected/facilities/index'
 import { Route as ProtectedElectronicMedicalRecordIndexRouteImport } from './routes/_protected/electronic-medical-record/index'
+import { Route as ProtectedAccountingIndexRouteImport } from './routes/_protected/accounting/index'
 import { Route as ProtectedInpatientCreateRouteImport } from './routes/_protected/inpatient/create'
 import { Route as ProtectedInpatientIdRouteImport } from './routes/_protected/inpatient/$id'
 import { Route as ProtectedSettingsUsersManagementIndexRouteImport } from './routes/_protected/settings/users-management/index'
@@ -31,8 +33,14 @@ import { Route as ProtectedSettingsMedicineManagementIndexRouteImport } from './
 import { Route as ProtectedOutpatientVisitIndexRouteImport } from './routes/_protected/outpatient/visit/index'
 import { Route as ProtectedMasterModuleIndexRouteImport } from './routes/_protected/master/module/index'
 import { Route as ProtectedFacilitiesInpatientIndexRouteImport } from './routes/_protected/facilities/inpatient/index'
+import { Route as ProtectedBillingOutpatientIndexRouteImport } from './routes/_protected/billing/outpatient/index'
+import { Route as ProtectedBillingInpatientIndexRouteImport } from './routes/_protected/billing/inpatient/index'
 import { Route as ProtectedSettingsPatientsCreateRouteImport } from './routes/_protected/settings/patients/create'
 import { Route as ProtectedSettingsPatientsIdRouteImport } from './routes/_protected/settings/patients/$id'
+import { Route as ProtectedPharmacyWarehouseCreateRouteImport } from './routes/_protected/pharmacy/warehouse/create'
+import { Route as ProtectedPharmacyWarehouseIdRouteImport } from './routes/_protected/pharmacy/warehouse/$id'
+import { Route as ProtectedPharmacyMedicineCreateRouteImport } from './routes/_protected/pharmacy/medicine/create'
+import { Route as ProtectedPharmacyMedicineIdRouteImport } from './routes/_protected/pharmacy/medicine/$id'
 import { Route as ProtectedOutpatientVisitCreateRouteImport } from './routes/_protected/outpatient/visit/create'
 import { Route as ProtectedOutpatientVisitIdRouteImport } from './routes/_protected/outpatient/visit/$id'
 import { Route as ProtectedOutpatientDiagnoseIdRouteImport } from './routes/_protected/outpatient/diagnose/$id'
@@ -43,6 +51,7 @@ import { Route as ProtectedSettingsMedicineManagementWarehouseCreateRouteImport 
 import { Route as ProtectedSettingsMedicineManagementWarehouseIdRouteImport } from './routes/_protected/settings/medicine-management/warehouse/$id'
 import { Route as ProtectedSettingsMedicineManagementMedicineCreateRouteImport } from './routes/_protected/settings/medicine-management/medicine/create'
 import { Route as ProtectedSettingsMedicineManagementMedicineIdRouteImport } from './routes/_protected/settings/medicine-management/medicine/$id'
+import { Route as ProtectedPharmacyMedicineStocksIdRouteImport } from './routes/_protected/pharmacy/medicine/stocks/$id'
 import { Route as ProtectedSettingsUsersManagementUsersIdIndexRouteImport } from './routes/_protected/settings/users-management/users/$id/index'
 import { Route as ProtectedSettingsUsersManagementUsersIdDetailRouteImport } from './routes/_protected/settings/users-management/users/$id/detail'
 import { Route as ProtectedSettingsMedicineManagementMedicineStocksIdRouteImport } from './routes/_protected/settings/medicine-management/medicine/stocks/$id'
@@ -91,6 +100,11 @@ const ProtectedSettingsIndexRoute = ProtectedSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedPharmacyIndexRoute = ProtectedPharmacyIndexRouteImport.update({
+  id: '/pharmacy/',
+  path: '/pharmacy/',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedOutpatientIndexRoute =
   ProtectedOutpatientIndexRouteImport.update({
     id: '/outpatient/',
@@ -112,6 +126,12 @@ const ProtectedElectronicMedicalRecordIndexRoute =
   ProtectedElectronicMedicalRecordIndexRouteImport.update({
     id: '/electronic-medical-record/',
     path: '/electronic-medical-record/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedAccountingIndexRoute =
+  ProtectedAccountingIndexRouteImport.update({
+    id: '/accounting/',
+    path: '/accounting/',
     getParentRoute: () => ProtectedRoute,
   } as any)
 const ProtectedInpatientCreateRoute =
@@ -167,6 +187,18 @@ const ProtectedFacilitiesInpatientIndexRoute =
     path: '/facilities/inpatient/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedBillingOutpatientIndexRoute =
+  ProtectedBillingOutpatientIndexRouteImport.update({
+    id: '/billing/outpatient/',
+    path: '/billing/outpatient/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedBillingInpatientIndexRoute =
+  ProtectedBillingInpatientIndexRouteImport.update({
+    id: '/billing/inpatient/',
+    path: '/billing/inpatient/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsPatientsCreateRoute =
   ProtectedSettingsPatientsCreateRouteImport.update({
     id: '/settings/patients/create',
@@ -177,6 +209,30 @@ const ProtectedSettingsPatientsIdRoute =
   ProtectedSettingsPatientsIdRouteImport.update({
     id: '/settings/patients/$id',
     path: '/settings/patients/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedPharmacyWarehouseCreateRoute =
+  ProtectedPharmacyWarehouseCreateRouteImport.update({
+    id: '/pharmacy/warehouse/create',
+    path: '/pharmacy/warehouse/create',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedPharmacyWarehouseIdRoute =
+  ProtectedPharmacyWarehouseIdRouteImport.update({
+    id: '/pharmacy/warehouse/$id',
+    path: '/pharmacy/warehouse/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedPharmacyMedicineCreateRoute =
+  ProtectedPharmacyMedicineCreateRouteImport.update({
+    id: '/pharmacy/medicine/create',
+    path: '/pharmacy/medicine/create',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedPharmacyMedicineIdRoute =
+  ProtectedPharmacyMedicineIdRouteImport.update({
+    id: '/pharmacy/medicine/$id',
+    path: '/pharmacy/medicine/$id',
     getParentRoute: () => ProtectedRoute,
   } as any)
 const ProtectedOutpatientVisitCreateRoute =
@@ -239,6 +295,12 @@ const ProtectedSettingsMedicineManagementMedicineIdRoute =
     path: '/settings/medicine-management/medicine/$id',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedPharmacyMedicineStocksIdRoute =
+  ProtectedPharmacyMedicineStocksIdRouteImport.update({
+    id: '/pharmacy/medicine/stocks/$id',
+    path: '/pharmacy/medicine/stocks/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsUsersManagementUsersIdIndexRoute =
   ProtectedSettingsUsersManagementUsersIdIndexRouteImport.update({
     id: '/settings/users-management/users/$id/',
@@ -267,17 +329,25 @@ export interface FileRoutesByFullPath {
   '/email/verify': typeof EmailVerifyRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
+  '/accounting': typeof ProtectedAccountingIndexRoute
   '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/facilities': typeof ProtectedFacilitiesIndexRoute
   '/inpatient': typeof ProtectedInpatientIndexRoute
   '/outpatient': typeof ProtectedOutpatientIndexRoute
+  '/pharmacy': typeof ProtectedPharmacyIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
   '/upgrade': typeof ProtectedUpgradeIndexRoute
   '/outpatient/diagnose/$id': typeof ProtectedOutpatientDiagnoseIdRoute
   '/outpatient/visit/$id': typeof ProtectedOutpatientVisitIdRoute
   '/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
+  '/pharmacy/medicine/$id': typeof ProtectedPharmacyMedicineIdRoute
+  '/pharmacy/medicine/create': typeof ProtectedPharmacyMedicineCreateRoute
+  '/pharmacy/warehouse/$id': typeof ProtectedPharmacyWarehouseIdRoute
+  '/pharmacy/warehouse/create': typeof ProtectedPharmacyWarehouseCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/billing/inpatient': typeof ProtectedBillingInpatientIndexRoute
+  '/billing/outpatient': typeof ProtectedBillingOutpatientIndexRoute
   '/facilities/inpatient': typeof ProtectedFacilitiesInpatientIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/outpatient/visit': typeof ProtectedOutpatientVisitIndexRoute
@@ -285,6 +355,7 @@ export interface FileRoutesByFullPath {
   '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
   '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
   '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
   '/settings/medicine-management/warehouse/$id': typeof ProtectedSettingsMedicineManagementWarehouseIdRoute
@@ -305,17 +376,25 @@ export interface FileRoutesByTo {
   '/email/verify': typeof EmailVerifyRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
+  '/accounting': typeof ProtectedAccountingIndexRoute
   '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/facilities': typeof ProtectedFacilitiesIndexRoute
   '/inpatient': typeof ProtectedInpatientIndexRoute
   '/outpatient': typeof ProtectedOutpatientIndexRoute
+  '/pharmacy': typeof ProtectedPharmacyIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
   '/upgrade': typeof ProtectedUpgradeIndexRoute
   '/outpatient/diagnose/$id': typeof ProtectedOutpatientDiagnoseIdRoute
   '/outpatient/visit/$id': typeof ProtectedOutpatientVisitIdRoute
   '/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
+  '/pharmacy/medicine/$id': typeof ProtectedPharmacyMedicineIdRoute
+  '/pharmacy/medicine/create': typeof ProtectedPharmacyMedicineCreateRoute
+  '/pharmacy/warehouse/$id': typeof ProtectedPharmacyWarehouseIdRoute
+  '/pharmacy/warehouse/create': typeof ProtectedPharmacyWarehouseCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/billing/inpatient': typeof ProtectedBillingInpatientIndexRoute
+  '/billing/outpatient': typeof ProtectedBillingOutpatientIndexRoute
   '/facilities/inpatient': typeof ProtectedFacilitiesInpatientIndexRoute
   '/master/module': typeof ProtectedMasterModuleIndexRoute
   '/outpatient/visit': typeof ProtectedOutpatientVisitIndexRoute
@@ -323,6 +402,7 @@ export interface FileRoutesByTo {
   '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
   '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
   '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
   '/settings/medicine-management/warehouse/$id': typeof ProtectedSettingsMedicineManagementWarehouseIdRoute
@@ -345,17 +425,25 @@ export interface FileRoutesById {
   '/email/verify': typeof EmailVerifyRoute
   '/_protected/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/_protected/inpatient/create': typeof ProtectedInpatientCreateRoute
+  '/_protected/accounting/': typeof ProtectedAccountingIndexRoute
   '/_protected/electronic-medical-record/': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/_protected/facilities/': typeof ProtectedFacilitiesIndexRoute
   '/_protected/inpatient/': typeof ProtectedInpatientIndexRoute
   '/_protected/outpatient/': typeof ProtectedOutpatientIndexRoute
+  '/_protected/pharmacy/': typeof ProtectedPharmacyIndexRoute
   '/_protected/settings/': typeof ProtectedSettingsIndexRoute
   '/_protected/upgrade/': typeof ProtectedUpgradeIndexRoute
   '/_protected/outpatient/diagnose/$id': typeof ProtectedOutpatientDiagnoseIdRoute
   '/_protected/outpatient/visit/$id': typeof ProtectedOutpatientVisitIdRoute
   '/_protected/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
+  '/_protected/pharmacy/medicine/$id': typeof ProtectedPharmacyMedicineIdRoute
+  '/_protected/pharmacy/medicine/create': typeof ProtectedPharmacyMedicineCreateRoute
+  '/_protected/pharmacy/warehouse/$id': typeof ProtectedPharmacyWarehouseIdRoute
+  '/_protected/pharmacy/warehouse/create': typeof ProtectedPharmacyWarehouseCreateRoute
   '/_protected/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/_protected/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
+  '/_protected/billing/inpatient/': typeof ProtectedBillingInpatientIndexRoute
+  '/_protected/billing/outpatient/': typeof ProtectedBillingOutpatientIndexRoute
   '/_protected/facilities/inpatient/': typeof ProtectedFacilitiesInpatientIndexRoute
   '/_protected/master/module/': typeof ProtectedMasterModuleIndexRoute
   '/_protected/outpatient/visit/': typeof ProtectedOutpatientVisitIndexRoute
@@ -363,6 +451,7 @@ export interface FileRoutesById {
   '/_protected/settings/patients/': typeof ProtectedSettingsPatientsIndexRoute
   '/_protected/settings/references/': typeof ProtectedSettingsReferencesIndexRoute
   '/_protected/settings/users-management/': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/_protected/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/_protected/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/_protected/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
   '/_protected/settings/medicine-management/warehouse/$id': typeof ProtectedSettingsMedicineManagementWarehouseIdRoute
@@ -385,17 +474,25 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/inpatient/$id'
     | '/inpatient/create'
+    | '/accounting'
     | '/electronic-medical-record'
     | '/facilities'
     | '/inpatient'
     | '/outpatient'
+    | '/pharmacy'
     | '/settings'
     | '/upgrade'
     | '/outpatient/diagnose/$id'
     | '/outpatient/visit/$id'
     | '/outpatient/visit/create'
+    | '/pharmacy/medicine/$id'
+    | '/pharmacy/medicine/create'
+    | '/pharmacy/warehouse/$id'
+    | '/pharmacy/warehouse/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
+    | '/billing/inpatient'
+    | '/billing/outpatient'
     | '/facilities/inpatient'
     | '/master/module'
     | '/outpatient/visit'
@@ -403,6 +500,7 @@ export interface FileRouteTypes {
     | '/settings/patients'
     | '/settings/references'
     | '/settings/users-management'
+    | '/pharmacy/medicine/stocks/$id'
     | '/settings/medicine-management/medicine/$id'
     | '/settings/medicine-management/medicine/create'
     | '/settings/medicine-management/warehouse/$id'
@@ -423,17 +521,25 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/inpatient/$id'
     | '/inpatient/create'
+    | '/accounting'
     | '/electronic-medical-record'
     | '/facilities'
     | '/inpatient'
     | '/outpatient'
+    | '/pharmacy'
     | '/settings'
     | '/upgrade'
     | '/outpatient/diagnose/$id'
     | '/outpatient/visit/$id'
     | '/outpatient/visit/create'
+    | '/pharmacy/medicine/$id'
+    | '/pharmacy/medicine/create'
+    | '/pharmacy/warehouse/$id'
+    | '/pharmacy/warehouse/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
+    | '/billing/inpatient'
+    | '/billing/outpatient'
     | '/facilities/inpatient'
     | '/master/module'
     | '/outpatient/visit'
@@ -441,6 +547,7 @@ export interface FileRouteTypes {
     | '/settings/patients'
     | '/settings/references'
     | '/settings/users-management'
+    | '/pharmacy/medicine/stocks/$id'
     | '/settings/medicine-management/medicine/$id'
     | '/settings/medicine-management/medicine/create'
     | '/settings/medicine-management/warehouse/$id'
@@ -462,17 +569,25 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/_protected/inpatient/$id'
     | '/_protected/inpatient/create'
+    | '/_protected/accounting/'
     | '/_protected/electronic-medical-record/'
     | '/_protected/facilities/'
     | '/_protected/inpatient/'
     | '/_protected/outpatient/'
+    | '/_protected/pharmacy/'
     | '/_protected/settings/'
     | '/_protected/upgrade/'
     | '/_protected/outpatient/diagnose/$id'
     | '/_protected/outpatient/visit/$id'
     | '/_protected/outpatient/visit/create'
+    | '/_protected/pharmacy/medicine/$id'
+    | '/_protected/pharmacy/medicine/create'
+    | '/_protected/pharmacy/warehouse/$id'
+    | '/_protected/pharmacy/warehouse/create'
     | '/_protected/settings/patients/$id'
     | '/_protected/settings/patients/create'
+    | '/_protected/billing/inpatient/'
+    | '/_protected/billing/outpatient/'
     | '/_protected/facilities/inpatient/'
     | '/_protected/master/module/'
     | '/_protected/outpatient/visit/'
@@ -480,6 +595,7 @@ export interface FileRouteTypes {
     | '/_protected/settings/patients/'
     | '/_protected/settings/references/'
     | '/_protected/settings/users-management/'
+    | '/_protected/pharmacy/medicine/stocks/$id'
     | '/_protected/settings/medicine-management/medicine/$id'
     | '/_protected/settings/medicine-management/medicine/create'
     | '/_protected/settings/medicine-management/warehouse/$id'
@@ -566,6 +682,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/pharmacy/': {
+      id: '/_protected/pharmacy/'
+      path: '/pharmacy'
+      fullPath: '/pharmacy'
+      preLoaderRoute: typeof ProtectedPharmacyIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/outpatient/': {
       id: '/_protected/outpatient/'
       path: '/outpatient'
@@ -592,6 +715,13 @@ declare module '@tanstack/react-router' {
       path: '/electronic-medical-record'
       fullPath: '/electronic-medical-record'
       preLoaderRoute: typeof ProtectedElectronicMedicalRecordIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/accounting/': {
+      id: '/_protected/accounting/'
+      path: '/accounting'
+      fullPath: '/accounting'
+      preLoaderRoute: typeof ProtectedAccountingIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/inpatient/create': {
@@ -657,6 +787,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedFacilitiesInpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/billing/outpatient/': {
+      id: '/_protected/billing/outpatient/'
+      path: '/billing/outpatient'
+      fullPath: '/billing/outpatient'
+      preLoaderRoute: typeof ProtectedBillingOutpatientIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/inpatient/': {
+      id: '/_protected/billing/inpatient/'
+      path: '/billing/inpatient'
+      fullPath: '/billing/inpatient'
+      preLoaderRoute: typeof ProtectedBillingInpatientIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/settings/patients/create': {
       id: '/_protected/settings/patients/create'
       path: '/settings/patients/create'
@@ -669,6 +813,34 @@ declare module '@tanstack/react-router' {
       path: '/settings/patients/$id'
       fullPath: '/settings/patients/$id'
       preLoaderRoute: typeof ProtectedSettingsPatientsIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/pharmacy/warehouse/create': {
+      id: '/_protected/pharmacy/warehouse/create'
+      path: '/pharmacy/warehouse/create'
+      fullPath: '/pharmacy/warehouse/create'
+      preLoaderRoute: typeof ProtectedPharmacyWarehouseCreateRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/pharmacy/warehouse/$id': {
+      id: '/_protected/pharmacy/warehouse/$id'
+      path: '/pharmacy/warehouse/$id'
+      fullPath: '/pharmacy/warehouse/$id'
+      preLoaderRoute: typeof ProtectedPharmacyWarehouseIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/pharmacy/medicine/create': {
+      id: '/_protected/pharmacy/medicine/create'
+      path: '/pharmacy/medicine/create'
+      fullPath: '/pharmacy/medicine/create'
+      preLoaderRoute: typeof ProtectedPharmacyMedicineCreateRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/pharmacy/medicine/$id': {
+      id: '/_protected/pharmacy/medicine/$id'
+      path: '/pharmacy/medicine/$id'
+      fullPath: '/pharmacy/medicine/$id'
+      preLoaderRoute: typeof ProtectedPharmacyMedicineIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/outpatient/visit/create': {
@@ -741,6 +913,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsMedicineManagementMedicineIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/pharmacy/medicine/stocks/$id': {
+      id: '/_protected/pharmacy/medicine/stocks/$id'
+      path: '/pharmacy/medicine/stocks/$id'
+      fullPath: '/pharmacy/medicine/stocks/$id'
+      preLoaderRoute: typeof ProtectedPharmacyMedicineStocksIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/settings/users-management/users/$id/': {
       id: '/_protected/settings/users-management/users/$id/'
       path: '/settings/users-management/users/$id'
@@ -769,17 +948,25 @@ interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedInpatientIdRoute: typeof ProtectedInpatientIdRoute
   ProtectedInpatientCreateRoute: typeof ProtectedInpatientCreateRoute
+  ProtectedAccountingIndexRoute: typeof ProtectedAccountingIndexRoute
   ProtectedElectronicMedicalRecordIndexRoute: typeof ProtectedElectronicMedicalRecordIndexRoute
   ProtectedFacilitiesIndexRoute: typeof ProtectedFacilitiesIndexRoute
   ProtectedInpatientIndexRoute: typeof ProtectedInpatientIndexRoute
   ProtectedOutpatientIndexRoute: typeof ProtectedOutpatientIndexRoute
+  ProtectedPharmacyIndexRoute: typeof ProtectedPharmacyIndexRoute
   ProtectedSettingsIndexRoute: typeof ProtectedSettingsIndexRoute
   ProtectedUpgradeIndexRoute: typeof ProtectedUpgradeIndexRoute
   ProtectedOutpatientDiagnoseIdRoute: typeof ProtectedOutpatientDiagnoseIdRoute
   ProtectedOutpatientVisitIdRoute: typeof ProtectedOutpatientVisitIdRoute
   ProtectedOutpatientVisitCreateRoute: typeof ProtectedOutpatientVisitCreateRoute
+  ProtectedPharmacyMedicineIdRoute: typeof ProtectedPharmacyMedicineIdRoute
+  ProtectedPharmacyMedicineCreateRoute: typeof ProtectedPharmacyMedicineCreateRoute
+  ProtectedPharmacyWarehouseIdRoute: typeof ProtectedPharmacyWarehouseIdRoute
+  ProtectedPharmacyWarehouseCreateRoute: typeof ProtectedPharmacyWarehouseCreateRoute
   ProtectedSettingsPatientsIdRoute: typeof ProtectedSettingsPatientsIdRoute
   ProtectedSettingsPatientsCreateRoute: typeof ProtectedSettingsPatientsCreateRoute
+  ProtectedBillingInpatientIndexRoute: typeof ProtectedBillingInpatientIndexRoute
+  ProtectedBillingOutpatientIndexRoute: typeof ProtectedBillingOutpatientIndexRoute
   ProtectedFacilitiesInpatientIndexRoute: typeof ProtectedFacilitiesInpatientIndexRoute
   ProtectedMasterModuleIndexRoute: typeof ProtectedMasterModuleIndexRoute
   ProtectedOutpatientVisitIndexRoute: typeof ProtectedOutpatientVisitIndexRoute
@@ -787,6 +974,7 @@ interface ProtectedRouteChildren {
   ProtectedSettingsPatientsIndexRoute: typeof ProtectedSettingsPatientsIndexRoute
   ProtectedSettingsReferencesIndexRoute: typeof ProtectedSettingsReferencesIndexRoute
   ProtectedSettingsUsersManagementIndexRoute: typeof ProtectedSettingsUsersManagementIndexRoute
+  ProtectedPharmacyMedicineStocksIdRoute: typeof ProtectedPharmacyMedicineStocksIdRoute
   ProtectedSettingsMedicineManagementMedicineIdRoute: typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   ProtectedSettingsMedicineManagementMedicineCreateRoute: typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
   ProtectedSettingsMedicineManagementWarehouseIdRoute: typeof ProtectedSettingsMedicineManagementWarehouseIdRoute
@@ -803,18 +991,26 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedInpatientIdRoute: ProtectedInpatientIdRoute,
   ProtectedInpatientCreateRoute: ProtectedInpatientCreateRoute,
+  ProtectedAccountingIndexRoute: ProtectedAccountingIndexRoute,
   ProtectedElectronicMedicalRecordIndexRoute:
     ProtectedElectronicMedicalRecordIndexRoute,
   ProtectedFacilitiesIndexRoute: ProtectedFacilitiesIndexRoute,
   ProtectedInpatientIndexRoute: ProtectedInpatientIndexRoute,
   ProtectedOutpatientIndexRoute: ProtectedOutpatientIndexRoute,
+  ProtectedPharmacyIndexRoute: ProtectedPharmacyIndexRoute,
   ProtectedSettingsIndexRoute: ProtectedSettingsIndexRoute,
   ProtectedUpgradeIndexRoute: ProtectedUpgradeIndexRoute,
   ProtectedOutpatientDiagnoseIdRoute: ProtectedOutpatientDiagnoseIdRoute,
   ProtectedOutpatientVisitIdRoute: ProtectedOutpatientVisitIdRoute,
   ProtectedOutpatientVisitCreateRoute: ProtectedOutpatientVisitCreateRoute,
+  ProtectedPharmacyMedicineIdRoute: ProtectedPharmacyMedicineIdRoute,
+  ProtectedPharmacyMedicineCreateRoute: ProtectedPharmacyMedicineCreateRoute,
+  ProtectedPharmacyWarehouseIdRoute: ProtectedPharmacyWarehouseIdRoute,
+  ProtectedPharmacyWarehouseCreateRoute: ProtectedPharmacyWarehouseCreateRoute,
   ProtectedSettingsPatientsIdRoute: ProtectedSettingsPatientsIdRoute,
   ProtectedSettingsPatientsCreateRoute: ProtectedSettingsPatientsCreateRoute,
+  ProtectedBillingInpatientIndexRoute: ProtectedBillingInpatientIndexRoute,
+  ProtectedBillingOutpatientIndexRoute: ProtectedBillingOutpatientIndexRoute,
   ProtectedFacilitiesInpatientIndexRoute:
     ProtectedFacilitiesInpatientIndexRoute,
   ProtectedMasterModuleIndexRoute: ProtectedMasterModuleIndexRoute,
@@ -825,6 +1021,8 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedSettingsReferencesIndexRoute: ProtectedSettingsReferencesIndexRoute,
   ProtectedSettingsUsersManagementIndexRoute:
     ProtectedSettingsUsersManagementIndexRoute,
+  ProtectedPharmacyMedicineStocksIdRoute:
+    ProtectedPharmacyMedicineStocksIdRoute,
   ProtectedSettingsMedicineManagementMedicineIdRoute:
     ProtectedSettingsMedicineManagementMedicineIdRoute,
   ProtectedSettingsMedicineManagementMedicineCreateRoute:

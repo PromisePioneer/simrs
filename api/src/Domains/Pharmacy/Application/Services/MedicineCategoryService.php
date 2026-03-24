@@ -8,15 +8,17 @@ use App\Services\Tenant\TenantContext;
 use Domains\Pharmacy\Domain\Repository\MedicineCategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
-class MedicineCategoryService
+readonly class MedicineCategoryService
 {
-    public function __construct(private MedicineCategoryRepositoryInterface $categoryRepository) {}
+    public function __construct(private readonly MedicineCategoryRepositoryInterface $categoryRepository)
+    {
+    }
 
     public function getCategories(Request $request): object
     {
         return $this->categoryRepository->getCategories(
             filters: $request->only(['search']),
-            perPage: $request->input('per_page'),
+            perPage: (int)$request->input('per_page'),
         );
     }
 

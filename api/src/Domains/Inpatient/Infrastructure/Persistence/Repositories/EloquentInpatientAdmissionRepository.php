@@ -9,13 +9,18 @@ use Domains\Inpatient\Infrastructure\Persistence\Models\InpatientAdmissionModel;
 
 class EloquentInpatientAdmissionRepository implements InpatientAdmissionRepositoryInterface
 {
-    public function __construct(private InpatientAdmissionModel $model) {}
+    public function __construct(private InpatientAdmissionModel $model)
+    {
+    }
 
     public function getInpatientAdmissions(array $filters = [], ?int $perPage = null): object
     {
+
         $query = $this->model->with([
+            'patient' => function ($q) {
+                $q->withoutGlobalScopes()->select('id', 'full_name', 'medical_record_number');
+            },
             'doctor:id,name',
-            'patient:id,full_name,medical_record_number',
             'bedAssignments.bed.room.ward',
             'vitalSigns' => fn($q) => $q->latest()->limit(1),
         ]);

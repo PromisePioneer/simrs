@@ -1,14 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Diagnose\DiagnoseController;
-use App\Http\Controllers\Api\Facilities\Bed\BedController;
-use App\Http\Controllers\Api\Facilities\Building\BuildingController;
-use App\Http\Controllers\Api\Facilities\Room\RoomController;
-use App\Http\Controllers\Api\Facilities\Ward\WardController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
-use App\Http\Controllers\Api\Inpatient\BedAssignment\BedAssignmentController;
-use App\Http\Controllers\Api\Inpatient\InpatientAdmission\InpatientAdmissionController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\ProfessionController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SpecializationController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SubSpecializationController;
@@ -18,6 +12,7 @@ use App\Http\Controllers\Api\Medicine\PrescriptionController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
+use Domains\Inpatient\Presentation\Controllers\InpatientDailyMedicationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,6 +23,12 @@ use Domains\IAM\Presentation\Controllers\PoliController;
 use Domains\IAM\Presentation\Controllers\DepartmentController;
 use Domains\IAM\Presentation\Controllers\RegistrationInstitutionController;
 use Domains\IAM\Presentation\Controllers\RoomTypeController;
+use Domains\Facility\Presentation\Controllers\BedController;
+use Domains\Facility\Presentation\Controllers\RoomController;
+use Domains\Facility\Presentation\Controllers\WardController;
+use Domains\Facility\Presentation\Controllers\BuildingController;
+use Domains\Inpatient\Presentation\Controllers\InpatientAdmissionController;
+use Domains\Inpatient\Presentation\Controllers\BedAssignmentController;
 
 
 // ── Free & semua plan ────────────────────────────────────────────────────────
@@ -96,6 +97,18 @@ Route::middleware(['module:Rawat Inap'])->group(function () {
 
 
     Route::post('inpatient-admissions/{inpatientAdmission}/transfer-bed', [BedAssignmentController::class, 'transferBed']);
+
+
+    Route::prefix('inpatient-admissions/{inpatientAdmission}/daily-medications')
+        ->group(function () {
+            Route::get('/', [InpatientDailyMedicationController::class, 'index']);
+            Route::post('/', [InpatientDailyMedicationController::class, 'store']);
+            Route::get('/{dailyMedication}', [InpatientDailyMedicationController::class, 'show']);
+            Route::put('/{dailyMedication}', [InpatientDailyMedicationController::class, 'update']);
+            Route::delete('/{dailyMedication}', [InpatientDailyMedicationController::class, 'destroy']);
+            Route::post('/{dailyMedication}/dispense', [InpatientDailyMedicationController::class, 'dispense']);
+            Route::post('/{dailyMedication}/cancel', [InpatientDailyMedicationController::class, 'cancel']);
+        });
 });
 
 // ── Pro only ─────────────────────────────────────────────────────────────────

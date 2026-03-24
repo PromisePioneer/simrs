@@ -8,15 +8,22 @@ use Domains\Facility\Domain\Repository\WardRepositoryInterface;
 use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
 use Illuminate\Http\Request;
 
-class WardService
+readonly class WardService
 {
-    public function __construct(private WardRepositoryInterface $wardRepository) {}
+    public function __construct(
+        private WardRepositoryInterface $wardRepository
+    )
+    {
+    }
 
     public function getWards(Request $request): object
     {
         $filters = $request->only(['search']);
         $perPage = $request->input('per_page');
-        return $this->wardRepository->getWards(filters: $filters, perPage: $perPage);
+        return $this->wardRepository->getWards(
+            filters: $filters,
+            perPage: $perPage ? (int)$perPage : null
+        );
     }
 
     public function store(array $data): object

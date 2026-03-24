@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
             BuildingSeeder::class,
             WardSeeder::class,
             RoomSeeder::class,
+            AccountingSeeder::class,
 //            InpatientAdmissionSeeder::class,
         ]);
     }

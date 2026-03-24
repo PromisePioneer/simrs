@@ -13,20 +13,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class InpatientAdmissionService
+readonly class InpatientAdmissionService
 {
     public function __construct(
-        private InpatientAdmissionRepositoryInterface  $admissionRepository,
-        private BedRepositoryInterface                 $bedRepository,
-        private BedAssignmentRepositoryInterface       $bedAssignmentRepository,
-        private InpatientVitalSignRepositoryInterface  $vitalSignRepository,
-    ) {}
+        private InpatientAdmissionRepositoryInterface $admissionRepository,
+        private BedRepositoryInterface                $bedRepository,
+        private BedAssignmentRepositoryInterface      $bedAssignmentRepository,
+        private InpatientVitalSignRepositoryInterface $vitalSignRepository,
+    )
+    {
+    }
 
     public function getInpatientAdmissions(Request $request): object
     {
+
+        $perPage = (int)$request->input('per_page');
+
         return $this->admissionRepository->getInpatientAdmissions(
             filters: $request->only(['search']),
-            perPage: $request->input('per_page'),
+            perPage: $perPage,
         );
     }
 
@@ -38,20 +43,20 @@ class InpatientAdmissionService
 
             $this->bedAssignmentRepository->store([
                 'inpatient_admission_id' => $admission->id,
-                'bed_id'                 => $data['bed_id'],
-                'assigned_at'            => $data['assigned_at'],
-                'released_at'            => $data['released_at'] ?? null,
+                'bed_id' => $data['bed_id'],
+                'assigned_at' => $data['assigned_at'],
+                'released_at' => $data['released_at'] ?? null,
             ]);
 
             $this->bedRepository->update(['status' => 'occupied'], $data['bed_id']);
 
             $this->vitalSignRepository->store([
                 'inpatient_admission_id' => $admission->id,
-                'temperature'            => $data['temperature'],
-                'pulse_rate'             => $data['pulse_rate'],
-                'respiratory_rate'       => $data['respiratory_rate'],
-                'systolic'               => $data['systolic'],
-                'diastolic'              => $data['diastolic'],
+                'temperature' => $data['temperature'],
+                'pulse_rate' => $data['pulse_rate'],
+                'respiratory_rate' => $data['respiratory_rate'],
+                'systolic' => $data['systolic'],
+                'diastolic' => $data['diastolic'],
             ]);
 
             return $admission;

@@ -9,7 +9,7 @@ use Domains\Pharmacy\Domain\Repository\MedicineWarehouseRepositoryInterface;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
 use Illuminate\Http\Request;
 
-class MedicineWarehouseService
+readonly class MedicineWarehouseService
 {
     public function __construct(private MedicineWarehouseRepositoryInterface $warehouseRepository) {}
 
@@ -17,7 +17,7 @@ class MedicineWarehouseService
     {
         return $this->warehouseRepository->getWarehouses(
             filters: $request->only(['search']),
-            perPage: $request->input('per_page'),
+            perPage:(int) $request->input('per_page'),
         );
     }
 

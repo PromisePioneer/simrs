@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Domains\Facility;
 
 use App\Models\Building;
-use App\Models\Room;
-use App\Models\Ward;
 use Domains\Facility\Application\Services\BedService;
 use Domains\Facility\Application\Services\BuildingService;
 use Domains\Facility\Application\Services\RoomService;
@@ -79,8 +77,8 @@ class FacilityServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Building::class, BuildingPolicy::class);
-        Gate::policy(Ward::class, WardPolicy::class);
-        Gate::policy(Room::class, RoomPolicy::class);
+        Gate::policy(WardModel::class, WardPolicy::class);
+        Gate::policy(RoomModel::class, RoomPolicy::class);
         Gate::policy(BedModel::class, BedPolicy::class);
     }
 }

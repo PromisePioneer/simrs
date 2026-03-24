@@ -16,7 +16,9 @@ class MedicineCategoryController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private MedicineCategoryService $categoryService) {}
+    public function __construct(private readonly MedicineCategoryService $categoryService)
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {

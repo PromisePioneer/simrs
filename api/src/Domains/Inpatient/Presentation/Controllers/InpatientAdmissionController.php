@@ -17,7 +17,9 @@ class InpatientAdmissionController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private InpatientAdmissionService $admissionService) {}
+    public function __construct(private readonly InpatientAdmissionService $admissionService)
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {
@@ -34,7 +36,12 @@ class InpatientAdmissionController extends Controller
 
     public function show(InpatientAdmissionModel $inpatientAdmission): JsonResponse
     {
-        $inpatientAdmission->load(['doctor', 'patient', 'bedAssignments.bed', 'vitalSigns']);
+        $inpatientAdmission->load([
+            'doctor',
+            'patient' => fn($q) => $q->withoutGlobalScopes(), // ✅ bypass tenant scope
+            'bedAssignments.bed',
+            'vitalSigns',
+        ]);
 
         $activeBed = $inpatientAdmission->bedAssignments()
             ->with('bed')
@@ -46,7 +53,7 @@ class InpatientAdmissionController extends Controller
             ->paginate(10);
 
         return response()->json([
-            'data'        => [...$inpatientAdmission->toArray(), 'active_bed' => $activeBed],
+            'data' => [...$inpatientAdmission->toArray(), 'active_bed' => $activeBed],
             'daily_cares' => $dailyCares,
         ]);
     }

@@ -120,7 +120,7 @@ export function useMedicineForm(opts) {
 
             if (result.success) {
                 await navigate({
-                    to: '/settings/medicine-management',
+                    to: '/pharmacy',
                     search: {tab: 'medicine-management'}
                 });
             }
@@ -207,7 +207,7 @@ export function useMedicineForm(opts) {
     };
 
     const handleCancel = () => {
-        navigate({to: "/settings/medicine-management"});
+        navigate({to: "/pharmacy"});
     };
 
     return {

@@ -59,9 +59,9 @@ class TenantModuleSeeder extends Seeder
                 'permissions' => ['Melihat Master'],
                 'children' => [
                     [
-                        'name'  => 'Module Management',
+                        'name' => 'Module Management',
                         'order' => 3,
-                        'icon'  => null,
+                        'icon' => null,
                         'route' => '/master/module',
                         'permissions' => [
                             'Melihat Module Management',
@@ -73,10 +73,10 @@ class TenantModuleSeeder extends Seeder
                 ],
             ],
             [
-                'name'  => 'Rawat Jalan',
+                'name' => 'Rawat Jalan',
                 'parent_id' => null,
                 'order' => 3,
-                'icon'  => 'CalendarDays',
+                'icon' => 'CalendarDays',
                 'route' => '/outpatient',
                 'permissions' => [
                     'Melihat Rawat Jalan',
@@ -86,10 +86,10 @@ class TenantModuleSeeder extends Seeder
                 ],
             ],
             [
-                'name'  => 'Rawat Inap',
+                'name' => 'Rawat Inap',
                 'parent_id' => null,
                 'order' => 4,
-                'icon'  => 'Stethoscope',
+                'icon' => 'Stethoscope',
                 'route' => '/inpatient',
                 'permissions' => [
                     'Melihat Rawat Inap',
@@ -118,7 +118,7 @@ class TenantModuleSeeder extends Seeder
                     'Membuat Tempat Tidur',
                     'Mengubah Tempat Tidur',
                     'Menghapus Tempat Tidur',
-                    // Inpatient Prescription (FITUR BARU)
+                    // Inpatient Prescription
                     'Melihat Resep Rawat Inap',
                     'Membuat Resep Rawat Inap',
                     'Dispensing Resep Rawat Inap',
@@ -126,10 +126,10 @@ class TenantModuleSeeder extends Seeder
                 ],
             ],
             [
-                'name'  => 'Electronic Medical Record',
+                'name' => 'Electronic Medical Record',
                 'parent_id' => null,
                 'order' => 5,
-                'icon'  => 'Clipboard',
+                'icon' => 'Clipboard',
                 'route' => '/electronic-medical-record',
                 'permissions' => [
                     'Melihat Electronic Medical Record',
@@ -139,12 +139,11 @@ class TenantModuleSeeder extends Seeder
                     'Menghapus Penebusan Obat',
                 ],
             ],
-            // ── BARU: Farmasi ──────────────────────────────────────────────
             [
-                'name'  => 'Farmasi',
+                'name' => 'Farmasi',
                 'parent_id' => null,
                 'order' => 6,
-                'icon'  => 'Pill',
+                'icon' => 'Pill',
                 'route' => '/pharmacy',
                 'permissions' => [
                     'Melihat Farmasi',
@@ -171,32 +170,43 @@ class TenantModuleSeeder extends Seeder
                 ],
             ],
             [
-                'name'  => 'Fasilitas',
+                'name' => 'Fasilitas',
                 'parent_id' => null,
                 'order' => 7,
-                'icon'  => 'Hospital',
+                'icon' => 'Hospital',
                 'route' => '/facilities',
                 'permissions' => ['Melihat Fasilitas'],
             ],
+            // ── Akuntansi ──────────────────────────────────────────────────
             [
-                'name'  => 'Office',
+                'name' => 'Akuntansi',
                 'parent_id' => null,
-                'order' => 8,
-                'icon'  => 'File',
-                'route' => '/office',
+                'order' => 9,
+                'icon' => 'BookOpen',
+                'route' => '/accounting?tab=chart-of-accounts',
                 'permissions' => [
-                    'Melihat Office',
-                    'Melihat Pasien',
-                    'Menambahkan Pasien',
-                    'Mengubah Pasien',
-                    'Menghapus Pasien',
+                    // Akuntansi (general)
+                    'Melihat Akuntansi',
+                    'Menambahkan Entri Akuntansi',
+                    'Mengubah Akuntansi',
+                    'Menghapus Akuntansi',
+                    // Kategori Akun
+                    'Melihat Kategori Akun',
+                    'Menambahkan Kategori Akun',
+                    'Mengubah Kategori Akun',
+                    'Menghapus Kategori Akun',
+                    // Jurnal Entri
+                    'Melihat Jurnal Entri',
+                    'Menambahkan Jurnal Entri',
+                    // Laporan Keuangan
+                    'Melihat Laporan Keuangan',
                 ],
             ],
             [
-                'name'  => 'Setting',
+                'name' => 'Setting',
                 'parent_id' => null,
-                'order' => 9,
-                'icon'  => 'Settings',
+                'order' => 10,
+                'icon' => 'Settings',
                 'route' => '/settings',
                 'permissions' => [
                     'Melihat Setting',
@@ -225,9 +235,9 @@ class TenantModuleSeeder extends Seeder
             ['name' => $moduleData['name']],
             [
                 'parent_id' => $parentId,
-                'route'     => $moduleData['route'] ?? null,
-                'icon'      => $moduleData['icon'] ?? null,
-                'order'     => $moduleData['order'] ?? 0,
+                'route' => $moduleData['route'] ?? null,
+                'icon' => $moduleData['icon'] ?? null,
+                'order' => $moduleData['order'] ?? 0,
             ]
         );
 
@@ -299,7 +309,6 @@ class TenantModuleSeeder extends Seeder
             'Melihat Poli', 'Menambahkan Poli', 'Mengubah Poli', 'Menghapus Poli',
 
             // Pasien
-            'Melihat Office',
             'Melihat Pasien', 'Menambahkan Pasien', 'Mengubah Pasien', 'Menghapus Pasien',
 
             // Rawat Jalan
@@ -319,17 +328,21 @@ class TenantModuleSeeder extends Seeder
 
             // Rawat Inap
             'Melihat Rawat Inap', 'Membuat Rawat Inap', 'Mengubah Rawat Inap', 'Menghapus Rawat Inap',
-            // Facility
             'Melihat Gedung', 'Membuat Gedung', 'Mengubah Gedung', 'Menghapus Gedung',
             'Melihat Ruang Rawat', 'Membuat Ruang Rawat', 'Mengubah Ruang Rawat', 'Menghapus Ruang Rawat',
             'Melihat Tipe Ruangan', 'Membuat Tipe Ruangan', 'Mengubah Tipe Ruangan', 'Menghapus Tipe Ruangan',
             'Melihat Ruangan', 'Membuat Ruangan', 'Mengubah Ruangan', 'Menghapus Ruangan',
             'Melihat Tempat Tidur', 'Membuat Tempat Tidur', 'Mengubah Tempat Tidur', 'Menghapus Tempat Tidur',
-            // Inpatient Prescription
             'Melihat Resep Rawat Inap', 'Membuat Resep Rawat Inap', 'Dispensing Resep Rawat Inap', 'Membatalkan Resep Rawat Inap',
 
             // Fasilitas
             'Melihat Fasilitas',
+
+            // Akuntansi
+            'Melihat Akuntansi', 'Menambahkan Entri Akuntansi', 'Mengubah Akuntansi', 'Menghapus Akuntansi',
+            'Melihat Kategori Akun', 'Menambahkan Kategori Akun', 'Mengubah Kategori Akun', 'Menghapus Kategori Akun',
+            'Melihat Jurnal Entri', 'Menambahkan Jurnal Entri',
+            'Melihat Laporan Keuangan',
         ];
 
         foreach ($permissions as $permissionName) {

@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Building;
-use App\Models\Department;
-use App\Models\Tenant;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\IAM\Infrastructure\Persistence\Models\DepartmentModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -16,7 +13,7 @@ class DepartmentSeeder extends Seeder
      */
     public function run(): void
     {
-        Department::insert([
+        DepartmentModel::insert([
             [
                 'id' => Str::uuid()->toString(),
                 'name' => 'Penyakit Dalam',

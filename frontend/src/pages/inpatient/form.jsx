@@ -25,8 +25,7 @@ import {useUserStore} from "@/store/useUserStore.js";
 import {AsyncSelect} from "@/components/common/async-select.jsx";
 import {useInpatientAdmissionStore} from "@/store/inpatientAdmissionStore.js";
 import {useBedStore} from "@/store/bedStore.js";
-// import { useBedStore } from "@/store/useBedStore.js";
-// import { useInpatientStore } from "@/store/useInpatientStore.js";
+import {useCallback} from "react";
 
 function InpatientForm(opts) {
     const {id} = useParams(opts);
@@ -36,6 +35,12 @@ function InpatientForm(opts) {
     const {fetchPatientOptions} = usePatientStore();
     const {fetchDoctorOptions, userData} = useUserStore();
     const {fetchBedOptions} = useBedStore();
+
+    const fetchAvailableBeds = useCallback(
+        (query) => fetchBedOptions(query, 'available'),
+        [fetchBedOptions]
+    );
+
     const {inpatientAdmissionValue, createInpatientAdmission, updateInpatientAdmission} = useInpatientAdmissionStore();
 
 
@@ -294,12 +299,13 @@ function InpatientForm(opts) {
                                             control={control}
                                             rules={{required: "Tempat tidur wajib dipilih"}}
                                             render={({field}) => (
-                                                <AsyncSelect fetchFn={(query) => fetchBedOptions(query, 'available')}
-                                                             value={field.value}
-                                                             onChange={field.onChange}
-                                                             placeholder="Cari Tempat tidur kosong..."
-                                                             debounce={300}
-                                                             defaultLabel={inpatientAdmissionValue.bed?.bed_number ?? null}
+                                                <AsyncSelect
+                                                    fetchFn={fetchAvailableBeds}
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    placeholder="Cari Tempat tidur kosong..."
+                                                    debounce={300}
+                                                    defaultLabel={inpatientAdmissionValue.bed?.bed_number ?? null}
                                                 />
                                             )}
                                         />

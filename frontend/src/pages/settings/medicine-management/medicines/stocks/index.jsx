@@ -163,7 +163,7 @@ function MedicineStocks(opts) {
 
     const handleBack = () => {
         navigate({
-            to: '/settings/medicine-management',
+            to: '/pharmacy',
             search: {tab: 'medicine-management'}
         });
     }

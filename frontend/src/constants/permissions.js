@@ -134,4 +134,39 @@ export const PERMISSIONS = {
     EMR: {
         VIEW: 'Melihat Electronic Medical Record',
     },
+
+    // ── Accounting ────────────────────────────────────────────────────────────
+    ACCOUNTING: {
+        VIEW:   'Melihat Akuntansi',
+        CREATE: 'Menambahkan Entri Akuntansi',
+        EDIT:   'Mengubah Akuntansi',
+        DELETE: 'Menghapus Akuntansi',
+    },
+    ACCOUNT_CATEGORY: {
+        VIEW:   'Melihat Kategori Akun',
+        CREATE: 'Menambahkan Kategori Akun',
+        EDIT:   'Mengubah Kategori Akun',
+        DELETE: 'Menghapus Kategori Akun',
+    },
+    JOURNAL_ENTRY: {
+        VIEW:   'Melihat Jurnal Entri',
+        CREATE: 'Menambahkan Jurnal Entri',
+    },
+    FINANCIAL_REPORT: {
+        VIEW: 'Melihat Laporan Keuangan',
+    },
+
+    // ── Billing ───────────────────────────────────────────────────────────────
+    BILLING_OUTPATIENT: {
+        VIEW:   'Melihat Tagihan Rawat Jalan',
+        CREATE: 'Membuat Tagihan Rawat Jalan',
+        EDIT:   'Mengubah Tagihan Rawat Jalan',
+        PAY:    'Memproses Pembayaran Rawat Jalan',
+    },
+    BILLING_INPATIENT: {
+        VIEW:   'Melihat Tagihan Rawat Inap',
+        CREATE: 'Membuat Tagihan Rawat Inap',
+        EDIT:   'Mengubah Tagihan Rawat Inap',
+        PAY:    'Memproses Pembayaran Rawat Inap',
+    },
 };
