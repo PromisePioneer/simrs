@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Domains\Facility\Infrastructure\Persistence\Models;
 
 use App\Models\TenantScopeBaseModel;
-use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

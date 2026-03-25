@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Degree;
-use Domains\IAM\Infrastructure\Persistence\Models\DegreeModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Illuminate\Database\Seeder;
 
 class DegreeSeeder extends Seeder

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Domains\IAM\Infrastructure\Persistence\Models\DepartmentModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\DepartmentModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

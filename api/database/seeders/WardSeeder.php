@@ -8,7 +8,7 @@ use App\Models\Tenant;
 use App\Models\Ward;
 use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
 use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
-use Domains\IAM\Infrastructure\Persistence\Models\DepartmentModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\DepartmentModel;
 use Illuminate\Database\Seeder;
 
 class WardSeeder extends Seeder

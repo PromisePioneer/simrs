@@ -53,7 +53,7 @@ class EloquentOutpatientVisitRepository implements OutpatientVisitRepositoryInte
             );
 
             // Generate queue
-            $poli = \Domains\IAM\Infrastructure\Persistence\Models\PoliModel::find($data['poli_id']);
+            $poli = \Domains\MasterData\Infrastructure\Persistent\Models\PoliModel::find($data['poli_id']);
             $tenantId = TenantContext::getId();
 
             $lastQueue = QueueModel::where('tenant_id', $tenantId)

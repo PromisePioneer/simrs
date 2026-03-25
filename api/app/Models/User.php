@@ -7,10 +7,10 @@ use App\Services\Master\General\UserManagement\Permission\Repository\PermissionR
 use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
-use Domains\IAM\Infrastructure\Persistence\Models\DegreeModel;
-use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
-use Domains\IAM\Infrastructure\Persistence\Models\RegistrationInstitutionModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

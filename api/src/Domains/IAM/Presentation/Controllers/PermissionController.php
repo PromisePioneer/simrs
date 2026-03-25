@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domains\IAM\Presentation\Controllers;
 
-use Domains\IAM\Application\Services\PermissionService;
 use Domains\IAM\Presentation\Policies\PermissionPolicy;
 use Domains\IAM\Presentation\Requests\PermissionRequest;
 use Domains\IAM\Presentation\Resources\PermissionResource;
+use Domains\MasterData\Application\Services\PermissionService;
 use Domains\Shared\Presentation\Controllers\BaseCrudController;
 use Illuminate\Http\JsonResponse;
 

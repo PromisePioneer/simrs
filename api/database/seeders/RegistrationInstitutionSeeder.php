@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Domains\IAM\Infrastructure\Persistence\Models\RegistrationInstitutionModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
 use Illuminate\Database\Seeder;
 
 class RegistrationInstitutionSeeder extends Seeder

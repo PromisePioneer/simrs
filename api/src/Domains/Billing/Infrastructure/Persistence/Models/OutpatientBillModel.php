@@ -49,7 +49,7 @@ class OutpatientBillModel extends BaseTenantModel
     public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(
-            \Domains\IAM\Infrastructure\Persistence\Models\PaymentMethodModel::class,
+            \Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodModel::class,
             'payment_method_id'
         );
     }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Domains\IAM\Infrastructure\Persistence\Models\PoliModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Illuminate\Database\Seeder;
 
 class PoliSeeder extends Seeder

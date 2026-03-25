@@ -1,5 +1,7 @@
 <?php
 
+use Domains\Inpatient\InpatientServiceProvider;
+
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\FortifyServiceProvider::class,
@@ -15,5 +17,6 @@ return [
     Domains\Clinical\ClinicalServiceProvider::class,
     Domains\Pharmacy\PharmacyServiceProvider::class,
     Domains\MedicalWork\MedicalWorkServiceProvider::class,
-    \Domains\Inpatient\InpatientServiceProvider::class,
+    InpatientServiceProvider::class,
+    Domains\MasterData\MasterDataServiceProvider::class,
 ];

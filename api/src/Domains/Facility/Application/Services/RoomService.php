@@ -7,7 +7,7 @@ namespace Domains\Facility\Application\Services;
 use Domains\Facility\Domain\Repository\BedRepositoryInterface;
 use Domains\Facility\Domain\Repository\RoomRepositoryInterface;
 use Domains\Facility\Infrastructure\Persistence\Models\RoomModel;
-use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;

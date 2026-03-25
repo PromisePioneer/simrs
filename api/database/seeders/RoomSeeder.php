@@ -11,7 +11,7 @@ use App\Services\Facilities\Bed\Service\BedService;
 use Domains\Facility\Infrastructure\Persistence\Models\BedModel;
 use Domains\Facility\Infrastructure\Persistence\Models\RoomModel;
 use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
-use Domains\IAM\Infrastructure\Persistence\Models\RoomTypeModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

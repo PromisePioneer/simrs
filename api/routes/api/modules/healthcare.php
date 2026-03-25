@@ -1,35 +1,35 @@
 <?php
 
-use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
-use App\Http\Controllers\Api\Master\General\MedicalWork\SpecializationController;
-use App\Http\Controllers\Api\Master\General\MedicalWork\SubSpecializationController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
 use Domains\Clinical\Presentation\Controllers\DiagnoseController;
 use Domains\Clinical\Presentation\Controllers\PrescriptionController;
+use Domains\Facility\Presentation\Controllers\BedController;
+use Domains\Facility\Presentation\Controllers\BuildingController;
+use Domains\Facility\Presentation\Controllers\RoomController;
+use Domains\Facility\Presentation\Controllers\WardController;
+use Domains\Inpatient\Presentation\Controllers\BedAssignmentController;
+use Domains\Inpatient\Presentation\Controllers\InpatientAdmissionController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyCareController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyMedicationController;
+use Domains\MasterData\Persentation\Controllers\DegreeController;
+use Domains\MasterData\Persentation\Controllers\DepartmentController;
+use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
+use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
+use Domains\MasterData\Persentation\Controllers\PoliController;
+use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionController;
+use Domains\MasterData\Persentation\Controllers\RoomTypeController;
 use Domains\MedicalWork\Presentation\Controllers\ProfessionController;
+use Domains\MedicalWork\Presentation\Controllers\SpecializationController;
+use Domains\MedicalWork\Presentation\Controllers\SubSpecializationController;
+use Domains\Outpatient\Presentation\Controllers\AppointmentController;
+use Domains\Patient\Presentation\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
 
 //Domains
-use Domains\Patient\Presentation\Controllers\PatientController;
-use Domains\IAM\Presentation\Controllers\DegreeController;
-use Domains\IAM\Presentation\Controllers\PoliController;
-use Domains\IAM\Presentation\Controllers\DepartmentController;
-use Domains\IAM\Presentation\Controllers\PaymentMethodController;
-use Domains\IAM\Presentation\Controllers\PaymentMethodTypeController;
-use Domains\IAM\Presentation\Controllers\RegistrationInstitutionController;
-use Domains\IAM\Presentation\Controllers\RoomTypeController;
-use Domains\Facility\Presentation\Controllers\BedController;
-use Domains\Facility\Presentation\Controllers\RoomController;
-use Domains\Facility\Presentation\Controllers\WardController;
-use Domains\Facility\Presentation\Controllers\BuildingController;
-use Domains\Inpatient\Presentation\Controllers\InpatientAdmissionController;
-use Domains\Inpatient\Presentation\Controllers\BedAssignmentController;
 
 
 // ── Free & semua plan ────────────────────────────────────────────────────────
