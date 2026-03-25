@@ -1,15 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\Master\General\Module\ModuleController;
 use App\Http\Controllers\Api\Master\General\Subscriptions\PlanController;
 use App\Http\Controllers\Api\Master\General\Subscriptions\SubscriptionController;
-use App\Http\Controllers\Api\Master\General\User\Permission\PermissionController;
+use Domains\IAM\Presentation\Controllers\ModuleController;
+use Domains\IAM\Presentation\Controllers\PermissionController;
+use Domains\IAM\Presentation\Controllers\RoleController;
+use Domains\IAM\Presentation\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
-
-use Domains\IAM\Presentation\Controllers\UserController;
-use Domains\IAM\Presentation\Controllers\RoleController;
 
 Route::get('/modules', [ModuleController::class, 'index']);
 

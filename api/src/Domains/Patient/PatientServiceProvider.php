@@ -14,31 +14,16 @@ use Domains\Patient\Infrastructure\Persistence\Models\PatientModel;
 use Domains\Patient\Infrastructure\Persistence\Repositories\EloquentPatientRepository;
 use Domains\Patient\Infrastructure\Services\PatientFileUploadService;
 use Domains\Patient\Presentation\Controllers\PatientController;
+use Domains\Patient\Presentation\Policies\PatientPolicy;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Service Provider: Patient Domain
- *
- * Satu-satunya tempat di mana Infrastructure "tahu" tentang Domain.
- * Semua binding Interface → Implementasi dilakukan di sini.
- *
- * ─── CARA DAFTAR ─────────────────────────────────────────────────────────────
- * Tambahkan ke bootstrap/providers.php:
- *
- *   return [
- *       App\Providers\AppServiceProvider::class,
- *       Domains\Patient\PatientServiceProvider::class,  // ← tambahkan ini
- *   ];
- * ─────────────────────────────────────────────────────────────────────────────
- */
 class PatientServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         // ── Repository binding ─────────────────────────────────────────────
-        // Kalau suatu hari mau ganti Eloquent → MongoDB/API,
-        // hanya satu baris ini yang berubah.
         $this->app->bind(
             PatientRepositoryInterface::class,
             fn($app) => new EloquentPatientRepository(new PatientModel())
@@ -99,6 +84,6 @@ class PatientServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        Gate::policy(PatientModel::class, PatientPolicy::class);
     }
 }

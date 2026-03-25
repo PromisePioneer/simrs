@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Domains\Patient\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Patient;
 use App\Traits\ApiResponse;
 use Domains\Patient\Application\Commands\DeletePatientCommand;
 use Domains\Patient\Application\Commands\RegisterPatientCommand;
@@ -70,7 +69,7 @@ class PatientController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $this->authorize('view', Patient::class);
+        $this->authorize('view', PatientModel::class);
 
         $tenantId = $request->user()->tenant_id;
 
@@ -80,7 +79,6 @@ class PatientController extends Controller
             perPage: (int)$request->input('per_page', 15),
             page: (int)$request->input('page', 1),
         ));
-
 
         return PatientResource::collection($result);
     }

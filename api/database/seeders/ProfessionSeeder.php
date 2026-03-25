@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Profession;
-use App\Models\Specialization;
-use App\Models\SubSpecialization;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\MedicalWork\Infrastructure\Persistence\Models\ProfessionModel;
+use Domains\MedicalWork\Infrastructure\Persistence\Models\SpecializationModel;
+use Domains\MedicalWork\Infrastructure\Persistence\Models\SubSpecializationModel;
 use Illuminate\Database\Seeder;
 
 class ProfessionSeeder extends Seeder
@@ -19,14 +18,14 @@ class ProfessionSeeder extends Seeder
         $data = json_decode(file_get_contents($path), true);
 
         foreach ($data as $item) {
-            $profession = Profession::create([
+            $profession = ProfessionModel::create([
                 'name' => $item['nama'],
                 'description' => $item['nama_en']
             ]);
 
             if ($item['spesialis']) {
                 foreach ($item['spesialis'] as $spesialis) {
-                    $specialization = Specialization::create([
+                    $specialization = SpecializationModel::create([
                         'name' => $spesialis['nama'],
                         'description' => $spesialis['nama_en'],
                         'profession_id' => $profession->id
@@ -34,7 +33,7 @@ class ProfessionSeeder extends Seeder
 
                     if ($spesialis['subspesialis']) {
                         foreach ($spesialis['subspesialis'] as $subSpesialis) {
-                            SubSpecialization::create([
+                            SubSpecializationModel::create([
                                 'name' => $subSpesialis['nama'],
                                 'description' => $subSpesialis['nama_en'],
                                 'specialization_id' => $specialization->id

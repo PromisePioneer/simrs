@@ -2,38 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Building;
-use App\Models\Medicine;
-use App\Models\MedicineCategory;
-use App\Models\MedicineRack;
-use App\Models\MedicineStockMovement;
-use App\Models\MedicineWarehouse;
-use App\Models\OutpatientVisit;
-use App\Models\PaymentMethod;
-use App\Models\PaymentMethodType;
-use App\Models\Prescription;
-use App\Models\ProductUnitType;
-use App\Models\Profession;
-use App\Models\Room;
-use App\Models\Specialization;
-use App\Models\SubSpecialization;
-use App\Models\Ward;
-use App\Policies\BuildingPolicy;
-use App\Policies\MedicineCategoryPolicy;
-use App\Policies\MedicinePolicy;
-use App\Policies\MedicineRackPolicy;
-use App\Policies\MedicineStockMovementPolicy;
-use App\Policies\MedicineUnitTypePolicy;
-use App\Policies\MedicineWarehousePolicy;
-use App\Policies\OutpatientVisitPolicy;
-use App\Policies\PaymentMethodTypePolicy;
-use App\Policies\PrescriptionPolicy;
-use App\Policies\ProfessionPolicy;
-use App\Policies\RoomPolicy;
-use App\Policies\SpecializationPolicy;
-use App\Policies\SubSpecializationPolicy;
-use App\Policies\WardPolicy;
-use Domains\IAM\Presentation\Policies\PaymentMethodPolicy;
+
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -54,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
 
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
             return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
@@ -67,33 +35,6 @@ class AppServiceProvider extends ServiceProvider
 
     }
 
-
-    public function registerPolicies(): void
-    {
-        Gate::policy(PaymentMethodType::class, PaymentMethodTypePolicy::class);
-        Gate::policy(PaymentMethod::class, PaymentMethodPolicy::class);
-        Gate::policy(Profession::class, ProfessionPolicy::class);
-        Gate::policy(SubSpecialization::class, SubSpecializationPolicy::class);
-        Gate::policy(Specialization::class, SpecializationPolicy::class);
-
-
-        /*
-         *  Pharmacy
-         */
-        Gate::policy(MedicineRack::class, MedicineRackPolicy::class);
-        Gate::policy(MedicineCategory::class, MedicineCategoryPolicy::class);
-        Gate::policy(MedicineWarehouse::class, MedicineWarehousePolicy::class);
-        Gate::policy(ProductUnitType::class, MedicineUnitTypePolicy::class);
-        Gate::policy(Medicine::class, MedicinePolicy::class);
-        Gate::policy(MedicineStockMovement::class, MedicineStockMovementPolicy::class);
-
-
-        Gate::policy(OutpatientVisit::class, OutpatientVisitPolicy::class);
-        Gate::policy(Prescription::class, PrescriptionPolicy::class);
-        Gate::policy(Building::class, BuildingPolicy::class);
-        Gate::policy(Ward::class, WardPolicy::class);
-        Gate::policy(Room::class, RoomPolicy::class);
-    }
 }
 
 

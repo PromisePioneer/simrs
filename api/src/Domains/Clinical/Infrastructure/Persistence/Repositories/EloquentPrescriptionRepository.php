@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Domains\Clinical\Infrastructure\Persistence\Repositories;
 
-use App\Models\MedicineBatch;
 use Domains\Clinical\Domain\Repository\PrescriptionRepositoryInterface;
 use Domains\Clinical\Infrastructure\Persistence\Models\PrescriptionModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchModel;
 use Domains\Shared\Infrastructure\Persistence\Repositories\BaseEloquentRepository;
 use Exception;
 
 class EloquentPrescriptionRepository extends BaseEloquentRepository implements PrescriptionRepositoryInterface
 {
-    public function __construct() { parent::__construct(new PrescriptionModel()); }
+    public function __construct()
+    {
+        parent::__construct(new PrescriptionModel());
+    }
 
     protected function applyFilters($query, array $filters)
     {
@@ -41,11 +44,11 @@ class EloquentPrescriptionRepository extends BaseEloquentRepository implements P
         foreach ($prescriptions as $item) {
             if (empty($item['medicine_id'])) continue;
 
-            $quantity   = (int) ($item['quantity'] ?? 0);
+            $quantity = (int)($item['quantity'] ?? 0);
             $medicineId = $item['medicine_id'];
 
             // Validasi total stok
-            $totalStock = MedicineBatch::where('medicine_id', $medicineId)
+            $totalStock = MedicineBatchModel::where('medicine_id', $medicineId)
                 ->whereHas('stock', fn($q) => $q->where('stock_amount', '>', 0))
                 ->with('stock')
                 ->get()
@@ -58,14 +61,14 @@ class EloquentPrescriptionRepository extends BaseEloquentRepository implements P
             }
 
             $visit->prescriptions()->create([
-                'tenant_id'  => $visit->tenant_id,
-                'medicine_id'=> $medicineId,
-                'dosage'     => $item['dosage'],
-                'frequency'  => $item['frequency'],
-                'duration'   => $item['duration'] ?? null,
-                'route'      => $item['route'] ?? null,
-                'quantity'   => $quantity,
-                'notes'      => $item['notes'] ?? null,
+                'tenant_id' => $visit->tenant_id,
+                'medicine_id' => $medicineId,
+                'dosage' => $item['dosage'],
+                'frequency' => $item['frequency'],
+                'duration' => $item['duration'] ?? null,
+                'route' => $item['route'] ?? null,
+                'quantity' => $quantity,
+                'notes' => $item['notes'] ?? null,
             ]);
         }
     }
@@ -74,7 +77,7 @@ class EloquentPrescriptionRepository extends BaseEloquentRepository implements P
     {
         $prescription = $this->model->newQuery()->findOrFail($id);
         $prescription->update([
-            'status'       => $status,
+            'status' => $status,
             'dispensed_by' => auth()->id(),
             'dispensed_at' => now(),
         ]);

@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Module;
-use App\Models\Permission;
+use Domains\IAM\Infrastructure\Persistence\Models\PermissionModel;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -221,9 +220,9 @@ class PermissionSeeder extends Seeder
             }
 
             foreach ($permissionNames as $permissionName) {
-                Permission::updateOrCreate(
+                PermissionModel::updateOrCreate(
                     [
-                        'name'       => $permissionName,
+                        'name' => $permissionName,
                         'guard_name' => 'sanctum',
                     ],
                     [

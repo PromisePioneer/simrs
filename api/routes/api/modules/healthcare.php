@@ -1,18 +1,17 @@
 <?php
 
-use App\Http\Controllers\Api\Diagnose\DiagnoseController;
 use App\Http\Controllers\Api\General\AppointmentController;
 use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
-use App\Http\Controllers\Api\Master\General\MedicalWork\ProfessionController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SpecializationController;
 use App\Http\Controllers\Api\Master\General\MedicalWork\SubSpecializationController;
-use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodController;
-use App\Http\Controllers\Api\Master\General\PaymentMethod\PaymentMethodTypeController;
-use App\Http\Controllers\Api\Medicine\PrescriptionController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
 use App\Http\Controllers\Api\QueueController;
+use Domains\Clinical\Presentation\Controllers\DiagnoseController;
+use Domains\Clinical\Presentation\Controllers\PrescriptionController;
+use Domains\Inpatient\Presentation\Controllers\InpatientDailyCareController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyMedicationController;
+use Domains\MedicalWork\Presentation\Controllers\ProfessionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +20,8 @@ use Domains\Patient\Presentation\Controllers\PatientController;
 use Domains\IAM\Presentation\Controllers\DegreeController;
 use Domains\IAM\Presentation\Controllers\PoliController;
 use Domains\IAM\Presentation\Controllers\DepartmentController;
+use Domains\IAM\Presentation\Controllers\PaymentMethodController;
+use Domains\IAM\Presentation\Controllers\PaymentMethodTypeController;
 use Domains\IAM\Presentation\Controllers\RegistrationInstitutionController;
 use Domains\IAM\Presentation\Controllers\RoomTypeController;
 use Domains\Facility\Presentation\Controllers\BedController;
@@ -95,9 +96,7 @@ Route::middleware(['module:Rawat Inap'])->group(function () {
 
     Route::apiResource('inpatient-admissions', InpatientAdmissionController::class);
 
-
     Route::post('inpatient-admissions/{inpatientAdmission}/transfer-bed', [BedAssignmentController::class, 'transferBed']);
-
 
     Route::prefix('inpatient-admissions/{inpatientAdmission}/daily-medications')
         ->group(function () {
@@ -108,6 +107,15 @@ Route::middleware(['module:Rawat Inap'])->group(function () {
             Route::delete('/{dailyMedication}', [InpatientDailyMedicationController::class, 'destroy']);
             Route::post('/{dailyMedication}/dispense', [InpatientDailyMedicationController::class, 'dispense']);
             Route::post('/{dailyMedication}/cancel', [InpatientDailyMedicationController::class, 'cancel']);
+        });
+
+    Route::prefix('inpatient-admissions/{inpatientAdmission}/daily-cares')
+        ->group(function () {
+            Route::get('/', [InpatientDailyCareController::class, 'index']);
+            Route::post('/', [InpatientDailyCareController::class, 'store']);
+//            Route::get('/{dailyCare}', [InpatientDailyCareController::class, 'show']);
+            Route::put('/{dailyCare}', [InpatientDailyCareController::class, 'update']);
+            Route::delete('/{dailyCare}', [InpatientDailyCareController::class, 'destroy']);
         });
 });
 
