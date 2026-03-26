@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\RoomType;
-use App\Models\Tenant;
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;

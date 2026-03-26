@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Module;
-use App\Models\Plan;
-use App\Models\PlanModule;
-use App\Models\Tenant;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -18,7 +15,7 @@ class TenantSeeder extends Seeder
     {
 
         for ($i = 0; $i < 3; $i++) {
-            Tenant::create([
+            TenantModel::create([
                 'id' => Str::uuid()->toString(),
                 'code' => now()->format('YmdHis') . "00" . $i++,
                 'name' => fake()->company(),

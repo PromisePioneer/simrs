@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Degree;
 use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Illuminate\Database\Seeder;
 

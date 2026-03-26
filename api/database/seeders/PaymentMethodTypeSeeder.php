@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\PaymentMethodType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodTypeModel;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodTypeSeeder extends Seeder
@@ -38,7 +37,7 @@ class PaymentMethodTypeSeeder extends Seeder
         ];
 
         foreach ($types as $type) {
-            PaymentMethodType::create($type);
+            PaymentMethodTypeModel::create($type);
         }
     }
 }

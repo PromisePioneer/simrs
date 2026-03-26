@@ -5,6 +5,7 @@ namespace App\Traits\Tenant;
 use App\Models\Tenant;
 use App\Services\Tenant\TenantContext;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\Scopes\TenantScope;
 
 trait HasActiveTenant
 {
@@ -35,7 +36,7 @@ trait HasActiveTenant
             }
 
             // Fallback: coba tanpa TenantScope
-            $roleWithoutScope = RoleModel::withoutGlobalScope(\App\Models\Scopes\TenantScope::class)
+            $roleWithoutScope = RoleModel::withoutGlobalScope(TenantScope::class)
                 ->where('uuid', $activeRoleId)
                 ->first();
 
@@ -120,31 +121,31 @@ trait HasActiveTenant
     public function getActiveUserData(): array
     {
         return [
-            'id'                 => $this->id,
-            'name'               => $this->name,
-            'email'              => $this->email,
-            'email_verified_at'  => $this->email_verified_at,
-            'roles'              => $this->getActiveRoleNames(),
-            'permissions'        => $this->getActivePermissionNames(),
-            'tenant'             => $this->getActiveTenant(),
-            'is_switched'        => $this->isSwitchedContext(),
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
+            'roles' => $this->getActiveRoleNames(),
+            'permissions' => $this->getActivePermissionNames(),
+            'tenant' => $this->getActiveTenant(),
+            'is_switched' => $this->isSwitchedContext(),
         ];
     }
 
     // TODO: FOR DEBUGGING
     public function getContextInfo(): array
     {
-        $activeRole   = $this->getActiveRole();
+        $activeRole = $this->getActiveRole();
         $originalRole = $this->roles->first();
 
         return [
             'original' => [
                 'tenant_id' => $this->tenant_id,
-                'role'      => $originalRole?->name,
+                'role' => $originalRole?->name,
             ],
             'active' => [
                 'tenant_id' => $this->getActiveTenantId(),
-                'role'      => $activeRole?->name,
+                'role' => $activeRole?->name,
             ],
             'is_switched' => $this->isSwitchedContext(),
         ];

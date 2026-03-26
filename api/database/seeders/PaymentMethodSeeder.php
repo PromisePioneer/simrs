@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\PaymentMethod;
-use App\Models\PaymentMethodType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodTypeModel;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodSeeder extends Seeder
@@ -18,9 +17,9 @@ class PaymentMethodSeeder extends Seeder
         $data = json_decode(file_get_contents($path), true);
 
         foreach ($data as $item) {
-            $type = PaymentMethodType::where('name', $item['tipe'])->first();
+            $type = PaymentMethodTypeModel::where('name', $item['tipe'])->first();
 
-            PaymentMethod::create([
+            PaymentMethodModel::create([
                 'name' => $item['nama'],
                 'payment_method_type_id' => $type->id,
             ]);

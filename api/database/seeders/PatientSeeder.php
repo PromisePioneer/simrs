@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Patient;
-use App\Models\PatientPaymentMethod;
-use App\Models\PatientAddress;
-use App\Models\PaymentMethod;
-use App\Models\PaymentMethodType;
+use DB;
+use Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodTypeModel;
+use Domains\Patient\Infrastructure\Persistence\Models\PatientAddressModel;
+use Domains\Patient\Infrastructure\Persistence\Models\PatientModel;
+use Domains\Patient\Infrastructure\Persistence\Models\PatientPaymentMethodModel;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class PatientSeeder extends Seeder
 {
     public function run(): void
     {
-        $tenantIds = \DB::table('tenants')->pluck('id')->toArray();
+        $tenantIds = DB::table('tenants')->pluck('id')->toArray();
 
         if (empty($tenantIds)) {
             $this->command->warn('No tenants found. Please seed tenants first.');
@@ -41,7 +40,7 @@ class PatientSeeder extends Seeder
             $province = array_rand($provinces);
             $city = $provinces[$province][array_rand($provinces[$province])];
 
-            $patient = Patient::create([
+            $patient = PatientModel::create([
                 'tenant_id' => $tenantId,
                 'full_name' => $this->generateName($gender),
                 'medical_record_number' => 'MR' . date('Ymd') . str_pad($index, 4, '0', STR_PAD_LEFT),
@@ -58,15 +57,15 @@ class PatientSeeder extends Seeder
                 'profile_picture' => null,
             ]);
 
-            $paymentMethodType = PaymentMethodType::inRandomOrder()->first();
+            $paymentMethodType = PaymentMethodTypeModel::inRandomOrder()->first();
 
-            PatientPaymentMethod::create([
+            PatientPaymentMethodModel::create([
                 'patient_id' => $patient->id,
                 'payment_method_type_id' => $paymentMethodType->id,
                 'bpjs_number' => rand(0, 1) ? 'BPJS' . rand(1000000, 9999999) : null,
             ]);
 
-            PatientAddress::create([
+            PatientAddressModel::create([
                 'patient_id' => $patient->id,
                 'address' => 'Jl. ' . $this->generateStreetName() . ' No. ' . rand(1, 100),
                 'province' => $province,

@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MedicineCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineCategoryModel;
 use Illuminate\Database\Seeder;
 
 class MedicineCategorySeeder extends Seeder
@@ -37,7 +36,7 @@ class MedicineCategorySeeder extends Seeder
         ];
 
         foreach ($data as $datum) {
-            MedicineCategory::create($datum);
+            MedicineCategoryModel::create($datum);
         }
     }
 }

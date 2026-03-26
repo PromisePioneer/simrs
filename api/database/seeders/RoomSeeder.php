@@ -2,16 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Bed;
-use App\Models\Room;
-use App\Models\RoomType;
-use App\Models\Tenant;
-use App\Models\Ward;
-use App\Services\Facilities\Bed\Service\BedService;
 use Domains\Facility\Infrastructure\Persistence\Models\BedModel;
 use Domains\Facility\Infrastructure\Persistence\Models\RoomModel;
 use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -19,7 +14,7 @@ class RoomSeeder extends Seeder
 {
     public function run(): void
     {
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
         $wards = WardModel::all();
         $roomTypes = RoomTypeModel::pluck('id');
         $tenants->each(function ($tenant) use ($wards, $roomTypes) {

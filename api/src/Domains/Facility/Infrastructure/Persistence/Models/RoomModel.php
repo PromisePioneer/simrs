@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Domains\Facility\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RoomModel extends TenantScopeBaseModel
+class RoomModel extends BaseTenantModel
 {
     use HasUuids;
 

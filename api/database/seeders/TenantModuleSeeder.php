@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Module;
-use App\Models\Permission;
-use App\Models\Tenant;
+use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
+use Domains\IAM\Infrastructure\Persistence\Models\PermissionModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -22,7 +22,7 @@ class TenantModuleSeeder extends Seeder
         try {
             $moduleIds = $this->createModules();
             $this->generateOwnerDefaultPermission();
-            $tenants = Tenant::all();
+            $tenants = TenantModel::all();
 
             foreach ($tenants as $tenant) {
                 $this->assignPermissionsToRoles($tenant->id);
@@ -231,7 +231,7 @@ class TenantModuleSeeder extends Seeder
 
     private function storeModuleStructure(array $moduleData, $parentId, array &$moduleIds): void
     {
-        $module = Module::updateOrCreate(
+        $module = ModuleModel::updateOrCreate(
             ['name' => $moduleData['name']],
             [
                 'parent_id' => $parentId,
@@ -256,7 +256,7 @@ class TenantModuleSeeder extends Seeder
     {
         foreach ($moduleIds as $moduleId => $permissions) {
             foreach ($permissions as $permissionName) {
-                Permission::updateOrCreate(
+                PermissionModel::updateOrCreate(
                     ['name' => $permissionName, 'guard_name' => 'sanctum'],
                     ['module_id' => $moduleId]
                 );
@@ -346,7 +346,7 @@ class TenantModuleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permissionName) {
-            $permission = Permission::updateOrCreate(
+            $permission = PermissionModel::updateOrCreate(
                 ['name' => $permissionName, 'guard_name' => 'sanctum']
             );
 

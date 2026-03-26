@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\Inpatient\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
-use Domains\Facility\Infrastructure\Persistence\Models\BedModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class InpatientAdmissionModel extends TenantScopeBaseModel
+class InpatientAdmissionModel extends BaseTenantModel
 {
     use HasUuids;
 

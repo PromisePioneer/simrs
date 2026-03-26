@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Domains\Pharmacy\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MedicineRackModel extends TenantScopeBaseModel
+class MedicineRackModel extends BaseTenantModel
 {
-    use HasUuids, HasFactory;
+    use HasUuids;
 
-    protected $table    = 'medicine_racks';
+    protected $table = 'medicine_racks';
     protected $fillable = ['tenant_id', 'warehouse_id', 'code', 'name'];
 
     public function warehouse(): BelongsTo

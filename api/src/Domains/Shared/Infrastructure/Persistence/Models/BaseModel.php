@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Domains\Shared\Infrastructure\Persistence\Models;
 
-use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 

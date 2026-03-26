@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\MedicineRack;
-use App\Models\MedicineWarehouse;
-use App\Models\Tenant;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineRackModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 
 class MedicineWarehouseSeeder extends Seeder
@@ -16,7 +14,7 @@ class MedicineWarehouseSeeder extends Seeder
      */
     public function run(): void
     {
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
 
         foreach ($tenants as $tenant) {
 

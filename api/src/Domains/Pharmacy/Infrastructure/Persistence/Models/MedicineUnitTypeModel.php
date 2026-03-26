@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Domains\Pharmacy\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MedicineUnitTypeModel extends TenantScopeBaseModel
+class MedicineUnitTypeModel extends BaseTenantModel
 {
     use HasUuids;
 
-    protected $table    = 'product_unit_types';
+    protected $table = 'product_unit_types';
     protected $fillable = ['tenant_id', 'code', 'name'];
 
     public function medicines(): HasMany

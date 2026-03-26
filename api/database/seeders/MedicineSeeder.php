@@ -2,24 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Medicine;
-use App\Models\MedicineBatch;
-use App\Models\MedicineBatchStock;
-use App\Models\Tenant;
-use App\Models\MedicineWarehouse;
-use App\Models\MedicineRack;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchStockModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineRackModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 
 class MedicineSeeder extends Seeder
 {
     public function run(): void
     {
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
 
         foreach ($tenants as $tenant) {
 

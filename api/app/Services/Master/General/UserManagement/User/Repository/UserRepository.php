@@ -4,7 +4,7 @@ namespace App\Services\Master\General\UserManagement\User\Repository;
 
 use App\Models\User;
 use App\Services\Master\General\UserManagement\User\Interface\UserRepositoryInterface;
-use App\Services\Tenant\TenantContext;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;

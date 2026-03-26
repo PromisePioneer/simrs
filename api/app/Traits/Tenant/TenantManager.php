@@ -2,11 +2,9 @@
 
 namespace App\Traits\Tenant;
 
-use App\Models\Scopes\TenantScope;
-use App\Models\User;
 use App\Services\Tenant\TenantContext;
+use Domains\Tenant\Infrastructure\Persistence\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
 trait TenantManager

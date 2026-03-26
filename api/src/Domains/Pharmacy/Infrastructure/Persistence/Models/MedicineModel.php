@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Domains\Pharmacy\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
 use Domains\Pharmacy\Domain\Factory\MedicineModelFactory;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MedicineModel extends TenantScopeBaseModel
+class MedicineModel extends BaseTenantModel
 {
     use HasUuids, HasFactory;
 

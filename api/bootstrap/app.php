@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Middleware\CheckModuleAccess;
-use App\Http\Middleware\CheckTenantSubscription;
 use App\Http\Middleware\EnsureEmailIsVerified;
-use App\Http\Middleware\EnsureTenantExists;
 use App\Http\Middleware\SetActiveRolePermissions;
-use App\Http\Middleware\SetActiveTenantContext;
-use App\Http\Middleware\SetTenantPermissionTeam;
+use Domains\Tenant\Presentation\Middleware\CheckModuleAccess;
+use Domains\Tenant\Presentation\Middleware\CheckTenantSubscription;
+use Domains\Tenant\Presentation\Middleware\EnsureTenantExists;
+use Domains\Tenant\Presentation\Middleware\SetActiveTenantContext;
+use Domains\Tenant\Presentation\Middleware\SetTenantPermissionTeam;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

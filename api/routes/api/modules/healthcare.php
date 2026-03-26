@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\General\Doctor\DoctorScheduleController;
-use App\Http\Controllers\Api\Outpatient\OutpatientVisitController;
 use App\Http\Controllers\Api\Outpatient\OutpatientVisitDashboardCountController;
-use App\Http\Controllers\Api\QueueController;
 use Domains\Clinical\Presentation\Controllers\DiagnoseController;
 use Domains\Clinical\Presentation\Controllers\PrescriptionController;
 use Domains\Facility\Presentation\Controllers\BedController;
@@ -21,10 +18,13 @@ use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
 use Domains\MasterData\Persentation\Controllers\PoliController;
 use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionController;
 use Domains\MasterData\Persentation\Controllers\RoomTypeController;
+use Domains\MedicalWork\Presentation\Controllers\DoctorScheduleController;
 use Domains\MedicalWork\Presentation\Controllers\ProfessionController;
 use Domains\MedicalWork\Presentation\Controllers\SpecializationController;
 use Domains\MedicalWork\Presentation\Controllers\SubSpecializationController;
 use Domains\Outpatient\Presentation\Controllers\AppointmentController;
+use Domains\Outpatient\Presentation\Controllers\OutpatientVisitController;
+use Domains\Outpatient\Presentation\Controllers\QueueController;
 use Domains\Patient\Presentation\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 

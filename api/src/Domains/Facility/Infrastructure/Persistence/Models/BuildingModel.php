@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\Facility\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BuildingModel extends TenantScopeBaseModel
+class BuildingModel extends BaseTenantModel
 {
     use HasUuids, SoftDeletes;
 

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Domains\Patient\Infrastructure\Persistence\Models;
 
-use App\Models\OutpatientVisit;
-use App\Models\Scopes\TenantScope;
+use Domains\Outpatient\Infrastructure\Persistence\Models\OutpatientVisitModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -78,6 +77,6 @@ class PatientModel extends Model
     public function outpatientVisits(): HasMany
     {
         // Masih menggunakan model lama sampai Outpatient domain di-migrate ke DDD
-        return $this->hasMany(OutpatientVisit::class, 'patient_id');
+        return $this->hasMany(OutpatientVisitModel::class, 'patient_id');
     }
 }

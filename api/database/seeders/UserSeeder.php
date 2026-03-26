@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Poli;
-use App\Models\Role;
-use App\Models\Tenant;
 use App\Models\User;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -28,7 +26,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now()
         ]);
         $superAdmin->assignRole(RoleModel::where('name', 'Super Admin')->first()->name);
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
         foreach ($tenants as $tenant) {
             /*
              *  DOCTOR

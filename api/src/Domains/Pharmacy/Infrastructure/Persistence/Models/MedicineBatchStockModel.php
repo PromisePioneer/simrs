@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Domains\Pharmacy\Infrastructure\Persistence\Models;
 
-use App\Models\TenantScopeBaseModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MedicineBatchStockModel extends TenantScopeBaseModel
+class MedicineBatchStockModel extends BaseTenantModel
 {
     use HasUuids;
 

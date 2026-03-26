@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
 use Domains\IAM\Infrastructure\Persistence\Models\PermissionModel;
 use Illuminate\Database\Seeder;
 
@@ -209,7 +210,7 @@ class PermissionSeeder extends Seeder
 
     public function run(): void
     {
-        $moduleMap = Module::pluck('id', 'name');
+        $moduleMap = ModuleModel::pluck('id', 'name');
 
         foreach ($this->permissions as $moduleName => $permissionNames) {
             $moduleId = $moduleMap->get($moduleName);
