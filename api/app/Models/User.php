@@ -7,10 +7,14 @@ use App\Services\Master\General\UserManagement\Permission\Repository\PermissionR
 use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
+use Domains\IAM\Domain\ValueObjects\DoctorSchedule;
+use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
+use Domains\IAM\Infrastructure\Persistence\Models\PermissionModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -210,12 +214,7 @@ class User extends Authenticatable
 
     public function tenant(): BelongsTo
     {
-        return $this->belongsTo(Tenant::class, 'tenant_id');
-    }
-
-    public function doctorProfile(): HasOne
-    {
-        return $this->hasOne(DoctorProfile::class);
+        return $this->belongsTo(TenantModel::class, 'tenant_id');
     }
 
 
@@ -306,13 +305,13 @@ class User extends Authenticatable
         }
 
         $userPermissions = PermissionRepository::getPermissionsByUser($this);
-        $module = Module::find($moduleId);
+        $module = ModuleModel::find($moduleId);
 
         if (!$module) {
             return false;
         }
 
-        return Module::hasAccessToModule($module, $userPermissions);
+        return ModuleModel::hasAccessToModule($module, $userPermissions);
     }
 
 
@@ -323,7 +322,7 @@ class User extends Authenticatable
             return true;
         }
 
-        $module = Module::where('route', $route)->first();
+        $module = ModuleModel::where('route', $route)->first();
         if (!$module) {
             return true; // route tanpa module = allow
         }
@@ -347,7 +346,7 @@ class User extends Authenticatable
             return false;
         }
 
-        $permission = Permission::where('name', $permissionName)->first();
+        $permission = PermissionModel::where('name', $permissionName)->first();
         if (!$permission || !$permission->module_id) {
             return true;
         }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Domains\IAM\Presentation\Controllers;
 
-use App\Models\Tenant;
 use App\Models\User as EloquentUser;
 use App\Services\Tenant\TenantContext;
 use App\Traits\ApiResponse;
@@ -24,6 +23,7 @@ use Domains\IAM\Infrastructure\Services\UserFileUploadService;
 use Domains\IAM\Presentation\Requests\CreateUserRequest;
 use Domains\IAM\Presentation\Requests\UpdateUserRequest;
 use Domains\IAM\Presentation\Resources\UserResource;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -216,7 +216,7 @@ class UserController extends Controller
         setPermissionsTeamId($tenantId);
 
         $activeRole = $user->getActiveRole();
-        $tenant = $tenantId ? Tenant::find($tenantId) : null;
+        $tenant = $tenantId ? TenantModel::find($tenantId) : null;
         $subscription = $tenant?->getActiveSubscription();
         $plan = $subscription?->plan;
 

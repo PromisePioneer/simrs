@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tenant;
 use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -34,7 +34,7 @@ class BuildingSeeder extends Seeder
             ],
         ];
 
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
 
         foreach ($tenants as $tenant) {
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domains\Tenant\Infrastructure\Persistence\Models;
 
-use App\Models\Subscription;
 use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
+use Domains\Subscriptions\Infrastructure\Persistence\Models\SubscriptionModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,12 +59,12 @@ class TenantModel extends BaseModel
 
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(Subscription::class, 'tenant_id');
+        return $this->hasMany(SubscriptionModel::class, 'tenant_id');
     }
 
     public function activeSubscription(): HasOne
     {
-        return $this->hasOne(Subscription::class, 'tenant_id')
+        return $this->hasOne(SubscriptionModel::class, 'tenant_id')
             ->where('status', 'active')
             ->latest();
     }
@@ -100,8 +100,8 @@ class TenantModel extends BaseModel
         }
 
         return $plan->modules()
-            ->where('module_id', $moduleId)
-            ->where('is_accessible', true)
+            ->where('plan_module.module_id', $moduleId)
+            ->where('plan_module.is_accessible', true)
             ->exists();
     }
 
@@ -114,7 +114,7 @@ class TenantModel extends BaseModel
         }
 
         $planModule = $plan->modules()
-            ->where('module_id', $moduleId)
+            ->where('plan_module.module_id', $moduleId)
             ->first();
 
         if (!$planModule) {
@@ -133,7 +133,7 @@ class TenantModel extends BaseModel
         }
 
         $planModule = $plan->modules()
-            ->where('module_id', $moduleId)
+            ->where('plan_module.module_id', $moduleId)
             ->first();
 
         return $planModule?->pivot->limit ?? null;

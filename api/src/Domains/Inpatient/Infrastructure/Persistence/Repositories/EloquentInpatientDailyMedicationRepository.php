@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\Inpatient\Infrastructure\Persistence\Repositories;
 
-use App\Models\MedicineBatch;
-use App\Services\MedicineStockMovement\Repository\MedicineStockMovementRepository;
+use Domains\Pharmacy\Domain\Repository\MedicineStockMovementRepositoryInterface;
 use Domains\Inpatient\Domain\Enum\InpatientMedicationStatus;
 use Domains\Inpatient\Domain\Repository\InpatientDailyMedicationRepositoryInterface;
 use Domains\Inpatient\Infrastructure\Persistence\Models\InpatientDailyMedicationModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +18,8 @@ use Throwable;
 readonly class EloquentInpatientDailyMedicationRepository implements InpatientDailyMedicationRepositoryInterface
 {
     public function __construct(
-        private InpatientDailyMedicationModel   $model,
-        private MedicineStockMovementRepository $stockMovementRepository,
+        private InpatientDailyMedicationModel            $model,
+        private MedicineStockMovementRepositoryInterface $stockMovementRepository,
     )
     {
     }
@@ -64,7 +65,7 @@ readonly class EloquentInpatientDailyMedicationRepository implements InpatientDa
     public function store(array $data): object
     {
         // Validasi stok sebelum menyimpan draft
-        $medicine = \App\Models\Medicine::with('batches.stock')
+        $medicine = MedicineModel::with('batches.stock')
             ->findOrFail($data['medicine_id']);
 
         $totalStock = $medicine->batches->sum(fn($b) => $b->stock->stock_amount ?? 0);
@@ -112,7 +113,7 @@ readonly class EloquentInpatientDailyMedicationRepository implements InpatientDa
             $quantity = (int)$medication->quantity;
 
             // Deduct stock FIFO by nearest expiry
-            $batches = MedicineBatch::where('medicine_id', $medicine->id)
+            $batches = MedicineBatchModel::where('medicine_id', $medicine->id)
                 ->whereHas('stock', fn($q) => $q->where('stock_amount', '>', 0))
                 ->with('stock')
                 ->orderBy('expired_date', 'asc')
@@ -145,8 +146,10 @@ readonly class EloquentInpatientDailyMedicationRepository implements InpatientDa
                     rackId: $batch->stock->rack_id,
                     beforeStock: $available,
                     stockAfter: $afterStock,
-                    prescriptionId: $medication->id,
+                    referenceId: $medication->id,
                     quantity: $deduct,
+                    referenceType: 'inpatient_medication',
+                    notes: "Dispensed for inpatient medication #{$medication->id}",
                 );
 
                 $remaining -= $deduct;

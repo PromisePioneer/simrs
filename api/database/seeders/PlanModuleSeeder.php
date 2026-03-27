@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Module;
-use App\Models\Plan;
 use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
 use Domains\Subscriptions\Infrastructure\Persistence\Models\PlanModel;
 use Illuminate\Database\Seeder;

@@ -6,7 +6,7 @@ namespace Domains\Pharmacy\Domain\Factory;
 
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineBatchModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
-use App\Models\Tenant;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Random\RandomException;
@@ -21,7 +21,7 @@ class MedicineBatchModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'tenant_id'    => Tenant::inRandomOrder()->value('id'),
+            'tenant_id'    => TenantModel::inRandomOrder()->value('id'),
             'medicine_id'  => MedicineModel::inRandomOrder()->value('id'),
             'batch_number' => 'BATCH-' . strtoupper(Str::random(8)),
             'sequence'     => random_int(1, 100),

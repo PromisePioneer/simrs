@@ -4,7 +4,9 @@ namespace Domains\Pharmacy\Domain\Factory;
 
 use App\Models\MedicineCategory;
 use App\Models\Tenant;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineCategoryModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,7 +17,7 @@ class MedicineModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'tenant_id' => Tenant::query()->inRandomOrder()->value('id'),
+            'tenant_id' => TenantModel::query()->inRandomOrder()->value('id'),
             'sku' => strtoupper(Str::random(10)),
             'sequence' => fake()->unique()->randomNumber(),
             'name' => $this->faker->randomElement([
@@ -50,7 +52,7 @@ class MedicineModelFactory extends Factory
             ]),
             'must_has_receipt' => $this->faker->boolean(70),
             'is_for_sell' => true,
-            'category_id' => MedicineCategory::inRandomOrder()->value('id'),
+            'category_id' => MedicineCategoryModel::inRandomOrder()->value('id'),
             'reference_purchase_price' => $this->faker->numberBetween(1000, 100000),
             'minimum_stock_amount' => $this->faker->numberBetween(10, 200),
         ];

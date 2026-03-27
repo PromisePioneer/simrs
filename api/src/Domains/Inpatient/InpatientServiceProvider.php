@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domains\Inpatient;
 
-use App\Models\InpatientAdmission;
-use App\Services\MedicineStockMovement\Repository\MedicineStockMovementRepository;
+use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineStockMovementModel;
+use Domains\Pharmacy\Infrastructure\Persistence\Repositories\EloquentMedicineStockMovementRepository;
 use Domains\Facility\Domain\Repository\BedRepositoryInterface;
 use Domains\Inpatient\Application\Services\BedAssignmentService;
 use Domains\Inpatient\Application\Services\InpatientAdmissionService;
@@ -42,7 +42,7 @@ class InpatientServiceProvider extends ServiceProvider
         $this->app->bind(InpatientDailyMedicationRepositoryInterface::class,
             fn() => new EloquentInpatientDailyMedicationRepository(
                 new InpatientDailyMedicationModel(),
-                new MedicineStockMovementRepository(),
+                new EloquentMedicineStockMovementRepository(new MedicineStockMovementModel()),
             )
         );
 
@@ -103,6 +103,6 @@ class InpatientServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::policy(InpatientAdmission::class, InpatientAdmissionPolicy::class);
+        Gate::policy(InpatientAdmissionModel::class, InpatientAdmissionPolicy::class);
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domains\Payment\Infrastructure\Listeners;
 
-use App\Models\Plan;
-use App\Models\Subscription;
+use Domains\Subscriptions\Infrastructure\Persistence\Models\PlanModel;
+use Domains\Subscriptions\Infrastructure\Persistence\Models\SubscriptionModel;
 use Domains\Tenant\Domain\Events\TenantCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Log;
  *  - Cari Free Plan
  *  - Assign ke tenant yang baru dibuat
  *  - Supaya tenant tidak langsung kena block CheckTenantSubscription
- *
- * Implements ShouldQueue agar tidak memblok response HTTP,
- * tapi sync juga oke kalau queue belum dikonfigurasi.
  */
 class AssignFreePlanOnTenantCreated implements ShouldQueue
 {
@@ -32,15 +29,15 @@ class AssignFreePlanOnTenantCreated implements ShouldQueue
             return;
         }
 
-        $freePlan = Plan::where('slug', 'free')->first();
+        $freePlan = PlanModel::where('slug', 'free')->first();
 
         if (!$freePlan) {
             Log::warning('[AssignFreePlanOnTenantCreated] Free plan tidak ditemukan, skip.');
             return;
         }
 
-        // Cek sudah ada subscription aktif (idempotent)
-        $alreadyExists = Subscription::where('tenant_id', $tenantId)
+        // Idempotent — skip kalau sudah ada
+        $alreadyExists = SubscriptionModel::where('tenant_id', $tenantId)
             ->where('plan_id', $freePlan->id)
             ->exists();
 
@@ -48,7 +45,7 @@ class AssignFreePlanOnTenantCreated implements ShouldQueue
             return;
         }
 
-        Subscription::create([
+        SubscriptionModel::create([
             'tenant_id'     => $tenantId,
             'plan_id'       => $freePlan->id,
             'status'        => 'active',

@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Building;
-use App\Models\Department;
-use App\Models\Tenant;
-use App\Models\Ward;
 use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
 use Domains\Facility\Infrastructure\Persistence\Models\WardModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\DepartmentModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 
 class WardSeeder extends Seeder
@@ -18,7 +15,7 @@ class WardSeeder extends Seeder
      */
     public function run(): void
     {
-        $tenants = Tenant::all();
+        $tenants = TenantModel::all();
         foreach ($tenants as $tenant) {
             for ($i = 0; $i <= 5; $i++) {
                 WardModel::create([

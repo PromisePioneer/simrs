@@ -10,12 +10,14 @@ use Illuminate\Http\Request;
 
 class BuildingService
 {
-    public function __construct(private BuildingRepositoryInterface $buildingRepository) {}
+    public function __construct(private BuildingRepositoryInterface $buildingRepository)
+    {
+    }
 
     public function getBuildings(Request $request): object
     {
-        $filters  = $request->only(['search']);
-        $perPage  = $request->input('per_page');
+        $filters = $request->only(['search']);
+        $perPage = (int)$request->input('per_page');
         return $this->buildingRepository->getBuildings(filters: $filters, perPage: $perPage);
     }
 

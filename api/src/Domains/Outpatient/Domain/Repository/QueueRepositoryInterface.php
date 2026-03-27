@@ -11,5 +11,5 @@ interface QueueRepositoryInterface
     public function store(array $data): object;
     public function update(array $data, string $id): object;
     public function delete(string $id): void;
-    public function countTodayQueues(): int;
+    public function countTodayQueues(string $today): int;
 }

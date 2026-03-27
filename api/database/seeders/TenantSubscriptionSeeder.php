@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Domains\Subscriptions\Infrastructure\Persistence\Models\PlanModel;
 use Domains\Subscriptions\Infrastructure\Persistence\Models\SubscriptionModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Seeder;
 
 class TenantSubscriptionSeeder extends Seeder
@@ -19,7 +20,7 @@ class TenantSubscriptionSeeder extends Seeder
             return;
         }
 
-        foreach (Tenant::all() as $tenant) {
+        foreach (TenantModel::all() as $tenant) {
             SubscriptionModel::updateOrCreate(
                 ['tenant_id' => $tenant->id],
                 [

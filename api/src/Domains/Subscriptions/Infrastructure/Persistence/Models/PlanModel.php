@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domains\Subscriptions\Infrastructure\Persistence\Models;
 
+use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
 use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,12 +36,11 @@ class PlanModel extends BaseModel
 
     public function modules(): BelongsToMany
     {
-        // pivot table: plan_modules
         return $this->belongsToMany(
-            \Domains\IAM\Infrastructure\Persistence\Models\ModuleModel::class,
-            'plan_modules',
-            'plan_id',
-            'module_id'
-        );
+            ModuleModel::class,
+            'plan_module',  // pivot table — sesuai migration
+            'plan_id',      // FK dari plans
+            'module_id'     // FK ke modules
+        )->withPivot('is_accessible', 'limit');
     }
 }

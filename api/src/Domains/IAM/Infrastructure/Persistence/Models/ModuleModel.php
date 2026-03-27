@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domains\IAM\Infrastructure\Persistence\Models;
 
+use Domains\Subscriptions\Infrastructure\Persistence\Models\PlanModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,9 +44,11 @@ class ModuleModel extends Model
     public function plans(): BelongsToMany
     {
         return $this->belongsToMany(
-            \App\Models\Plan::class,
-            'plan_module'
-        )->withPivot('is_accessible', 'limit', 'allowed_permissions');
+            PlanModel::class,
+            'plan_module',  // pivot table — sesuai migration
+            'module_id',    // FK dari modules
+            'plan_id'       // FK ke plans
+        )->withPivot('is_accessible', 'limit');
     }
 
     public function isAccessibleByPlan(object $plan): bool

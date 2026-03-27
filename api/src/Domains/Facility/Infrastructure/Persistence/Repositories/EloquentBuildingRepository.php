@@ -7,9 +7,11 @@ namespace Domains\Facility\Infrastructure\Persistence\Repositories;
 use Domains\Facility\Domain\Repository\BuildingRepositoryInterface;
 use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
 
-class EloquentBuildingRepository implements BuildingRepositoryInterface
+readonly class EloquentBuildingRepository implements BuildingRepositoryInterface
 {
-    public function __construct(private BuildingModel $model) {}
+    public function __construct(private BuildingModel $model)
+    {
+    }
 
     public function getBuildings(array $filters = [], ?int $perPage = null): object
     {
