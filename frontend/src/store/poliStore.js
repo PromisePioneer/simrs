@@ -53,7 +53,7 @@ export const usePoliStore = create((set, get) => ({
 
             set({
                 isLoading: false,
-                poliData: response.data.data
+                poliData: response.data
             })
         } catch (e) {
             toast.error("Operasi Gagal");

@@ -42,7 +42,7 @@ abstract class BaseEloquentRepository
         $query = $this->applyFilters($query, $filters);
 
 
-        return $perPage ? $query->paginate($perPage) : (object)$query->get();
+        return $perPage ? $query->paginate($perPage) : $query->limit(10)->get();
     }
 
     public function store(array $data): object
@@ -50,7 +50,7 @@ abstract class BaseEloquentRepository
         return $this->model->create($data);
     }
 
-    public function update(array $data, string $id): object
+    public function update(string $id, array $data): object
     {
         $record = $this->findById($id);
         $record->update($data);

@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import {create} from "zustand";
 import apiCall from "@/shared/services/apiCall.js";
-import { toast } from "sonner";
+import {toast} from "sonner";
 
 export const usePoliStore = create((set, get) => ({
     isLoading: false,
@@ -12,71 +12,68 @@ export const usePoliStore = create((set, get) => ({
     openDeleteModal: false,
     deleteLoading: false,
 
-    setSearch: (search) => set({ search }),
-    setCurrentPage: (page) => set({ currentPage: page }),
+    setSearch: (search) => set({search}),
+    setCurrentPage: (page) => set({currentPage: page}),
 
     setOpenModal: async (id = null) => {
         if (id) await get().showPoli(id);
-        set({ openModal: !get().openModal });
+        set({openModal: !get().openModal});
     },
     setOpenDeleteModal: async (id = null) => {
         if (id) await get().showPoli(id);
-        set({ openDeleteModal: !get().openDeleteModal });
+        set({openDeleteModal: !get().openDeleteModal});
     },
 
-    fetchPoli: async ({ perPage = null } = {}) => {
+    fetchPoli: async ({perPage = null} = {}) => {
         try {
-            const { search, currentPage } = get();
-            const params = { page: currentPage };
+            const {search, currentPage} = get();
+            const params = {page: currentPage};
             if (perPage) params.per_page = perPage;
             if (search?.trim()) params.search = search;
-            const response = await apiCall.get("/api/v1/poli", { params });
-            set({ poliData: response.data });
+            const response = await apiCall.get("/api/v1/poli", {params});
+            set({poliData: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-
     showPoli: async (id) => {
         try {
             const response = await apiCall.get(`/api/v1/poli/${id}`);
-            set({ poliValue: response.data });
+            set({poliValue: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-
     createPoli: async (data) => {
         try {
             await apiCall.post("/api/v1/poli", data);
             toast.success("Poli berhasil ditambahkan.");
-            set({ openModal: false });
-            await get().fetchPoli({ perPage: 20 });
+            set({openModal: false});
+            await get().fetchPoli({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-
     updatePoli: async (id, data) => {
         try {
             await apiCall.put(`/api/v1/poli/${id}`, data);
             toast.success("Poli berhasil diperbarui.");
-            set({ openModal: false });
-            await get().fetchPoli({ perPage: 20 });
+            set({openModal: false});
+            await get().fetchPoli({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
 
     deletePoli: async (id) => {
-        set({ deleteLoading: true });
+        set({deleteLoading: true});
         try {
             await apiCall.delete(`/api/v1/poli/${id}`);
             toast.success("Poli berhasil dihapus.");
-            set({ openDeleteModal: false, deleteLoading: false });
-            await get().fetchPoli({ perPage: 20 });
+            set({openDeleteModal: false, deleteLoading: false});
+            await get().fetchPoli({perPage: 20});
         } catch (e) {
-            set({ deleteLoading: false });
+            set({deleteLoading: false});
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },

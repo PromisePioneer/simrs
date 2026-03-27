@@ -59,6 +59,9 @@ class ModuleController extends Controller
         return $this->successResponse($result, 'Module berhasil diperbarui.');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function updatedModule(Request $request): JsonResponse
     {
         $result = $this->moduleService->updatedModule($request);

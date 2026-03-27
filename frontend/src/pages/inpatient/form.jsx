@@ -33,7 +33,7 @@ function InpatientForm(opts) {
     const navigate = useNavigate();
 
     const {fetchPatientOptions} = usePatientStore();
-    const {fetchDoctorOptions, userData} = useUserStore();
+    const {fetchDoctorOptions} = useUserStore();
     const {fetchBedOptions} = useBedStore();
 
     const fetchAvailableBeds = useCallback(

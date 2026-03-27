@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
-use App\Http\Controllers\Api\Master\General\Tenant\TenantController;
+use Domains\Tenant\Presentation\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
 

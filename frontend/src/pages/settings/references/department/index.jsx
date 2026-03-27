@@ -20,8 +20,6 @@ function DepartmentPage() {
         openModal,
         openDeleteModal,
         departmentValue,
-
-
         setCurrentPage,
         setSearch,
         setOpenModal,

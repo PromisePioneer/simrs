@@ -10,7 +10,7 @@ export const usePaymentMethodStore = create((set, get) => ({
     paymentMethods: [],
     paymentMethodTypes: [],
     paymentMethodValueLoading: false,
-    paymentMethodValue: null,
+    paymentMethodValue: {},
     error: null,
     search: '',
     submitLoading: false,
@@ -58,7 +58,6 @@ export const usePaymentMethodStore = create((set, get) => ({
                 params.search = search;
             }
             const response = await apiCall.get('/api/v1/payment-methods', {params});
-
             set({
                 paymentMethodLoading: false,
                 paymentMethods: response.data
@@ -95,6 +94,16 @@ export const usePaymentMethodStore = create((set, get) => ({
                 error: e.data.message || "Operasi Gagal"
             })
         }
+    },
+    fetchPaymentMethodTypeOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/payment-method-types", {
+            params: {search}
+        });
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map(b => ({
+            value: b.id,
+            label: b.name,
+        }));
     },
     async createPaymentMethod(data) {
         try {

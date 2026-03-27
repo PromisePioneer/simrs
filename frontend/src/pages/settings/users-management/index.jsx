@@ -100,13 +100,11 @@ function UsersManagementPage() {
 
     return (
         <SettingPage>
-            {/* Header ditempatkan di luar Tabs */}
             <div className="mb-6">
                 <h2 className="text-2xl font-bold tracking-tight">Manajemen Pengguna</h2>
                 <p className="text-muted-foreground">Kelola data pengguna .</p>
             </div>
 
-            {/* Tabs dengan content */}
             <PermissionTabs
                 activeTab={activeTab}
                 tabs={tabs}

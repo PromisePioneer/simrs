@@ -113,7 +113,6 @@ Route::middleware(['module:Rawat Inap'])->group(function () {
         ->group(function () {
             Route::get('/', [InpatientDailyCareController::class, 'index']);
             Route::post('/', [InpatientDailyCareController::class, 'store']);
-//            Route::get('/{dailyCare}', [InpatientDailyCareController::class, 'show']);
             Route::put('/{dailyCare}', [InpatientDailyCareController::class, 'update']);
             Route::delete('/{dailyCare}', [InpatientDailyCareController::class, 'destroy']);
         });

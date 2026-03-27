@@ -13,8 +13,8 @@ use Illuminate\Http\JsonResponse;
 
 class PaymentMethodTypeController extends BaseCrudController
 {
-    protected string $resourceClass  = PaymentMethodTypeResource::class;
-    protected ?string $policyClass   = PaymentMethodTypePolicy::class;
+    protected string $resourceClass = PaymentMethodTypeResource::class;
+    protected ?string $policyClass = PaymentMethodTypePolicy::class;
 
     public function __construct(PaymentMethodTypeService $service)
     {
@@ -27,6 +27,17 @@ class PaymentMethodTypeController extends BaseCrudController
         $result = $this->service->store($request->validated());
         return response()->json(new PaymentMethodTypeResource($result), 201);
     }
+
+
+    public function show(string $id): JsonResponse
+    {
+        if ($this->policyClass) {
+            $this->authorize('view', $this->policyClass);
+        }
+        $result = $this->service->findById($id);
+        return response()->json(new $this->resourceClass($result));
+    }
+
 
     public function update(PaymentMethodTypeRequest $request, string $paymentMethodType): JsonResponse
     {

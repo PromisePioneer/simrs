@@ -9,14 +9,13 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import Modal from "@/components/common/modal.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
-import {CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.jsx";
+import {AsyncSelect} from "@/components/common/async-select.jsx";
 
 function PaymentMethodPage() {
     const {
         paymentMethodLoading,
-        paymentMethodTypes,
         paymentMethodValue,
+        fetchPaymentMethodTypeOptions,
         fetchPaymentMethods,
         fetchPaymentMethodType,
         paymentMethods,
@@ -35,7 +34,13 @@ function PaymentMethodPage() {
         columns: paymentColumns,
     } = usePaymentMethodStore();
 
-    const paymentForm = useForm({
+    const {
+        register,
+        control,
+        reset,
+        handleSubmit,
+        formState: {isSubmitting, errors}
+    } = useForm({
         mode: "all",
         reValidateMode: "onChange",
         defaultValues: {
@@ -53,23 +58,24 @@ function PaymentMethodPage() {
 
     useEffect(() => {
         if (paymentMethodValue && !paymentOpenDeleteModal) {
-            paymentForm.reset({
+            reset({
                 name: paymentMethodValue.name || "",
-                payment_method_type_id: paymentMethodValue.payment_method_type_id || ""
+                payment_method_type_id: paymentMethodValue.type?.id || paymentMethodValue.payment_method_type_id || ""
             })
         } else {
-            paymentForm.reset({name: "", payment_method_type_id: ""});
+            reset({name: "", payment_method_type_id: ""});
         }
-    }, [paymentMethodValue, paymentForm, paymentOpenDeleteModal]);
+    }, [paymentMethodValue, paymentOpenDeleteModal]);
 
     useEffect(() => {
         if (!paymentOpenModal) {
-            paymentForm.reset({name: "", payment_method_type_id: ""});
+            reset({name: "", payment_method_type_id: ""});
             if (setPaymentMethodValue) {
                 setPaymentMethodValue(null);
             }
         }
-    }, [paymentOpenModal, paymentForm, setPaymentMethodValue]);
+    }, [paymentOpenModal, setPaymentMethodValue]);
+
 
     const onSubmitPayment = async (data) => {
         if (paymentMethodValue) {
@@ -82,7 +88,7 @@ function PaymentMethodPage() {
     const renderRowPayment = (paymentMethod, index) => (
         <TableRow key={paymentMethod.id} className="hover:bg-muted/50 transition-colors">
             <TableCell className="font-medium text-muted-foreground">
-                {paymentMethods.from + index}
+                {paymentMethods.meta.from + index}
             </TableCell>
             <TableCell>
                 <div className="flex items-center gap-3">
@@ -100,7 +106,7 @@ function PaymentMethodPage() {
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
-                                {paymentMethod.payment_method_type.name}
+                                {paymentMethod?.payment_method_type?.name}
                             </span>
                     </div>
                 </div>
@@ -173,8 +179,8 @@ function PaymentMethodPage() {
                 data={paymentMethods?.data || []}
                 isLoading={paymentMethodLoading}
                 pagination={paymentMethods ? {
-                    from: paymentMethods.from, to: paymentMethods.to, total: paymentMethods.total,
-                    current_page: paymentMethods.current_page, last_page: paymentMethods.last_page
+                    from: paymentMethods.meta?.from, to: paymentMethods.meta?.to, total: paymentMethods.meta?.total,
+                    current_page: paymentMethods.meta?.current_page, last_page: paymentMethods.meta?.last_page
                 } : null}
                 onPageChange={setPaymentCurrentPage}
                 currentPage={paymentCurrentPage}
@@ -187,81 +193,47 @@ function PaymentMethodPage() {
                 showSearch={true}
             />
 
-            {/* Modal SubscriptionPayment: Add/Edit */}
             <Modal
                 open={paymentOpenModal}
                 onOpenChange={setPaymentOpenModal}
                 title={paymentMethodValue ? "Edit Metode Pembayaran" : "Tambah Metode Pembayaran"}
                 description={paymentMethodValue ? "Update metode pembayaran" : "Tambah metode pembayaran baru ke sistem"}
-                onSubmit={paymentForm.handleSubmit(onSubmitPayment)}
+                onSubmit={handleSubmit(onSubmitPayment)}
                 submitText={paymentMethodValue ? "Update" : "Buat Metode"}
-                isLoading={paymentForm.formState.isSubmitting}
+                isLoading={isSubmitting}
             >
                 <div className="space-y-5 py-2">
                     <div className="space-y-2.5">
                         <Label htmlFor="payment-name" className="text-sm font-semibold">Nama <span
                             className="text-destructive">*</span></Label>
                         <Input id="payment-name" placeholder="Masukkan nama metode pembayaran"
-                               {...paymentForm.register("name", {required: "Nama metode pembayaran tidak boleh kosong"})}/>
-                        {paymentForm.formState.errors.name &&
-                            <p className="text-sm text-destructive">{paymentForm.formState.errors.name.message}</p>}
+                               {...register("name", {required: "Nama metode pembayaran tidak boleh kosong"})}/>
+                        {errors.name &&
+                            <p className="text-sm text-destructive">{errors.name.message}</p>}
                     </div>
 
                     <div className="space-y-2">
                         <Label htmlFor="payment-type">Tipe Metode Pembayaran</Label>
-                        <Controller name="payment_method_type_id" control={paymentForm.control}
-                                    rules={{required: "Tipe tidak boleh kosong"}}
-                                    render={({field}) => {
-                                        const [open, setOpen] = useState(false);
-                                        return (
-                                            <Popover open={open} onOpenChange={setOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <Button variant="outline" role="combobox"
-                                                            aria-expanded={open}
-                                                            className="w-full justify-between">
-                                                        {field.value
-                                                            ? paymentMethodTypes.find((str) => str.id === field.value)?.name
-                                                            : "Pilih tipe metode pembayaran..."}
-                                                        <ChevronsUpDown className="opacity-50"/>
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-[480px]">
-                                                    <Command>
-                                                        <CommandInput placeholder="Cari tipe..."
-                                                                      className="h-9"/>
-                                                        <CommandList>
-                                                            <CommandEmpty>
-                                                                Tipe tidak ditemukan.
-                                                            </CommandEmpty>
-                                                            <CommandGroup className="w-full">
-                                                                {paymentMethodTypes.map((type) => (
-                                                                    <CommandItem key={type.id}
-                                                                                 value={type.id}
-                                                                                 onSelect={() => {
-                                                                                     field.onChange(type.id === field.value ? "" : type.id);
-                                                                                     setOpen(false);
-                                                                                 }}>
-                                                                        {type.name}
-                                                                        <Check className={cn(
-                                                                            "ml-auto",
-                                                                            field.value === type.id ? "opacity-100" : "opacity-0"
-                                                                        )}/>
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover>
-                                        );
-                                    }}/>
-                        {paymentForm.formState.errors.payment_method_type_id &&
-                            <p className="text-sm text-destructive">{paymentForm.formState.errors.payment_method_type_id.message}</p>}
+                        <Controller
+                            name="payment_method_type_id"
+                            control={control}
+                            rules={{required: "Tipe Metode Pembayaran wajib dipilih"}}
+                            render={({field}) => (
+                                <AsyncSelect fetchFn={fetchPaymentMethodTypeOptions}
+                                             value={field.value}
+                                             onChange={field.onChange}
+                                             placeholder="Cari Tipe Pembayaran..."
+                                             debounce={300}
+                                             defaultLabel={paymentMethodValue?.type?.name}
+                                />
+                            )}
+                        />
+                        {errors.payment_method_type_id &&
+                            <p className="text-sm text-destructive">{errors.payment_method_type_id.message}</p>}
                     </div>
                 </div>
             </Modal>
 
-            {/* Modal SubscriptionPayment: Delete */}
             <Modal
                 open={paymentOpenDeleteModal}
                 onOpenChange={setPaymentOpenDeleteModal}
@@ -282,10 +254,14 @@ function PaymentMethodPage() {
                                 </div>
                             </div>
                             <div className="flex-1 space-y-1">
-                                <p className="text-sm font-semibold text-foreground">Konfirmasi
-                                    Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus: <span
-                                    className="font-semibold text-foreground">{paymentMethodValue?.name}</span>
+                                <p className="text-sm font-semibold text-foreground">
+                                    Konfirmasi Penghapusan
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                    Anda akan menghapus:
+                                    <span className="font-semibold text-foreground">
+                                        {paymentMethodValue?.name}
+                                    </span>
                                 </p>
                             </div>
                         </div>

@@ -30,7 +30,7 @@ class PoliController extends BaseCrudController
     public function update(PoliRequest $request, string $id): JsonResponse
     {
         $this->authorize('update', $this->policyClass);
-        $result = $this->service->update($request->validated(), $id);
+        $result = $this->service->update(data: $request->validated(), id: $id);
         return response()->json(new PoliResource($result));
     }
 }

@@ -9,14 +9,14 @@ import {useRoleStore} from "@/store/useRoleStore.js";
 import {useRegistrationInstitutionStore} from "@/store/useRegistrationInstitutionStore.js";
 import {useUserStore} from "@/store/useUserStore.js";
 
-import UserGeneralInfoSection from "@/components/user/form-sections/general-info.jsx";
-import UserSTRInfoSection from "@/components/user/form-sections/str-info.jsx";
-import UserSIPInfoSection from "@/components/user/form-sections/sip-info.jsx";
-import UserMediaSection from "@/components/user/form-sections/media.jsx";
+import UserGeneralInfoSection from "@/pages/settings/users-management/users/components/form/general-info.jsx";
+import UserSTRInfoSection from "@/pages/settings/users-management/users/components/form/str-info.jsx";
+import UserSIPInfoSection from "@/pages/settings/users-management/users/components/form/sip-info.jsx";
+import UserMediaSection from "@/pages/settings/users-management/users/components/form/media.jsx";
 import {useImagePreview} from "@/hooks/useImagePreview.js";
 import {asset} from "@/services/apiCall.js";
 import SettingPage from "@/pages/settings/index.jsx";
-import UserDoctorScheduleSection from "@/components/user/form-sections/doctor-schedule.jsx";
+import UserDoctorScheduleSection from "@/pages/settings/users-management/users/components/form/doctor-schedule.jsx";
 import {format} from "date-fns";
 
 const formatUserDataForForm = (userData) => ({
@@ -43,7 +43,7 @@ function UserForm(opts) {
 
     const {showUser, userValue, updateUser, createUser} = useUserStore();
     const {fetchRoles, roleData} = useRoleStore();
-    const {fetchInstitutions, strData, sipData} = useRegistrationInstitutionStore();
+    const {fetchInstitutions, fetchStrOptions, fetchSipOptions} = useRegistrationInstitutionStore();
 
     const {
         register,
@@ -144,8 +144,8 @@ function UserForm(opts) {
             result = await createUser(formData);
         }
 
-        if (result.success) {
-            await navigate({ to: "/settings/users-management" });
+        if (result?.success) {
+            await navigate({to: "/settings/users-management"});
         }
     };
     const handleInstituteType = async (type) => {
@@ -200,7 +200,8 @@ function UserForm(opts) {
                             control={control}
                             errors={errors}
                             isDoctor={isDoctor}
-                            strData={strData || []}
+                            userValue={userValue}
+                            fetchStrOptions={fetchStrOptions}
                             handleInstituteType={handleInstituteType}
                         />
 
@@ -209,7 +210,8 @@ function UserForm(opts) {
                             control={control}
                             errors={errors}
                             isDoctor={isDoctor}
-                            sipData={sipData || []}
+                            userValue={userValue}
+                            fetchSipOptions={fetchSipOptions}
                             handleInstituteType={handleInstituteType}
                         />
 

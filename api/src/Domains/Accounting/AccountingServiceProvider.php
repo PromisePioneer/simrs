@@ -29,7 +29,6 @@ class AccountingServiceProvider extends ServiceProvider
         $this->app->bind(AccountController::class,
             fn($app) => new AccountController($app->make(AccountService::class)));
 
-        // JournalEntryController pakai auth()->user() langsung — tidak perlu inject
         $this->app->bind(JournalEntryController::class);
     }
 }

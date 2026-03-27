@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Domains\Shared\Domain\Repository;
 
-/**
- * Base Repository Interface.
- *
- * Semua repository interface extend ini.
- * Method tambahan yang spesifik domain ditambahkan di masing-masing interface.
- */
 interface BaseRepositoryInterface
 {
     public function findById(string $id): object;
@@ -18,7 +12,7 @@ interface BaseRepositoryInterface
 
     public function store(array $data): object;
 
-    public function update(array $data, string $id): object;
+    public function update(string $id, array $data): object;
 
     public function delete(string $id): void;
 }

@@ -1,9 +1,9 @@
 import {useEffect} from "react";
 import {useWatch} from "react-hook-form";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {Badge} from "@/components/ui/badge";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.jsx";
+import {Input} from "@/components/ui/input.jsx";
+import {Label} from "@/components/ui/label.jsx";
+import {Badge} from "@/components/ui/badge.jsx";
 import {Clock} from "lucide-react";
 
 const DAYS = [
@@ -18,20 +18,13 @@ const DAYS = [
 
 function UserDoctorScheduleSection({control, register, setValue, isDoctor}) {
     const scheduleValues = useWatch({control, name: "doctor_schedule"});
-
-    // Pastikan semua 7 hari ada dan ter-sync saat isDoctor aktif atau data masuk
     useEffect(() => {
         if (!isDoctor) return;
-
         const current = scheduleValues || [];
-
-        // Build lookup dari data yang sudah ada
         const existing = {};
         current.forEach((s) => {
             if (s?.day_of_week) existing[s.day_of_week] = s;
         });
-
-        // Set tiap hari satu per satu pakai setValue supaya nilai ter-sync ke input
         DAYS.forEach((day, index) => {
             setValue(`doctor_schedule.${index}.day_of_week`, day.value, {shouldDirty: false});
             setValue(

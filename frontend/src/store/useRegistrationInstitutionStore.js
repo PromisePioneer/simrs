@@ -13,7 +13,6 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
     institutionValue: null,
     currentPage: 1,
     setOpenModal: (openModal, id) => {
-
         if (id) {
             get().showInstitution(id);
         }
@@ -66,28 +65,49 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
                 params: params
             });
 
-
-            if (type === "str") {
-                set({
-                    strData: response.data,
-                    isLoading: false,
-                })
-            } else if (type === "sip") {
-                set({
-                    sipData: response.data,
-                    isLoading: false,
-                })
-            } else {
-                set({
-                    institutionData: response.data,
-                    isLoading: false,
-                });
-            }
+            set({
+                institutionData: response.data,
+                isLoading: false,
+            });
         } catch (e) {
             toast.error(`${e.response?.data?.message || "Operasi Gagal"}`)
             set({
                 isLoading: false
             });
+        }
+    },
+    fetchStrOptions: async (search) => {
+        try {
+            const res = await apiCall.get("/api/v1/registration-institutions", {
+                params: {
+                    search,
+                    type: "str"
+                }
+            });
+            const data = res.data?.data ?? res.data ?? [];
+            return data.map(b => ({
+                value: b.id,
+                label: b.name,
+            }));
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi Gagal");
+        }
+    },
+    fetchSipOptions: async (search) => {
+        try {
+            const res = await apiCall.get("/api/v1/registration-institutions", {
+                params: {
+                    search,
+                    type: "sip"
+                }
+            });
+            const data = res.data?.data ?? res.data ?? [];
+            return data.map(b => ({
+                value: b.id,
+                label: b.name,
+            }));
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi Gagal");
         }
     },
     async createInstitution(data) {

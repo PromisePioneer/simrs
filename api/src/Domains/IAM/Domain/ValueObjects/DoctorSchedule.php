@@ -17,9 +17,9 @@ final class DoctorSchedule
     ];
 
     public function __construct(
-        private readonly string $dayOfWeek,
-        private readonly string $startTime,
-        private readonly string $endTime,
+        private readonly ?string $dayOfWeek,
+        private readonly ?string $startTime,
+        private readonly ?string $endTime,
     ) {
         $this->validate();
     }

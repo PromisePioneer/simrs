@@ -4,15 +4,22 @@ import {Input} from "@/components/ui/input.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Calendar} from "@/components/ui/calendar.jsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.jsx";
-import {FileText, Calendar as CalendarIcon, ChevronsUpDown, Check, X} from "lucide-react";
+import {FileText, Calendar as CalendarIcon} from "lucide-react";
 import {Controller} from "react-hook-form";
-import {useState} from "react";
 import {format} from "date-fns";
-import {cn} from "@/lib/utils";
-import {ClearSelectedOption} from "@/components/ui/clear-selected-option.jsx";
+import {cn} from "@/lib/utils.js";
+import {AsyncSelect} from "@/components/common/async-select.jsx";
 
-export default function UserSIPInfoSection({register, control, errors, isDoctor, sipData, handleInstituteType}) {
+export default function UserSIPInfoSection({
+                                               register,
+                                               control,
+                                               errors,
+                                               isDoctor,
+                                               userValue,
+                                               fetchSipOptions,
+                                           }) {
+    if (!isDoctor) return null;
+
     return (
         <Card>
             <CardHeader>
@@ -33,66 +40,16 @@ export default function UserSIPInfoSection({register, control, errors, isDoctor,
                         <Controller
                             name="sip_institution_id"
                             control={control}
-                            rules={{
-                                required: isDoctor ? "Lembaga pendaftaran SIP wajib diisi untuk dokter/perawat" : false
-                            }}
-                            render={({field}) => {
-                                const [open, setOpen] = useState(false);
-                                const selectedVal = sipData.find((sip) => sip.id === field.value)?.name;
-                                return (
-                                    <div className="relative">
-                                        <Popover open={open} onOpenChange={setOpen}>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    aria-expanded={open}
-                                                    className="w-full justify-between"
-                                                    onClick={() => {
-                                                        if (sipData.length === 0) {
-                                                            handleInstituteType("sip");
-                                                        }
-                                                    }}
-                                                >
-                                                    {field.value
-                                                        ? selectedVal.substring(0, 40) + '...'
-                                                        : "Pilih lembaga..."}
-                                                    <ChevronsUpDown className="opacity-50"/>
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-full p-0">
-                                                <Command>
-                                                    <CommandInput placeholder="Cari lembaga..." className="h-9"/>
-                                                    <CommandList>
-                                                        <CommandEmpty>Lembaga tidak ditemukan.</CommandEmpty>
-                                                        <CommandGroup className="w-full">
-                                                            {sipData.map((sip) => (
-                                                                <CommandItem
-                                                                    key={sip.id}
-                                                                    value={sip.id}
-                                                                    onSelect={() => {
-                                                                        field.onChange(sip.id === field.value ? "" : sip.id);
-                                                                        setOpen(false);
-                                                                    }}
-                                                                >
-                                                                    {sip.name}
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "ml-auto",
-                                                                            field.value === sip.id ? "opacity-100" : "opacity-0"
-                                                                        )}
-                                                                    />
-                                                                </CommandItem>
-                                                            ))}
-                                                        </CommandGroup>
-                                                    </CommandList>
-                                                </Command>
-                                            </PopoverContent>
-                                        </Popover>
-                                        {field.value && <ClearSelectedOption field={field}/>}
-                                    </div>
-                                );
-                            }}
+                            rules={{required: "Lembaga Pendaftaran (SIP) wajib dipilih"}}
+                            render={({field}) => (
+                                <AsyncSelect fetchFn={fetchSipOptions}
+                                             value={field.value}
+                                             onChange={field.onChange}
+                                             placeholder="Cari Lembaga..."
+                                             debounce={300}
+                                             defaultLabel={userValue?.sip?.name ?? null}
+                                />
+                            )}
                         />
                         {errors.sip_institution_id && (
                             <p className="text-sm text-destructive">{errors.sip_institution_id.message}</p>

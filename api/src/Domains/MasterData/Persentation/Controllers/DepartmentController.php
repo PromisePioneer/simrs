@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Domains\MasterData\Persentation\Controllers;
 
-use App\Models\Department;
 use Domains\MasterData\Application\Services\DepartmentService;
 use Domains\MasterData\Persentation\Policies\DepartmentPolicy;
 use Domains\MasterData\Persentation\Requests\DepartmentRequest;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\IAM\Application\Handlers;
 
-use App\Models\DoctorSchedule;
-use App\Models\UserDegree;
-use Domains\IAM\Application\Commands\CreateUserCommand;
+use Domains\IAM\Commands\CreateUserCommand;
 use Domains\IAM\Domain\Entities\User;
 use Domains\IAM\Domain\Repository\UserRepositoryInterface;
+use Domains\IAM\Domain\ValueObjects\UserDegree;
 use Domains\IAM\Infrastructure\Services\PlanLimitService;
+use Domains\MedicalWork\Infrastructure\Persistence\Models\DoctorScheduleModel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -29,23 +29,20 @@ final readonly class CreateUserHandler
     {
         $dto = $command->dto;
 
-        // Business rule: cek batas user dari plan
         if ($dto->tenantId) {
             $this->planLimitService->assertUserLimitNotReached($dto->tenantId);
         }
 
-        // Bangun Value Objects
         $degrees = array_map(
             fn(array $d) => UserDegree::fromArray($d),
             $dto->degrees
         );
 
         $schedules = array_map(
-            fn(array $s) => DoctorSchedule::fromArray($s),
+            fn(array $s) => DoctorScheduleModel::fromArray($s),
             $dto->doctorSchedules
         );
 
-        // Buat entity
         $user = User::create(
             id: Str::uuid()->toString(),
             tenantId: $dto->tenantId,

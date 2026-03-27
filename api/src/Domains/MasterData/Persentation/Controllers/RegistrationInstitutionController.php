@@ -32,7 +32,7 @@ class RegistrationInstitutionController extends BaseCrudController
     public function update(RegistrationInstitutionRequest $request, string $id): JsonResponse
     {
         $this->authorize('update', $this->policyClass);
-        $result = $this->service->update($id, $request->validated());
+        $result = $this->service->update(id: $id, data: $request->validated());
         return response()->json(new RegistrationInstitutionResource($result));
     }
 }

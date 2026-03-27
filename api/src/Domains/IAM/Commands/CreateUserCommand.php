@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Domains\IAM\Application\Commands;
+namespace Domains\IAM\Commands;
 
-use Domains\IAM\Application\DTO\CreateUserDTO;
+use Domains\IAM\DTO\CreateUserDTO;
 
-final class CreateUserCommand
+final readonly class CreateUserCommand
 {
-    public function __construct(public readonly CreateUserDTO $dto) {}
+    public function __construct(public CreateUserDTO $dto)
+    {
+    }
 }

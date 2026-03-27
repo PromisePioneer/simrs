@@ -31,7 +31,7 @@ class DegreeController extends BaseCrudController
     public function update(DegreeRequest $request, string $id): JsonResponse
     {
         $this->authorize('update', $this->policyClass);
-        $result = $this->service->update($request->validated(), $id);
+        $result = $this->service->update(id: $id, data: $request->validated());
         return response()->json(new DegreeResource($result));
     }
 }

@@ -28,22 +28,22 @@ final class EloquentUserRepository implements UserRepositoryInterface
     {
         DB::transaction(function () use ($user, $hashedPassword) {
             $record = EloquentUser::create([
-                'id'                     => $user->id(),
-                'tenant_id'              => $user->tenantId(),
-                'name'                   => $user->name(),
-                'email'                  => $user->email(),
-                'password'               => $hashedPassword,
-                'phone'                  => $user->phone(),
-                'address'                => $user->address(),
-                'poli_id'                => $user->poliId(),
-                'str_institution_id'     => $user->strInstitutionId(),
+                'id' => $user->id(),
+                'tenant_id' => $user->tenantId(),
+                'name' => $user->name(),
+                'email' => $user->email(),
+                'password' => $hashedPassword,
+                'phone' => $user->phone(),
+                'address' => $user->address(),
+                'poli_id' => $user->poliId(),
+                'str_institution_id' => $user->strInstitutionId(),
                 'str_registration_number' => $user->strRegistrationNumber(),
-                'str_active_period'      => $user->strActivePeriod(),
-                'sip_institution_id'     => $user->sipInstitutionId(),
+                'str_active_period' => $user->strActivePeriod(),
+                'sip_institution_id' => $user->sipInstitutionId(),
                 'sip_registration_number' => $user->sipRegistrationNumber(),
-                'sip_active_period'      => $user->sipActivePeriod(),
-                'signature'              => $user->signature(),
-                'profile_picture'        => $user->profilePicture(),
+                'sip_active_period' => $user->sipActivePeriod(),
+                'signature' => $user->signature(),
+                'profile_picture' => $user->profilePicture(),
             ]);
 
             $this->syncDegrees($record, $user->degrees());
@@ -52,25 +52,28 @@ final class EloquentUserRepository implements UserRepositoryInterface
         });
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function update(User $user): void
     {
         DB::transaction(function () use ($user) {
             $record = EloquentUser::findOrFail($user->id());
 
             $record->update([
-                'name'                   => $user->name(),
-                'email'                  => $user->email(),
-                'phone'                  => $user->phone(),
-                'address'                => $user->address(),
-                'poli_id'                => $user->poliId(),
-                'str_institution_id'     => $user->strInstitutionId(),
+                'name' => $user->name(),
+                'email' => $user->email(),
+                'phone' => $user->phone(),
+                'address' => $user->address(),
+                'poli_id' => $user->poliId(),
+                'str_institution_id' => $user->strInstitutionId(),
                 'str_registration_number' => $user->strRegistrationNumber(),
-                'str_active_period'      => $user->strActivePeriod(),
-                'sip_institution_id'     => $user->sipInstitutionId(),
+                'str_active_period' => $user->strActivePeriod(),
+                'sip_institution_id' => $user->sipInstitutionId(),
                 'sip_registration_number' => $user->sipRegistrationNumber(),
-                'sip_active_period'      => $user->sipActivePeriod(),
-                'signature'              => $user->signature(),
-                'profile_picture'        => $user->profilePicture(),
+                'sip_active_period' => $user->sipActivePeriod(),
+                'signature' => $user->signature(),
+                'profile_picture' => $user->profilePicture(),
             ]);
 
             $this->syncDegrees($record, $user->degrees());
@@ -113,7 +116,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
             $search = strtolower($filters['search']);
             $query->where(function ($q) use ($search) {
                 $q->whereRaw('LOWER(name) like ?', ["%{$search}%"])
-                  ->orWhereRaw('LOWER(email) like ?', ["%{$search}%"]);
+                    ->orWhereRaw('LOWER(email) like ?', ["%{$search}%"]);
             });
         }
 
@@ -151,9 +154,9 @@ final class EloquentUserRepository implements UserRepositoryInterface
     {
         $degrees = $record->degrees->map(function ($d) {
             return UserDegree::fromArray([
-                'id'    => $d->id,
-                'name'  => $d->name,
-                'type'  => $d->type,
+                'id' => $d->id,
+                'name' => $d->name,
+                'type' => $d->type,
                 'order' => $d->pivot->order ?? 0,
             ]);
         })->all();
@@ -161,32 +164,32 @@ final class EloquentUserRepository implements UserRepositoryInterface
         $schedules = $record->doctorSchedule->map(function ($s) {
             return DoctorSchedule::fromArray([
                 'day_of_week' => $s->day_of_week,
-                'start_time'  => $s->start_time,
-                'end_time'    => $s->end_time,
+                'start_time' => $s->start_time,
+                'end_time' => $s->end_time,
             ]);
         })->all();
 
         $roles = $record->roles->pluck('name')->all();
 
         return User::reconstitute(
-            id:                    $record->id,
-            tenantId:              $record->tenant_id,
-            name:                  $record->name,
-            email:                 $record->email,
-            phone:                 $record->phone,
-            address:               $record->address,
-            poliId:                $record->poli_id,
-            strInstitutionId:      $record->str_institution_id,
+            id: $record->id,
+            tenantId: $record->tenant_id,
+            name: $record->name,
+            email: $record->email,
+            phone: $record->phone,
+            address: $record->address,
+            poliId: $record->poli_id,
+            strInstitutionId: $record->str_institution_id,
             strRegistrationNumber: $record->str_registration_number,
-            strActivePeriod:       $record->str_active_period,
-            sipInstitutionId:      $record->sip_institution_id,
+            strActivePeriod: $record->str_active_period,
+            sipInstitutionId: $record->sip_institution_id,
             sipRegistrationNumber: $record->sip_registration_number,
-            sipActivePeriod:       $record->sip_active_period,
-            signature:             $record->signature,
-            profilePicture:        $record->profile_picture,
-            degrees:               $degrees,
-            doctorSchedules:       $schedules,
-            roles:                 $roles,
+            sipActivePeriod: $record->sip_active_period,
+            signature: $record->signature,
+            profilePicture: $record->profile_picture,
+            degrees: $degrees,
+            doctorSchedules: $schedules,
+            roles: $roles,
         );
     }
 
@@ -233,13 +236,13 @@ final class EloquentUserRepository implements UserRepositoryInterface
 
         foreach ($schedules as $schedule) {
             DB::table('doctor_schedules')->insert([
-                'id'          => Str::uuid()->toString(),
-                'user_id'     => $record->id,
+                'id' => Str::uuid()->toString(),
+                'user_id' => $record->id,
                 'day_of_week' => $schedule->dayOfWeek(),
-                'start_time'  => $schedule->startTime(),
-                'end_time'    => $schedule->endTime(),
-                'created_at'  => now(),
-                'updated_at'  => now(),
+                'start_time' => $schedule->startTime(),
+                'end_time' => $schedule->endTime(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PaymentMethodTypeModel extends BaseModel
 {
-    protected $table    = 'payment_method_types';
+    protected $table = 'payment_method_types';
     protected $fillable = ['name'];
 
     public function paymentMethods(): HasMany
     {
-        return $this->hasMany(PaymentMethodModel::class, 'type');
+        return $this->hasMany(PaymentMethodModel::class, 'payment_method_type_id');
     }
 }

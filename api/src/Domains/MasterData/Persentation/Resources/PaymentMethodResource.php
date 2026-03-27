@@ -12,7 +12,7 @@ class PaymentMethodResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'type' => $this->paymentMethodType->name,
+            'type' => new PaymentMethodTypeResource($this->whenLoaded('paymentMethodType')),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

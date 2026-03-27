@@ -7,13 +7,13 @@ use App\Services\Master\General\UserManagement\Permission\Repository\PermissionR
 use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
-use Domains\IAM\Domain\ValueObjects\DoctorSchedule;
 use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
 use Domains\IAM\Infrastructure\Persistence\Models\PermissionModel;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
+use Domains\MedicalWork\Infrastructure\Persistence\Models\DoctorScheduleModel;
 use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,7 +58,8 @@ class User extends Authenticatable
         'signature',
         'tenant_id',
         'profile_picture',
-        'email_verified_at'
+        'email_verified_at',
+        'id'
     ];
 
     /**
@@ -220,7 +221,7 @@ class User extends Authenticatable
 
     public function doctorSchedule(): HasMany
     {
-        return $this->hasMany(DoctorSchedule::class, 'user_id');
+        return $this->hasMany(DoctorScheduleModel::class, 'user_id');
     }
 
 

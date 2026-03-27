@@ -5,12 +5,14 @@ namespace Domains\MasterData;
 use Carbon\Laravel\ServiceProvider;
 use Domains\MasterData\Application\Services\DegreeService;
 use Domains\MasterData\Application\Services\DepartmentService;
+use Domains\MasterData\Application\Services\PaymentMethodService;
 use Domains\MasterData\Application\Services\PaymentMethodTypeService;
 use Domains\MasterData\Application\Services\PoliService;
 use Domains\MasterData\Application\Services\RegistrationInstitutionService;
 use Domains\MasterData\Application\Services\RoomTypeService;
 use Domains\MasterData\Domain\Repository\DegreeRepositoryInterface;
 use Domains\MasterData\Domain\Repository\DepartmentRepositoryInterface;
+use Domains\MasterData\Domain\Repository\PaymentMethodRepositoryInterface;
 use Domains\MasterData\Domain\Repository\PaymentMethodTypeRepositoryInterface;
 use Domains\MasterData\Domain\Repository\PoliRepositoryInterface;
 use Domains\MasterData\Domain\Repository\RegistrationInstitutionRepositoryInterface;
@@ -23,12 +25,14 @@ use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionM
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentDegreeRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentDepartmentRepository;
+use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPaymentMethodRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPaymentMethodTypeRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPoliRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRegistrationInstitutionRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRoomTypeRepository;
 use Domains\MasterData\Persentation\Controllers\DegreeController;
 use Domains\MasterData\Persentation\Controllers\DepartmentController;
+use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
 use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
 use Domains\MasterData\Persentation\Controllers\PoliController;
 use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionController;
@@ -51,6 +55,7 @@ class MasterDataServiceProvider extends ServiceProvider
         $this->bindRegistrationInstitution();
         $this->bindRoomType();
         $this->bindPaymentMethodType();
+        $this->bindPaymentMethod();
     }
 
 
@@ -63,6 +68,15 @@ class MasterDataServiceProvider extends ServiceProvider
         Gate::policy(RoomTypeModel::class, RoomTypePolicy::class);
         Gate::policy(PaymentMethodTypeModel::class, PaymentMethodTypePolicy::class);
     }
+
+
+    private function bindPaymentMethod(): void
+    {
+        $this->app->bind(PaymentMethodRepositoryInterface::class, EloquentPaymentMethodRepository::class);
+        $this->app->bind(PaymentMethodService::class, fn($app) => new PaymentMethodService($app->make(PaymentMethodRepositoryInterface::class)));
+        $this->app->bind(PaymentMethodController::class, fn($app) => new PaymentMethodController($app->make(PaymentMethodService::class)));
+    }
+
 
     private function bindPaymentMethodType(): void
     {
