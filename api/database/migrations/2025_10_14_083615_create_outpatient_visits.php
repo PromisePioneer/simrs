@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('type');
             $table->string('referred_hospital')->nullable();
             $table->string('referred_doctor')->nullable();
+            $table->foreignUuid('poli_id')->constrained('poli')->cascadeOnDelete();
             $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->foreignUuid('doctor_id')->constrained('users')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
@@ -126,6 +127,12 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+
+        Schema::create('patient_medication_history', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('outpatient_visit_id')->constrained('outpatient_visits')->cascadeOnDelete();
+            $table->json('medication_history')->nullable();
+        });
 
         Schema::create('patient_insurance_claims', function (Blueprint $table) {
             $table->uuid('id')->primary();

@@ -27,6 +27,7 @@ import {useOutpatientVisitStore} from "@features/outpatient";
 import PatientInfoCard from "@features/patients/components/patient-info-card.jsx";
 import {Card, CardContent, CardHeader} from "@shared/components/ui/card.jsx";
 import {Badge} from "@shared/components/ui/badge.jsx";
+import {AsyncSelect} from "@shared/components/common/async-select.jsx";
 
 /* ─── Section Card ──────────────────────────────────────────────────────── */
 function SectionCard({icon: Icon, label, children, action}) {
@@ -54,7 +55,7 @@ function SectionCard({icon: Icon, label, children, action}) {
 function DiagnoseForm(opts) {
     const navigate = useNavigate();
     const {id} = useParams(opts);
-    const {fetchReadyStockMedicine, readyStockMedicines} = useMedicineStore();
+    const {fetchReadyStockMedicine, readyStockMedicines, fetchReadyStockMedicineOptions} = useMedicineStore();
     const {createDiagnose} = useDiagnoseStore();
     const {showOutPatientVisit, outpatientVisitValue} = useOutpatientVisitStore();
 
@@ -155,7 +156,7 @@ function DiagnoseForm(opts) {
 
     const onSubmit = async (data) => {
         const result = await createDiagnose(data, id);
-        if (result) await navigate({to: "/outpatient?tab=outpatient-visit"});
+        if (result) await navigate({to: "/billing/outpatient"});
     };
 
     return (
@@ -283,7 +284,7 @@ function DiagnoseForm(opts) {
                                         <Label className="text-xs font-semibold text-slate-600">Kode ICD-9 /
                                             Tindakan</Label>
                                         <Input placeholder="Kode prosedur"
-                                               {...register(`procedures.${index}.icd9_code`, {required: "Prosedur tidak boleh kosong"})}/>
+                                               {...register(`procedures.${index}.icd9_code`)}/>
                                     </div>
                                     <div className="space-y-1.5 col-span-2">
                                         <Label className="text-xs font-semibold text-slate-600">Nama Tindakan</Label>
@@ -314,13 +315,9 @@ function DiagnoseForm(opts) {
                                         />
                                     </div>
                                     <div className="space-y-1.5 col-span-2">
-                                        <Label className="text-xs font-semibold text-slate-600">Deskripsi Tindakan <span
-                                            className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Deskripsi Tindakan</Label>
                                         <Textarea placeholder="Uraian tindakan yang dilakukan" rows={2}
-                                                  {...register(`procedures.${index}.description`, {required: "Deskripsi wajib diisi"})}/>
-                                        {errors.procedures?.[index]?.description && (
-                                            <p className="text-xs text-destructive">{errors.procedures[index].description.message}</p>
-                                        )}
+                                                  {...register(`procedures.${index}.description`)}/>
                                     </div>
                                 </div>
                             </div>
@@ -361,22 +358,16 @@ function DiagnoseForm(opts) {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1.5 col-span-2">
-                                        <Label className="text-xs font-semibold text-slate-600">Nama Obat <span
-                                            className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Nama Obat</Label>
                                         <Controller name={`prescriptions.${index}.medicine_id`} control={control}
                                                     render={({field}) => (
-                                                        <Select onValueChange={field.onChange} value={field.value}>
-                                                            <SelectTrigger className="w-full"><SelectValue
-                                                                placeholder="Pilih Obat"/></SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectGroup>
-                                                                    {Array.isArray(readyStockMedicines) && readyStockMedicines.map((m) => (
-                                                                        <SelectItem key={m.id}
-                                                                                    value={m.id}>{m.name}</SelectItem>
-                                                                    ))}
-                                                                </SelectGroup>
-                                                            </SelectContent>
-                                                        </Select>
+                                                        <AsyncSelect
+                                                            fetchFn={fetchReadyStockMedicineOptions}
+                                                            value={field.value}
+                                                            onChange={field.onChange}
+                                                            placeholder="Cari obat..."
+                                                            debounce={300}
+                                                        />
                                                     )}
                                         />
                                         {errors.prescriptions?.[index]?.medicine_id && (
@@ -384,19 +375,13 @@ function DiagnoseForm(opts) {
                                         )}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Dosis <span
-                                            className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Dosis</Label>
                                         <Input placeholder="500mg, 1 tablet..."
-                                               {...register(`prescriptions.${index}.dosage`, {required: "Dosis wajib diisi"})}/>
-                                        {errors.prescriptions?.[index]?.dosage && (
-                                            <p className="text-xs text-destructive">{errors.prescriptions[index].dosage.message}</p>
-                                        )}
+                                               {...register(`prescriptions.${index}.dosage`)}/>
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-semibold text-slate-600">Frekuensi <span
-                                            className="text-destructive">*</span></Label>
+                                        <Label className="text-xs font-semibold text-slate-600">Frekuensi</Label>
                                         <Controller name={`prescriptions.${index}.frequency`} control={control}
-                                                    rules={{required: "Frekuensi wajib dipilih"}}
                                                     render={({field}) => (
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <SelectTrigger className="w-full"><SelectValue
@@ -455,8 +440,7 @@ function DiagnoseForm(opts) {
                                     </div>
                                     <div className="space-y-1.5">
                                         <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-semibold text-slate-600">Jumlah / Qty <span
-                                                className="text-destructive">*</span></Label>
+                                            <Label className="text-xs font-semibold text-slate-600">Jumlah / Qty</Label>
                                             {(() => {
                                                 const medId = watchedPrescriptions?.[index]?.medicine_id;
                                                 const stock = getAvailableStock(medId);
@@ -475,12 +459,11 @@ function DiagnoseForm(opts) {
                                         </div>
                                         <Input type="number" min={1} placeholder="Jumlah obat"
                                                {...register(`prescriptions.${index}.quantity`, {
-                                                   required: "Quantity wajib diisi",
-                                                   min: {value: 1, message: "Minimal 1"},
                                                    validate: (val) => {
                                                        const medId = watchedPrescriptions?.[index]?.medicine_id;
+                                                       if (!medId || !val) return true;
                                                        const stock = getAvailableStock(medId);
-                                                       if (!medId || stock === 0) return "Obat ini tidak memiliki stok tersedia";
+                                                       if (stock === 0) return "Obat ini tidak memiliki stok tersedia";
                                                        if (Number(val) > stock) return `Melebihi stok tersedia (${stock})`;
                                                        return true;
                                                    }

@@ -67,16 +67,21 @@ class EloquentMedicineRepository implements MedicineRepositoryInterface
             ->first();
     }
 
-    public function getReadyStocksMedicine(): ?object
+    public function getReadyStocksMedicine(?string $search = null): ?object
     {
-        return $this->model
+        $query = $this->model
             ->with(['batches.stock'])
             ->whereHas('batches.stock', fn($q) => $q->where('stock_amount', '>', 0))
             ->with(['batches' => function ($q) {
                 $q->whereHas('stock', fn($s) => $s->where('stock_amount', '>', 0))
                     ->with(['stock' => fn($s) => $s->where('stock_amount', '>', 0)->select(['id', 'batch_id', 'stock_amount'])])
                     ->orderBy('expired_date', 'asc');
-            }])
-            ->get();
+            }]);
+
+        if ($search) {
+            $query->where('name', 'ilike', '%' . $search . '%');
+        }
+
+        return $query->get();
     }
 }

@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             RoomTypeSeeder::class,
             MedicineCategorySeeder::class,
-            MedicineWarehouseSeeder::class,
 
             // ── Region (besar, taruh awal supaya tidak timeout di tengah) ───
 //            IndoRegionProvinceSeeder::class,
@@ -42,6 +41,7 @@ class DatabaseSeeder extends Seeder
             // ── Tenant & subscription ────────────────────────────────────────
             TenantSeeder::class,
             TenantSubscriptionSeeder::class,
+            MedicineWarehouseSeeder::class,
 
             // ── User (butuh tenant + role + permission sudah ada) ────────────
             UserSeeder::class,

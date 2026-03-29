@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domains\Clinical\Application\Services;
 
+use Domains\Billing\Application\Services\OutpatientBillService;
 use Domains\Clinical\Domain\Repository\PrescriptionRepositoryInterface;
 use Domains\Outpatient\Domain\Repository\OutpatientVisitRepositoryInterface;
 use Domains\Outpatient\Domain\Repository\QueueRepositoryInterface;
@@ -17,14 +18,18 @@ use Illuminate\Support\Facades\DB;
  * 2. Prosedur (ICD-9)
  * 3. Resep obat
  * 4. Update status kunjungan + antrian → completed
+ * 5. Auto-generate draft tagihan
  */
-final class DiagnoseService
+final readonly class DiagnoseService
 {
     public function __construct(
-        private readonly OutpatientVisitRepositoryInterface $visitRepo,
-        private readonly QueueRepositoryInterface           $queueRepo,
-        private readonly PrescriptionRepositoryInterface    $prescriptionRepo,
-    ) {}
+        private OutpatientVisitRepositoryInterface $visitRepo,
+        private QueueRepositoryInterface           $queueRepo,
+        private PrescriptionRepositoryInterface    $prescriptionRepo,
+        private OutpatientBillService              $billService,
+    )
+    {
+    }
 
     /**
      * Simpan semua SOAP data sekaligus dalam satu transaksi.
@@ -41,11 +46,11 @@ final class DiagnoseService
             // 2. Simpan diagnosa
             if (!empty($data['diagnoses'])) {
                 $diagnoses = collect($data['diagnoses'])->map(fn($d) => [
-                    'tenant_id'   => $visit->tenant_id,
-                    'icd10_code'  => $d['icd10_code'],
+                    'tenant_id' => $visit->tenant_id,
+                    'icd10_code' => $d['icd10_code'],
                     'description' => $d['description'],
-                    'type'        => $d['type'],
-                    'is_confirmed'=> true,
+                    'type' => $d['type'],
+                    'is_confirmed' => true,
                 ])->toArray();
 
                 $this->visitRepo->appendDiagnoses($visitId, $diagnoses);
@@ -56,13 +61,13 @@ final class DiagnoseService
                 $procedures = collect($data['procedures'])
                     ->filter(fn($p) => !empty($p['icd9_code']))
                     ->map(fn($p) => [
-                        'tenant_id'      => $visit->tenant_id,
-                        'icd9_code'      => $p['icd9_code'],
-                        'name'           => $p['name'],
-                        'description'    => $p['description'] ?? '',
-                        'performed_by'   => auth()->id(),
+                        'tenant_id' => $visit->tenant_id,
+                        'icd9_code' => $p['icd9_code'],
+                        'name' => $p['name'],
+                        'description' => $p['description'] ?? '',
+                        'performed_by' => auth()->id(),
                         'procedure_date' => now(),
-                        'notes'          => $p['notes'] ?? null,
+                        'notes' => $p['notes'] ?? null,
                     ])->toArray();
 
                 if (!empty($procedures)) {
@@ -74,6 +79,9 @@ final class DiagnoseService
             if (!empty($data['prescriptions'])) {
                 $this->prescriptionRepo->storeForVisit($visit, $data['prescriptions']);
             }
+
+            // 5. Auto-generate draft tagihan
+            $this->billService->createDraftFromVisit($visit);
 
             return $this->visitRepo->findById($visitId);
         }, 3);

@@ -10,16 +10,19 @@ use Domains\Outpatient\Application\Services\QueueService;
 use Domains\Outpatient\Presentation\Resources\QueueResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class QueueController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private readonly QueueService $service) {}
-
-    public function index(Request $request): JsonResponse
+    public function __construct(private readonly QueueService $service)
     {
-        return response()->json(QueueResource::collection($this->service->getAll($request)));
+    }
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        return QueueResource::collection($this->service->getAll($request));
     }
 
     public function store(Request $request): JsonResponse
@@ -35,7 +38,7 @@ class QueueController extends Controller
 
     public function update(Request $request, string $id): JsonResponse
     {
-        $result = $this->service->update($request->all(), $id);
+        $result = $this->service->update(id: $id, data: $request->all());
         return response()->json(new QueueResource($result));
     }
 

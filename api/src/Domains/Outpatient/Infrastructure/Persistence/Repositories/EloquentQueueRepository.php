@@ -26,7 +26,10 @@ class EloquentQueueRepository extends BaseEloquentRepository implements QueueRep
     public function findAll(array $filters = [], ?int $perPage = null): object
     {
         $query = $this->model->newQuery()
-            ->with(['outpatientVisit.patient', 'outpatientVisit.doctor'])
+            ->with([
+                'outpatientVisit.patient' => fn($q) => $q->withoutGlobalScopes(),
+                'outpatientVisit.doctor',
+            ])
             ->orderByDesc('queue_date');
         $query = $this->applyFilters($query, $filters);
         return $perPage ? $query->paginate($perPage) : $query->get();

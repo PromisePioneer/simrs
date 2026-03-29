@@ -52,6 +52,7 @@ import { Route as ProtectedSettingsMedicineManagementWarehouseIdRouteImport } fr
 import { Route as ProtectedSettingsMedicineManagementMedicineCreateRouteImport } from './routes/_protected/settings/medicine-management/medicine/create'
 import { Route as ProtectedSettingsMedicineManagementMedicineIdRouteImport } from './routes/_protected/settings/medicine-management/medicine/$id'
 import { Route as ProtectedPharmacyMedicineStocksIdRouteImport } from './routes/_protected/pharmacy/medicine/stocks/$id'
+import { Route as ProtectedOutpatientVisitEditIdRouteImport } from './routes/_protected/outpatient/visit/edit/$id'
 import { Route as ProtectedSettingsUsersManagementUsersIdIndexRouteImport } from './routes/_protected/settings/users-management/users/$id/index'
 import { Route as ProtectedSettingsUsersManagementUsersIdDetailRouteImport } from './routes/_protected/settings/users-management/users/$id/detail'
 import { Route as ProtectedSettingsMedicineManagementMedicineStocksIdRouteImport } from './routes/_protected/settings/medicine-management/medicine/stocks/$id'
@@ -301,6 +302,12 @@ const ProtectedPharmacyMedicineStocksIdRoute =
     path: '/pharmacy/medicine/stocks/$id',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedOutpatientVisitEditIdRoute =
+  ProtectedOutpatientVisitEditIdRouteImport.update({
+    id: '/outpatient/visit/edit/$id',
+    path: '/outpatient/visit/edit/$id',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsUsersManagementUsersIdIndexRoute =
   ProtectedSettingsUsersManagementUsersIdIndexRouteImport.update({
     id: '/settings/users-management/users/$id/',
@@ -355,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/settings/patients/': typeof ProtectedSettingsPatientsIndexRoute
   '/settings/references/': typeof ProtectedSettingsReferencesIndexRoute
   '/settings/users-management/': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/outpatient/visit/edit/$id': typeof ProtectedOutpatientVisitEditIdRoute
   '/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
@@ -402,6 +410,7 @@ export interface FileRoutesByTo {
   '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
   '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
   '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/outpatient/visit/edit/$id': typeof ProtectedOutpatientVisitEditIdRoute
   '/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
@@ -451,6 +460,7 @@ export interface FileRoutesById {
   '/_protected/settings/patients/': typeof ProtectedSettingsPatientsIndexRoute
   '/_protected/settings/references/': typeof ProtectedSettingsReferencesIndexRoute
   '/_protected/settings/users-management/': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/_protected/outpatient/visit/edit/$id': typeof ProtectedOutpatientVisitEditIdRoute
   '/_protected/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/_protected/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/_protected/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
@@ -500,6 +510,7 @@ export interface FileRouteTypes {
     | '/settings/patients/'
     | '/settings/references/'
     | '/settings/users-management/'
+    | '/outpatient/visit/edit/$id'
     | '/pharmacy/medicine/stocks/$id'
     | '/settings/medicine-management/medicine/$id'
     | '/settings/medicine-management/medicine/create'
@@ -547,6 +558,7 @@ export interface FileRouteTypes {
     | '/settings/patients'
     | '/settings/references'
     | '/settings/users-management'
+    | '/outpatient/visit/edit/$id'
     | '/pharmacy/medicine/stocks/$id'
     | '/settings/medicine-management/medicine/$id'
     | '/settings/medicine-management/medicine/create'
@@ -595,6 +607,7 @@ export interface FileRouteTypes {
     | '/_protected/settings/patients/'
     | '/_protected/settings/references/'
     | '/_protected/settings/users-management/'
+    | '/_protected/outpatient/visit/edit/$id'
     | '/_protected/pharmacy/medicine/stocks/$id'
     | '/_protected/settings/medicine-management/medicine/$id'
     | '/_protected/settings/medicine-management/medicine/create'
@@ -920,6 +933,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPharmacyMedicineStocksIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/outpatient/visit/edit/$id': {
+      id: '/_protected/outpatient/visit/edit/$id'
+      path: '/outpatient/visit/edit/$id'
+      fullPath: '/outpatient/visit/edit/$id'
+      preLoaderRoute: typeof ProtectedOutpatientVisitEditIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/settings/users-management/users/$id/': {
       id: '/_protected/settings/users-management/users/$id/'
       path: '/settings/users-management/users/$id'
@@ -974,6 +994,7 @@ interface ProtectedRouteChildren {
   ProtectedSettingsPatientsIndexRoute: typeof ProtectedSettingsPatientsIndexRoute
   ProtectedSettingsReferencesIndexRoute: typeof ProtectedSettingsReferencesIndexRoute
   ProtectedSettingsUsersManagementIndexRoute: typeof ProtectedSettingsUsersManagementIndexRoute
+  ProtectedOutpatientVisitEditIdRoute: typeof ProtectedOutpatientVisitEditIdRoute
   ProtectedPharmacyMedicineStocksIdRoute: typeof ProtectedPharmacyMedicineStocksIdRoute
   ProtectedSettingsMedicineManagementMedicineIdRoute: typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   ProtectedSettingsMedicineManagementMedicineCreateRoute: typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
@@ -1021,6 +1042,7 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedSettingsReferencesIndexRoute: ProtectedSettingsReferencesIndexRoute,
   ProtectedSettingsUsersManagementIndexRoute:
     ProtectedSettingsUsersManagementIndexRoute,
+  ProtectedOutpatientVisitEditIdRoute: ProtectedOutpatientVisitEditIdRoute,
   ProtectedPharmacyMedicineStocksIdRoute:
     ProtectedPharmacyMedicineStocksIdRoute,
   ProtectedSettingsMedicineManagementMedicineIdRoute:

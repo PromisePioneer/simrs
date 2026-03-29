@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Domains\Pharmacy\Infrastructure\Persistence\Models;
 
-use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
+use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MedicineBatchStockModel extends BaseTenantModel
+class MedicineBatchStockModel extends BaseModel
 {
     use HasUuids;
 
-    protected $table    = 'medicine_batch_stocks';
-    protected $fillable = ['batch_id', 'warehouse_id', 'rack_id', 'stock_amount'];
+    protected $table      = 'medicine_batch_stocks';
+    public $timestamps    = false;
+    protected $fillable   = ['batch_id', 'warehouse_id', 'rack_id', 'stock_amount'];
 
     public function batch(): BelongsTo
     {

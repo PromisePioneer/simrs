@@ -113,8 +113,8 @@ readonly class MedicineService
         return $this->medicineRepository->destroy(id: $medicine->id);
     }
 
-    public function getReadyStockMedicine(): object
+    public function getReadyStockMedicine(?string $search = null): object
     {
-        return $this->medicineRepository->getReadyStocksMedicine();
+        return $this->medicineRepository->getReadyStocksMedicine($search);
     }
 }

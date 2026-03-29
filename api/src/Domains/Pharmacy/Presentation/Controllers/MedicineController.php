@@ -58,9 +58,9 @@ class MedicineController extends Controller
         return $this->successResponse(data: $medicine, message: 'Product deleted successfully.');
     }
 
-    public function getReadyStocksMedicine(): JsonResponse
+    public function getReadyStocksMedicine(Request $request): JsonResponse
     {
-        $data = $this->medicineService->getReadyStockMedicine();
+        $data = $this->medicineService->getReadyStockMedicine($request->input('search'));
         return response()->json($data);
     }
 }

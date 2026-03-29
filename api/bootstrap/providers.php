@@ -19,4 +19,5 @@ return [
     Domains\MedicalWork\MedicalWorkServiceProvider::class,
     InpatientServiceProvider::class,
     Domains\MasterData\MasterDataServiceProvider::class,
+    Domains\Tenant\TenantServiceProvider::class,
 ];

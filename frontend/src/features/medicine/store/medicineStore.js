@@ -44,6 +44,16 @@ export const useMedicineStore = create((set, get) => ({
         }
     },
 
+    fetchReadyStockMedicineOptions: async (search) => {
+        try {
+            const res = await apiCall.get("/api/v1/pharmacy/medicines/ready-stocks", {params: {search}});
+            const data = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+            return data.map((m) => ({value: m.id, label: m.name}));
+        } catch (e) {
+            return [];
+        }
+    },
+
     createMedicine: async (data) => {
         try {
             const response = await apiCall.post("/api/v1/pharmacy/medicines", data);

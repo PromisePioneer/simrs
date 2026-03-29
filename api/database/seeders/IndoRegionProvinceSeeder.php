@@ -9,7 +9,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Province;
 use Illuminate\Database\Seeder;
 use AzisHapidin\IndoRegion\RawDataGetter;
 use Illuminate\Support\Facades\DB;
@@ -19,19 +18,16 @@ class IndoRegionProvinceSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @return void
      * @deprecated
-     *
+     * 
+     * @return void
      */
     public function run()
     {
         // Get Data
         $provinces = RawDataGetter::getProvinces();
-        foreach ($provinces as $province) {
-            Province::create([
-                'name' => $province['name'],
-                'old_id' => $province['id'],
-            ]);
-        }
+
+        // Insert Data to Database
+        DB::table('provinces')->insert($provinces);
     }
 }

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Domains\Tenant\Infrastructure\Persistence\Models;
 
+use App\Models\District;
+use App\Models\Province;
+use Domains\MasterData\Infrastructure\Persistent\Models\DistrictModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\ProvinceModel;
 use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
 use Domains\Subscriptions\Infrastructure\Persistence\Models\SubscriptionModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TenantModel extends BaseModel
 {
-    use HasFactory;
 
     protected $table = 'tenants';
 
@@ -44,7 +46,7 @@ class TenantModel extends BaseModel
     public function npwpProvince(): BelongsTo
     {
         return $this->belongsTo(
-            \Domains\MasterData\Infrastructure\Persistent\Models\ProvinceModel::class,
+            ProvinceModel::class,
             'npwp_province_id'
         );
     }
@@ -52,7 +54,7 @@ class TenantModel extends BaseModel
     public function npwpDistrict(): BelongsTo
     {
         return $this->belongsTo(
-            \Domains\MasterData\Infrastructure\Persistent\Models\DistrictModel::class,
+            DistrictModel::class,
             'npwp_district_id'
         );
     }

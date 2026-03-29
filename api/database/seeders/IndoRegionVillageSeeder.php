@@ -9,8 +9,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\District;
-use App\Models\Village;
 use Illuminate\Database\Seeder;
 use AzisHapidin\IndoRegion\RawDataGetter;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +18,9 @@ class IndoRegionVillageSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @return void
      * @deprecated
      *
+     * @return void
      */
     public function run()
     {
@@ -30,18 +28,11 @@ class IndoRegionVillageSeeder extends Seeder
         $villages = RawDataGetter::getVillages();
 
         // Insert Data with Chunk
-        DB::transaction(function () use ($villages) {
+        DB::transaction(function() use($villages) {
             $collection = collect($villages);
             $parts = $collection->chunk(1000);
             foreach ($parts as $subset) {
-
-                foreach ($subset as $village) {
-                    $district = District::where('old_id', $village['district_id'])->first();
-                    Village::create([
-                        'name' => $village['name'],
-                        'district_id' => $district->id,
-                    ]);
-                }
+                DB::table('villages')->insert($subset->toArray());
             }
         });
     }

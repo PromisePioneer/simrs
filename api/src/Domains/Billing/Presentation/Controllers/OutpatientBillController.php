@@ -27,7 +27,12 @@ class OutpatientBillController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = OutpatientBillModel::with(['patient', 'outpatientVisit', 'paymentMethod', 'items'])
+        $query = OutpatientBillModel::with([
+            'patient' => fn($q) => $q->withoutGlobalScopes(),
+            'outpatientVisit',
+            'paymentMethod',
+            'items',
+        ])
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->when($request->patient_id, fn($q) => $q->where('patient_id', $request->patient_id))
             ->when($request->date_from, fn($q) => $q->whereDate('created_at', '>=', $request->date_from))
@@ -45,7 +50,12 @@ class OutpatientBillController extends Controller
      */
     public function show(OutpatientBillModel $bill): JsonResponse
     {
-        $bill->load(['patient', 'outpatientVisit.doctor', 'paymentMethod', 'items.medicineBatch.medicine']);
+        $bill->load([
+            'patient' => fn($q) => $q->withoutGlobalScopes(),
+            'outpatientVisit.doctor',
+            'paymentMethod',
+            'items.medicineBatch.medicine',
+        ]);
         return response()->json(new BillResource($bill));
     }
 

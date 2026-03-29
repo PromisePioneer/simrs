@@ -2,8 +2,7 @@
 
 namespace Domains\MasterData\Persentation\Controllers;
 
-use App\Models\Province;
-use App\Services\Master\General\Region\Province\Service\ProvinceService;
+use Domains\MasterData\Application\Services\ProvinceService;
 use Domains\MasterData\Persentation\Policies\ProvincePolicy;
 use Domains\MasterData\Persentation\Requests\ProvinceRequest;
 use Domains\MasterData\Persentation\Resources\ProvinceResource;
@@ -26,8 +25,7 @@ class ProvinceController extends BaseCrudController
     {
         $this->authorize('create', $this->policyClass);
         $result = $this->service->store($request->validated());
-        return response()->json(new ProvinceResource($result), 201);
-    }
+        return response()->json(new ProvinceResource($result), 201);    }
 
     public function update(ProvinceRequest $request, string $id): JsonResponse
     {

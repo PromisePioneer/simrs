@@ -15,7 +15,7 @@ import {
     X,
     FileText,
     Phone,
-    ClipboardList, Eye
+    ClipboardList
 } from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@shared/components/ui/card.jsx";
@@ -43,12 +43,9 @@ function OutpatientVisitPage() {
         });
     }, [search]);
 
-
     const navigate = useNavigate();
-
     const waitingPatients =
         patientQueues?.data?.filter(p => p.status === "waiting") || [];
-
     const inProgressPatients =
         patientQueues?.data?.filter(p => p.status === "in_progress") || [];
 
@@ -135,7 +132,7 @@ function OutpatientVisitPage() {
                                         </span>
                                     <span className="flex items-center gap-1">
                                             <Users className="w-4 h-4"/>
-                                        {calculateAge(patient?.outpatient_visit?.patient?.date_of_birth)} tahun • {patient?.outpatient_visit?.patient?.gender.toUpperCase()}
+                                        {calculateAge(patient?.outpatient_visit?.patient?.date_of_birth)} tahun • {patient?.outpatient_visit?.patient?.gender?.toUpperCase()}
                                         </span>
                                     <span className="flex items-center gap-1">
                                             <Phone className="w-4 h-4"/>
@@ -192,10 +189,12 @@ function OutpatientVisitPage() {
                                             <Stethoscope className="w-4 h-4"/>
                                             Mulai Periksa
                                         </Button>
-                                        <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
-                                            <Edit className="w-4 h-4"/>
-                                            Edit
-                                        </Button>
+                                        <Link to={`/outpatient/visit/edit/${patient.outpatient_visit.id}`}>
+                                            <Button variant="outline" size="sm" className="gap-2 flex-1 lg:flex-none">
+                                                <Edit className="w-4 h-4"/>
+                                                Edit
+                                            </Button>
+                                        </Link>
                                     </>
                                 )}
                                 {patient.status === "in_progress" && (

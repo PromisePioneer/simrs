@@ -1,6 +1,6 @@
 import Layout from "@features/dashboard/pages/layout.jsx";
+import {useEffect} from "react";
 import {usePatientStore} from "@features/patients";
-import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@shared/components/ui/card.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
@@ -25,14 +25,15 @@ import {
     Plus,
     Trash2,
     Calendar as CalendarIcon,
-    X
+    X,
+    Loader2
 } from "lucide-react";
 import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import {Separator} from "@shared/components/ui/separator.jsx";
 import ContentHeader from "@shared/components/ui/content-header.jsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@shared/components/ui/popover.jsx";
 import {cn} from "@shared/lib/utils";
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 import {Calendar} from "@shared/components/ui/calendar.jsx";
 import {useUserStore} from "@features/users-management";
 import {usePoliStore} from "@features/settings";
@@ -51,12 +52,19 @@ function OutpatientForm(opts) {
     const {
         createOutpatientVisit,
         updateOutpatientVisit,
+        showOutPatientVisit,
+        outpatientVisitValue,
+        isLoading,
         allergies,
         medicalHistory,
         familyMedicalHistory,
         medicationHistory,
         psychologyConditions,
-        outpatientVisitValue,
+        setAllergies,
+        setMedicalHistory,
+        setFamilyMedicalHistory,
+        setMedicationHistory,
+        setPsychologyConditions,
         addAllergy,
         removeAllergy,
         updateAllergy,
@@ -80,6 +88,7 @@ function OutpatientForm(opts) {
         handleSubmit,
         control,
         watch,
+        reset,
         formState: {errors, isSubmitting},
     } = useForm({
         defaultValues: {
@@ -109,6 +118,86 @@ function OutpatientForm(opts) {
             complain: "",
         }
     });
+
+    // Load existing data when in edit mode
+    useEffect(() => {
+        if (isEditMode && id) {
+            showOutPatientVisit(id);
+        }
+    }, [id, isEditMode]);
+
+    // Populate form when data is loaded
+    useEffect(() => {
+        if (isEditMode && outpatientVisitValue && outpatientVisitValue.id) {
+            const v = outpatientVisitValue;
+            const vs = v.vital_sign || {};
+            const comp = v.companion || {};
+
+            reset({
+                type: v.type || "",
+                referred_hospital: v.referred_hospital || "",
+                referred_doctor: v.referred_doctor || "",
+                patient_id: v.patient?.id || "",
+                doctor_id: v.doctor?.id || "",
+                poli_id: v.poli_id || "",
+                date: v.date ? (typeof v.date === 'string' ? parseISO(v.date) : new Date(v.date)) : new Date(),
+                height: vs.height || "",
+                weight: vs.weight || "",
+                temperature: vs.temperature || "",
+                pulse_rate: vs.pulse_rate || "",
+                respiratory_frequency: vs.respiratory_frequency || "",
+                systolic: vs.systolic || "",
+                diastolic: vs.diastolic || "",
+                abdominal_circumference: vs.abdominal_circumference || "",
+                blood_sugar: vs.blood_sugar || "",
+                oxygen_saturation: vs.oxygen_saturation || "",
+                companion_name: comp.full_name || "",
+                companion_phone: comp.phone || "",
+                companion_address: comp.address || "",
+                marital_status: v.psychosocial?.marital_status || "",
+                live_with: v.psychosocial?.live_with || "",
+                job: v.psychosocial?.job || "",
+                complain: v.complain || "",
+            });
+
+            // Populate dynamic lists from anamnesis
+            const allergyData = v.allergy?.patient_allergy;
+            if (allergyData?.length) {
+                setAllergies(allergyData);
+            } else {
+                setAllergies([{name: ""}]);
+            }
+
+            const medHistData = v.medical_history?.medical_history;
+            if (medHistData?.length) {
+                setMedicalHistory(medHistData);
+            } else {
+                setMedicalHistory([{condition: ""}]);
+            }
+
+            const famHistData = v.family_medical_history?.family_medical_history;
+            if (famHistData?.length) {
+                setFamilyMedicalHistory(famHistData);
+            } else {
+                setFamilyMedicalHistory([{condition: ""}]);
+            }
+
+            const psychData = v.psychosocial?.psychology_condition;
+            if (psychData?.length) {
+                setPsychologyConditions(psychData);
+            } else {
+                setPsychologyConditions([{condition: ""}]);
+            }
+
+            // medication history
+            const medHistoryData = v.medication_history?.medication_history;
+            if (medHistoryData?.length) {
+                setMedicationHistory(medHistoryData);
+            } else {
+                setMedicationHistory([{medication: ""}]);
+            }
+        }
+    }, [outpatientVisitValue, isEditMode, reset]);
 
     const visitType = watch("type");
 
@@ -143,8 +232,8 @@ function OutpatientForm(opts) {
         <Layout>
             <div className="space-y-6">
                 <ContentHeader
-                    title="Form Kunjungan Rawat Jalan"
-                    description="Isi data kunjungan pasien rawat jalan"
+                    title={isEditMode ? "Edit Kunjungan Rawat Jalan" : "Form Kunjungan Rawat Jalan"}
+                    description={isEditMode ? "Ubah data kunjungan pasien rawat jalan" : "Isi data kunjungan pasien rawat jalan"}
                 />
 
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -806,7 +895,7 @@ function OutpatientForm(opts) {
                             </Link>
                             <Button type="submit" className="gap-2" disabled={isSubmitting}>
                                 <Save className="w-4 h-4"/>
-                                {isSubmitting ? "Menyimpan..." : "Simpan Kunjungan"}
+                                {isSubmitting ? "Menyimpan..." : isEditMode ? "Perbarui Kunjungan" : "Simpan Kunjungan"}
                             </Button>
                         </div>
                     </div>

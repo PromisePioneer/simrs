@@ -42,6 +42,7 @@ function PoliPage() {
         reValidateMode: "onChange",
         defaultValues: {
             name: "",
+            consultation_fee: "",
             type: ""
         }
     });
@@ -55,15 +56,16 @@ function PoliPage() {
         if (poliValue && !openDeleteModal) {
             reset({
                 name: poliValue.name || "",
+                consultation_fee: poliValue.consultation_fee || "",
             })
         } else {
-            reset({name: ""});
+            reset({name: "", consultation_fee: ""});
         }
     }, [poliValue, openDeleteModal]);
 
     useEffect(() => {
         if (!openModal) {
-            reset({name: ""});
+            reset({name: "", consultation_fee: ""});
             if (setPoliValue) setPoliValue(null);
         }
     }, [openModal, setPoliValue]);
@@ -93,11 +95,9 @@ function PoliPage() {
                 </div>
             </TableCell>
             <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{poli.type}</span>
-                    </div>
-                </div>
+                <span className="font-semibold text-teal-600">
+                    {poli.consultation_fee ? `Rp ${Number(poli.consultation_fee).toLocaleString('id-ID')}` : '-'}
+                </span>
             </TableCell>
             <TableCell className="text-right">
                 <div className="flex justify-end gap-1">
@@ -197,6 +197,13 @@ function PoliPage() {
                                disabled={isLoading}/>
                         {errors.name &&
                             <p className="text-sm text-destructive">{errors.name.message}</p>}
+                    </div>
+                    <div className="space-y-2.5">
+                        <Label htmlFor="consultation_fee" className="text-sm font-semibold">Tarif Konsultasi (Rp)</Label>
+                        <Input id="consultation_fee" type="number" min="0" step="1000"
+                               placeholder="Contoh: 150000"
+                               {...register("consultation_fee")}
+                               disabled={isLoading}/>
                     </div>
                 </div>
             </Modal>

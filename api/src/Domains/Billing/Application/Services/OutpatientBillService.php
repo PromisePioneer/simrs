@@ -36,15 +36,18 @@ class OutpatientBillService
             'total'               => 0,
         ]);
 
-        // Auto-generate item konsultasi (tarif flat, bisa disesuaikan nanti)
+        // Auto-generate item konsultasi dari tarif poli
+        $poli = \Domains\MasterData\Infrastructure\Persistent\Models\PoliModel::find($visit->poli_id);
+        $consultationFee = (float) ($poli->consultation_fee ?? 0);
+
         BillItemModel::create([
             'tenant_id'   => $visit->tenant_id,
             'bill_id'     => $bill->id,
             'item_type'   => 'consultation',
-            'description' => 'Biaya Konsultasi Dokter',
+            'description' => 'Biaya Konsultasi - ' . ($poli->name ?? 'Dokter'),
             'quantity'    => 1,
-            'unit_price'  => 0, // diisi kasir
-            'subtotal'    => 0,
+            'unit_price'  => $consultationFee,
+            'subtotal'    => $consultationFee,
         ]);
 
         // Tambahkan item obat dari prescription jika sudah dispensed
@@ -125,28 +128,36 @@ class OutpatientBillService
     }
 
     /**
-     * Sync obat yang sudah dispensed dari prescriptions.
+     * Sync obat dari prescriptions ke bill items.
+     * Ambil dari semua prescription (termasuk draft) karena dipanggil saat baru dibuat.
      */
     private function syncMedicineItems(OutpatientBillModel $bill, OutpatientVisitModel $visit): void
     {
         $prescriptions = $visit->prescriptions()
-            ->where('status', 'dispensed')
-            ->with('medicationItems.medicineBatch.medicine')
+            ->with(['medicine.batches' => function ($q) {
+                $q->whereHas('stock', fn($s) => $s->where('stock_amount', '>', 0))
+                    ->orderBy('expired_date', 'asc')
+                    ->limit(1);
+            }])
             ->get();
 
         foreach ($prescriptions as $prescription) {
-            foreach ($prescription->medicationItems ?? [] as $medItem) {
-                BillItemModel::create([
-                    'tenant_id'         => $bill->tenant_id,
-                    'bill_id'           => $bill->id,
-                    'item_type'         => 'medicine',
-                    'description'       => $medItem->medicineBatch->medicine->name ?? 'Obat',
-                    'quantity'          => $medItem->quantity ?? 1,
-                    'unit_price'        => $medItem->medicineBatch->sell_price ?? 0,
-                    'subtotal'          => ($medItem->quantity ?? 1) * ($medItem->medicineBatch->sell_price ?? 0),
-                    'medicine_batch_id' => $medItem->medicine_batch_id,
-                ]);
-            }
+            $medicine = $prescription->medicine;
+            if (!$medicine) continue;
+
+            // Ambil harga jual dari batch FEFO pertama yang ada stok
+            $sellingPrice = $medicine->batches->first()?->selling_price ?? 0;
+            $quantity = (int) ($prescription->quantity ?? 1);
+
+            BillItemModel::create([
+                'tenant_id'   => $bill->tenant_id,
+                'bill_id'     => $bill->id,
+                'item_type'   => 'medicine',
+                'description' => $medicine->name ?? 'Obat',
+                'quantity'    => $quantity,
+                'unit_price'  => $sellingPrice,
+                'subtotal'    => $quantity * $sellingPrice,
+            ]);
         }
     }
 

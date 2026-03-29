@@ -1,13 +1,12 @@
 import Layout from "@features/dashboard/pages/layout.jsx";
 import {useEffect, useState} from "react";
-import {Link, useNavigate} from "@tanstack/react-router";
+import {useNavigate} from "@tanstack/react-router";
 import {stats} from "@features/outpatient";
 import {PERMISSIONS} from "@shared/constants";
 import {usePermission} from "@shared/hooks";
 import OutpatientVisitPage from "@features/outpatient/pages/visit/index.jsx";
 import PrescriptionPage from "@features/outpatient/pages/prescriptions/index.jsx";
 import {Route} from "@/routes/_protected/outpatient/index.jsx";
-import {useOutpatientDashboardReportStore} from "@features/dashboard";
 import {PermissionTabs} from "@shared/components/common/tabs.jsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@shared/components/ui/card.jsx";
 import {Users, ShieldAlert} from "lucide-react";
@@ -18,9 +17,6 @@ function OutpatientPage() {
     const {hasPermission} = usePermission();
     const [isInitialized, setIsInitialized] = useState(false);
     const search = Route.useSearch();
-
-
-
 
 
     const {fetchCountTodayQueues, countTodayQueues} = usePatientQueueStore();

@@ -10,5 +10,5 @@ interface OutpatientVisitRepositoryInterface
     public function findAll(array $filters = [], ?int $perPage = null): object;
     public function store(array $data): object;
     public function update(array $data, string $id): object;
-    public function delete(string $id): void;
+    public function delete(string $id): bool;
 }

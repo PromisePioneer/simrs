@@ -217,7 +217,7 @@ class UserController extends Controller
 
         $activeRole = $user->getActiveRole();
         $tenant = $tenantId ? TenantModel::find($tenantId) : null;
-        $subscription = $tenant?->getActiveSubscription();
+        $subscription = $tenant?->activeSubscription;
         $plan = $subscription?->plan;
 
         return response()->json([

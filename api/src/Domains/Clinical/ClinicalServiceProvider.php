@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Domains\Clinical;
 
-use App\Models\Prescription;
+use Domains\Billing\Application\Services\OutpatientBillService;
 use Domains\Clinical\Application\Services\DiagnoseService;
 use Domains\Clinical\Application\Services\PrescriptionService;
 use Domains\Clinical\Domain\Repository\DiagnoseRepositoryInterface;
 use Domains\Clinical\Domain\Repository\PrescriptionRepositoryInterface;
 use Domains\Clinical\Infrastructure\Persistence\Models\DiagnoseModel;
+use Domains\Clinical\Infrastructure\Persistence\Models\PrescriptionModel;
 use Domains\Clinical\Infrastructure\Persistence\Repositories\EloquentDiagnoseRepository;
 use Domains\Clinical\Infrastructure\Persistence\Repositories\EloquentPrescriptionRepository;
 use Domains\Clinical\Presentation\Controllers\DiagnoseController;
@@ -29,9 +30,10 @@ class ClinicalServiceProvider extends ServiceProvider
         $this->app->bind(PrescriptionRepositoryInterface::class, EloquentPrescriptionRepository::class);
 
         $this->app->bind(DiagnoseService::class, fn($app) => new DiagnoseService(
-            visitRepo:        $app->make(OutpatientVisitRepositoryInterface::class),
-            queueRepo:        $app->make(QueueRepositoryInterface::class),
+            visitRepo: $app->make(OutpatientVisitRepositoryInterface::class),
+            queueRepo: $app->make(QueueRepositoryInterface::class),
             prescriptionRepo: $app->make(PrescriptionRepositoryInterface::class),
+            billService: $app->make(OutpatientBillService::class),
         ));
 
         $this->app->bind(PrescriptionService::class,
@@ -45,6 +47,6 @@ class ClinicalServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::policy(Prescription::class, PrescriptionPolicy::class);
+        Gate::policy(PrescriptionModel::class, PrescriptionPolicy::class);
     }
 }
