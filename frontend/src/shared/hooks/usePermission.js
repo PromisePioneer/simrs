@@ -1,20 +1,31 @@
-import { useAuthStore } from "@/features/auth/store/authStore.js";
+import {useAuthStore} from "@features/auth";
 
 export const usePermission = () => {
-    const { userData } = useAuthStore();
+    const {userData} = useAuthStore();
 
-    const isSuperAdmin = userData?.roles?.some((role) => role.name === "Super Admin");
+
+    const isSuperAdmin = userData?.roles?.some(
+        role => role.name === "Super Admin"
+    );
 
     const hasPermission = (permission) => {
         if (isSuperAdmin) return true;
-        return userData?.permissions?.some((p) => p === permission) ?? false;
+
+        return userData.permissions?.some(p => p === permission)
     };
 
-    const hasAnyPermission = (permissions = []) =>
-        permissions.some((permission) => hasPermission(permission));
+    const hasAnyPermission = (permissions = []) => {
+        return permissions.some(permission => hasPermission(permission));
+    };
 
-    const hasAllPermissions = (permissions = []) =>
-        permissions.every((permission) => hasPermission(permission));
+    const hasAllPermissions = (permissions = []) => {
+        return permissions.every(permission => hasPermission(permission));
+    };
 
-    return { hasPermission, hasAnyPermission, hasAllPermissions, isSuperAdmin };
+
+    return {
+        hasPermission,
+        hasAnyPermission,
+        hasAllPermissions
+    };
 };

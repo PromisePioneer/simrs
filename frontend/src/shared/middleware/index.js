@@ -1,1 +1,1 @@
-export { permissionMiddleware } from "./permissionMiddleware.js";
+export {requireAllPermissions, requirePermission} from "./permissionMiddleware.js";

@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {z} from 'zod'
-import MedicineManagementPage from "@/pages/settings/medicine-management/index.jsx";
+import MedicineManagementPage from "@features/medicine/pages/index.jsx";
 
 const medicineSearchSchema = z.object({
     tab: z.enum(['medicine-management', 'medicine_categories', 'medicine_warehouses', 'medicine_stock_movements']).optional().default('medicine-management')

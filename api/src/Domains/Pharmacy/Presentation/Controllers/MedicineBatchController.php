@@ -18,7 +18,9 @@ class MedicineBatchController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private MedicineBatchService $batchService) {}
+    public function __construct(private readonly MedicineBatchService $batchService)
+    {
+    }
 
     public function index(Request $request, MedicineModel $medicine): JsonResponse
     {
@@ -41,7 +43,8 @@ class MedicineBatchController extends Controller
 
     public function update(MedicineBatchRequest $request, MedicineBatchModel $medicineBatch): JsonResponse
     {
-        $data = $this->batchService->update(data: $request->validated(), batch: $medicineBatch);
+        $data = $this->batchService->update(
+            data: $request->validated(), batch: $medicineBatch);
         return $this->successResponse(data: $data, message: 'Batch berhasil diperbarui.');
     }
 

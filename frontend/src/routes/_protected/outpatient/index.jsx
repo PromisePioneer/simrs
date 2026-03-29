@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import OutpatientPage from "@/pages/outpatient/index.jsx";
+import OutpatientPage from "@features/outpatient/pages/index.jsx";
 import {z} from "zod";
 
 

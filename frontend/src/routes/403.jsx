@@ -1,6 +1,6 @@
 // src/routes/403.jsx
 import {createFileRoute, useNavigate, useRouter} from '@tanstack/react-router';
-import {Button} from '@/components/ui/button';
+import {Button} from '@shared/components/ui/button';
 import {ShieldAlert} from 'lucide-react';
 
 function Forbidden() {

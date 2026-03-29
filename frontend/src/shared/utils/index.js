@@ -1,5 +1,6 @@
-export { calculateAge } from "./calculateAge.js";
-export { formatDate } from "./formatDate.js";
-export { permissionCheck } from "./permissionCheck.js";
-export { generateSku } from "./medicines/skuGenerator.js";
-export { getFormUtils } from "./user/formUtils.js";
+export {calculateAge} from "./calculateAge.js";
+export {formatDate} from "./formatDate.js";
+export {checkPermission} from "./permissionCheck.js";
+export {generateMedicineSKU} from "./medicines/skuGenerator.js";
+export {formatUserDataForForm} from "./user/formUtils.js";
+export {checkAllPermissions, hasActiveSubscription, hasPlanAtLeast} from "./permissionCheck.js"

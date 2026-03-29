@@ -17,13 +17,16 @@ class MedicineBatchModel extends BaseTenantModel
 
     protected $table = 'medicine_batches';
     protected $fillable = [
-        'tenant_id', 'medicine_id', 'batch_number', 'sequence',
-        'is_auto_batch', 'expired_date', 'stock_base_unit', 'selling_price',
+        'tenant_id',
+        'medicine_id',
+        'batch_number',
+        'sequence',
+        'is_auto_batch',
+        'expired_date',
+        'stock_base_unit',
+        'selling_price',
     ];
 
-    /**
-     * Point Laravel ke factory yang benar di dalam domain.
-     */
     protected static function newFactory(): MedicineBatchModelFactory
     {
         return MedicineBatchModelFactory::new();

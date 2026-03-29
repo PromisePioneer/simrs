@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import PatientDetailPage from '@/pages/settings/patients/details.jsx'
+import PatientDetailPage from '@features/patients/pages/details.jsx'
 
 export const Route = createFileRoute('/_protected/settings/patients/details/$id')({
     component: PatientDetailPage,

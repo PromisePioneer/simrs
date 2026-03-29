@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import AccountingPage from "@/pages/accounting/index.jsx";
+import AccountingPage from "@features/accounting/pages/index.jsx";
 import {z} from "zod";
 
 

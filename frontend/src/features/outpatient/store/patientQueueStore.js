@@ -1,39 +1,63 @@
-import { create } from "zustand";
-import { toast } from "sonner";
-import apiCall from "@/shared/services/apiCall.js";
+import {create} from "zustand";
+import {toast} from "sonner";
+import apiCall from "@shared/services/apiCall.js";
+import axios from "axios";
 
 export const usePatientQueueStore = create((set, get) => ({
     isLoading: false,
-    queues: [],
-    queueValue: null,
+    openDeleteModal: false,
+    patientQueues: [],
     currentPage: 1,
     search: "",
-
-    setSearch: (search) => set({ search }),
-    setCurrentPage: (page) => set({ currentPage: page }),
-
-    fetchQueues: async ({ perPage = null } = {}) => {
-        set({ isLoading: true });
+    countTodayQueues: 0,
+    setSearch: (search) => set({search}),
+    success: false,
+    fetchPatientQueues: async ({perPage = null, status = null}) => {
         try {
-            const { search, currentPage } = get();
-            const params = { page: currentPage };
-            if (perPage) params.per_page = perPage;
-            if (search?.trim()) params.search = search;
-            const response = await apiCall.get("/api/v1/queues", { params });
-            set({ queues: response.data, isLoading: false });
+            const {search} = get();
+
+            const params = {
+                page: get().currentPage,
+            };
+
+            if (perPage) {
+                params.per_page = perPage;
+            }
+
+            if (search && search.trim() !== "") {
+                params.search = search;
+            }
+
+            if (status) {
+                params.status = status;
+            }
+
+            const response = await apiCall.get('/api/v1/queues', {params});
+
+            set({
+                isLoading: false,
+                patientQueues: response.data,
+            });
         } catch (e) {
-            set({ isLoading: false });
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error("Operasi Gagal");
         }
     },
 
-    updateQueueStatus: async (id, status) => {
+    startDiagnose: async (id) => {
         try {
-            await apiCall.patch(`/api/v1/queues/${id}`, { status });
-            toast.success("Status antrian diperbarui.");
-            await get().fetchQueues({ perPage: 20 });
+            await apiCall.post(`/api/v1/queues/${id}/start`);
+            toast.success("Berhasil memulai diagnosa.");
         } catch (e) {
-            toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
+    fetchCountTodayQueues: async () => {
+        try {
+            const response = await apiCall.get('/api/v1/queues/count-today-queues');
+            set({
+                countTodayQueues: response.data
+            })
+        } catch (e) {
+            toast.error(e.response.data.message || "Operasi gagal")
+        }
+    }
 }));

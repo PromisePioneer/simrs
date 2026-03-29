@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router';
 import {z} from "zod";
-import InpatientFacilityPage from "@/pages/facilities/inpatient/index.jsx";
+import InpatientFacilityPage from "@features/facilities/pages/inpatient/index.jsx";
 
 
 const searchSchema = z.object({

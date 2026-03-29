@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import UsersManagementPage from "@/pages/settings/users-management/index.jsx";
+import UsersManagementPage from "@features/users-management/pages/index.jsx";
 import {z} from "zod";
 
 

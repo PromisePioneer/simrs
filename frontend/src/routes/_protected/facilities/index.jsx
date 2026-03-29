@@ -1,7 +1,7 @@
 import {createFileRoute} from '@tanstack/react-router'
-import ProfilePage from "@/pages/facilities/index.jsx";
+import ProfilePage from "@features/facilities/pages/index.jsx";
 import {z} from "zod";
-import FacilityPage from "@/pages/facilities/index.jsx";
+import FacilityPage from "@features/facilities/pages/index.jsx";
 
 
 const searchSchema = z.object({

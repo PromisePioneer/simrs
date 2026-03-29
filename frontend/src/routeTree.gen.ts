@@ -329,14 +329,14 @@ export interface FileRoutesByFullPath {
   '/email/verify': typeof EmailVerifyRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
-  '/accounting': typeof ProtectedAccountingIndexRoute
-  '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
-  '/facilities': typeof ProtectedFacilitiesIndexRoute
-  '/inpatient': typeof ProtectedInpatientIndexRoute
-  '/outpatient': typeof ProtectedOutpatientIndexRoute
-  '/pharmacy': typeof ProtectedPharmacyIndexRoute
-  '/settings': typeof ProtectedSettingsIndexRoute
-  '/upgrade': typeof ProtectedUpgradeIndexRoute
+  '/accounting/': typeof ProtectedAccountingIndexRoute
+  '/electronic-medical-record/': typeof ProtectedElectronicMedicalRecordIndexRoute
+  '/facilities/': typeof ProtectedFacilitiesIndexRoute
+  '/inpatient/': typeof ProtectedInpatientIndexRoute
+  '/outpatient/': typeof ProtectedOutpatientIndexRoute
+  '/pharmacy/': typeof ProtectedPharmacyIndexRoute
+  '/settings/': typeof ProtectedSettingsIndexRoute
+  '/upgrade/': typeof ProtectedUpgradeIndexRoute
   '/outpatient/diagnose/$id': typeof ProtectedOutpatientDiagnoseIdRoute
   '/outpatient/visit/$id': typeof ProtectedOutpatientVisitIdRoute
   '/outpatient/visit/create': typeof ProtectedOutpatientVisitCreateRoute
@@ -346,15 +346,15 @@ export interface FileRoutesByFullPath {
   '/pharmacy/warehouse/create': typeof ProtectedPharmacyWarehouseCreateRoute
   '/settings/patients/$id': typeof ProtectedSettingsPatientsIdRoute
   '/settings/patients/create': typeof ProtectedSettingsPatientsCreateRoute
-  '/billing/inpatient': typeof ProtectedBillingInpatientIndexRoute
-  '/billing/outpatient': typeof ProtectedBillingOutpatientIndexRoute
-  '/facilities/inpatient': typeof ProtectedFacilitiesInpatientIndexRoute
-  '/master/module': typeof ProtectedMasterModuleIndexRoute
-  '/outpatient/visit': typeof ProtectedOutpatientVisitIndexRoute
-  '/settings/medicine-management': typeof ProtectedSettingsMedicineManagementIndexRoute
-  '/settings/patients': typeof ProtectedSettingsPatientsIndexRoute
-  '/settings/references': typeof ProtectedSettingsReferencesIndexRoute
-  '/settings/users-management': typeof ProtectedSettingsUsersManagementIndexRoute
+  '/billing/inpatient/': typeof ProtectedBillingInpatientIndexRoute
+  '/billing/outpatient/': typeof ProtectedBillingOutpatientIndexRoute
+  '/facilities/inpatient/': typeof ProtectedFacilitiesInpatientIndexRoute
+  '/master/module/': typeof ProtectedMasterModuleIndexRoute
+  '/outpatient/visit/': typeof ProtectedOutpatientVisitIndexRoute
+  '/settings/medicine-management/': typeof ProtectedSettingsMedicineManagementIndexRoute
+  '/settings/patients/': typeof ProtectedSettingsPatientsIndexRoute
+  '/settings/references/': typeof ProtectedSettingsReferencesIndexRoute
+  '/settings/users-management/': typeof ProtectedSettingsUsersManagementIndexRoute
   '/pharmacy/medicine/stocks/$id': typeof ProtectedPharmacyMedicineStocksIdRoute
   '/settings/medicine-management/medicine/$id': typeof ProtectedSettingsMedicineManagementMedicineIdRoute
   '/settings/medicine-management/medicine/create': typeof ProtectedSettingsMedicineManagementMedicineCreateRoute
@@ -362,10 +362,10 @@ export interface FileRoutesByFullPath {
   '/settings/medicine-management/warehouse/create': typeof ProtectedSettingsMedicineManagementWarehouseCreateRoute
   '/settings/patients/details/$id': typeof ProtectedSettingsPatientsDetailsIdRoute
   '/settings/users-management/users/create': typeof ProtectedSettingsUsersManagementUsersCreateRoute
-  '/settings/users-management/roles': typeof ProtectedSettingsUsersManagementRolesIndexRoute
+  '/settings/users-management/roles/': typeof ProtectedSettingsUsersManagementRolesIndexRoute
   '/settings/medicine-management/medicine/stocks/$id': typeof ProtectedSettingsMedicineManagementMedicineStocksIdRoute
   '/settings/users-management/users/$id/detail': typeof ProtectedSettingsUsersManagementUsersIdDetailRoute
-  '/settings/users-management/users/$id': typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
+  '/settings/users-management/users/$id/': typeof ProtectedSettingsUsersManagementUsersIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -474,14 +474,14 @@ export interface FileRouteTypes {
     | '/email/verify'
     | '/inpatient/$id'
     | '/inpatient/create'
-    | '/accounting'
-    | '/electronic-medical-record'
-    | '/facilities'
-    | '/inpatient'
-    | '/outpatient'
-    | '/pharmacy'
-    | '/settings'
-    | '/upgrade'
+    | '/accounting/'
+    | '/electronic-medical-record/'
+    | '/facilities/'
+    | '/inpatient/'
+    | '/outpatient/'
+    | '/pharmacy/'
+    | '/settings/'
+    | '/upgrade/'
     | '/outpatient/diagnose/$id'
     | '/outpatient/visit/$id'
     | '/outpatient/visit/create'
@@ -491,15 +491,15 @@ export interface FileRouteTypes {
     | '/pharmacy/warehouse/create'
     | '/settings/patients/$id'
     | '/settings/patients/create'
-    | '/billing/inpatient'
-    | '/billing/outpatient'
-    | '/facilities/inpatient'
-    | '/master/module'
-    | '/outpatient/visit'
-    | '/settings/medicine-management'
-    | '/settings/patients'
-    | '/settings/references'
-    | '/settings/users-management'
+    | '/billing/inpatient/'
+    | '/billing/outpatient/'
+    | '/facilities/inpatient/'
+    | '/master/module/'
+    | '/outpatient/visit/'
+    | '/settings/medicine-management/'
+    | '/settings/patients/'
+    | '/settings/references/'
+    | '/settings/users-management/'
     | '/pharmacy/medicine/stocks/$id'
     | '/settings/medicine-management/medicine/$id'
     | '/settings/medicine-management/medicine/create'
@@ -507,10 +507,10 @@ export interface FileRouteTypes {
     | '/settings/medicine-management/warehouse/create'
     | '/settings/patients/details/$id'
     | '/settings/users-management/users/create'
-    | '/settings/users-management/roles'
+    | '/settings/users-management/roles/'
     | '/settings/medicine-management/medicine/stocks/$id'
     | '/settings/users-management/users/$id/detail'
-    | '/settings/users-management/users/$id'
+    | '/settings/users-management/users/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -622,7 +622,7 @@ declare module '@tanstack/react-router' {
     '/_protected': {
       id: '/_protected'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -671,56 +671,56 @@ declare module '@tanstack/react-router' {
     '/_protected/upgrade/': {
       id: '/_protected/upgrade/'
       path: '/upgrade'
-      fullPath: '/upgrade'
+      fullPath: '/upgrade/'
       preLoaderRoute: typeof ProtectedUpgradeIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/': {
       id: '/_protected/settings/'
       path: '/settings'
-      fullPath: '/settings'
+      fullPath: '/settings/'
       preLoaderRoute: typeof ProtectedSettingsIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/pharmacy/': {
       id: '/_protected/pharmacy/'
       path: '/pharmacy'
-      fullPath: '/pharmacy'
+      fullPath: '/pharmacy/'
       preLoaderRoute: typeof ProtectedPharmacyIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/outpatient/': {
       id: '/_protected/outpatient/'
       path: '/outpatient'
-      fullPath: '/outpatient'
+      fullPath: '/outpatient/'
       preLoaderRoute: typeof ProtectedOutpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/inpatient/': {
       id: '/_protected/inpatient/'
       path: '/inpatient'
-      fullPath: '/inpatient'
+      fullPath: '/inpatient/'
       preLoaderRoute: typeof ProtectedInpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/facilities/': {
       id: '/_protected/facilities/'
       path: '/facilities'
-      fullPath: '/facilities'
+      fullPath: '/facilities/'
       preLoaderRoute: typeof ProtectedFacilitiesIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/electronic-medical-record/': {
       id: '/_protected/electronic-medical-record/'
       path: '/electronic-medical-record'
-      fullPath: '/electronic-medical-record'
+      fullPath: '/electronic-medical-record/'
       preLoaderRoute: typeof ProtectedElectronicMedicalRecordIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/accounting/': {
       id: '/_protected/accounting/'
       path: '/accounting'
-      fullPath: '/accounting'
+      fullPath: '/accounting/'
       preLoaderRoute: typeof ProtectedAccountingIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
@@ -741,63 +741,63 @@ declare module '@tanstack/react-router' {
     '/_protected/settings/users-management/': {
       id: '/_protected/settings/users-management/'
       path: '/settings/users-management'
-      fullPath: '/settings/users-management'
+      fullPath: '/settings/users-management/'
       preLoaderRoute: typeof ProtectedSettingsUsersManagementIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/references/': {
       id: '/_protected/settings/references/'
       path: '/settings/references'
-      fullPath: '/settings/references'
+      fullPath: '/settings/references/'
       preLoaderRoute: typeof ProtectedSettingsReferencesIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/patients/': {
       id: '/_protected/settings/patients/'
       path: '/settings/patients'
-      fullPath: '/settings/patients'
+      fullPath: '/settings/patients/'
       preLoaderRoute: typeof ProtectedSettingsPatientsIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/medicine-management/': {
       id: '/_protected/settings/medicine-management/'
       path: '/settings/medicine-management'
-      fullPath: '/settings/medicine-management'
+      fullPath: '/settings/medicine-management/'
       preLoaderRoute: typeof ProtectedSettingsMedicineManagementIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/outpatient/visit/': {
       id: '/_protected/outpatient/visit/'
       path: '/outpatient/visit'
-      fullPath: '/outpatient/visit'
+      fullPath: '/outpatient/visit/'
       preLoaderRoute: typeof ProtectedOutpatientVisitIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/master/module/': {
       id: '/_protected/master/module/'
       path: '/master/module'
-      fullPath: '/master/module'
+      fullPath: '/master/module/'
       preLoaderRoute: typeof ProtectedMasterModuleIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/facilities/inpatient/': {
       id: '/_protected/facilities/inpatient/'
       path: '/facilities/inpatient'
-      fullPath: '/facilities/inpatient'
+      fullPath: '/facilities/inpatient/'
       preLoaderRoute: typeof ProtectedFacilitiesInpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/billing/outpatient/': {
       id: '/_protected/billing/outpatient/'
       path: '/billing/outpatient'
-      fullPath: '/billing/outpatient'
+      fullPath: '/billing/outpatient/'
       preLoaderRoute: typeof ProtectedBillingOutpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/billing/inpatient/': {
       id: '/_protected/billing/inpatient/'
       path: '/billing/inpatient'
-      fullPath: '/billing/inpatient'
+      fullPath: '/billing/inpatient/'
       preLoaderRoute: typeof ProtectedBillingInpatientIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
@@ -867,7 +867,7 @@ declare module '@tanstack/react-router' {
     '/_protected/settings/users-management/roles/': {
       id: '/_protected/settings/users-management/roles/'
       path: '/settings/users-management/roles'
-      fullPath: '/settings/users-management/roles'
+      fullPath: '/settings/users-management/roles/'
       preLoaderRoute: typeof ProtectedSettingsUsersManagementRolesIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
@@ -923,7 +923,7 @@ declare module '@tanstack/react-router' {
     '/_protected/settings/users-management/users/$id/': {
       id: '/_protected/settings/users-management/users/$id/'
       path: '/settings/users-management/users/$id'
-      fullPath: '/settings/users-management/users/$id'
+      fullPath: '/settings/users-management/users/$id/'
       preLoaderRoute: typeof ProtectedSettingsUsersManagementUsersIdIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }

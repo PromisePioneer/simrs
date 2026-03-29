@@ -1,6 +1,7 @@
-import { create } from "zustand";
-import apiCall from "@/shared/services/apiCall.js";
-import * as LucideIcons from "lucide-react";
+// src/store/useSidebarStore.js
+import {create} from 'zustand';
+import apiCall from '@shared/services/apiCall.js';
+import * as LucideIcons from 'lucide-react';
 
 export const useSidebarStore = create((set, get) => ({
     isLoading: false,
@@ -9,62 +10,69 @@ export const useSidebarStore = create((set, get) => ({
     isOpen: true,
     isFetched: false,
 
-    toggleSidebar: () => set((state) => ({ isOpen: !state.isOpen })),
-    setSidebarOpen: (isOpen) => set({ isOpen }),
+    toggleSidebar: () => set((state) => ({isOpen: !state.isOpen})),
+    setSidebarOpen: (isOpen) => set({isOpen}),
 
     fetchMenu: async () => {
         if (get().isFetched) return get().menuData;
-        set({ isLoading: true, error: null, isFetched: true });
+
+        set({isLoading: true, error: null, isFetched: true});
         try {
-            const response = await apiCall.get("/api/v1/modules");
+            const response = await apiCall.get('/api/v1/modules');
             const menuData = response.data;
-            localStorage.setItem("menuData", JSON.stringify(menuData));
-            set({ menuData, isLoading: false, error: null });
+
+            localStorage.setItem('menuData', JSON.stringify(menuData));
+            set({menuData, isLoading: false, error: null});
             return menuData;
         } catch (e) {
-            set({ error: e, isLoading: false, isFetched: false });
+            set({error: e, isLoading: false, isFetched: false});
             throw e;
         }
     },
 
     loadMenuFromStorage: () => {
         try {
-            const storedMenu = localStorage.getItem("menuData");
+            const storedMenu = localStorage.getItem('menuData');
             if (storedMenu) {
                 const menuData = JSON.parse(storedMenu);
-                set({ menuData });
+                set({menuData});
                 return menuData;
             }
             return null;
         } catch (e) {
-            console.error("Error loading menu from storage:", e);
+            console.error('Error loading menu from storage:', e);
             return null;
         }
     },
 
     refreshMenu: async () => {
-        set({ isFetched: false });
-        localStorage.removeItem("menuData");
+        set({isFetched: false});
+        localStorage.removeItem('menuData');
         return await get().fetchMenu();
     },
 
     clearMenu: () => {
-        localStorage.removeItem("menuData");
-        set({ menuData: null, isFetched: false });
+        localStorage.removeItem('menuData');
+        set({menuData: null, isFetched: false});
     },
 
     transformAllMenuData: (menuData, currentPath) => {
         if (!menuData || !Array.isArray(menuData)) return [];
-        const transformItem = (item) => ({
-            title: item.name,
-            url: item.route || "#",
-            icon: LucideIcons[item.icon] || LucideIcons.Menu,
-            isActive: item.route === currentPath,
-            isOpen: false,
-            items: item.children_recursive?.length > 0
-                ? item.children_recursive.map((child) => transformItem(child))
-                : null,
-        });
-        return menuData.map((item) => transformItem(item));
+
+        const transformItem = (item) => {
+            const hasChildren = item.children_recursive?.length > 0;
+            return {
+                title: item.name,
+                url: item.route || '#',
+                icon: LucideIcons[item.icon] || LucideIcons.Menu,
+                isActive: item.route === currentPath,
+                isOpen: false,
+                items: hasChildren
+                    ? item.children_recursive.map(child => transformItem(child))
+                    : null,
+            };
+        };
+
+        return menuData.map(item => transformItem(item));
     },
 }));

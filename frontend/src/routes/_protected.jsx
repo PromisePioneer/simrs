@@ -1,7 +1,7 @@
 // src/routes/_protected.jsx
 import {createFileRoute, Outlet, redirect} from '@tanstack/react-router';
-import {useAuthStore} from '@/store/authStore.js';
-import {useLoadingStore} from '@/store/loadingStore.js';
+import {useAuthStore} from '@features/auth';
+import {useLoadingStore} from '@shared/store';
 
 function ProtectedLayout() {
     return <Outlet/>;

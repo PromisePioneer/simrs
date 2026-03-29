@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import MedicineForm from "@/pages/settings/medicine-management/medicines/form.jsx";
+import MedicineForm from "@features/medicine/pages/medicines/form.jsx";
 
 export const Route = createFileRoute(
   '/_protected/settings/medicine-management/medicine/create',

@@ -1,8 +1,8 @@
 // src/routes/_protected/settings/references.jsx
 import {createFileRoute} from '@tanstack/react-router';
-import {requirePermission} from '@/middleware/permissionMiddleware';
-import {PERMISSIONS} from '@/constants/permissions';
-import ReferencesPage from "@/pages/settings/references/index.jsx";
+import {requirePermission} from '@shared/middleware';
+import {PERMISSIONS} from '@shared/constants';
+import ReferencesPage from "@features/settings/pages/references/index.jsx";
 import {z} from "zod";
 
 
