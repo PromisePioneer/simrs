@@ -2,6 +2,7 @@
 .DS_Store
 api/.env
 frontend/.env
+frontend/node_modules
 .env.backup
 .env.production
 .phpactor.json
