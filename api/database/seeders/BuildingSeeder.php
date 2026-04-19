@@ -1,0 +1,55 @@
+<?php
+
+namespace Database\Seeders;
+
+use Domains\Facility\Infrastructure\Persistence\Models\BuildingModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+
+class BuildingSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $buildings = [
+            [
+                'name' => 'Gedung Rawat Jalan',
+                'description' => fake()->sentence(),
+            ],
+            [
+                'name' => 'Gedung Rawat Inap',
+                'description' => fake()->sentence(),
+            ],
+            [
+                'name' => 'Gedung IGD',
+                'description' => fake()->sentence(),
+            ],
+            [
+                'name' => 'Gedung ICU',
+                'description' => fake()->sentence(),
+            ],
+            [
+                'name' => 'Gedung Penunjang Medis',
+                'description' => fake()->sentence(),
+            ],
+        ];
+
+        $tenants = TenantModel::all();
+
+        foreach ($tenants as $tenant) {
+
+            $data = collect($buildings)->map(function ($building) use ($tenant) {
+                return [
+                    'id' => Str::uuid()->toString(),
+                    'tenant_id' => $tenant->id,
+                    'name' => $building['name'],
+                    'description' => $building['description'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            })->toArray();
+
+            BuildingModel::insert($data);
+        }
+    }
+}
