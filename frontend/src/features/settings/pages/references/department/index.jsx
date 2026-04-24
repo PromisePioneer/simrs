@@ -10,6 +10,7 @@ import Modal from "@shared/components/common/modal.jsx";
 import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {Textarea} from "@shared/components/ui/textarea.jsx";
+import {DEPARTMENT_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 function DepartmentPage() {
     const {
@@ -23,7 +24,6 @@ function DepartmentPage() {
         setCurrentPage,
         setSearch,
         setOpenModal,
-        columns,
         setOpenDeleteModal,
         fetchDepartments,
         createDepartment,
@@ -165,7 +165,7 @@ function DepartmentPage() {
             <DataTable
                 title="Tabel Departemen"
                 description="Daftar department yang tersedia"
-                columns={columns()}
+                columns={DEPARTMENT_COLUMNS}
                 data={departments?.data || []}
                 isLoading={isLoading}
                 pagination={departments ? {

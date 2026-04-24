@@ -8,9 +8,23 @@ use Domains\Shared\Infrastructure\Persistence\Repositories\BaseEloquentRepositor
 
 class EloquentPaymentMethodRepository extends BaseEloquentRepository implements PaymentMethodRepositoryInterface
 {
+
+
     public function __construct()
     {
         parent::__construct(new PaymentMethodModel());
+    }
+
+
+    public function findAll(array $filters = [], ?int $perPage = null): object
+    {
+        $query = $this->model->with('paymentMethodType')
+            ->newQuery()->orderBy('created_at', 'desc');
+
+        $query = $this->applyFilters($query, $filters);
+
+
+        return $perPage ? $query->paginate($perPage) : $query->limit(10)->get();
     }
 
     protected function applyFilters($query, array $filters)

@@ -1,58 +1,58 @@
-import Layout from "@features/dashboard/pages/layout.jsx";
-import { useNavigate } from "@tanstack/react-router";
-import { Route } from "@/routes/_protected/pharmacy/index.jsx";
-import { usePermission } from "@shared/hooks";
-import { useEffect, useState } from "react";
-import { PERMISSIONS } from "@shared/constants";
-import { ShieldAlert } from "lucide-react";
+import {useNavigate} from "@tanstack/react-router";
+import {Route} from "@/routes/_protected/pharmacy/index.jsx";
+import {usePermission} from "@shared/hooks";
+import {useEffect, useState} from "react";
+import {PERMISSIONS} from "@shared/constants";
+import {ShieldAlert} from "lucide-react";
+import {PermissionTabs} from "@shared/components/common/tabs.jsx";
 import MedicinePage from "@features/medicine/pages/pharmacy/medicines/index.jsx";
-import MedicineCategoriesPage from "@features/medicine/pages/pharmacy/categories.jsx";
-import { PermissionTabs } from "@shared/components/common/tabs.jsx";
+import MedicineCategoriesPage from "@features/medicine/pages/pharmacy/categories/index.jsx";
 import MedicineWarehousePage from "@features/medicine/pages/pharmacy/warehouses/index.jsx";
-import StockMovementPage from "@features/medicine/pages/pharmacy/stock-movements.jsx";
+import StockMovementPage from "@features/medicine/pages/stock-movements/index.jsx";
+import Layout from "@features/dashboard/pages/layout.jsx";
 
 function PharmacyPage() {
     const navigate = useNavigate();
-    const { hasPermission } = usePermission();
+    const {hasPermission} = usePermission();
     const search = Route.useSearch();
     const [isInitialized, setIsInitialized] = useState(false);
 
     const tabs = [
         {
-            key: "medicine-management",
-            label: "Data obat",
+            key: 'medicine-management',
+            label: 'Data Obat',
             permission: PERMISSIONS.MEDICINE.VIEW,
-            component: MedicinePage,
+            component: MedicinePage
         },
         {
-            key: "medicine_categories",
-            label: "Kategori obat",
+            key: 'medicine_categories',
+            label: 'Kategori Obat',
             permission: PERMISSIONS.MEDICINE_CATEGORY.VIEW,
-            component: MedicineCategoriesPage,
+            component: MedicineCategoriesPage
         },
         {
-            key: "medicine_warehouses",
-            label: "Gudang obat",
+            key: 'medicine_warehouses',
+            label: 'Gudang Obat',
             permission: PERMISSIONS.MEDICINE_WAREHOUSE.VIEW,
-            component: MedicineWarehousePage,
+            component: MedicineWarehousePage
         },
         {
-            key: "medicine_stock_movements",
-            label: "Mutasi Obat",
+            key: 'medicine_stock_movements',
+            label: 'Mutasi Obat',
             permission: PERMISSIONS.STOCK_MOVEMENT.VIEW,
-            component: StockMovementPage,
-        },
+            component: StockMovementPage
+        }
     ];
 
-    const firstAccessibleTab = tabs.find((tab) => hasPermission(tab.permission));
-    const activeTab = search?.tab || "";
+    const firstAccessibleTab = tabs.find(tab => hasPermission(tab.permission));
+    const activeTab = search?.tab || '';
 
     useEffect(() => {
         if (!search?.tab && firstAccessibleTab) {
             navigate({
-                to: ".",
-                search: { tab: firstAccessibleTab.key },
-                replace: true,
+                to: '.',
+                search: {tab: firstAccessibleTab.key},
+                replace: true
             });
         } else {
             setIsInitialized(true);
@@ -60,67 +60,61 @@ function PharmacyPage() {
     }, []);
 
     useEffect(() => {
-        if (search?.tab) {
-            setIsInitialized(true);
-        }
+        if (search?.tab) setIsInitialized(true);
     }, [search?.tab]);
 
     useEffect(() => {
         if (activeTab && isInitialized) {
-            const currentTab = tabs.find((tab) => tab.key === activeTab);
+            const currentTab = tabs.find(tab => tab.key === activeTab);
             if (currentTab && !hasPermission(currentTab.permission)) {
                 if (firstAccessibleTab) {
                     navigate({
-                        to: ".",
-                        search: { tab: firstAccessibleTab.key },
-                        replace: true,
+                        to: '.',
+                        search: {tab: firstAccessibleTab.key},
+                        replace: true
                     });
                 }
             }
         }
     }, [activeTab, isInitialized]);
 
-    const hasAnyTabAccess = tabs.some((tab) => hasPermission(tab.permission));
+    const hasAnyTabAccess = tabs.some(tab => hasPermission(tab.permission));
 
     if (!hasAnyTabAccess) {
         return (
-            <Layout>
-                <div className="min-h-[400px] flex items-center justify-center">
-                    <div className="text-center">
-                        <ShieldAlert className="w-16 h-16 mx-auto text-red-500 mb-4" />
-                        <h2 className="text-2xl font-semibold mb-2">Akses Ditolak</h2>
-                        <p className="text-gray-600 max-w-md mx-auto">
-                            Anda tidak memiliki izin untuk mengakses halaman manajemen obat.
-                            Silakan hubungi administrator untuk mendapatkan akses.
-                        </p>
-                    </div>
+            <div className="min-h-[400px] flex items-center justify-center">
+                <div className="text-center">
+                    <ShieldAlert className="w-16 h-16 mx-auto text-red-500 mb-4"/>
+                    <h2 className="text-2xl font-semibold mb-2">Akses Ditolak</h2>
+                    <p className="text-gray-600 max-w-md mx-auto">
+                        Anda tidak memiliki izin untuk mengakses halaman farmasi.
+                    </p>
                 </div>
-            </Layout>
+            </div>
         );
     }
 
     if (!activeTab) {
         return (
-            <Layout>
-                <div className="flex justify-center items-center py-12">
-                    <div className="animate-pulse">Loading...</div>
-                </div>
-            </Layout>
+            <div className="flex justify-center items-center py-12">
+                <div className="animate-pulse">Loading...</div>
+            </div>
         );
     }
 
     return (
         <Layout>
-            <div className="mb-6">
-                <h2 className="text-2xl font-bold tracking-tight">Manajemen Obat</h2>
-                <p className="text-muted-foreground">Kelola data Obat dan pantau stok obat.</p>
+            <div>
+                <div className="mb-6">
+                    <h2 className="text-2xl font-bold tracking-tight">Farmasi</h2>
+                    <p className="text-muted-foreground">Kelola data obat, kategori, gudang, dan mutasi stok.</p>
+                </div>
+                <PermissionTabs
+                    activeTab={activeTab}
+                    tabs={tabs}
+                    gridCols={4}
+                />
             </div>
-
-            <PermissionTabs
-                activeTab={activeTab}
-                tabs={tabs}
-                gridCols={3}
-            />
         </Layout>
     );
 }

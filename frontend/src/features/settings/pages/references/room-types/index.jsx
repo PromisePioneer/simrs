@@ -11,6 +11,7 @@ import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {Textarea} from "@shared/components/ui/textarea.jsx";
 import {Badge} from "@shared/components/ui/badge.jsx";
+import {ROOM_TYPE_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 const formatCurrency = (value) =>
     `Rp ${Number(value ?? 0).toLocaleString("id-ID")}`;
@@ -31,7 +32,6 @@ function RoomTypePage() {
         setOpenDeleteModal,
         roomTypeValue,
         setRoomTypeValue,
-        columns,
         updateRoomType,
         createRoomType,
         deleteRoomType,
@@ -112,7 +112,8 @@ function RoomTypePage() {
             </TableCell>
             <TableCell>
                 {roomType.rate_per_night > 0 ? (
-                    <Badge variant="outline" className="text-teal-700 border-teal-300 bg-teal-50 dark:bg-teal-950/30 font-semibold">
+                    <Badge variant="outline"
+                           className="text-teal-700 border-teal-300 bg-teal-50 dark:bg-teal-950/30 font-semibold">
                         {formatCurrency(roomType.rate_per_night)}
                     </Badge>
                 ) : (
@@ -162,7 +163,8 @@ function RoomTypePage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
+                        <div
+                            className="flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5">
                             <MirrorRectangular className="w-6 h-6 text-primary"/>
                         </div>
                         <div>
@@ -188,7 +190,7 @@ function RoomTypePage() {
             <DataTable
                 title="Tabel Tipe Ruangan"
                 description="Daftar Tipe Ruangan beserta tarif per malam"
-                columns={columns()}
+                columns={ROOM_TYPE_COLUMNS}
                 data={roomTypes?.data || []}
                 isLoading={isLoading}
                 pagination={roomTypes ? {
@@ -321,7 +323,8 @@ function RoomTypePage() {
                     <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
                         <div className="flex gap-3">
                             <div className="shrink-0">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
+                                <div
+                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
                                     <Trash2 className="w-5 h-5 text-destructive"/>
                                 </div>
                             </div>

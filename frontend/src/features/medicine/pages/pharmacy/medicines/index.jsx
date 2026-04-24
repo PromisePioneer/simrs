@@ -5,7 +5,7 @@ import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
-import {useMedicineStore} from "@features/medicine";
+import {MEDICINE_COLUMNS, useMedicineStore} from "@features/medicine";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,7 +24,6 @@ function MedicinePage() {
         medicines,
         currentPage,
         setCurrentPage,
-        columns,
         fetchMedicines,
         openDeleteModal,
         setOpenDeleteModal,
@@ -54,7 +53,8 @@ function MedicinePage() {
                         <div className="flex items-center gap-2">
                             <span className="font-semibold text-foreground">{medicine.name}</span>
                             {medicine.is_for_sell ? (
-                                <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border border-emerald-200">
+                                <Badge
+                                    className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border border-emerald-200">
                                     Dijual
                                 </Badge>
                             ) : (
@@ -146,7 +146,7 @@ function MedicinePage() {
             <DataTable
                 title="Tabel Obat"
                 description="Daftar Obat yang dijual"
-            columns={columns()}
+                columns={MEDICINE_COLUMNS}
                 data={medicines?.data || []}
                 isLoading={isLoading}
                 pagination={medicines ? {

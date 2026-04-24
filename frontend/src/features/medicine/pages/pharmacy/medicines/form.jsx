@@ -1,5 +1,4 @@
 import Layout from "@features/dashboard/pages/layout.jsx";
-import ContentHeader from "@shared/components/ui/content-header.jsx";
 import MedicineBasicInfoSections from "@features/medicine/components/form-sections/basic-info.jsx";
 import MedicineStockInfo from "@features/medicine/components/form-sections/stock-info.jsx";
 import MedicineUnitPackaging from "@features/medicine/components/form-sections/packaging-card.jsx";

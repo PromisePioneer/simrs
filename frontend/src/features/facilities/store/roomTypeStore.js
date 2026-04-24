@@ -12,14 +12,6 @@ export const useRoomTypeStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     deleteLoading: false,
-    columns: () => ([
-        {key: 'no', label: 'No', width: '5%'},
-        {key: 'code', label: 'Kode', width: '10%'},
-        {key: 'name', label: 'Nama', width: '15%'},
-        {key: 'capacity', label: 'Kapasitas', width: '10%'},
-        {key: 'rate_per_night', label: 'Tarif/Malam', width: '15%'},
-        {key: 'actions', label: 'Aksi', width: '10%', align: 'right'},
-    ]),
     setSearch: (search) => {
         set({search});
     },

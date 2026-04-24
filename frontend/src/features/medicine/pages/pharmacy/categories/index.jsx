@@ -18,6 +18,7 @@ import {
     SelectValue
 } from "@shared/components/ui/select.jsx";
 import {useMedicineCategoriesStore} from "@features/medicine";
+import {MEDICINE_CATEGORIES_COLUMNS} from "@features/medicine/constants/index.js";
 
 function MedicineCategoriesPage() {
     const {
@@ -26,7 +27,6 @@ function MedicineCategoriesPage() {
         setSearch,
         medicineCategoryValue,
         medicineCategories,
-        columns,
         currentPage,
         openModal,
         openDeleteModal,
@@ -176,7 +176,7 @@ function MedicineCategoriesPage() {
             <DataTable
                 title="Tabel kategori obat"
                 description="Daftar kategori obat yang tersedia"
-                columns={columns()}
+                columns={MEDICINE_CATEGORIES_COLUMNS}
                 data={medicineCategories?.data || []}
                 isLoading={isLoading}
                 pagination={medicineCategories ? {

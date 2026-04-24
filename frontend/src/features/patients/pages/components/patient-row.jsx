@@ -19,7 +19,7 @@ export const PatientRow = ({patients, patient, index}) => {
             className="hover:bg-teal-50/50 transition-all duration-200 border-b border-gray-100 group cursor-pointer "
         >
             <TableCell className="font-semibold text-gray-500">
-                #{(patients.from || 0) + index}
+                #{(patients.meta?.from || 0) + index}
             </TableCell>
 
             {/* Patient Info */}
@@ -58,31 +58,6 @@ export const PatientRow = ({patients, patient, index}) => {
                     {patient.phone}
                 </Badge>
             </TableCell>
-
-            {/* Status & Priority */}
-            <TableCell>
-                <div className="flex flex-col gap-2">
-                    <Badge
-                        className={`w-fit font-medium shadow-sm ${
-                            patient.status === 'active'
-                                ? 'bg-green-100 text-green-700 border-green-200'
-                                : patient.status === 'follow-up'
-                                    ? 'bg-teal-100 text-teal-700 border-teal-200'
-                                    : 'bg-gray-100 text-gray-700 border-gray-200'
-                        } border`}
-                    >
-                        {patient.status === 'active' ? '✅ Aktif' : patient.status === 'follow-up' ? '🔄 Follow Up' : '✔️ Selesai'}
-                    </Badge>
-
-                    {patient.priority === 'urgent' && (
-                        <Badge
-                            className="w-fit bg-red-100 text-red-700 border-red-200 border font-medium shadow-sm animate-pulse">
-                            🚨 Urgent
-                        </Badge>
-                    )}
-                </div>
-            </TableCell>
-
             {/* Consultation Date */}
             <TableCell>
                 <div className="flex items-center gap-2">

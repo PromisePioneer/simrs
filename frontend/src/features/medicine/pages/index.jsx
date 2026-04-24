@@ -5,11 +5,11 @@ import {usePermission} from "@shared/hooks";
 import {useEffect, useState} from "react";
 import {PERMISSIONS} from "@shared/constants";
 import {ShieldAlert} from "lucide-react";
-import MedicinePage from "@features/medicine/pages/medicines/index.jsx";
-import MedicineCategoriesPage from "@features/medicine/pages/categories/index.jsx";
 import {PermissionTabs} from "@shared/components/common/tabs.jsx";
-import MedicineWarehousePage from "@features/medicine/pages/warehouses /index.jsx";
+import MedicineWarehousePage from "@features/medicine/pages/pharmacy/warehouses/index.jsx";
 import StockMovementPage from "@features/medicine/pages/stock-movements/index.jsx";
+import MedicinePage from "@features/medicine/pages/pharmacy/medicines/index.jsx";
+import MedicineCategoriesPage from "@features/medicine/pages/pharmacy/categories/index.jsx";
 
 function MedicineManagementPage() {
     const navigate = useNavigate();

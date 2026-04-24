@@ -16,6 +16,7 @@ class PoliRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'consultation_fee' => 'required|numeric',
         ];
     }
 
@@ -24,6 +25,7 @@ class PoliRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama tidak boleh kosong',
+            'consultation_fee.required' => 'Jumlah konsultasi tidak boleh kosong',
         ];
     }
 

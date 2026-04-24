@@ -1,16 +1,17 @@
 export const USER_COLUMNS = [
-    { header: "No", className: "w-[60px]" },
-    { header: "User", className: "min-w-[280px]" },
-    { header: "Role", className: "w-[140px]" },
-    { header: "Telepon", className: "min-w-[200px]" },
-    { header: "Alamat", className: "min-w-[200px]" },
-    { header: "Aksi", className: "text-right w-[120px]" },
+    {key: "no", label: "No", width: "5%"},
+    {key: "name", label: "Nama", width: "25%"},
+    {key: "role", label: "Peran", width: "20%"},
+    {key: "phone", label: "Telp", width: "15%"},
+    {key: "address", label: "Alamat", width: "15%"},
+    {key: "actions", label: "Aksi", width: "15%", align: "right"},
 ];
 
+
 export const ROLE_COLUMNS = [
-    { header: "No", className: "w-[80px]" },
-    { header: "Nama", className: "min-w-[200px]" },
-    { header: "Tipe", className: "w-[120px]" },
-    { header: "Created At", className: "w-[150px]" },
-    { header: "Aksi", className: "w-[180px] text-right" },
+    {key: "no", label: "No", width: "5%"},
+    {key: "name", label: "Nama", width: "25%"},
+    {key: "type", label: "Tipe", width: "20%"},
+    {key: "created_at", label: "Tgl. Dibuat", width: "20%"},
+    {key: "actions", label: "Aksi", width: "15%", align: "right"},
 ];

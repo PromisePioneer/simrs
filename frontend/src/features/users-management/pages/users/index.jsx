@@ -4,7 +4,7 @@ import {Pencil, Plus, Shield, Trash2, Phone, MapPin, MailCheck, MailWarning} fro
 import DataTable from "@shared/components/common/data-table.jsx";
 import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Badge} from "@shared/components/ui/badge.jsx";
-import {useUserStore} from "@features/users-management";
+import {USER_COLUMNS, useUserStore} from "@features/users-management";
 import {useEffect} from "react";
 import {Avatar, AvatarImage, AvatarFallback} from "@shared/components/ui/avatar.jsx";
 import {Link} from "@tanstack/react-router";
@@ -160,7 +160,7 @@ function UserPage() {
             <DataTable
                 title="User"
                 description="Daftar lengkap semua pengguna"
-                columns={columns()}
+                columns={USER_COLUMNS}
                 data={userData.data}
                 isLoading={isLoading}
                 pagination={userData ? {

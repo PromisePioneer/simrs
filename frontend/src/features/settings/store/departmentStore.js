@@ -23,12 +23,6 @@ export const useDepartmentStore = create((set, get) => ({
         }
         set({openModal: !get().openModal});
     },
-    columns: () => ([
-        {key: 'no', label: 'No', width: '5%'},
-        {key: 'name', label: 'Nama Ruangan', width: '25%'},
-        {key: 'description', label: 'Deskripsi', width: '25%'},
-        {key: 'actions', label: 'Action', width: '15%', align: 'right'},
-    ]),
     setOpenDeleteModal: async (id = null) => {
         if (id) {
             await get().showDepartment(id);

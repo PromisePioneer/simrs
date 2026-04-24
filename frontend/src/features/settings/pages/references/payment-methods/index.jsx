@@ -10,6 +10,7 @@ import Modal from "@shared/components/common/modal.jsx";
 import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {AsyncSelect} from "@shared/components/common/async-select.jsx";
+import {PAYMENT_METHOD_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 function PaymentMethodPage() {
     const {
@@ -22,16 +23,15 @@ function PaymentMethodPage() {
         setPaymentMethodValue,
         createPaymentMethod,
         updatePaymentMethod,
-        openModal: paymentOpenModal,
-        setOpenModal: setPaymentOpenModal,
-        openDeleteModal: paymentOpenDeleteModal,
-        setOpenDeleteModal: setPaymentOpenDeleteModal,
-        setSearch: setPaymentSearch,
-        search: paymentSearch,
-        currentPage: paymentCurrentPage,
-        setCurrentPage: setPaymentCurrentPage,
+        openModal,
+        setOpenModal,
+        openDeleteModal,
+        setOpenDeleteModal,
+        setSearch,
+        search,
+        currentPage,
+        setCurrentPage,
         deletePaymentMethod,
-        columns: paymentColumns,
     } = usePaymentMethodStore();
 
     const {
@@ -52,12 +52,11 @@ function PaymentMethodPage() {
 
     // --- EFFECTS FOR PAYMENT METHOD ---
     useEffect(() => {
-        fetchPaymentMethods({perPage: 20, search: paymentSearch});
-        fetchPaymentMethodType();
-    }, [paymentCurrentPage, paymentSearch, fetchPaymentMethods, fetchPaymentMethodType]);
+        fetchPaymentMethods({perPage: 20, search: search});
+    }, [currentPage, search, fetchPaymentMethods]);
 
     useEffect(() => {
-        if (paymentMethodValue && !paymentOpenDeleteModal) {
+        if (paymentMethodValue && !openDeleteModal) {
             reset({
                 name: paymentMethodValue.name || "",
                 payment_method_type_id: paymentMethodValue.type?.id || paymentMethodValue.payment_method_type_id || ""
@@ -65,16 +64,16 @@ function PaymentMethodPage() {
         } else {
             reset({name: "", payment_method_type_id: ""});
         }
-    }, [paymentMethodValue, paymentOpenDeleteModal]);
+    }, [paymentMethodValue, openDeleteModal]);
 
     useEffect(() => {
-        if (!paymentOpenModal) {
+        if (!openModal) {
             reset({name: "", payment_method_type_id: ""});
             if (setPaymentMethodValue) {
                 setPaymentMethodValue(null);
             }
         }
-    }, [paymentOpenModal, setPaymentMethodValue]);
+    }, [openModal, setPaymentMethodValue]);
 
 
     const onSubmitPayment = async (data) => {
@@ -106,7 +105,7 @@ function PaymentMethodPage() {
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                             <span className="font-semibold text-foreground">
-                                {paymentMethod?.payment_method_type?.name}
+                                {paymentMethod?.type?.name}
                             </span>
                     </div>
                 </div>
@@ -119,7 +118,7 @@ function PaymentMethodPage() {
                                 <TooltipTrigger asChild>
                                     <Button variant="ghost" size="sm"
                                             className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setPaymentOpenModal(true, paymentMethod.id)}>
+                                            onClick={() => setOpenModal(true, paymentMethod.id)}>
                                         <Pencil className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
@@ -129,7 +128,7 @@ function PaymentMethodPage() {
                                 <TooltipTrigger asChild>
                                     <Button variant="ghost" size="sm"
                                             className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setPaymentOpenDeleteModal(true, paymentMethod.id)}>
+                                            onClick={() => setOpenDeleteModal(true, paymentMethod.id)}>
                                         <Trash2 className="h-4 w-4"/>
                                     </Button>
                                 </TooltipTrigger>
@@ -165,7 +164,7 @@ function PaymentMethodPage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setPaymentOpenModal(true)}
+                    onClick={() => setOpenModal(true)}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Metode
@@ -175,17 +174,17 @@ function PaymentMethodPage() {
             <DataTable
                 title="Data Metode Pembayaran"
                 description="Kelola dan atur metode pembayaran di seluruh sistem"
-                columns={paymentColumns()}
+                columns={PAYMENT_METHOD_COLUMNS}
                 data={paymentMethods?.data || []}
                 isLoading={paymentMethodLoading}
                 pagination={paymentMethods ? {
                     from: paymentMethods.meta?.from, to: paymentMethods.meta?.to, total: paymentMethods.meta?.total,
                     current_page: paymentMethods.meta?.current_page, last_page: paymentMethods.meta?.last_page
                 } : null}
-                onPageChange={setPaymentCurrentPage}
-                currentPage={paymentCurrentPage}
-                onSearch={setPaymentSearch}
-                search={paymentSearch}
+                onPageChange={setCurrentPage}
+                currentPage={currentPage}
+                onSearch={setSearch}
+                search={search}
                 searchPlaceholder="Cari metode pembayaran..."
                 emptyStateIcon={CreditCard}
                 emptyStateText="No payment methods found"
@@ -194,8 +193,8 @@ function PaymentMethodPage() {
             />
 
             <Modal
-                open={paymentOpenModal}
-                onOpenChange={setPaymentOpenModal}
+                open={openModal}
+                onOpenChange={setOpenModal}
                 title={paymentMethodValue ? "Edit Metode Pembayaran" : "Tambah Metode Pembayaran"}
                 description={paymentMethodValue ? "Update metode pembayaran" : "Tambah metode pembayaran baru ke sistem"}
                 onSubmit={handleSubmit(onSubmitPayment)}
@@ -235,8 +234,8 @@ function PaymentMethodPage() {
             </Modal>
 
             <Modal
-                open={paymentOpenDeleteModal}
-                onOpenChange={setPaymentOpenDeleteModal}
+                open={openDeleteModal}
+                onOpenChange={setOpenDeleteModal}
                 title="Hapus Metode Pembayaran"
                 description="Tindakan ini tidak dapat dibatalkan."
                 onSubmit={() => deletePaymentMethod(paymentMethodValue.id)}

@@ -11,7 +11,6 @@ import {useNavigate} from "@tanstack/react-router";
 import {Route} from "@/routes/_protected/settings/references/index.jsx";
 import {PermissionTabs} from "@shared/components/common/tabs.jsx";
 import DepartmentPage from "@features/settings/pages/references/department/index.jsx";
-import RoomTypes from "@features/settings/pages/references/room-types/index.jsx";
 import RoomTypePage from "@features/settings/pages/references/room-types/index.jsx";
 
 function ReferencesPage() {

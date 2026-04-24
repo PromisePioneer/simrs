@@ -9,6 +9,7 @@ import Modal from "@shared/components/common/modal.jsx";
 import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {usePoliStore} from "@features/settings";
+import {POLI_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 function PoliPage() {
     const {
@@ -25,7 +26,6 @@ function PoliPage() {
         setOpenDeleteModal,
         poliValue,
         setPoliValue,
-        columns,
         updatePoli,
         createPoli,
         deletePoli,
@@ -162,7 +162,7 @@ function PoliPage() {
             <DataTable
                 title="Tabel Poli"
                 description="Daftar Poli yang tersedia"
-                columns={columns()}
+                columns={POLI_COLUMNS}
                 data={poliData?.data || []}
                 isLoading={isLoading}
                 pagination={poliData ? {

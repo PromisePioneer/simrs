@@ -1,4 +1,4 @@
-// src/pages/upgrade/index.jsx
+// src/pages/upgrade/index.js
 import {useEffect, useState} from 'react';
 import {useNavigate} from '@tanstack/react-router';
 import {Check, X, Loader2, Crown, Zap, Shield, ArrowLeft} from 'lucide-react';

@@ -14,6 +14,7 @@ class PaymentMethodService extends BaseCrudService
     }
 
 
+
     public function extractFilters(Request $request): array
     {
         return $request->only(['search']);

@@ -10,6 +10,7 @@ import {useEffect} from "react";
 import DataTable from "@shared/components/common/data-table.jsx";
 import {Link} from "@tanstack/react-router";
 import {PatientRow} from "@features/patients/pages/components/patient-row.jsx";
+import {PATIENT_COLUMNS} from "@features/patients/constants/index.js";
 
 function PatientPage() {
 
@@ -20,7 +21,6 @@ function PatientPage() {
         currentPage,
         setCurrentPage,
         setOpenModal,
-        columns,
         search,
         setSearch,
     } = usePatientStore();
@@ -74,15 +74,15 @@ function PatientPage() {
                     <DataTable
                         title="Data Pasien"
                         description="Kelola dan atur data pasien"
-                        columns={columns()}
+                        columns={PATIENT_COLUMNS}
                         data={patients?.data || []}
                         isLoading={isLoading}
                         pagination={patients ? {
-                            from: patients.from,
-                            to: patients.to,
-                            total: patients.total,
-                            current_page: patients.current_page,
-                            last_page: patients.last_page
+                            from: patients.meta?.from,
+                            to: patients.meta?.to,
+                            total: patients.meta?.total,
+                            current_page: patients.meta?.current_page,
+                            last_page: patients.meta?.last_page
                         } : null}
                         onPageChange={setCurrentPage}
                         currentPage={currentPage}

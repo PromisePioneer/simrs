@@ -18,6 +18,7 @@ import {
     SelectValue
 } from "@shared/components/ui/select.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
+import {DEGREE_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 function DegreePage() {
     const {
@@ -34,7 +35,6 @@ function DegreePage() {
         setOpenDeleteModal: setDegreeOpenDeleteModal,
         degreeValue,
         setDegreeValue,
-        columns,
         degreeValueLoading,
         updateDegree,
         createDegree,
@@ -173,7 +173,7 @@ function DegreePage() {
             <DataTable
                 title="Tabel Gelar"
                 description="Daftar gelar yang tersedia"
-                columns={columns()}
+                columns={DEGREE_COLUMNS}
                 data={degrees?.data || []}
                 isLoading={degreeLoading}
                 pagination={degrees ? {

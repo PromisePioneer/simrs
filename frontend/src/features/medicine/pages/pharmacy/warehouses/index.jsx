@@ -7,6 +7,7 @@ import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
+import {MEDICINE_WAREHOUSE_COLUMNS} from "@features/medicine/constants/index.js";
 
 
 function MedicineWarehousePage() {
@@ -23,7 +24,6 @@ function MedicineWarehousePage() {
         medicineWarehouseValue,
         setOpenDeleteModal,
         openDeleteModal,
-        columns
     } = useMedicineWarehouseStore();
 
 
@@ -131,7 +131,7 @@ function MedicineWarehousePage() {
             <DataTable
                 title="Daftar gudang"
                 description="Daftar Gudang yang tersedia"
-                columns={columns()}
+                columns={MEDICINE_WAREHOUSE_COLUMNS}
                 data={medicineWarehouses?.data || []}
                 isLoading={isLoading}
                 pagination={medicineWarehouses ? {

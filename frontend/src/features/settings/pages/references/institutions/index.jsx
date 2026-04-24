@@ -18,6 +18,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@shared/components/ui/select.jsx";
+import {REGISTRATION_INSTITUTION_COLUMNS} from "@features/settings/pages/constants/index.js";
 
 function institutionPage() {
     const {
@@ -32,7 +33,6 @@ function institutionPage() {
         openModal,
         setOpenModal,
         institutionValue,
-        columns,
         openDeleteModal,
         setOpenDeleteModal,
         createInstitution,
@@ -197,7 +197,7 @@ function institutionPage() {
                 <DataTable
                     title="Data Lembaga Pendaftaran "
                     description="Kelola dan atur lembaga pendaftaran di seluruh sistem"
-                    columns={columns()}
+                    columns={REGISTRATION_INSTITUTION_COLUMNS}
                     data={institutionData?.data || []}
                     isLoading={isLoading}
                     pagination={institutionData ? {

@@ -31,6 +31,7 @@ import {format} from "date-fns";
 import {Calendar} from "@shared/components/ui/calendar.jsx";
 import {Checkbox} from "@shared/components/ui/checkbox.jsx";
 import {useMedicineStore} from "@features/medicine";
+import {MEDICINE_BATCH_COLUMNS} from "@features/medicine/constants/index.js";
 
 function MedicineStocks(opts) {
 
@@ -44,7 +45,6 @@ function MedicineStocks(opts) {
         currentPage,
         setSearch,
         search,
-        columns,
         openModal,
         setOpenModal,
         medicineBatchValue,
@@ -288,7 +288,7 @@ function MedicineStocks(opts) {
             <DataTable
                 title="Tabel Stok Obat Berdasarkan Batch"
                 description="Data Obat Berdasarkan Batch yang tersedia di gudang. Klik batch untuk melihat stok obat yang tersedia di gudang."
-                columns={columns()}
+                columns={MEDICINE_BATCH_COLUMNS}
                 data={medicineBatches?.data || []}
                 isLoading={isLoading}
                 pagination={medicineBatches ? {

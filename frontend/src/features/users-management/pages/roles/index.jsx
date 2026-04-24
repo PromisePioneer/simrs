@@ -1,4 +1,4 @@
-import {useRoleStore} from "@features/users-management";
+import {ROLE_COLUMNS, useRoleStore} from "@features/users-management";
 import {useForm} from "react-hook-form";
 import {useEffect, useMemo} from "react";
 import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
@@ -31,7 +31,6 @@ function RolePage() {
         openDeleteModal,
         createRole,
         updateRole,
-        columns,
         currentPage,
         setCurrentPage,
         openPermissionModal,
@@ -84,7 +83,7 @@ function RolePage() {
 
     const filteredPermissions = useMemo(() => {
         if (!permissionsData) return [];
-        return permissionsData.filter(permission =>
+        return permissionsData.data.filter(permission =>
             permission.name.toLowerCase().includes(permissionSearch.toLowerCase())
         );
     }, [permissionsData, permissionSearch]);
@@ -103,7 +102,7 @@ function RolePage() {
         return (
             <TableRow key={role.uuid} className="hover:bg-muted/50 transition-colors">
                 <TableCell className="font-medium text-muted-foreground">
-                    {Number(roleData.from) + Number(index)}
+                    {Number(roleData.meta?.from) + Number(index)}
                 </TableCell>
                 <TableCell>
                     <div className="flex items-center gap-3">
@@ -234,15 +233,15 @@ function RolePage() {
             <DataTable
                 title="Data Peran Pengguna"
                 description="Kelola dan atur peran pengguna di seluruh sistem"
-                columns={columns()}
+                columns={ROLE_COLUMNS}
                 data={roleData.data}
                 isLoading={isLoading}
                 pagination={roleData ? {
-                    from: roleData.from,
-                    to: roleData.to,
-                    total: roleData.total,
-                    current_page: roleData.current_page,
-                    last_page: roleData.last_page
+                    from: roleData.meta?.from,
+                    to: roleData.meta?.to,
+                    total: roleData.meta?.total,
+                    current_page: roleData.meta?.current_page,
+                    last_page: roleData.meta?.last_page
                 } : null}
                 onPageChange={setCurrentPage}
                 currentPage={currentPage}
