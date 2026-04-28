@@ -4,7 +4,7 @@ import {Link} from '@tanstack/react-router'
 function Hero() {
     return (
         <>
-        <section className="pt-32 pb-20 px-6 mb-[200px] relative overflow-hidden">
+        <section className="pt-32 pb-20 px-6 mb-50 relative overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-8 fade-in visible">
@@ -30,18 +30,10 @@ function Hero() {
                                 className=" text-white px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-2xl"
                                 size={13}>
 
-                            <Link to="/register">
+                            <Link to="/auth/register">
                                 Mulai Uji Coba Gratis
                             </Link>
                         </Button>
-                        <button
-                            className="glass px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-lg flex items-center space-x-2">
-                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
-                            </svg>
-                            <span>Coming Soon!</span>
-                        </button>
                     </div>
                 </div>
 
@@ -81,22 +73,22 @@ function Hero() {
                                 <div className="text-sm font-semibold text-gray-700 mb-3">Aktivitas Pasien</div>
                                 <div className="flex items-end justify-between h-32 space-x-2">
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
                                         style={{height: '60%', animationDelay: '0.1s'}}></div>
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
                                         style={{height: '85%', animationDelay: '0.2s'}}></div>
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
                                         style={{height: '70%', animationDelay: '0.3s'}}></div>
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
                                         style={{height: '95%', animationDelay: '0.4s'}}></div>
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-cyan-400 to-cyan-300 rounded-lg chart-bar"
                                         style={{height: '75%', animationDelay: '0.5s'}}></div>
                                     <div
-                                        className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
+                                        className="flex-1 bg-linear-to-t from-emerald-400 to-emerald-300 rounded-lg chart-bar"
                                         style={{height: '88%', animationDelay: '0.6s'}}></div>
                                 </div>
                             </div>
@@ -106,7 +98,7 @@ function Hero() {
                             className="absolute -right-8 top-20 glass-strong rounded-2xl p-4 shadow-xl hero-float-delay w-56">
                             <div className="flex items-center space-x-3">
                                 <div
-                                    className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-xl"></div>
+                                    className="w-12 h-12 bg-linear-to-br from-cyan-400 to-emerald-400 rounded-xl"></div>
                                 <div>
                                     <div className="font-semibold text-gray-800">Dr. Sarah Chen</div>
                                     <div className="text-xs text-gray-500">Spesialis Jantung</div>
@@ -122,7 +114,7 @@ function Hero() {
                             className="absolute -left-8 bottom-20 glass-strong rounded-2xl p-4 shadow-xl hero-float w-64">
                             <div className="flex items-start space-x-3">
                                 <div
-                                    className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-cyan-400 rounded-full flex items-center justify-center">
+                                    className="w-10 h-10 bg-linear-to-br from-emerald-400 to-cyan-400 rounded-full flex items-center justify-center">
                                     <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
