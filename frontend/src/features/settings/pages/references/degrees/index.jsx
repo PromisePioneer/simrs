@@ -2,7 +2,7 @@ import {Controller, useForm} from "react-hook-form";
 import {useEffect} from "react";
 import {useDegreeStore} from "@features/settings";
 import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Award, Pencil, Plus, Trash2} from "lucide-react";
+import {Award, Lock, Pencil, Plus, Trash2} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 import Modal from "@shared/components/common/modal.jsx";
@@ -19,6 +19,7 @@ import {
 } from "@shared/components/ui/select.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import {DEGREE_COLUMNS} from "@features/settings/pages/constants/index.js";
+import {useUserStore} from "@features/users-management/index.js";
 
 function DegreePage() {
     const {
@@ -40,6 +41,9 @@ function DegreePage() {
         createDegree,
         deleteDegree
     } = useDegreeStore();
+
+
+    const {userData} = useUserStore();
 
     const {
         register,
@@ -88,59 +92,82 @@ function DegreePage() {
     };
 
 
-    const renderRow = (degree, index) => (
-        <TableRow key={degree.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {degrees.meta?.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Award className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{degree.name}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{degree.type}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setDegreeOpenModal(true, degree.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Edit Gelar</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setDegreeOpenDeleteModal(true, degree.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Delete Gelar</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+    const renderRow = (degree, index) => {
+        const isSuperAdmin = userData?.roles?.some(
+            role => role.name === "Super Admin"
+        );
 
+        return (
+            <TableRow key={degree.id} className="hover:bg-muted/50 transition-colors">
+                <TableCell className="font-medium text-muted-foreground">
+                    {degrees.meta?.from + index}
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                            <Award className="w-5 h-5 text-primary"/>
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-foreground">{degree.name}</span>
+                        </div>
+                    </div>
+                </TableCell>
+                <TableCell>
+                    <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-foreground">{degree.type}</span>
+                        </div>
+                    </div>
+                </TableCell>
+                <TableCell className="text-right">
+                    <div className="flex justify-end gap-1">
+                        <TooltipProvider>
+                            {isSuperAdmin && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button variant="ghost" size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
+                                                onClick={() => setDegreeOpenModal(true, degree.id)}>
+                                            <Pencil className="h-4 w-4"/>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent><p>Edit Gelar</p></TooltipContent>
+                                </Tooltip>
+                            )}
+
+                            {isSuperAdmin && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button variant="ghost" size="sm"
+                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                                onClick={() => setDegreeOpenDeleteModal(true, degree.id)}>
+                                            <Trash2 className="h-4 w-4"/>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent><p>Delete Gelar</p></TooltipContent>
+                                </Tooltip>
+                            )}
+
+
+                            {!isSuperAdmin && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div className="flex items-center justify-center h-9 px-3">
+                                            <Lock className="h-4 w-4 text-muted-foreground"/>
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Gelar tidak dapat di modifikasi</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </TooltipProvider>
+                    </div>
+                </TableCell>
+            </TableRow>
+        )
+            ;
+    }
 
     return (
         <>
@@ -170,26 +197,29 @@ function DegreePage() {
                 </Button>
             </div>
 
-            <DataTable
-                title="Tabel Gelar"
-                description="Daftar gelar yang tersedia"
-                columns={DEGREE_COLUMNS}
-                data={degrees?.data || []}
-                isLoading={degreeLoading}
-                pagination={degrees ? {
-                    from: degrees.meta?.from, to: degrees.meta?.to, total: degrees.meta?.total,
-                    current_page: degrees.meta?.current_page, last_page: degrees.meta?.last_page
-                } : null}
-                onPageChange={setDegreeCurrentPage}
-                currentPage={degreeCurrentPage}
-                onSearch={setDegreeSearch}
-                search={degreeSearch}
-                searchPlaceholder="Cari gelar..."
-                emptyStateIcon={Award}
-                emptyStateText="Tidak ada data gelar ditemukan"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+            <div className="max-w-6xl mx-auto">
+                <DataTable
+                    title="Tabel Gelar"
+                    description="Daftar gelar yang tersedia"
+                    columns={DEGREE_COLUMNS}
+                    data={degrees?.data || []}
+                    isLoading={degreeLoading}
+                    pagination={degrees ? {
+                        from: degrees.meta?.from, to: degrees.meta?.to, total: degrees.meta?.total,
+                        current_page: degrees.meta?.current_page, last_page: degrees.meta?.last_page
+                    } : null}
+                    onPageChange={setDegreeCurrentPage}
+                    currentPage={degreeCurrentPage}
+                    onSearch={setDegreeSearch}
+                    search={degreeSearch}
+                    searchPlaceholder="Cari gelar..."
+                    emptyStateIcon={Award}
+                    emptyStateText="Tidak ada data gelar ditemukan"
+                    renderRow={renderRow}
+                    showSearch={true}
+                />
+            </div>
+
             <Modal
                 open={degreeOpenModal}
                 onOpenChange={setDegreeOpenModal}

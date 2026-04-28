@@ -10,7 +10,9 @@ class PlanService
 {
     public function __construct(
         private readonly PlanRepositoryInterface $planRepository,
-    ) {}
+    )
+    {
+    }
 
     public function getAll(array $filters = [], ?int $perPage = null): object
     {
@@ -27,7 +29,7 @@ class PlanService
         return $this->planRepository->store($data);
     }
 
-    public function update(array $data, string $id): object
+    public function update(string $id, array $data): object
     {
         return $this->planRepository->update($data, $id);
     }

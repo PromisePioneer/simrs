@@ -14,7 +14,7 @@ interface PlanRepositoryInterface
 
     public function store(array $data): object;
 
-    public function update(array $data, string $id): object;
+    public function update(string $id, array $data): object;
 
     public function delete(string $id): void;
 

@@ -337,7 +337,7 @@ function RolePage() {
                                 <span className="font-semibold text-foreground">
                                     {selectedPermissions.length}
                                 </span>
-                            {" "}permissions will be assigned to this role
+                            permissions will be assigned to this role
                         </p>
                     </div>
                 </div>

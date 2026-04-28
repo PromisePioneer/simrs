@@ -33,9 +33,9 @@ trait ModuleAccess
             });
         }
 
-        $plan            = $user->getCurrentTenantPlan();
+        $plan = $user->getCurrentTenantPlan();
         $userPermissions = (new EloquentPermissionRepository())->getPermissionsByUser($user);
-
+//        dd($plan);
         $planModuleIds = $plan->modules()
             ->where('plan_module.is_accessible', true)
             ->pluck('modules.id')
@@ -70,7 +70,7 @@ trait ModuleAccess
                 if (is_object($cr) && method_exists($cr, 'values')) {
                     $filtered->children_recursive = $cr->values()->toArray();
                 } elseif (is_object($cr) || (is_array($cr) && !array_is_list($cr))) {
-                    $filtered->children_recursive = array_values((array) $cr);
+                    $filtered->children_recursive = array_values((array)$cr);
                 }
             } else {
                 $filtered->children_recursive = [];
@@ -105,7 +105,7 @@ trait ModuleAccess
         }
 
         $modulePermissionNames = $module->permissions->pluck('name')->toArray();
-        $hasDirectPermission   = !empty(array_intersect($modulePermissionNames, $userPermissions));
+        $hasDirectPermission = !empty(array_intersect($modulePermissionNames, $userPermissions));
 
         if ($hasDirectPermission) {
             return true;

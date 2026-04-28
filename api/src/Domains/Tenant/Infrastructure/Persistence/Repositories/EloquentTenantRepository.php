@@ -10,11 +10,13 @@ use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class EloquentTenantRepository implements TenantRepositoryInterface
+readonly class EloquentTenantRepository implements TenantRepositoryInterface
 {
     public function __construct(
-        private readonly TenantModel $model,
-    ) {}
+        private TenantModel $model,
+    )
+    {
+    }
 
     public function getTenants(array $filters, ?int $perPage = null): Collection|LengthAwarePaginator
     {
@@ -26,7 +28,7 @@ class EloquentTenantRepository implements TenantRepositoryInterface
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('code', 'like', "%{$search}%");
+                    ->orWhere('code', 'like', "%{$search}%");
             });
         }
 

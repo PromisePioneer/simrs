@@ -10,6 +10,7 @@ use Domains\MasterData\Infrastructure\Persistent\Models\DistrictModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\ProvinceModel;
 use Domains\Shared\Infrastructure\Persistence\Models\BaseModel;
 use Domains\Subscriptions\Infrastructure\Persistence\Models\SubscriptionModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -77,7 +78,10 @@ class TenantModel extends BaseModel
     {
         return $this->subscriptions()
             ->where('status', 'active')
-            ->where('ends_at', '>', now())
+            ->where(function (Builder $query) {
+                $query->where('ends_at', '>', now())
+                    ->orWhere('trial_ends_at', '>', now());
+            })
             ->exists();
     }
 
@@ -85,7 +89,10 @@ class TenantModel extends BaseModel
     {
         $subscription = $this->subscriptions()
             ->where('status', 'active')
-            ->where('ends_at', '>', now())
+            ->where(function (Builder $query) {
+                $query->where('ends_at', '>', now())
+                    ->orWhere('trial_ends_at', '>', now());
+            })
             ->with('plan')
             ->latest()
             ->first();

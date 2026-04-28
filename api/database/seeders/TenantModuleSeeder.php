@@ -344,6 +344,9 @@ class TenantModuleSeeder extends Seeder
             'Melihat Kategori Akun', 'Menambahkan Kategori Akun', 'Mengubah Kategori Akun', 'Menghapus Kategori Akun',
             'Melihat Jurnal Entri', 'Menambahkan Jurnal Entri',
             'Melihat Laporan Keuangan',
+
+
+            'Melihat Tipe Ruangan', 'Membuat Tipe Ruangan', 'Mengubah Tipe Ruangan', 'Menghapus Tipe Ruangan',
         ];
 
         foreach ($permissions as $permissionName) {

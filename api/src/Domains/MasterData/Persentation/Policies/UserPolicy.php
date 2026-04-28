@@ -13,7 +13,7 @@ class UserPolicy
         return $user->hasActivePermission('Melihat User Management');
     }
 
-    public function view(User $user, User $target): bool
+    public function view(User $user): bool
     {
         return $user->hasActivePermission('Melihat User Management');
     }
@@ -23,7 +23,7 @@ class UserPolicy
         return $user->hasActivePermission('Menambahkan User Management');
     }
 
-    public function update(User $user, User $target): bool
+    public function update(User $user): bool
     {
         return $user->hasActivePermission('Mengubah User Management');
     }

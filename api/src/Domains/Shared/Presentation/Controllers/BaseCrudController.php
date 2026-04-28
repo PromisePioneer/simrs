@@ -17,6 +17,7 @@ abstract class BaseCrudController extends Controller
 
     protected string $resourceClass;
     protected ?string $policyClass = null;
+    protected ?string $modelClass = null;
 
 
     public function __construct(
@@ -29,7 +30,7 @@ abstract class BaseCrudController extends Controller
     {
 
         if ($this->policyClass) {
-            $this->authorize('view', $this->policyClass);
+            $this->authorize('view', $this->modelClass);
         }
         /**
          * @var class-string<JsonResource> $resourceClass
@@ -42,7 +43,7 @@ abstract class BaseCrudController extends Controller
     public function show(string $id): JsonResponse
     {
         if ($this->policyClass) {
-            $this->authorize('view', $this->policyClass);
+            $this->authorize('view', $this->modelClass);
         }
         $result = $this->service->findById($id);
         return response()->json(new $this->resourceClass($result));
@@ -51,7 +52,7 @@ abstract class BaseCrudController extends Controller
     public function destroy(string $id): JsonResponse
     {
         if ($this->policyClass) {
-            $this->authorize('delete', $this->policyClass);
+            $this->authorize('delete', $this->modelClass);
         }
         $this->service->delete($id);
         return $this->successResponse(['message' => 'Data berhasil dihapus.']);

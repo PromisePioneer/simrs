@@ -18,7 +18,9 @@ class PlanController extends Controller
 
     public function __construct(
         private readonly PlanService $planService,
-    ) {}
+    )
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {
@@ -46,7 +48,7 @@ class PlanController extends Controller
 
     public function update(PlanRequest $request, string $id): JsonResponse
     {
-        $plan = $this->planService->update($request->validated(), $id);
+        $plan = $this->planService->update($id, $request->validated());
 
         return response()->json(new PlanResource($plan));
     }

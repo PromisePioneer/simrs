@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domains\IAM\Presentation\Controllers;
 
 use Domains\IAM\Application\Services\RoleService;
+use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
 use Domains\IAM\Presentation\Policies\RolePolicy;
 use Domains\IAM\Presentation\Requests\RoleRequest;
 use Domains\IAM\Presentation\Resources\RoleResource;
@@ -15,7 +16,7 @@ class RoleController extends BaseCrudController
 {
     protected string $resourceClass = RoleResource::class;
     protected ?string $policyClass = RolePolicy::class;
-
+    protected ?string $modelClass = RoleModel::class;
 
     public function __construct(RoleService $service)
     {
@@ -25,7 +26,7 @@ class RoleController extends BaseCrudController
 
     public function store(RoleRequest $request): JsonResponse
     {
-        $this->authorize('create', $this->policyClass);
+        $this->authorize('create', $this->modelClass);
         $result = $this->service->store($request->validated());
         return response()->json(new RoleResource($result));
     }
@@ -33,7 +34,7 @@ class RoleController extends BaseCrudController
 
     public function update(RoleRequest $request, string $id): JsonResponse
     {
-        $this->authorize('update', $this->policyClass);
+        $this->authorize('update', $this->modelClass);
         $result = $this->service->update($id, $request->validated());
         return response()->json(new RoleResource($result));
     }
@@ -45,7 +46,7 @@ class RoleController extends BaseCrudController
      */
     public function getByTenant(string $tenant): JsonResponse
     {
-        $this->authorize('view', $this->policyClass);
+        $this->authorize('view', RoleModel::class);
         $roles = $this->service->getByTenant($tenant);
         return response()->json(RoleResource::collection($roles));
     }

@@ -23,12 +23,18 @@ class EloquentPlanRepository extends BaseEloquentRepository implements PlanRepos
 
         $query = $this->applyFilters($query, $filters);
 
-        return $perPage ? $query->paginate($perPage) : (object) $query->get();
+        return $perPage ? $query->paginate($perPage) : (object)$query->get();
     }
 
     public function findBySlug(string $slug): ?object
     {
         return $this->model->where('slug', $slug)->first();
+    }
+
+
+    public function findByName(string $name): ?object
+    {
+        return $this->model->where('name', $name)->first();
     }
 
     public function bulkDelete(array $ids): void

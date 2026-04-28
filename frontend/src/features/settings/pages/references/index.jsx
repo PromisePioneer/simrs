@@ -25,43 +25,43 @@ function ReferencesPage() {
         {
             key: 'degrees',
             label: 'Gelar',
-            permission: hasPermission(PERMISSIONS.DEGREE.VIEW),
+            permission: PERMISSIONS.DEGREE.VIEW, // ✅ string
             component: DegreePage
         },
         {
             key: 'payment-methods',
             label: 'Metode Pembayaran',
-            permission: hasPermission(PERMISSIONS.PAYMENT_METHOD.VIEW),
+            permission: PERMISSIONS.PAYMENT_METHOD.VIEW,
             component: PaymentMethodPage
         },
         {
             key: 'registration-institutions',
             label: 'Lembaga Pendaftaran',
-            permission: hasPermission(PERMISSIONS.INSTITUTION.VIEW),
+            permission: PERMISSIONS.INSTITUTION.VIEW,
             component: Institutions
         },
         {
             key: 'poli',
             label: 'Manajemen Poli',
-            permission: hasPermission(PERMISSIONS.POLI.VIEW),
+            permission: PERMISSIONS.POLI.VIEW,
             component: PoliPage
         },
         {
             key: 'departments',
             label: 'Manajemen Departemen',
-            permission: hasPermission(PERMISSIONS.DEPARTMENT.VIEW),
+            permission: PERMISSIONS.DEPARTMENT.VIEW,
             component: DepartmentPage
         },
         {
             key: 'room-types',
             label: 'Tipe Ruangan',
-            permission: hasPermission(PERMISSIONS.ROOM_TYPE.VIEW),
+            permission: PERMISSIONS.ROOM_TYPE.VIEW,
             component: RoomTypePage
         },
         {
             key: 'diseases',
             label: 'Penyakit',
-            permission: hasPermission(PERMISSIONS.DISEASE.VIEW),
+            permission: PERMISSIONS.DISEASE.VIEW,
             component: DiseasePage
         }
     ];

@@ -11,7 +11,14 @@ export const usePermission = () => {
     const hasPermission = (permission) => {
         if (isSuperAdmin) return true;
 
-        return userData.permissions?.some(p => p === permission)
+        const result = userData?.permissions?.some(p => p === permission);
+
+        console.log('CHECK PERMISSION:', {
+            permission,
+            result
+        });
+
+        return result;
     };
 
     const hasAnyPermission = (permissions = []) => {

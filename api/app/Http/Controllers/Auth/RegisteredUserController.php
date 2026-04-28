@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant;
 use App\Models\User;
 use App\Services\Master\General\Pricing\Repository\PlanRepository;
 use App\Services\Master\General\Pricing\Service\SubscriptionService;
-use App\Services\Master\General\Tenant\Repository\TenantRepository;
-use App\Services\Master\General\Tenant\Service\TenantService;
+use Domains\Subscriptions\Infrastructure\Persistence\Repositories\EloquentPlanRepository;
+use Domains\Subscriptions\Infrastructure\Persistence\Repositories\EloquentSubscriptionRepository;
+use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
+use Domains\Tenant\Infrastructure\Persistence\Repositories\EloquentTenantRepository;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,15 +24,15 @@ use Throwable;
 class RegisteredUserController extends Controller
 {
 
-    private TenantRepository $tenantRepository;
-    private SubscriptionService $subscriptionService;
-    private PlanRepository $planRepository;
+    private EloquentTenantRepository $eloquentTenantRepository;
+    private EloquentSubscriptionRepository $eloquentSubscriptionRepository;
+    private EloquentPlanRepository $elqoeuntPlanRepository;
 
     public function __construct()
     {
-        $this->tenantRepository = new TenantRepository();
-        $this->subscriptionService = new SubscriptionService();
-        $this->planRepository = new PlanRepository();
+        $this->eloquentTenantRepository = new EloquentTenantRepository(new TenantModel());
+        $this->eloquentSubscriptionRepository = new EloquentSubscriptionRepository();
+        $this->elqoeuntPlanRepository = new EloquentPlanRepository();
     }
 
     /**
@@ -58,7 +59,7 @@ class RegisteredUserController extends Controller
 
 
         return DB::transaction(function () use ($request, $tenantData) {
-            $tenant = $this->tenantRepository->store(data: $tenantData);
+            $tenant = $this->eloquentTenantRepository->store(data: $tenantData);
 
             $user = User::create([
                 'tenant_id' => $tenant->id,
@@ -68,10 +69,18 @@ class RegisteredUserController extends Controller
             ]);
 
             $user->assignRole('Owner');
-            $plan = $this->planRepository->findByName('Basic');
+            $plan = $this->elqoeuntPlanRepository->findByName('Basic');
             event(new Registered($user));
             Auth::login($user);
-            $this->subscriptionService->assignSubs($request, $plan);
+            $this->eloquentSubscriptionRepository->assignSubscription([
+                'tenant_id' => $tenant->id,
+                'plan_id' => $plan->id,
+                'status' => 'active',
+                'starts_at' => now(),
+                'trial_ends_at' => now()->addDays(7),
+                'ends_at' => null,
+                'cancelled_at' => null,
+            ]);
 
             return response()->noContent();
         });

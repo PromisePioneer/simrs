@@ -24,8 +24,8 @@ Route::prefix('subscriptions')->group(function () {
 Route::middleware(['module:Setting'])->group(function () {
     Route::apiResource('permissions', PermissionController::class);
 
+    Route::apiResource('/roles', RoleController::class);
     Route::prefix('roles')->group(function () {
-        Route::apiResource('/', RoleController::class);
         Route::get('/tenant/{tenant}', [RoleController::class, 'getByTenant']);
     });
 

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Notifications\VerifyEmail;
 use App\Services\Master\General\UserManagement\Permission\Repository\PermissionRepository;
-use App\Traits\Tenant\HasActiveTenant;
 use App\Traits\Tenant\TenantManager;
 use Database\Factories\UserFactory;
 use Domains\IAM\Infrastructure\Persistence\Models\ModuleModel;
@@ -14,6 +13,7 @@ use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
 use Domains\MedicalWork\Infrastructure\Persistence\Models\DoctorScheduleModel;
+use Domains\Tenant\Application\Traits\HasActiveTenant;
 use Domains\Tenant\Infrastructure\Persistence\Models\TenantModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

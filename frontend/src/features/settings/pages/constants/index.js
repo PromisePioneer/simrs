@@ -9,7 +9,7 @@ export const DEGREE_COLUMNS = [
 export const PAYMENT_METHOD_COLUMNS = [
     {key: "no", label: "No", width: "5%"},
     {key: "name", label: "Nama", width: "25%"},
-    {key: "type", label: "Tipe", width: "25%"},
+    {key: "type", label: "Tipe", width: "5%"},
     {key: "actions", label: "Aksi", width: "15%", align: "right"},
 ];
 

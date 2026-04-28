@@ -3,6 +3,7 @@
 namespace Domains\MasterData\Persentation\Controllers;
 
 use Domains\MasterData\Application\Services\RegistrationInstitutionService;
+use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
 use Domains\MasterData\Persentation\Policies\RegistrationInstitutionPolicy;
 use Domains\MasterData\Persentation\Requests\RegistrationInstitutionRequest;
 use Domains\MasterData\Persentation\Resources\RegistrationInstitutionResource;
@@ -13,6 +14,7 @@ class RegistrationInstitutionController extends BaseCrudController
 {
     protected string $resourceClass = RegistrationInstitutionResource::class;
     protected ?string $policyClass = RegistrationInstitutionPolicy::class;
+    protected ?string $modelClass = RegistrationInstitutionModel::class;
 
 
     public function __construct(RegistrationInstitutionService $service)
@@ -23,7 +25,7 @@ class RegistrationInstitutionController extends BaseCrudController
 
     public function store(RegistrationInstitutionRequest $request): JsonResponse
     {
-        $this->authorize('create', $this->policyClass);
+        $this->authorize('create', $this->modelClass);
         $result = $this->service->store($request->validated());
         return response()->json(new RegistrationInstitutionResource($result));
     }
@@ -31,7 +33,7 @@ class RegistrationInstitutionController extends BaseCrudController
 
     public function update(RegistrationInstitutionRequest $request, string $id): JsonResponse
     {
-        $this->authorize('update', $this->policyClass);
+        $this->authorize('update', $this->modelClass);
         $result = $this->service->update(id: $id, data: $request->validated());
         return response()->json(new RegistrationInstitutionResource($result));
     }
