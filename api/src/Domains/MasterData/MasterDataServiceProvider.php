@@ -5,6 +5,7 @@ namespace Domains\MasterData;
 use Carbon\Laravel\ServiceProvider;
 use Domains\MasterData\Application\Services\DegreeService;
 use Domains\MasterData\Application\Services\DepartmentService;
+use Domains\MasterData\Application\Services\DiseaseService;
 use Domains\MasterData\Application\Services\PaymentMethodService;
 use Domains\MasterData\Application\Services\PaymentMethodTypeService;
 use Domains\MasterData\Application\Services\PoliService;
@@ -12,6 +13,7 @@ use Domains\MasterData\Application\Services\RegistrationInstitutionService;
 use Domains\MasterData\Application\Services\RoomTypeService;
 use Domains\MasterData\Domain\Repository\DegreeRepositoryInterface;
 use Domains\MasterData\Domain\Repository\DepartmentRepositoryInterface;
+use Domains\MasterData\Domain\Repository\DiseaseRepositoryInterface;
 use Domains\MasterData\Domain\Repository\PaymentMethodRepositoryInterface;
 use Domains\MasterData\Domain\Repository\PaymentMethodTypeRepositoryInterface;
 use Domains\MasterData\Domain\Repository\PoliRepositoryInterface;
@@ -19,12 +21,14 @@ use Domains\MasterData\Domain\Repository\RegistrationInstitutionRepositoryInterf
 use Domains\MasterData\Domain\Repository\RoomTypeRepositoryInterface;
 use Domains\MasterData\Infrastructure\Persistent\Models\DegreeModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\DepartmentModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\DiseaseModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PaymentMethodTypeModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RegistrationInstitutionModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentDegreeRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentDepartmentRepository;
+use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentDiseaseRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPaymentMethodRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPaymentMethodTypeRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPoliRepository;
@@ -32,6 +36,7 @@ use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRegistrati
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRoomTypeRepository;
 use Domains\MasterData\Persentation\Controllers\DegreeController;
 use Domains\MasterData\Persentation\Controllers\DepartmentController;
+use Domains\MasterData\Persentation\Controllers\DiseaseController;
 use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
 use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
 use Domains\MasterData\Persentation\Controllers\PoliController;
@@ -39,6 +44,7 @@ use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionControlle
 use Domains\MasterData\Persentation\Controllers\RoomTypeController;
 use Domains\MasterData\Persentation\Policies\DegreePolicy;
 use Domains\MasterData\Persentation\Policies\DepartmentPolicy;
+use Domains\MasterData\Persentation\Policies\DiseasePolicy;
 use Domains\MasterData\Persentation\Policies\PaymentMethodTypePolicy;
 use Domains\MasterData\Persentation\Policies\PoliPolicy;
 use Domains\MasterData\Persentation\Policies\RegistrationInstitutionPolicy;
@@ -56,6 +62,7 @@ class MasterDataServiceProvider extends ServiceProvider
         $this->bindRoomType();
         $this->bindPaymentMethodType();
         $this->bindPaymentMethod();
+        $this->bindDisease();
     }
 
 
@@ -67,6 +74,8 @@ class MasterDataServiceProvider extends ServiceProvider
         Gate::policy(RegistrationInstitutionModel::class, RegistrationInstitutionPolicy::class);
         Gate::policy(RoomTypeModel::class, RoomTypePolicy::class);
         Gate::policy(PaymentMethodTypeModel::class, PaymentMethodTypePolicy::class);
+        Gate::policy(DiseaseModel::class, DiseasePolicy::class);
+
     }
 
 
@@ -119,5 +128,12 @@ class MasterDataServiceProvider extends ServiceProvider
         $this->app->bind(RoomTypeRepositoryInterface::class, EloquentRoomTypeRepository::class);
         $this->app->bind(RoomTypeService::class, fn($app) => new RoomTypeService($app->make(RoomTypeRepositoryInterface::class)));
         $this->app->bind(RoomTypeController::class, fn($app) => new RoomTypeController($app->make(RoomTypeService::class)));
+    }
+
+    private function bindDisease(): void
+    {
+        $this->app->bind(DiseaseRepositoryInterface::class, EloquentDiseaseRepository::class);
+        $this->app->bind(DiseaseService::class, fn($app) => new DiseaseService($app->make(DiseaseRepositoryInterface::class)));
+        $this->app->bind(DiseaseController::class, fn($app) => new DiseaseController($app->make(DiseaseService::class)));
     }
 }

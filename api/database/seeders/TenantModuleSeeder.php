@@ -307,6 +307,7 @@ class TenantModuleSeeder extends Seeder
             'Melihat Gelar', 'Menambahkan Gelar', 'Mengubah Gelar', 'Menghapus Gelar',
             'Melihat Departemen', 'Menambahkan Departemen', 'Mengubah Departemen', 'Menghapus Departemen',
             'Melihat Poli', 'Menambahkan Poli', 'Mengubah Poli', 'Menghapus Poli',
+            'Melihat Penyakit', 'Membuat Penyakit', 'Mengubah Penyakit', 'Menghapus Penyakit',
 
             // Pasien
             'Melihat Pasien', 'Menambahkan Pasien', 'Mengubah Pasien', 'Menghapus Pasien',

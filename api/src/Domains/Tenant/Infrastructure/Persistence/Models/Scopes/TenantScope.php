@@ -6,6 +6,7 @@ namespace Domains\Tenant\Infrastructure\Persistence\Models\Scopes;
 
 use App\Models\User;
 use Domains\IAM\Infrastructure\Persistence\Models\RoleModel;
+use Domains\MasterData\Infrastructure\Persistent\Models\DiseaseModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\PoliModel;
 use Domains\MasterData\Infrastructure\Persistent\Models\RoomTypeModel;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineCategoryModel;
@@ -31,6 +32,7 @@ class TenantScope implements Scope
             MedicineCategoryModel::class,
             PoliModel::class,
             RoomTypeModel::class,
+            DiseaseModel::class,
         ];
 
         if ($model instanceof User) {
@@ -53,7 +55,8 @@ class TenantScope implements Scope
         Builder $builder,
         Model   $model,
         string  $tenantId
-    ): void {
+    ): void
+    {
         $table = $model->getTable();
         $builder->where(function ($query) use ($table, $tenantId) {
             $query->whereNull("$table.tenant_id")

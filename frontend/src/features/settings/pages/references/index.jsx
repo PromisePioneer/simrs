@@ -12,6 +12,7 @@ import {Route} from "@/routes/_protected/settings/references/index.jsx";
 import {PermissionTabs} from "@shared/components/common/tabs.jsx";
 import DepartmentPage from "@features/settings/pages/references/department/index.jsx";
 import RoomTypePage from "@features/settings/pages/references/room-types/index.jsx";
+import DiseasePage from "@features/settings/pages/references/diseases/index.jsx";
 
 function ReferencesPage() {
     const navigate = useNavigate();
@@ -56,6 +57,12 @@ function ReferencesPage() {
             label: 'Tipe Ruangan',
             permission: hasPermission(PERMISSIONS.ROOM_TYPE.VIEW),
             component: RoomTypePage
+        },
+        {
+            key: 'diseases',
+            label: 'Penyakit',
+            permission: hasPermission(PERMISSIONS.DISEASE.VIEW),
+            component: DiseasePage
         }
     ];
 

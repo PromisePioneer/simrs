@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             RoomTypeSeeder::class,
             MedicineCategorySeeder::class,
+            DiseaseSeeder::class,
 
             // ── Region (besar, taruh awal supaya tidak timeout di tengah) ───
 //            IndoRegionProvinceSeeder::class,

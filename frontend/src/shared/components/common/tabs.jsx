@@ -47,7 +47,7 @@ export function PermissionTabs({
                 <TabsList
                     className={
                         variant === "underline"
-                            ? `inline-flex h-10 items-center justify-start rounded-none border-b bg-transparent p-0 ${tabsListClassName}`
+                            ? `flex h-10 items-center justify-start rounded-none border-b bg-transparent p-0 w-full overflow-x-auto scrollbar-none ${tabsListClassName}`
                             : `grid w-full max-w-lg grid-cols-${tabs.length} ${tabsListClassName}`
                     }
                 >
@@ -58,14 +58,14 @@ export function PermissionTabs({
                             disabled={!tab.hasAccess}
                             className={
                                 variant === "underline"
-                                    ? "relative h-10 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-medium text-muted-foreground shadow-none transition-none data-[state=active]:border-b-teal-500 data-[state=active]:text-teal-500 data-[state=active]:shadow-none hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                                    ? "relative h-10 rounded-none border-b-2 border-b-transparent bg-transparent px-4 font-medium text-muted-foreground shadow-none transition-colors data-[state=active]:border-b-teal-500 data-[state=active]:text-teal-500 data-[state=active]:shadow-none hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                                     : "cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
                             }
                         >
-                            <span className="flex text-base items-center gap-2">
-                                {tab.label}
-                                {!tab.hasAccess && <Lock className="w-3 h-3"/>}
-                            </span>
+    <span className="flex text-sm items-center gap-1.5">
+        {tab.label}
+        {!tab.hasAccess && <Lock className="w-3 h-3"/>}
+    </span>
                         </TabsTrigger>
                     ))}
                 </TabsList>

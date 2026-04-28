@@ -13,6 +13,7 @@ use Domains\Inpatient\Presentation\Controllers\InpatientDailyCareController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyMedicationController;
 use Domains\MasterData\Persentation\Controllers\DegreeController;
 use Domains\MasterData\Persentation\Controllers\DepartmentController;
+use Domains\MasterData\Persentation\Controllers\DiseaseController;
 use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
 use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
 use Domains\MasterData\Persentation\Controllers\PoliController;
@@ -55,6 +56,8 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
     Route::prefix('diagnoses')->group(function () {
         Route::post('/{outpatientVisit}', [DiagnoseController::class, 'store']);
     });
+
+    Route::apiResource('diseases', DiseaseController::class);
 });
 
 // ── Basic & Pro ──────────────────────────────────────────────────────────────

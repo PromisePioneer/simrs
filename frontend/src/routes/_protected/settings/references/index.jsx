@@ -4,7 +4,7 @@ import {z} from "zod";
 
 
 const referencesSearchSchema = z.object({
-    tab: z.enum(['degrees', 'payment-methods', 'registration-institutions', 'poli', 'departments', 'room-types']).optional().default('degrees')
+    tab: z.enum(['degrees', 'payment-methods', 'registration-institutions', 'poli', 'departments', 'room-types', 'diseases']).optional().default('degrees')
 })
 
 export const Route = createFileRoute('/_protected/settings/references/')({
