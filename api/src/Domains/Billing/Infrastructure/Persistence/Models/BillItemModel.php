@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domains\Billing\Infrastructure\Persistence\Models;
 
-use Domains\Shared\Infrastructure\Persistence\Models\BaseTenantModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**

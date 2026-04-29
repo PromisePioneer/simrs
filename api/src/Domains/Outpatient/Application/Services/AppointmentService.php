@@ -4,19 +4,64 @@ declare(strict_types=1);
 
 namespace Domains\Outpatient\Application\Services;
 
+use Domains\Outpatient\Application\Commands\CreateAppointmentCommand;
+use Domains\Outpatient\Application\Commands\UpdateAppointmentCommand;
+use Domains\Outpatient\Application\DTO\CreateAppointmentDTO;
+use Domains\Outpatient\Application\DTO\UpdateAppointmentDTO;
+use Domains\Outpatient\Application\Handlers\CreateAppointmentHandler;
+use Domains\Outpatient\Application\Handlers\UpdateAppointmentHandler;
 use Domains\Outpatient\Domain\Repository\AppointmentRepositoryInterface;
-use Domains\Shared\Application\Services\BaseCrudService;
 use Illuminate\Http\Request;
 
-final class AppointmentService extends BaseCrudService
+final readonly class AppointmentService
 {
-    public function __construct(AppointmentRepositoryInterface $repository)
+    public function __construct(
+        private AppointmentRepositoryInterface $repository,
+        private CreateAppointmentHandler       $createHandler,
+        private UpdateAppointmentHandler       $updateHandler,
+    )
     {
-        parent::__construct($repository);
     }
 
-    protected function extractFilters(Request $request): array
+    public function getAll(Request $request): object
     {
-        return $request->only(['search', 'doctor_id', 'patient_id']);
+        $filters = $request->only([
+            'search', 'status', 'advanced_status',
+            'patient_id', 'date_from', 'date_to',
+        ]);
+        $perPage = $request->input('per_page') ? (int) $request->input('per_page') : null;
+
+        return $this->repository->findAll($filters, $perPage);
+    }
+
+    public function findById(string $id): object
+    {
+        return $this->repository->findById($id);
+    }
+
+    public function findByVisitNumber(string $visitNumber): ?object
+    {
+        return $this->repository->findByVisitNumber($visitNumber);
+    }
+
+    public function create(array $data): object
+    {
+        $dto = CreateAppointmentDTO::fromArray($data);
+        $command = new CreateAppointmentCommand($dto);
+
+        return $this->createHandler->handle($command);
+    }
+
+    public function update(string $id, array $data): object
+    {
+        $dto = UpdateAppointmentDTO::fromArray($data);
+        $command = new UpdateAppointmentCommand($id, $dto);
+
+        return $this->updateHandler->handle($command);
+    }
+
+    public function delete(string $id): void
+    {
+        $this->repository->delete($id);
     }
 }

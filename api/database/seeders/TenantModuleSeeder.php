@@ -73,6 +73,19 @@ class TenantModuleSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Janji Temu',
+                'parent_id' => null,
+                'order' => 3,
+                'icon' => 'CalendarDays',
+                'route' => '/appointments',
+                'permissions' => [
+                    'Melihat Janji Temu',
+                    'Menambahkan Janji Temu',
+                    'Mengubah Janji Temu',
+                    'Menghapus Janji Temu',
+                ],
+            ],
+            [
                 'name' => 'Rawat Jalan',
                 'parent_id' => null,
                 'order' => 3,
@@ -308,6 +321,10 @@ class TenantModuleSeeder extends Seeder
             'Melihat Departemen', 'Menambahkan Departemen', 'Mengubah Departemen', 'Menghapus Departemen',
             'Melihat Poli', 'Menambahkan Poli', 'Mengubah Poli', 'Menghapus Poli',
             'Melihat Penyakit', 'Membuat Penyakit', 'Mengubah Penyakit', 'Menghapus Penyakit',
+
+
+            //Janji Temu
+            'Melihat Janji Temu', 'Menambahkan Janji Temu', 'Mengubah Janji Temu', 'Menghapus Janji Temu',
 
             // Pasien
             'Melihat Pasien', 'Menambahkan Pasien', 'Mengubah Pasien', 'Menghapus Pasien',

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domains\Billing\Infrastructure\Persistence\Models;
 
-use Domains\Shared\Infrastructure\Persistence\Models\BaseTenantModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class OutpatientBillModel extends BaseTenantModel
 {
-    protected $table    = 'outpatient_bills';
+    protected $table = 'outpatient_bills';
     protected $fillable = [
         'id', 'tenant_id', 'outpatient_visit_id', 'patient_id',
         'bill_number', 'status', 'subtotal', 'discount', 'tax', 'total',
@@ -23,11 +23,11 @@ class OutpatientBillModel extends BaseTenantModel
     ];
 
     protected $casts = [
-        'subtotal'   => 'decimal:2',
-        'discount'   => 'decimal:2',
-        'tax'        => 'decimal:2',
-        'total'      => 'decimal:2',
-        'paid_at'    => 'datetime',
+        'subtotal' => 'decimal:2',
+        'discount' => 'decimal:2',
+        'tax' => 'decimal:2',
+        'total' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
     public function outpatientVisit(): BelongsTo

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\Accounting\Infrastructure\Persistence\Models;
 
-use Domains\Shared\Infrastructure\Persistence\Models\BaseTenantModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccountTransactionModel extends BaseTenantModel
 {
-    protected $table    = 'account_transactions';
+    protected $table = 'account_transactions';
     protected $fillable = [
         'id', 'tenant_id', 'account_id',
         'type', 'amount', 'description',
@@ -17,7 +17,7 @@ class AccountTransactionModel extends BaseTenantModel
     ];
 
     protected $casts = [
-        'amount'           => 'decimal:2',
+        'amount' => 'decimal:2',
         'transaction_date' => 'date',
     ];
 

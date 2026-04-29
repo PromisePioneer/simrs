@@ -23,9 +23,11 @@ import { Route as ProtectedOutpatientIndexRouteImport } from './routes/_protecte
 import { Route as ProtectedInpatientIndexRouteImport } from './routes/_protected/inpatient/index'
 import { Route as ProtectedFacilitiesIndexRouteImport } from './routes/_protected/facilities/index'
 import { Route as ProtectedElectronicMedicalRecordIndexRouteImport } from './routes/_protected/electronic-medical-record/index'
+import { Route as ProtectedAppointmentsIndexRouteImport } from './routes/_protected/appointments/index'
 import { Route as ProtectedAccountingIndexRouteImport } from './routes/_protected/accounting/index'
 import { Route as ProtectedInpatientCreateRouteImport } from './routes/_protected/inpatient/create'
 import { Route as ProtectedInpatientIdRouteImport } from './routes/_protected/inpatient/$id'
+import { Route as ProtectedAppointmentsCreateRouteImport } from './routes/_protected/appointments/create'
 import { Route as ProtectedSettingsUsersManagementIndexRouteImport } from './routes/_protected/settings/users-management/index'
 import { Route as ProtectedSettingsReferencesIndexRouteImport } from './routes/_protected/settings/references/index'
 import { Route as ProtectedSettingsPatientsIndexRouteImport } from './routes/_protected/settings/patients/index'
@@ -129,6 +131,12 @@ const ProtectedElectronicMedicalRecordIndexRoute =
     path: '/electronic-medical-record/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedAppointmentsIndexRoute =
+  ProtectedAppointmentsIndexRouteImport.update({
+    id: '/appointments/',
+    path: '/appointments/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedAccountingIndexRoute =
   ProtectedAccountingIndexRouteImport.update({
     id: '/accounting/',
@@ -146,6 +154,12 @@ const ProtectedInpatientIdRoute = ProtectedInpatientIdRouteImport.update({
   path: '/inpatient/$id',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedAppointmentsCreateRoute =
+  ProtectedAppointmentsCreateRouteImport.update({
+    id: '/appointments/create',
+    path: '/appointments/create',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedSettingsUsersManagementIndexRoute =
   ProtectedSettingsUsersManagementIndexRouteImport.update({
     id: '/settings/users-management/',
@@ -334,9 +348,11 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
   '/accounting/': typeof ProtectedAccountingIndexRoute
+  '/appointments/': typeof ProtectedAppointmentsIndexRoute
   '/electronic-medical-record/': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/facilities/': typeof ProtectedFacilitiesIndexRoute
   '/inpatient/': typeof ProtectedInpatientIndexRoute
@@ -382,9 +398,11 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
   '/accounting': typeof ProtectedAccountingIndexRoute
+  '/appointments': typeof ProtectedAppointmentsIndexRoute
   '/electronic-medical-record': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/facilities': typeof ProtectedFacilitiesIndexRoute
   '/inpatient': typeof ProtectedInpatientIndexRoute
@@ -432,9 +450,11 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/_protected/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/_protected/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/_protected/inpatient/create': typeof ProtectedInpatientCreateRoute
   '/_protected/accounting/': typeof ProtectedAccountingIndexRoute
+  '/_protected/appointments/': typeof ProtectedAppointmentsIndexRoute
   '/_protected/electronic-medical-record/': typeof ProtectedElectronicMedicalRecordIndexRoute
   '/_protected/facilities/': typeof ProtectedFacilitiesIndexRoute
   '/_protected/inpatient/': typeof ProtectedInpatientIndexRoute
@@ -482,9 +502,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/appointments/create'
     | '/inpatient/$id'
     | '/inpatient/create'
     | '/accounting/'
+    | '/appointments/'
     | '/electronic-medical-record/'
     | '/facilities/'
     | '/inpatient/'
@@ -530,9 +552,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/appointments/create'
     | '/inpatient/$id'
     | '/inpatient/create'
     | '/accounting'
+    | '/appointments'
     | '/electronic-medical-record'
     | '/facilities'
     | '/inpatient'
@@ -579,9 +603,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/_protected/appointments/create'
     | '/_protected/inpatient/$id'
     | '/_protected/inpatient/create'
     | '/_protected/accounting/'
+    | '/_protected/appointments/'
     | '/_protected/electronic-medical-record/'
     | '/_protected/facilities/'
     | '/_protected/inpatient/'
@@ -730,6 +756,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedElectronicMedicalRecordIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/appointments/': {
+      id: '/_protected/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments/'
+      preLoaderRoute: typeof ProtectedAppointmentsIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/accounting/': {
       id: '/_protected/accounting/'
       path: '/accounting'
@@ -749,6 +782,13 @@ declare module '@tanstack/react-router' {
       path: '/inpatient/$id'
       fullPath: '/inpatient/$id'
       preLoaderRoute: typeof ProtectedInpatientIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/appointments/create': {
+      id: '/_protected/appointments/create'
+      path: '/appointments/create'
+      fullPath: '/appointments/create'
+      preLoaderRoute: typeof ProtectedAppointmentsCreateRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/users-management/': {
@@ -966,9 +1006,11 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedAppointmentsCreateRoute: typeof ProtectedAppointmentsCreateRoute
   ProtectedInpatientIdRoute: typeof ProtectedInpatientIdRoute
   ProtectedInpatientCreateRoute: typeof ProtectedInpatientCreateRoute
   ProtectedAccountingIndexRoute: typeof ProtectedAccountingIndexRoute
+  ProtectedAppointmentsIndexRoute: typeof ProtectedAppointmentsIndexRoute
   ProtectedElectronicMedicalRecordIndexRoute: typeof ProtectedElectronicMedicalRecordIndexRoute
   ProtectedFacilitiesIndexRoute: typeof ProtectedFacilitiesIndexRoute
   ProtectedInpatientIndexRoute: typeof ProtectedInpatientIndexRoute
@@ -1010,9 +1052,11 @@ interface ProtectedRouteChildren {
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedAppointmentsCreateRoute: ProtectedAppointmentsCreateRoute,
   ProtectedInpatientIdRoute: ProtectedInpatientIdRoute,
   ProtectedInpatientCreateRoute: ProtectedInpatientCreateRoute,
   ProtectedAccountingIndexRoute: ProtectedAccountingIndexRoute,
+  ProtectedAppointmentsIndexRoute: ProtectedAppointmentsIndexRoute,
   ProtectedElectronicMedicalRecordIndexRoute:
     ProtectedElectronicMedicalRecordIndexRoute,
   ProtectedFacilitiesIndexRoute: ProtectedFacilitiesIndexRoute,

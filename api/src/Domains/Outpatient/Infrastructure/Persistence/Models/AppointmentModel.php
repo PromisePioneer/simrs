@@ -4,24 +4,55 @@ declare(strict_types=1);
 
 namespace Domains\Outpatient\Infrastructure\Persistence\Models;
 
-use Domains\Shared\Infrastructure\Persistence\Models\BaseTenantModel;
+use Domains\Inpatient\Infrastructure\Persistence\Models\InpatientAdmissionModel;
+use Domains\Patient\Infrastructure\Persistence\Models\PatientModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AppointmentModel extends BaseTenantModel
 {
-    protected $table    = 'appointments';
+    use HasUuids;
+
+    protected $table = 'appointments';
+
     protected $fillable = [
-        'id', 'tenant_id', 'patient_id', 'doctor_id', 'poli_id',
-        'date', 'status', 'queue_number', 'notes',
+        'id',
+        'tenant_id',
+        'patient_id',
+        'outpatient_visit_id',
+        'inpatient_admission_id',
+        'visit_number',
+        'reg_number',
+        'date',
+        'emr',
+        'guarantor_name',
+        'guarantor_address',
+        'guarantor_relationship',
+        'registration_fee',
+        'status',
+        'registration_status',
+        'advanced_status',
     ];
 
-    public function doctor(): BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'doctor_id');
-    }
+    protected $casts = [
+        'date' => 'datetime',
+        'birth_date' => 'date',
+        'registration_fee' => 'float',
+    ];
 
     public function patient(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Patient::class, 'patient_id');
+        return $this->belongsTo(PatientModel::class, 'patient_id');
+    }
+
+    public function outpatientVisit(): BelongsTo
+    {
+        return $this->belongsTo(OutpatientVisitModel::class, 'outpatient_visit_id');
+    }
+
+    public function inpatientAdmission(): BelongsTo
+    {
+        return $this->belongsTo(InpatientAdmissionModel::class, 'inpatient_admission_id');
     }
 }

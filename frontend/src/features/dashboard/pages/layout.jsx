@@ -26,7 +26,7 @@ const pathLabels = {
     'warehouses': 'Gudang',
     'dashboard': 'Dashboard',
     'patients': 'Pasien',
-    'appointments': 'Jadwal',
+    'appointments': 'Janji Temu',
     'pharmacy': 'Farmasi',
     'billing': 'Billing',
     'users-management': 'Manajemen Pengguna',

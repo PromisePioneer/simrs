@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domains\Patient\Infrastructure\Persistence\Models;
 
 use Domains\Outpatient\Infrastructure\Persistence\Models\OutpatientVisitModel;
+use Domains\Tenant\Infrastructure\Persistence\Models\BaseTenantModel;
 use Domains\Tenant\Infrastructure\Persistence\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * Tidak ada business logic di sini — hanya mapping ke DB.
  */
-class PatientModel extends Model
+class PatientModel extends BaseTenantModel
 {
     use HasUuids;
 
