@@ -64,10 +64,11 @@ class AppointmentController extends Controller
         );
     }
 
-    public function destroy(string $id): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
         $this->authorize('delete', AppointmentModel::class);
-        $this->service->delete($id);
+        $this->service->bulkDelete($request->ids);
+
         return $this->successResponse(null, 'Appointment berhasil dihapus.');
     }
 }

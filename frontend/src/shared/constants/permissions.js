@@ -26,6 +26,12 @@ export const PERMISSIONS = {
         EDIT: 'Mengubah Role',
         DELETE: 'Menghapus Role',
     },
+    APPOINTMENT: {
+        VIEW: 'Melihat Janji Temu',
+        CREATE: 'Menambahkan Janji Temu',
+        EDIT: 'Mengubah Janji Temu',
+        DELETE: 'Menghapus Janji Temu',
+    },
     USER: {
         VIEW: 'Melihat User Management',
         CREATE: 'Menambahkan User Management',
@@ -175,4 +181,5 @@ export const PERMISSIONS = {
         EDIT: 'Mengubah Tagihan Rawat Inap',
         PAY: 'Memproses Pembayaran Rawat Inap',
     },
+
 };

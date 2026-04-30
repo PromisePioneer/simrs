@@ -43,6 +43,8 @@ class EloquentAppointmentRepository extends BaseEloquentRepository implements Ap
             $query->whereHas(
                 'patient',
                 fn($q) => $q->where('full_name', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('kis_number', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('medical_record_number', 'like', '%' . $filters['search'] . '%')
             );
         }
 

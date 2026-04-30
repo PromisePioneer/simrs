@@ -28,6 +28,7 @@ import { Route as ProtectedAccountingIndexRouteImport } from './routes/_protecte
 import { Route as ProtectedInpatientCreateRouteImport } from './routes/_protected/inpatient/create'
 import { Route as ProtectedInpatientIdRouteImport } from './routes/_protected/inpatient/$id'
 import { Route as ProtectedAppointmentsCreateRouteImport } from './routes/_protected/appointments/create'
+import { Route as ProtectedAppointmentsIdRouteImport } from './routes/_protected/appointments/$id'
 import { Route as ProtectedSettingsUsersManagementIndexRouteImport } from './routes/_protected/settings/users-management/index'
 import { Route as ProtectedSettingsReferencesIndexRouteImport } from './routes/_protected/settings/references/index'
 import { Route as ProtectedSettingsPatientsIndexRouteImport } from './routes/_protected/settings/patients/index'
@@ -160,6 +161,11 @@ const ProtectedAppointmentsCreateRoute =
     path: '/appointments/create',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedAppointmentsIdRoute = ProtectedAppointmentsIdRouteImport.update({
+  id: '/appointments/$id',
+  path: '/appointments/$id',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedSettingsUsersManagementIndexRoute =
   ProtectedSettingsUsersManagementIndexRouteImport.update({
     id: '/settings/users-management/',
@@ -348,6 +354,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/appointments/$id': typeof ProtectedAppointmentsIdRoute
   '/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
@@ -398,6 +405,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/appointments/$id': typeof ProtectedAppointmentsIdRoute
   '/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/inpatient/create': typeof ProtectedInpatientCreateRoute
@@ -450,6 +458,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/email/verify': typeof EmailVerifyRoute
+  '/_protected/appointments/$id': typeof ProtectedAppointmentsIdRoute
   '/_protected/appointments/create': typeof ProtectedAppointmentsCreateRoute
   '/_protected/inpatient/$id': typeof ProtectedInpatientIdRoute
   '/_protected/inpatient/create': typeof ProtectedInpatientCreateRoute
@@ -502,6 +511,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/appointments/$id'
     | '/appointments/create'
     | '/inpatient/$id'
     | '/inpatient/create'
@@ -552,6 +562,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/appointments/$id'
     | '/appointments/create'
     | '/inpatient/$id'
     | '/inpatient/create'
@@ -603,6 +614,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/email/verify'
+    | '/_protected/appointments/$id'
     | '/_protected/appointments/create'
     | '/_protected/inpatient/$id'
     | '/_protected/inpatient/create'
@@ -789,6 +801,13 @@ declare module '@tanstack/react-router' {
       path: '/appointments/create'
       fullPath: '/appointments/create'
       preLoaderRoute: typeof ProtectedAppointmentsCreateRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/appointments/$id': {
+      id: '/_protected/appointments/$id'
+      path: '/appointments/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof ProtectedAppointmentsIdRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings/users-management/': {
@@ -1006,6 +1025,7 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedAppointmentsIdRoute: typeof ProtectedAppointmentsIdRoute
   ProtectedAppointmentsCreateRoute: typeof ProtectedAppointmentsCreateRoute
   ProtectedInpatientIdRoute: typeof ProtectedInpatientIdRoute
   ProtectedInpatientCreateRoute: typeof ProtectedInpatientCreateRoute
@@ -1052,6 +1072,7 @@ interface ProtectedRouteChildren {
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedAppointmentsIdRoute: ProtectedAppointmentsIdRoute,
   ProtectedAppointmentsCreateRoute: ProtectedAppointmentsCreateRoute,
   ProtectedInpatientIdRoute: ProtectedInpatientIdRoute,
   ProtectedInpatientCreateRoute: ProtectedInpatientCreateRoute,

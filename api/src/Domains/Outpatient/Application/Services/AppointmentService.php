@@ -11,6 +11,7 @@ use Domains\Outpatient\Application\DTO\UpdateAppointmentDTO;
 use Domains\Outpatient\Application\Handlers\CreateAppointmentHandler;
 use Domains\Outpatient\Application\Handlers\UpdateAppointmentHandler;
 use Domains\Outpatient\Domain\Repository\AppointmentRepositoryInterface;
+use Domains\Outpatient\Infrastructure\Persistence\Models\AppointmentModel;
 use Illuminate\Http\Request;
 
 final readonly class AppointmentService
@@ -29,14 +30,14 @@ final readonly class AppointmentService
             'search', 'status', 'advanced_status',
             'patient_id', 'date_from', 'date_to',
         ]);
-        $perPage = $request->input('per_page') ? (int) $request->input('per_page') : null;
+        $perPage = $request->input('per_page') ? (int)$request->input('per_page') : null;
 
         return $this->repository->findAll($filters, $perPage);
     }
 
     public function findById(string $id): object
     {
-        return $this->repository->findById($id);
+        return AppointmentModel::with('patient')->find($id);
     }
 
     public function findByVisitNumber(string $visitNumber): ?object
@@ -63,5 +64,10 @@ final readonly class AppointmentService
     public function delete(string $id): void
     {
         $this->repository->delete($id);
+    }
+
+    public function bulkDelete(array $ids): void
+    {
+        AppointmentModel::whereIn('id', $ids)->delete();
     }
 }

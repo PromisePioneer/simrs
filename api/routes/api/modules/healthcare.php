@@ -40,6 +40,8 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
 
     Route::apiResource('poli', PoliController::class);
     Route::apiResource('appointments', AppointmentController::class);
+    Route::delete('appointments/bulk', [AppointmentController::class, 'destroy']);
+
     Route::apiResource('doctor-schedules', DoctorScheduleController::class);
 
     Route::get('queues/count-today-queues', [QueueController::class, 'countTodayQueues']);

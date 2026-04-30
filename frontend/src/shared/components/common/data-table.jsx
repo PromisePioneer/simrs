@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, Fragment} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@shared/components/ui/table.jsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@shared/components/ui/card.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
@@ -13,6 +13,7 @@ import {
     Loader2
 } from "lucide-react";
 import {Spinner} from "@shared/components/ui/spinner.jsx";
+import {Checkbox} from "@shared/components/ui/checkbox.jsx";
 
 function DataTable({
                        title,
@@ -29,7 +30,16 @@ function DataTable({
                        emptyStateIcon: EmptyIcon,
                        emptyStateText = "No data found",
                        renderRow,
-                       showSearch = true
+                       showSearch = true,
+
+
+                       selectable = false,
+                       selectedIds = [],
+                       onToggleOne,
+                       onToggleAll,
+                       getRowId = (row) => row.id,
+                       allSelected = null,
+                       filterSlot
                    }) {
 
     return (
@@ -46,29 +56,31 @@ function DataTable({
                             </CardDescription>
                         )}
                     </div>
-
-                    {showSearch && (
-                        <div className="relative w-full sm:w-80">
-                            <Search
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
-                            />
-                            <Input
-                                type="text"
-                                placeholder={searchPlaceholder}
-                                value={search}
-                                onChange={(e) => onSearch(e.target.value)}
-                                className="pl-10 pr-10 border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent rounded-lg"
-                            />
-                            {search && (
-                                <button
-                                    onClick={() => onSearch('')}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
-                                >
-                                    <X className="h-4 w-4"/>
-                                </button>
-                            )}
-                        </div>
-                    )}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        {filterSlot}
+                        {showSearch && (
+                            <div className="relative w-full sm:w-80">
+                                <Search
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
+                                />
+                                <Input
+                                    type="text"
+                                    placeholder={searchPlaceholder}
+                                    value={search}
+                                    onChange={(e) => onSearch(e.target.value)}
+                                    className="pl-10 pr-10 border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent rounded-lg"
+                                />
+                                {search && (
+                                    <button
+                                        onClick={() => onSearch('')}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
+                                    >
+                                        <X className="h-4 w-4"/>
+                                    </button>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="px-0">
@@ -77,6 +89,15 @@ function DataTable({
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-gray-50 hover:bg-gray-50 border-b border-gray-200">
+                                {selectable && (
+                                    <TableHead className="w-10 py-4">
+                                        <Checkbox
+                                            checked={allSelected}
+                                            onCheckedChange={onToggleAll}
+                                            aria-label="Pilih semua"
+                                        />
+                                    </TableHead>
+                                )}
                                 {Array.isArray(columns) && columns.map((column, index) => (
                                     <TableHead
                                         key={index}
@@ -101,7 +122,21 @@ function DataTable({
                                     </TableCell>
                                 </TableRow>
                             ) : data && data.length > 0 ? (
-                                data.map((item, index) => renderRow(item, index))
+                                data.map((item, index) => (
+                                    <Fragment key={getRowId(item)}>
+                                        <TableRow className={selectedIds.includes(getRowId(item)) ? "bg-muted/50" : ""}>
+                                            {selectable && (
+                                                <TableCell onClick={(e) => e.stopPropagation()}>
+                                                    <Checkbox
+                                                        checked={selectedIds.includes(getRowId(item))}
+                                                        onCheckedChange={() => onToggleOne(getRowId(item))}
+                                                    />
+                                                </TableCell>
+                                            )}
+                                            {renderRow(item, index)}
+                                        </TableRow>
+                                    </Fragment>
+                                ))
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="text-center py-16">
@@ -147,6 +182,7 @@ function DataTable({
                         {/* Pagination Controls */}
                         <div className="flex items-center gap-2">
                             {/* First Page */}
+
                             <Button
                                 variant="outline"
                                 size="sm"

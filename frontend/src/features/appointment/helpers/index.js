@@ -5,3 +5,15 @@ export const formatDateTime = (dateStr) =>
             hour: "2-digit", minute: "2-digit",
         })
         : "—";
+
+
+export const formatToDateTimeLocal = (value) => {
+    if (!value) return "";
+
+    const date = new Date(value);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+
+    return date.toISOString().slice(0, 16);
+};
+
+
