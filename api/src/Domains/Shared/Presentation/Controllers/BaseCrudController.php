@@ -6,6 +6,7 @@ namespace Domains\Shared\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponse;
+use Domains\Outpatient\Infrastructure\Persistence\Models\AppointmentModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -49,12 +50,13 @@ abstract class BaseCrudController extends Controller
         return response()->json(new $this->resourceClass($result));
     }
 
-    public function destroy(string $id): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
         if ($this->policyClass) {
             $this->authorize('delete', $this->modelClass);
         }
-        $this->service->delete($id);
-        return $this->successResponse(['message' => 'Data berhasil dihapus.']);
+
+        $this->service->bulkDelete($request->ids);
+        return $this->successResponse(null, 'Degree berhasil dihapus.');
     }
 }

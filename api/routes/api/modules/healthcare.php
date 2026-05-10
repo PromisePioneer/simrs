@@ -68,7 +68,11 @@ Route::middleware(['module:Master'])->group(function () {
     Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
     Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
     Route::apiResource('payment-methods', PaymentMethodController::class);
+
+
     Route::apiResource('degrees', DegreeController::class);
+    Route::delete('degrees/bulk', [DegreeController::class, 'destroy']);
+
     Route::apiResource('professions', ProfessionController::class);
     Route::apiResource('room-types', RoomTypeController::class);
 

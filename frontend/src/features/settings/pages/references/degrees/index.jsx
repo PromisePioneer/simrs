@@ -1,177 +1,21 @@
-import {Controller, useForm} from "react-hook-form";
-import {useEffect} from "react";
-import {useDegreeStore} from "@features/settings";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Award, Lock, Pencil, Plus, Trash2} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {Award, Plus, Trash2} from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import Modal from "@shared/components/common/modal.jsx";
-import {Label} from "@shared/components/ui/label.jsx";
-import {Input} from "@shared/components/ui/input.jsx";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@shared/components/ui/select.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import {DEGREE_COLUMNS} from "@features/settings/pages/constants/index.js";
-import {useUserStore} from "@features/users-management/index.js";
+import {DegreeRow} from "@features/settings/pages/components/degree/degree-row.jsx";
+import {
+    DegreeModalDeleteContent,
+    DegreeModalFormContent
+} from "@features/settings/pages/components/degree/modal-content.jsx";
+import {useDegree} from "@features/settings/pages/hooks/useDegree.js";
 
 function DegreePage() {
-    const {
-        fetchDegrees,
-        isLoading: degreeLoading,
-        degrees,
-        search: degreeSearch,
-        setSearch: setDegreeSearch,
-        currentPage: degreeCurrentPage,
-        setCurrentPage: setDegreeCurrentPage,
-        openModal: degreeOpenModal,
-        setOpenModal: setDegreeOpenModal,
-        openDeleteModal: degreeOpenDeleteModal,
-        setOpenDeleteModal: setDegreeOpenDeleteModal,
-        degreeValue,
-        setDegreeValue,
-        degreeValueLoading,
-        updateDegree,
-        createDegree,
-        deleteDegree
-    } = useDegreeStore();
 
-
-    const {userData} = useUserStore();
-
-    const {
-        register,
-        reset,
-        control,
-        handleSubmit,
-        formState: {isSubmitting, errors}
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            name: "",
-            type: ""
-        }
-    });
-
-
-    useEffect(() => {
-        fetchDegrees({perPage: 20});
-    }, [fetchDegrees, degreeSearch, degreeCurrentPage]);
-
-    useEffect(() => {
-        if (degreeValue && !degreeOpenDeleteModal) {
-            reset({
-                name: degreeValue.name || "",
-                type: degreeValue.type || ""
-            })
-        } else {
-            reset({name: "", type: ""});
-        }
-    }, [degreeValue, degreeOpenDeleteModal]);
-
-    useEffect(() => {
-        if (!degreeOpenModal) {
-            reset({name: "", type: ""});
-            if (setDegreeValue) setDegreeValue(null);
-        }
-    }, [degreeOpenModal, setDegreeValue]);
-
-    const onSubmitDegree = async (data) => {
-        if (degreeValue) {
-            await updateDegree(degreeValue.id, data);
-        } else {
-            await createDegree(data);
-        }
-    };
-
-
-    const renderRow = (degree, index) => {
-        const isSuperAdmin = userData?.roles?.some(
-            role => role.name === "Super Admin"
-        );
-
-        return (
-            <TableRow key={degree.id} className="hover:bg-muted/50 transition-colors">
-                <TableCell className="font-medium text-muted-foreground">
-                    {degrees.meta?.from + index}
-                </TableCell>
-                <TableCell>
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                            <Award className="w-5 h-5 text-primary"/>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">{degree.name}</span>
-                        </div>
-                    </div>
-                </TableCell>
-                <TableCell>
-                    <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">{degree.type}</span>
-                        </div>
-                    </div>
-                </TableCell>
-                <TableCell className="text-right">
-                    <div className="flex justify-end gap-1">
-                        <TooltipProvider>
-                            {isSuperAdmin && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                                onClick={() => setDegreeOpenModal(true, degree.id)}>
-                                            <Pencil className="h-4 w-4"/>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>Edit Gelar</p></TooltipContent>
-                                </Tooltip>
-                            )}
-
-                            {isSuperAdmin && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                                onClick={() => setDegreeOpenDeleteModal(true, degree.id)}>
-                                            <Trash2 className="h-4 w-4"/>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>Delete Gelar</p></TooltipContent>
-                                </Tooltip>
-                            )}
-
-
-                            {!isSuperAdmin && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <div className="flex items-center justify-center h-9 px-3">
-                                            <Lock className="h-4 w-4 text-muted-foreground"/>
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Gelar tidak dapat di modifikasi</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                        </TooltipProvider>
-                    </div>
-                </TableCell>
-            </TableRow>
-        )
-            ;
-    }
-
+    const degree = useDegree();
     return (
         <>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2 mb-10">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <div
@@ -190,109 +34,95 @@ function DegreePage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setDegreeOpenModal(true)}
+                    onClick={() => setOpenModal(true)}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Gelar
                 </Button>
             </div>
 
-            <div className="max-w-6xl mx-auto">
+            <div className="">
+                {canDelete && selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
                 <DataTable
                     title="Tabel Gelar"
                     description="Daftar gelar yang tersedia"
                     columns={DEGREE_COLUMNS}
-                    data={degrees?.data || []}
-                    isLoading={degreeLoading}
-                    pagination={degrees ? {
-                        from: degrees.meta?.from, to: degrees.meta?.to, total: degrees.meta?.total,
-                        current_page: degrees.meta?.current_page, last_page: degrees.meta?.last_page
+                    data={degree.degrees?.data || []}
+                    isLoading={degree.isLoading}
+                    pagination={degree.degrees ? {
+                        from: degree.degrees.meta?.from, to: degree.degrees.meta?.to, total: degree.degrees.meta?.total,
+                        current_page: degree.degrees.meta?.current_page, last_page: degree.degrees.meta?.last_page
                     } : null}
-                    onPageChange={setDegreeCurrentPage}
-                    currentPage={degreeCurrentPage}
-                    onSearch={setDegreeSearch}
-                    search={degreeSearch}
+                    onPageChange={setCurrentPage}
+                    currentPage={currentPage}
+                    onSearch={setSearch}
+                    search={search}
                     searchPlaceholder="Cari gelar..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data gelar ditemukan"
-                    renderRow={renderRow}
+                    renderRow={DegreeRow}
                     showSearch={true}
+                    selectable={degree.canDelete}
+                    selectedIds={degree.safeSelectedIds}
+                    onToggleOne={degree.toggleOne}
+                    onToggleAll={degree.toggleAll}
+                    allSelected={degree.allSelected}
                 />
             </div>
 
             <Modal
-                open={degreeOpenModal}
-                onOpenChange={setDegreeOpenModal}
-                title={degreeValue ? "Edit Gelar" : "Tambah Gelar"}
-                description={degreeValue ? "Ubah informasi gelar" : "Tambahkan gelar baru ke sistem."}
+                open={degree.openModal}
+                onOpenChange={degree.setOpenModal}
+                title={degree.degreeValue ? "Edit Gelar" : "Tambah Gelar"}
+                description={degree.degreeValue ? "Ubah informasi gelar" : "Tambahkan gelar baru ke sistem."}
                 onSubmit={handleSubmit(onSubmitDegree)}
-                submitText={degreeValue ? "Simpan Perubahan" : "Tambah Gelar"}
+                submitText={degree.degreeValue ? "Simpan Perubahan" : "Tambah Gelar"}
                 isLoading={isSubmitting}
             >
-                <div className="space-y-5 py-2">
-                    <div className="space-y-2.5">
-                        <Label htmlFor="degree-name" className="text-sm font-semibold">Nama <span
-                            className="text-destructive">*</span></Label>
-                        <Input id="degree-name" placeholder="Contoh: S.Kom, M.M"
-                               {...register("name", {required: "Nama gelar tidak boleh kosong"})}
-                               disabled={degreeValueLoading}/>
-                        {errors.name &&
-                            <p className="text-sm text-destructive">{errors.name.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="degree-type">Tipe <span
-                            className="text-destructive">*</span></Label>
-                        <Controller name="type" control={control}
-                                    disabled={degreeValueLoading}
-                                    rules={{required: "Tipe Gelar harus dipilih"}}
-                                    render={({field}) => (
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Pilih Tipe Gelar"/>
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    <SelectLabel>Tipe Gelar</SelectLabel>
-                                                    <SelectItem value="prefix">Gelar Depan</SelectItem>
-                                                    <SelectItem value="suffix">Gelar Belakang</SelectItem>
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    )}/>
-                        {errors.type &&
-                            <p className="text-sm text-destructive">{errors.type.message}</p>}
-                    </div>
-                </div>
+                <DegreeModalFormContent
+                    register={register}
+                    degreeValueLoading={degreeValueLoading}
+                    errors={errors}
+                />
             </Modal>
 
             {/* Modal Degree: Delete */}
             <Modal
-                open={degreeOpenDeleteModal}
-                onOpenChange={setDegreeOpenDeleteModal}
+                open={degree.openDeleteModal}
+                onOpenChange={degree.setOpenDeleteModal}
                 title="Hapus Gelar"
-                description="Tindakan ini tidak dapat dibatalkan. Gelar akan dihapus permanen."
-                onSubmit={() => deleteDegree(degreeValue.id)}
-                submitText="Hapus Gelar"
+                description="Tindakan ini tidak dapat dibatalkan. Gelar yang dipilih akan dihapus permanen."
+                onSubmit={() => degree.bulkDeleteDegrees(selectedIds)}
                 type="danger"
-                isLoading={degreeLoading}
+                isLoading={degree.isLoading}
             >
-                <div className="space-y-4 py-2">
-                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                        <div className="flex gap-3">
-                            <div className="shrink-0">
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
-                                    <Trash2 className="w-5 h-5 text-destructive"/>
-                                </div>
-                            </div>
-                            <div className="flex-1 space-y-1">
-                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus gelar: <span
-                                    className="font-semibold text-foreground">{degreeValue?.name}</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <DegreeModalDeleteContent degreeValue={degree.degreeValue}
+                                          selectedIds={degree.selectedIds}
+                                          degrees={degree.degrees}
+                />
             </Modal>
         </>
     )

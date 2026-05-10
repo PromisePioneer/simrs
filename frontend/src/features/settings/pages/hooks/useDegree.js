@@ -1,0 +1,95 @@
+import {usePermission} from "@shared/hooks/index.js";
+import {PERMISSIONS} from "@shared/constants/index.js";
+import {useUserStore} from "@features/users-management/index.js";
+import {useForm} from "react-hook-form";
+import {useEffect} from "react";
+import {useDegreeStore} from "@features/settings/index.js";
+
+export function useDegree() {
+
+    const store = useDegreeStore();
+
+    const allIds = store.degrees?.data?.map((a) => a.id) ?? [];
+    const allSelected = allIds.length > 0 && allIds.every((id) => store.selectedIds.includes(id));
+    const someSelected = store.selectedIds.length > 0 && !allSelected;
+    const safeSelectedIds = Array.isArray(store.selectedIds) ? store.selectedIds : [];
+
+    const {hasPermission} = usePermission();
+    const canCreate = hasPermission(PERMISSIONS.DEGREE.CREATE);
+    const canEdit = hasPermission(PERMISSIONS.DEGREE.EDIT);
+    const canDelete = hasPermission(PERMISSIONS.DEGREE.DELETE);
+
+
+    const toggleAll = () =>
+        store.setSelectedIds(allSelected ? [] : allIds);
+
+    const toggleOne = (id) =>
+        store.setSelectedIds((prev) =>
+            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+        );
+
+
+    const {userData} = useUserStore();
+
+    const {
+        register,
+        reset,
+        control,
+        handleSubmit,
+        formState
+    } = useForm({
+        mode: "all",
+        reValidateMode: "onChange",
+        defaultValues: {
+            name: "",
+            type: ""
+        }
+    });
+
+
+    useEffect(() => {
+        store.fetchDegrees({perPage: 20});
+    }, [store.fetchDegrees, store.search, store.currentPage]);
+
+    useEffect(() => {
+        if (store.degreeValue && !store.openDeleteModal) {
+            reset({
+                name: store.degreeValue.name || "",
+                type: store.degreeValue.type || ""
+            })
+        } else {
+            reset({name: "", type: ""});
+        }
+    }, [store.degreeValue, store.openDeleteModal]);
+
+    useEffect(() => {
+        if (!store.openModal) {
+            reset({name: "", type: ""});
+            if (store.setDegreeValue) store.setDegreeValue(null);
+        }
+    }, [store.openModal, store.setDegreeValue]);
+
+    const onSubmitDegree = async (data) => {
+        if (store.degreeValue) {
+            await store.updateDegree(store.degreeValue.id, data);
+        } else {
+            await store.createDegree(data);
+        }
+    };
+
+
+    return {
+        ...store,
+        allSelected,
+        safeSelectedIds: Array.isArray(store.selectedIds) ? store.selectedIds : [],
+        canCreate: hasPermission(PERMISSIONS.DEGREE.CREATE),
+        canEdit: hasPermission(PERMISSIONS.DEGREE.EDIT),
+        canDelete: hasPermission(PERMISSIONS.DEGREE.DELETE),
+        toggleAll: () => store.setSelectedIds(allSelected ? [] : allIds),
+        toggleOne: (id) => store.setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+        ),
+        register, control, handleSubmit, formState,
+        onSubmitDegree,
+    }
+}
