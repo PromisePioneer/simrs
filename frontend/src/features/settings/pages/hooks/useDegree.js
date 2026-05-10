@@ -57,12 +57,6 @@ export function useDegree() {
         }
     };
 
-
-    console.log('register type:', typeof register);
-    console.log('store.register type:', typeof store.register);
-    console.log('store keys:', Object.keys(store));
-
-
     return {
         ...store,
         allSelected,
