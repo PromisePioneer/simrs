@@ -361,7 +361,7 @@ function AppointmentPage() {
                             variant="destructive"
                             size="sm"
                             className="ml-auto gap-2"
-                            onClick={() => setOpenDeleteModal()}
+                            onClick={() =>  setOpenDeleteModal()}
                         >
                             <Trash2 className="h-4 w-4"/>
                             Hapus yang Dipilih

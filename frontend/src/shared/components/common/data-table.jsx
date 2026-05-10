@@ -140,7 +140,7 @@ function DataTable({
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={columns.length} className="text-center py-16">
+                                    <TableCell colSpan={columns.length + (selectable ? 1 : 0)} className="text-center py-16">
                                         <div className="flex flex-col items-center gap-3 text-gray-400">
                                             {EmptyIcon && (
                                                 <div

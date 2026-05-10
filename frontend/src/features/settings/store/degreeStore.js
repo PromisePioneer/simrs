@@ -23,9 +23,9 @@ export const useDegreeStore = create((set, get) => ({
     setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
-    setOpenModal: (open, id) => {
+    setOpenModal: (id) => {
         if (id) get().showDegree(id);
-        set({openModal: open});
+        set({openModal: !get().openModal});
     },
     setOpenDeleteModal: () => set({openDeleteModal: !get().openDeleteModal}),
 
@@ -84,8 +84,8 @@ export const useDegreeStore = create((set, get) => ({
     bulkDeleteDegrees: async (ids) => {
         try {
             await apiCall.delete("api/v1/degrees/bulk", {data: {ids}});
-            set({ selectedIds: [] }); // ← tambah ini
-            await get().fetchDegrees({ perPage: 20 }); // ← await dan konsisten perPage
+            set({selectedIds: []}); // ← tambah ini
+            await get().fetchDegrees({perPage: 20}); // ← await dan konsisten perPage
             get().setOpenDeleteModal();
             toast.success("Berhasil menghapus gelar.");
         } catch (e) {
