@@ -42,11 +42,11 @@ function DegreePage() {
             </div>
 
             <div className="">
-                {canDelete && selectedIds.length > 0 && (
+                {degree.canDelete && degree.selectedIds.length > 0 && (
                     <div
                         className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
                             <span className="text-sm font-medium text-destructive">
-                                {selectedIds.length} Gelar dipilih
+                                {degree.selectedIds.length} Gelar dipilih
                             </span>
                         <Button
                             variant="destructive"
