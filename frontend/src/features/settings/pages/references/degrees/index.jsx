@@ -34,7 +34,7 @@ function DegreePage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => degree.setOpenModal(true)}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Gelar
@@ -52,7 +52,7 @@ function DegreePage() {
                             variant="destructive"
                             size="sm"
                             className="ml-auto gap-2"
-                            onClick={() => setOpenDeleteModal()}
+                            onClick={() => degree.setOpenDeleteModal()}
                         >
                             <Trash2 className="h-4 w-4"/>
                             Hapus yang Dipilih
@@ -60,7 +60,7 @@ function DegreePage() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => setSelectedIds([])}
+                            onClick={() => degree.setSelectedIds([])}
                         >
                             Batal
                         </Button>
@@ -76,10 +76,10 @@ function DegreePage() {
                         from: degree.degrees.meta?.from, to: degree.degrees.meta?.to, total: degree.degrees.meta?.total,
                         current_page: degree.degrees.meta?.current_page, last_page: degree.degrees.meta?.last_page
                     } : null}
-                    onPageChange={setCurrentPage}
-                    currentPage={currentPage}
-                    onSearch={setSearch}
-                    search={search}
+                    onPageChange={degree.setCurrentPage}
+                    currentPage={degree.currentPage}
+                    onSearch={degree.setSearch}
+                    search={degree.search}
                     searchPlaceholder="Cari gelar..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data gelar ditemukan"
@@ -98,14 +98,15 @@ function DegreePage() {
                 onOpenChange={degree.setOpenModal}
                 title={degree.degreeValue ? "Edit Gelar" : "Tambah Gelar"}
                 description={degree.degreeValue ? "Ubah informasi gelar" : "Tambahkan gelar baru ke sistem."}
-                onSubmit={handleSubmit(onSubmitDegree)}
+                onSubmit={degree.handleSubmit(degree.onSubmitDegree)}
                 submitText={degree.degreeValue ? "Simpan Perubahan" : "Tambah Gelar"}
-                isLoading={isSubmitting}
+                isLoading={degree.formState.isSubmitting}
             >
                 <DegreeModalFormContent
-                    register={register}
-                    degreeValueLoading={degreeValueLoading}
-                    errors={errors}
+                    register={degree.register}
+                    control={degree.control}
+                    degreeValueLoading={degree.degreeValueLoading}
+                    errors={degree.formState.errors}
                 />
             </Modal>
 
