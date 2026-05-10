@@ -12,8 +12,6 @@ export const useDegreeStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     degreeValueLoading: false,
-    statusFilter: "",
-    advancedStatusFilter: "",
     isDeleting: false,
     selectedIds: [],
 

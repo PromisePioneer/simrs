@@ -15,16 +15,22 @@ export const usePaymentMethodStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     currentPage: 1,
+    isDeleting: false,
+    selectedIds: [],
+
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
 
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
-    setOpenModal: (open, id) => {
+    setOpenModal: (id) => {
         if (id) get().showPaymentMethod(id);
-        set({openModal: open});
+        set({openModal: !get().openModal});
     },
-    setOpenDeleteModal: (open, id) => {
-        get().showPaymentMethod(id);
-        set({openDeleteModal: open});
+    setOpenDeleteModal: () => {
+        set({openDeleteModal: !get().openDeleteModal});
     },
 
     fetchPaymentMethods: async ({perPage = null} = {}) => {
@@ -89,15 +95,16 @@ export const usePaymentMethodStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-
-    deletePaymentMethod: async (id) => {
+    bulkDeletePaymentMethod: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/payment-methods/${id}`);
-            toast.success("Metode pembayaran berhasil dihapus.");
-            set({openDeleteModal: false});
-            await get().fetchPaymentMethods({perPage: 20});
+            await apiCall.delete("api/v1/payment-methods/bulk", {data: {ids}});
+            set({selectedIds: []});
+            await get().fetchPaymentMethods({perPage: 20}); // ← await dan konsisten perPage
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Metode Pembayaran.");
         } catch (e) {
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
     },
 }));

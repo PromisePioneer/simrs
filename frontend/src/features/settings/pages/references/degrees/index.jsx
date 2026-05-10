@@ -41,7 +41,7 @@ function DegreePage() {
                 </Button>
             </div>
 
-            <div className="">
+            <div>
                 {degree.canDelete && degree.selectedIds.length > 0 && (
                     <div
                         className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
@@ -83,7 +83,7 @@ function DegreePage() {
                     searchPlaceholder="Cari gelar..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data gelar ditemukan"
-                    renderRow={(item, index) => DegreeRow(item, index, degree.canEdit, degree.setOpenModal)}
+                    renderRow={(item) => DegreeRow(item, degree.canEdit, degree.setOpenModal)}
                     showSearch={true}
                     selectable={degree.canDelete}
                     selectedIds={degree.safeSelectedIds}

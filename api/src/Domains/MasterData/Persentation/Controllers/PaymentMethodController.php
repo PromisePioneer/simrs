@@ -30,7 +30,7 @@ class PaymentMethodController extends BaseCrudController
     public function update(PaymentMethodRequest $request, string $id): JsonResponse
     {
         $this->authorize('update', $this->policyClass);
-        $result = $this->service->update($request->validated(), $id);
+        $result = $this->service->update($id, $request->validated());
         return response()->json(new PaymentMethodResource($result));
     }
 }

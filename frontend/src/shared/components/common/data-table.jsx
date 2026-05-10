@@ -130,7 +130,10 @@ function DataTable({
                                                 <TableCell onClick={(e) => e.stopPropagation()}>
                                                     <Checkbox
                                                         checked={selectedIds.includes(getRowId(item))}
-                                                        onCheckedChange={() => onToggleOne(getRowId(item))}
+                                                        onCheckedChange={() => {
+                                                            console.log('checkbox clicked, id:', getRowId(item));
+                                                            onToggleOne(getRowId(item))
+                                                        }}
                                                     />
                                                 </TableCell>
                                             )}
