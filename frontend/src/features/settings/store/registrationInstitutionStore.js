@@ -12,16 +12,20 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
     openDeleteModal: false,
     institutionValue: null,
     currentPage: 1,
-
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
-    setOpenModal: (open, id) => {
+    setOpenModal: (id) => {
         if (id) get().showInstitution(id);
-        set({openModal: open});
+        set({openModal: !get().openModal});
     },
-    setOpenDeleteModal: async (open, id) => {
-        await get().showInstitution(id);
-        set({openDeleteModal: open});
+    setOpenDeleteModal: async () => {
+        set({openDeleteModal: !get().openDeleteModal});
     },
     fetchInstitutions: async ({perPage = null, type = null} = {}) => {
         set({isLoading: true});
@@ -50,7 +54,7 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
         try {
             await apiCall.post("/api/v1/registration-institutions", data);
             toast.success("Institusi berhasil ditambahkan.");
-            set({openModal: false});
+            set({openModal: !get().openModal});
             await get().fetchInstitutions({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
@@ -62,22 +66,24 @@ export const useRegistrationInstitutionStore = create((set, get) => ({
         try {
             await apiCall.put(`/api/v1/registration-institutions/${id}`, data);
             toast.success("Institusi berhasil diperbarui.");
-            set({openModal: false});
+            set({openModal: !get().openModal});
             await get().fetchInstitutions({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
             throw e;
         }
     },
-
-    deleteInstitution: async (id) => {
+    bulkDeleteInstitutions: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/registration-institutions/${id}`);
-            toast.success("Institusi berhasil dihapus.");
-            set({openDeleteModal: false});
+            await apiCall.delete("api/v1/registration-institutions/bulk", {data: {ids}});
+            set({selectedIds: []});
             await get().fetchInstitutions({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Institusi" +
+                ".");
         } catch (e) {
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
     },
 }));

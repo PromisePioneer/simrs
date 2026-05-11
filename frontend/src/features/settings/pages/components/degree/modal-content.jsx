@@ -12,7 +12,7 @@ import {
 import {Trash2} from "lucide-react";
 
 
-export const DegreeModalFormContent = ({ register, degreeValueLoading, errors, control }) => {
+export const DegreeModalFormContent = ({register, degreeValueLoading, errors, control}) => {
     return (
         <div className="space-y-5 py-2">
             <div className="space-y-2.5">
@@ -52,7 +52,7 @@ export const DegreeModalFormContent = ({ register, degreeValueLoading, errors, c
 }
 
 
-export const DegreeModalDeleteContent = ({ degreeValue, selectedIds, degrees }) => {
+export const DegreeModalDeleteContent = ({degreeValue, selectedIds, degrees}) => {
     return (
         <div className="space-y-4 py-2">
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">

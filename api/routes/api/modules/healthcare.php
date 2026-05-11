@@ -65,7 +65,11 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
 // ── Basic & Pro ──────────────────────────────────────────────────────────────
 Route::middleware(['module:Master'])->group(function () {
     Route::apiResource('departments', DepartmentController::class);
+
     Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
+    Route::delete('registration-institutions/bulk', [RegistrationInstitutionController::class, 'destroy']);
+
+
     Route::apiResource('payment-method-types', PaymentMethodTypeController::class);
 
 

@@ -1,167 +1,17 @@
-import {useRegistrationInstitutionStore} from "@features/settings";
-import {useEffect} from "react";
-import {Controller, useForm} from "react-hook-form";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {CreditCard, Pencil, Plus, Trash2} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
-import {Label} from "@shared/components/ui/label.jsx";
-import {Input} from "@shared/components/ui/input.jsx";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@shared/components/ui/select.jsx";
 import {REGISTRATION_INSTITUTION_COLUMNS} from "@features/settings/pages/constants/index.js";
+import {useInstitution} from "@features/settings/pages/hooks/useInstitution.js";
+import {InstitutionRow} from "@features/settings/pages/components/institution/institution-row.jsx";
+import {
+    InstitutionDeleteModalFormContent,
+    InstitutionModalFormContent
+} from "@features/settings/pages/components/institution/modal-content.jsx";
 
-function institutionPage() {
-    const {
-        isLoading,
-        fetchInstitutions,
-        institutionData,
-        setInstitutionValue,
-        search,
-        setSearch,
-        currentPage,
-        setCurrentPage,
-        openModal,
-        setOpenModal,
-        institutionValue,
-        openDeleteModal,
-        setOpenDeleteModal,
-        createInstitution,
-        updateInstitution,
-        deleteInstitution
-    } = useRegistrationInstitutionStore();
-
-
-    useEffect(() => {
-        fetchInstitutions({perPage: 20})
-    }, [currentPage, search]);
-
-
-    // form
-    const {
-        register,
-        handleSubmit,
-        control,
-        reset,
-        formState: {errors, isSubmitting}
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            name: "",
-            type: ""
-        }
-    });
-
-    useEffect(() => {
-        if (institutionValue && !openDeleteModal) {
-            reset({
-                name: institutionValue.name || "",
-                type: institutionValue.type || ""
-            })
-        } else {
-            reset({
-                name: "",
-                type: ""
-            });
-        }
-    }, [institutionValue, reset, openDeleteModal])
-
-
-    useEffect(() => {
-        if (!openModal) {
-            reset({
-                name: "",
-                type: ""
-            });
-            if (setInstitutionValue) {
-                setInstitutionValue(null);
-            }
-        }
-    }, [openModal, reset]);
-
-    const onSubmit = async (data) => {
-        if (institutionValue) {
-            await updateInstitution(institutionValue.id, data);
-        } else {
-            await createInstitution(data);
-        }
-    }
-
-
-    const renderRow = (institution, index) => {
-        return (<TableRow key={institution.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {institutionData.meta?.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <CreditCard className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">
-                                {institution.name}
-                            </span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">
-                                {institution.type.toUpperCase()}
-                            </span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        onClick={() => setOpenModal(true, institution.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Edit Lembaga Pendaftaran</p>
-                                </TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                        onClick={() => setOpenDeleteModal(true, institution.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Delete Lembaga Pendaftaran</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>);
-    };
+function InstitutionPage() {
+    const institution = useInstitution();
 
     return (
         <>
@@ -185,7 +35,7 @@ function institutionPage() {
                     </div>
                     <Button
                         className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={() => setOpenModal(true)}
+                        onClick={() => institution.setOpenModal()}
                         size="lg"
                     >
                         <Plus className="w-4 h-4"/>
@@ -193,136 +43,93 @@ function institutionPage() {
                     </Button>
                 </div>
 
-                {/* Data Table */}
-                <DataTable
-                    title="Data Lembaga Pendaftaran "
-                    description="Kelola dan atur lembaga pendaftaran di seluruh sistem"
-                    columns={REGISTRATION_INSTITUTION_COLUMNS}
-                    data={institutionData?.data || []}
-                    isLoading={isLoading}
-                    pagination={institutionData ? {
-                        from: institutionData.meta?.from,
-                        to: institutionData.meta?.to,
-                        total: institutionData.meta?.total,
-                        current_page: institutionData.meta?.current_page,
-                        last_page: institutionData.meta?.last_page
-                    } : null}
-                    onPageChange={setCurrentPage}
-                    currentPage={currentPage}
-                    onSearch={setSearch}
-                    search={search}
-                    searchPlaceholder="Search payment methods..."
-                    emptyStateIcon={CreditCard}
-                    emptyStateText="No data found"
-                    renderRow={renderRow}
-                    showSearch={true}
-                />
+
+                <div>
+                    {institution.canDelete && institution.selectedIds.length > 0 && (
+                        <div
+                            className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {institution.selectedIds.length} Gelar dipilih
+                            </span>
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                className="ml-auto gap-2"
+                                onClick={() => institution.setOpenDeleteModal()}
+                            >
+                                <Trash2 className="h-4 w-4"/>
+                                Hapus yang Dipilih
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => institution.setSelectedIds([])}
+                            >
+                                Batal
+                            </Button>
+                        </div>
+                    )}
+                    {/* Data Table */}
+                    <DataTable
+                        title="Data Lembaga Pendaftaran "
+                        description="Kelola dan atur lembaga pendaftaran di seluruh sistem"
+                        columns={REGISTRATION_INSTITUTION_COLUMNS}
+                        data={institution.institutionData?.data || []}
+                        isLoading={institution.isLoading}
+                        pagination={institution.institutionData ? {
+                            from: institution.institutionData.meta?.from,
+                            to: institution.institutionData.meta?.to,
+                            total: institution.institutionData.meta?.total,
+                            current_page: institution.institutionData.meta?.current_page,
+                            last_page: institution.institutionData.meta?.last_page
+                        } : null}
+                        onPageChange={institution.setCurrentPage}
+                        currentPage={institution.currentPage}
+                        onSearch={institution.setSearch}
+                        search={institution.search}
+                        searchPlaceholder="Search payment methods..."
+                        emptyStateIcon={CreditCard}
+                        emptyStateText="No data found"
+                        renderRow={(item) => <InstitutionRow item={item}
+                                                             canEdit={institution.canEdit}
+                                                             setOpenModal={institution.setOpenModal}/>}
+                        showSearch={true}
+                        selectable={institution.canDelete}
+                        selectedIds={institution.safeSelectedIds}
+                        onToggleOne={institution.toggleOne}
+                        onToggleAll={institution.toggleAll}
+                        allSelected={institution.allSelected}
+                    />
+                </div>
 
                 <Modal
-                    open={openModal}
-                    onOpenChange={setOpenModal}
-                    title={institutionValue ? "Edit Lembaga Pendaftaran" : "Create New Lembaga Pendaftaran"}
-                    description={institutionValue ? "Update cashier method information" : "Add a new cashier method to your system"}
-                    onSubmit={handleSubmit(onSubmit)}
-                    submitText={institutionValue ? "Update Lembaga Pendaftaran" : "Create Lembaga Pendaftaran"}
-                    isLoading={isSubmitting}
+                    open={institution.openModal}
+                    onOpenChange={institution.setOpenModal}
+                    title={institution.institutionValue ? "Edit Lembaga Pendaftaran" : "Create New Lembaga Pendaftaran"}
+                    description={institution.institutionValue ? "Update cashier method information" : "Add a new cashier method to your system"}
+                    onSubmit={institution.handleSubmit(institution.onSubmit)}
+                    submitText={institution.institutionValue ? "Update Lembaga Pendaftaran" : "Create Lembaga Pendaftaran"}
+                    isLoading={institution.formState.isSubmitting}
                 >
-                    <div className="space-y-5 py-2">
-                        <div className="space-y-2.5">
-                            <Label htmlFor="name" className="text-sm font-semibold">
-                                Nama <span className="text-destructive">*</span>
-                            </Label>
-                            <Input
-                                id="name"
-                                placeholder="Masukkan nama lembaga pendaftaran"
-                                {...register("name", {required: "Nama lembaga pendaftaran tidak boleh kosong"})}
-                            />
-                            {errors.name ? (
-                                <p className="text-sm text-destructive">{errors.name.message}</p>
-                            ) : (
-                                <p className="text-xs text-muted-foreground">
-                                    Pilih nama yang deskriptif untuk lembaga pendaftaran ini.
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="type">
-                                Tipe Lembaga Pendaftaran <span className="text-destructive">*</span>
-                            </Label>
-                            <Controller
-                                name="type"
-                                control={control}
-                                rules={{required: "Tipe lembaga pendaftaran harus dipilih"}}
-                                render={({field}) => (
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih Tipe Lembaga Pendaftaran"/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Tipe Lembaga Pendaftaran</SelectLabel>
-                                                <SelectItem value="sip">
-                                                    SIP
-                                                </SelectItem>
-                                                <SelectItem value="str">
-                                                    STR
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                            />
-                            {errors.type ? (
-                                <p className="text-sm text-destructive">{errors.type.message}</p>
-                            ) : (
-                                <p className="text-xs text-muted-foreground">
-                                    Pilih tipe lembaga pendaftaran untuk lembaga pendaftaran ini.
-                                </p>
-                            )}
-                        </div>
-                    </div>
+                    <InstitutionModalFormContent register={institution.register}
+                                                 control={institution.control}
+                                                 errors={institution.formState.errors}
+                    />
                 </Modal>
 
                 <Modal
-                    open={openDeleteModal}
-                    onOpenChange={setOpenDeleteModal}
-                    title="Delete Lembaga Pendaftaran"
-                    description="This action cannot be undone. This will permanently delete the payment method."
-                    onSubmit={() => deleteInstitution(institutionValue.id)}
-                    submitText="Delete Lembaga Pendaftaran"
+                    open={institution.openDeleteModal}
+                    onOpenChange={institution.setOpenDeleteModal}
+                    title="Hapus Gelar"
+                    description="Tindakan ini tidak dapat dibatalkan. Gelar yang dipilih akan dihapus permanen."
+                    onSubmit={() => institution.bulkDeleteInstitutions(institution.selectedIds)}
                     type="danger"
-                    isLoading={isSubmitting}
+                    isLoading={institution.isLoading}
                 >
-                    <div className="space-y-4 py-2">
-                        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                            <div className="flex gap-3">
-                                <div className="shrink-0">
-                                    <div
-                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
-                                        <Trash2 className="w-5 h-5 text-destructive"/>
-                                    </div>
-                                </div>
-                                <div className="flex-1 space-y-1">
-                                    <p className="text-sm font-semibold text-foreground">
-                                        Confirm Deletion
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        You are about to delete the payment method:{" "}
-                                        <span className="font-semibold text-foreground">
-                                            {institutionValue?.name}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                            This payment method will no longer be available for transactions.
-                        </p>
-                    </div>
+                    <InstitutionDeleteModalFormContent institutionData={institution.institutionData}
+                                                       institutionValue={institution.institutionValue}
+                                                       selectedIds={institution.selectedIds}
+                    />
                 </Modal>
             </div>
         </>
@@ -330,4 +137,4 @@ function institutionPage() {
 }
 
 
-export default institutionPage;
+export default InstitutionPage;
