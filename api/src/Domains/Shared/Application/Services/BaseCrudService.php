@@ -60,6 +60,12 @@ abstract class BaseCrudService
     }
 
 
+    public function bulkDelete(array $ids): void
+    {
+        $this->repository->bulkDelete($ids);
+    }
+
+
     protected function extractFilters(Request $request): array
     {
         return $request->only(['search']);

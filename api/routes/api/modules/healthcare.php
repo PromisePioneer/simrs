@@ -39,6 +39,9 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
     Route::apiResource('/patients', PatientController::class);
 
     Route::apiResource('poli', PoliController::class);
+    Route::delete('poli/bulk', [PoliController::class, 'destroy']);
+
+
     Route::apiResource('appointments', AppointmentController::class);
     Route::delete('appointments/bulk', [AppointmentController::class, 'destroy']);
 

@@ -10,125 +10,12 @@ import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {usePoliStore} from "@features/settings";
 import {POLI_COLUMNS} from "@features/settings/pages/constants/index.js";
+import {usePoli} from "@features/settings/pages/hooks/usePoli.js";
+import {PoliDeleteModalContent, PoliModalFormContent} from "@features/settings/pages/components/poli/modal-content.jsx";
+import {PoliRow} from "@features/settings/pages/components/poli/poli-row.jsx";
 
 function PoliPage() {
-    const {
-        fetchPoli,
-        isLoading,
-        poliData,
-        search,
-        setSearch,
-        currentPage,
-        setCurrentPage,
-        openModal,
-        setOpenModal,
-        openDeleteModal,
-        setOpenDeleteModal,
-        poliValue,
-        setPoliValue,
-        updatePoli,
-        createPoli,
-        deletePoli,
-        deleteLoading,
-    } = usePoliStore();
-
-    const {
-        register,
-        reset,
-        handleSubmit,
-        formState: {isSubmitting, errors}
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            name: "",
-            consultation_fee: "",
-            type: ""
-        }
-    });
-
-
-    useEffect(() => {
-        fetchPoli({perPage: 20});
-    }, [fetchPoli, search, currentPage]);
-
-    useEffect(() => {
-        if (poliValue && !openDeleteModal) {
-            reset({
-                name: poliValue.name || "",
-                consultation_fee: poliValue.consultation_fee || "",
-            })
-        } else {
-            reset({name: "", consultation_fee: ""});
-        }
-    }, [poliValue, openDeleteModal]);
-
-    useEffect(() => {
-        if (!openModal) {
-            reset({name: "", consultation_fee: ""});
-            if (setPoliValue) setPoliValue(null);
-        }
-    }, [openModal, setPoliValue]);
-
-    const onSubmit = async (data) => {
-        if (poliValue) {
-            await updatePoli(poliValue.id, data);
-        } else {
-            await createPoli(data);
-        }
-    };
-
-
-    const renderRow = (poli, index) => (
-        <TableRow key={poli.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {poliData.meta?.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Award className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{poli.name}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <span className="font-semibold text-teal-600">
-                    {poli.consultation_fee ? `Rp ${Number(poli.consultation_fee).toLocaleString('id-ID')}` : '-'}
-                </span>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setOpenModal(poli.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Edit Poli</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(poli.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Delete Poli</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+    const poli = usePoli();
 
 
     return (
@@ -152,90 +39,94 @@ function PoliPage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setOpenModal()}
+                    onClick={poli.setOpenModal}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Poli
                 </Button>
             </div>
 
-            <DataTable
-                title="Tabel Poli"
-                description="Daftar Poli yang tersedia"
-                columns={POLI_COLUMNS}
-                data={poliData?.data || []}
-                isLoading={isLoading}
-                pagination={poliData ? {
-                    from: poliData.meta?.from, to: poliData.meta?.to, total: poliData.meta?.total,
-                    current_page: poliData.meta?.current_page, last_page: poliData.meta?.last_page
-                } : null}
-                onPageChange={setCurrentPage}
-                currentPage={currentPage}
-                onSearch={setSearch}
-                search={search}
-                searchPlaceholder="Cari Poli..."
-                emptyStateIcon={Award}
-                emptyStateText="Tidak ada data Poli ditemukan"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+
+            <div>
+                {poli.canDelete && poli.selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {poli.selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => poli.setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => poli.setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
+                <DataTable
+                    title="Tabel Poli"
+                    description="Daftar Poli yang tersedia"
+                    columns={POLI_COLUMNS}
+                    data={poli.poliData?.data || []}
+                    isLoading={poli.isLoading}
+                    pagination={poli.poliData ? {
+                        from: poli.poliData.meta?.from, to: poli.poliData.meta?.to, total: poli.poliData.meta?.total,
+                        current_page: poli.poliData.meta?.current_page, last_page: poli.poliData.meta?.last_page
+                    } : null}
+                    onPageChange={poli.setCurrentPage}
+                    currentPage={poli.currentPage}
+                    onSearch={poli.setSearch}
+                    search={poli.search}
+                    searchPlaceholder="Cari Poli..."
+                    emptyStateIcon={Award}
+                    emptyStateText="Tidak ada data Poli ditemukan"
+                    renderRow={(item) => <PoliRow item={item} canEdit={poli.canEdit} setOpenModal={poli.setOpenModal}/>}
+                    showSearch={true}
+                    selectable={poli.canDelete}
+                    selectedIds={poli.safeSelectedIds}
+                    onToggleOne={poli.toggleOne}
+                    onToggleAll={poli.toggleAll}
+                    allSelected={poli.allSelected}
+                />
+
+            </div>
+
             <Modal
-                open={openModal}
-                onOpenChange={setOpenModal}
-                title={poliValue ? "Edit Poli" : "Tambah Poli"}
-                description={poliValue ? "Ubah informasi Poli" : "Tambahkan Poli baru ke sistem."}
-                onSubmit={handleSubmit(onSubmit)}
-                submitText={poliValue ? "Simpan Perubahan" : "Tambah Poli"}
-                isLoading={isSubmitting}
+                open={poli.openModal}
+                onOpenChange={poli.setOpenModal}
+                title={poli.poliValue ? "Edit Lembaga Pendaftaran" : "Create New Lembaga Pendaftaran"}
+                description={poli.poliValue ? "Update cashier method information" : "Add a new cashier method to your system"}
+                onSubmit={poli.handleSubmit(poli.onSubmit)}
+                submitText={poli.institutionValue ? "Update Lembaga Pendaftaran" : "Create Lembaga Pendaftaran"}
+                isLoading={poli.formState.isSubmitting}
             >
-                <div className="space-y-5 py-2">
-                    <div className="space-y-2.5">
-                        <Label htmlFor="name" className="text-sm font-semibold">Nama <span
-                            className="text-destructive">*</span></Label>
-                        <Input id="name" placeholder="Contoh: Umum, Gigi, Jantung, Kandungan"
-                               {...register("name", {required: "Nama Poli tidak boleh kosong"})}
-                               disabled={isLoading}/>
-                        {errors.name &&
-                            <p className="text-sm text-destructive">{errors.name.message}</p>}
-                    </div>
-                    <div className="space-y-2.5">
-                        <Label htmlFor="consultation_fee" className="text-sm font-semibold">Tarif Konsultasi (Rp)</Label>
-                        <Input id="consultation_fee" type="number" min="0" step="1000"
-                               placeholder="Contoh: 150000"
-                               {...register("consultation_fee")}
-                               disabled={isLoading}/>
-                    </div>
-                </div>
+                <PoliModalFormContent register={poli.register} errors={poli.formState.errors}/>
             </Modal>
 
             {/* Modal: Delete */}
             <Modal
-                open={openDeleteModal}
-                onOpenChange={setOpenDeleteModal}
+                open={poli.openDeleteModal}
+                onOpenChange={poli.setOpenDeleteModal}
                 title="Hapus Poli"
                 description="Tindakan ini tidak dapat dibatalkan. Poli akan dihapus permanen."
-                onSubmit={() => deletePoli(poliValue.id)}
+                onSubmit={() => poli.bulkDeletePoli(poli.selectedIds)}
                 submitText="Hapus Poli"
                 type="danger"
-                isLoading={deleteLoading}
+                isLoading={poli.formState.isSubmitting}
             >
-                <div className="space-y-4 py-2">
-                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                        <div className="flex gap-3">
-                            <div className="shrink-0">
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
-                                    <Trash2 className="w-5 h-5 text-destructive"/>
-                                </div>
-                            </div>
-                            <div className="flex-1 space-y-1">
-                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus Poli: <span
-                                    className="font-semibold text-foreground">{poliValue?.name}</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <PoliDeleteModalContent poliValue={poli.poliValue}
+                                        poliData={poli.poliData}
+                                        selectedIds={poli.selectedIds}
+                />
             </Modal>
         </>
     )

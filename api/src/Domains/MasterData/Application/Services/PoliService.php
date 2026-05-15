@@ -20,4 +20,8 @@ class PoliService extends BaseCrudService
         return $request->only(['search']);
     }
 
+    public function bulkDelete(array $ids): void
+    {
+        $this->repository->bulkDelete(ids: $ids);
+    }
 }

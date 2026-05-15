@@ -78,4 +78,10 @@ abstract class BaseEloquentRepository
     {
         return $query;
     }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->model->newQuery()->whereIn('id', $ids)->delete();
+    }
 }

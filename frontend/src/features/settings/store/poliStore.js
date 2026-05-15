@@ -11,7 +11,12 @@ export const usePoliStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     deleteLoading: false,
-
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
 
@@ -77,16 +82,16 @@ export const usePoliStore = create((set, get) => ({
         }
     },
 
-    deletePoli: async (id) => {
-        set({deleteLoading: true});
+    bulkDeletePoli: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/poli/${id}`);
-            toast.success("Poli berhasil dihapus.");
-            set({openDeleteModal: false, deleteLoading: false});
+            await apiCall.delete("api/v1/poli/bulk", {data: {ids}});
+            set({selectedIds: []});
             await get().fetchPoli({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Poli.");
         } catch (e) {
-            set({deleteLoading: false});
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
     },
 }));
