@@ -5,7 +5,9 @@ import {Award} from "lucide-react";
 export const PoliRow = ({item, canEdit, setOpenModal}) => {
     return (
         <>
-            <TableCell>
+            <TableCell
+                className="hover:cursor-pointer"
+                onClick={() => canEdit && setOpenModal(item.id)}>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
                         <Award className="w-5 h-5 text-primary"/>
@@ -15,7 +17,9 @@ export const PoliRow = ({item, canEdit, setOpenModal}) => {
                     </div>
                 </div>
             </TableCell>
-            <TableCell>
+            <TableCell
+                className="hover:cursor-pointer"
+                onClick={() => canEdit && setOpenModal(item.id)}>
                 <span className="font-semibold text-teal-600">
                     {item.consultation_fee ? `Rp ${Number(item.consultation_fee).toLocaleString('id-ID')}` : '-'}
                 </span>

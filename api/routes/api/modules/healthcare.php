@@ -68,6 +68,7 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
 // ── Basic & Pro ──────────────────────────────────────────────────────────────
 Route::middleware(['module:Master'])->group(function () {
     Route::apiResource('departments', DepartmentController::class);
+    Route::delete('/departments/bulk', [DepartmentController::class, 'destroy']);
 
     Route::apiResource('registration-institutions', RegistrationInstitutionController::class);
     Route::delete('registration-institutions/bulk', [RegistrationInstitutionController::class, 'destroy']);

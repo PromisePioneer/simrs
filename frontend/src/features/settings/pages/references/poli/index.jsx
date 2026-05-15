@@ -1,14 +1,7 @@
-import {useForm} from "react-hook-form";
-import {useEffect} from "react";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Award, Pencil, Plus, Trash2} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {Award, Plus, Trash2} from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
-import {Label} from "@shared/components/ui/label.jsx";
-import {Input} from "@shared/components/ui/input.jsx";
-import {usePoliStore} from "@features/settings";
 import {POLI_COLUMNS} from "@features/settings/pages/constants/index.js";
 import {usePoli} from "@features/settings/pages/hooks/usePoli.js";
 import {PoliDeleteModalContent, PoliModalFormContent} from "@features/settings/pages/components/poli/modal-content.jsx";
@@ -16,8 +9,6 @@ import {PoliRow} from "@features/settings/pages/components/poli/poli-row.jsx";
 
 function PoliPage() {
     const poli = usePoli();
-
-
     return (
         <>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
@@ -39,7 +30,7 @@ function PoliPage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={poli.setOpenModal}
+                    onClick={() => poli.setOpenModal()}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Poli

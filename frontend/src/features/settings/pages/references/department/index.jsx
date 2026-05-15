@@ -11,73 +11,11 @@ import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
 import {Textarea} from "@shared/components/ui/textarea.jsx";
 import {DEPARTMENT_COLUMNS} from "@features/settings/pages/constants/index.js";
+import {useDepartment} from "@features/settings/pages/hooks/useDepartment.js";
 
 function DepartmentPage() {
-    const {
-        isLoading,
-        currentPage,
-        search,
-        departments,
-        openModal,
-        openDeleteModal,
-        departmentValue,
-        setCurrentPage,
-        setSearch,
-        setOpenModal,
-        setOpenDeleteModal,
-        fetchDepartments,
-        createDepartment,
-        updateDepartment,
-        deleteDepartment,
-        setDepartmentValue
-    } = useDepartmentStore();
 
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: {errors, isSubmitting}
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            name: "",
-            description: ""
-        }
-    });
-
-
-    useEffect(() => {
-        fetchDepartments({perPage: 20});
-    }, [fetchDepartments, search, currentPage]);
-
-    useEffect(() => {
-        if (departmentValue && !openDeleteModal) {
-            reset({
-                name: departmentValue.name || "",
-                description: departmentValue.description || ""
-            })
-        } else {
-            reset({name: "", description: ""});
-        }
-    }, [departmentValue, openDeleteModal]);
-
-    useEffect(() => {
-        if (!openModal) {
-            reset({name: "", description: ""});
-            if (setDepartmentValue) setDepartmentValue(null);
-        }
-    }, [openModal, setDepartmentValue]);
-
-    const onSubmit = async (data) => {
-        if (departmentValue) {
-            await updateDepartment(departmentValue.id, data);
-        } else {
-            await createDepartment(data);
-        }
-    };
-
+    const department = useDepartment();
 
     const renderRow = (department, index) => (
         <TableRow key={department.id} className="hover:bg-muted/50 transition-colors">

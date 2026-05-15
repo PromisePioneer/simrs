@@ -11,6 +11,12 @@ export const useDepartmentStore = create((set, get) => ({
     openDeleteModal: false,
     openRestoreModal: false,
     departmentValue: {},
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setCurrentPage: (currentPage) => {
         set({currentPage: currentPage});
     },
@@ -85,14 +91,16 @@ export const useDepartmentStore = create((set, get) => ({
             console.log(e)
         }
     },
-    deleteDepartment: async (id) => {
+    bulkDeleteDepartment: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/departments/${id}`);
-            toast.success("Data berhasil di hapus");
-            set({openDeleteModal: false});
-            await get().fetchDepartments({perPage: 20});
+            await apiCall.delete("api/v1/departments/bulk", {data: {ids}});
+            set({selectedIds: []});
+            await get().fetchPoli({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Poli.");
         } catch (e) {
-            toast.error(e.response.data.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
-    }
+    },
 }));

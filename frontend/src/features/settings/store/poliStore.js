@@ -20,8 +20,8 @@ export const usePoliStore = create((set, get) => ({
     setSearch: (search) => set({search}),
     setCurrentPage: (page) => set({currentPage: page}),
 
-    setOpenModal: async (id = null) => {
-        if (id) await get().showPoli(id);
+    setOpenModal: async (id) => {
+        if (id) get().showPoli(id);
         set({openModal: !get().openModal});
     },
     setOpenDeleteModal: async (id = null) => {
@@ -39,6 +39,7 @@ export const usePoliStore = create((set, get) => ({
             set({poliData: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
 
@@ -46,12 +47,13 @@ export const usePoliStore = create((set, get) => ({
         const res = await apiCall.get("/api/v1/poli", {
             params: {search}
         });
-        // Sesuaikan dengan struktur response API kamu
+
         const data = res.data?.data ?? res.data ?? [];
         return data.map(b => ({
             value: b.id,
             label: b.name,
         }));
+
     },
     showPoli: async (id) => {
         try {
@@ -59,6 +61,7 @@ export const usePoliStore = create((set, get) => ({
             set({poliValue: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
     createPoli: async (data) => {
@@ -69,6 +72,7 @@ export const usePoliStore = create((set, get) => ({
             await get().fetchPoli({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
     updatePoli: async (id, data) => {
@@ -79,6 +83,7 @@ export const usePoliStore = create((set, get) => ({
             await get().fetchPoli({perPage: 20});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
+            throw e;
         }
     },
 
