@@ -1,75 +1,18 @@
-import {useDepartmentStore} from "@features/settings";
-import {useForm} from "react-hook-form";
-import {useEffect} from "react";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Stethoscope, Pencil, Plus, Trash2} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {Stethoscope, Plus, Trash2} from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
-import {Label} from "@shared/components/ui/label.jsx";
-import {Input} from "@shared/components/ui/input.jsx";
-import {Textarea} from "@shared/components/ui/textarea.jsx";
 import {DEPARTMENT_COLUMNS} from "@features/settings/pages/constants/index.js";
 import {useDepartment} from "@features/settings/pages/hooks/useDepartment.js";
+import {DepartmentRows} from "@features/settings/pages/components/department/department-rows.jsx";
+import {
+    DepartmentDeleteModalContent,
+    DepartmentModalFormContent
+} from "@features/settings/pages/components/department/modal-content.jsx";
 
 function DepartmentPage() {
 
     const department = useDepartment();
-
-    const renderRow = (department, index) => (
-        <TableRow key={department.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {departments.meta?.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Stethoscope className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{department.name}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{department.description}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setOpenModal(department.id)}>
-                                        <Pencil className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Ubah Departemen</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(department.id)}>
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Hapus Departemen</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
-
 
     return (
         <>
@@ -100,89 +43,95 @@ function DepartmentPage() {
             </div>
 
 
-            <DataTable
-                title="Tabel Departemen"
-                description="Daftar department yang tersedia"
-                columns={DEPARTMENT_COLUMNS}
-                data={departments?.data || []}
-                isLoading={isLoading}
-                pagination={departments ? {
-                    from: departments.meta?.from, to: departments.meta?.to, total: departments.meta?.total,
-                    current_page: departments.meta?.current_page, last_page: departments.meta?.last_page
-                } : null}
-                onPageChange={setCurrentPage}
-                currentPage={currentPage}
-                onSearch={setSearch}
-                search={search}
-                searchPlaceholder="Cari department..."
-                emptyStateIcon={Stethoscope}
-                emptyStateText="Tidak ada data department ditemukan"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+            <div>
+                {department.canDelete && department.selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {department.selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => department.setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => department.setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
+
+                <DataTable
+                    title="Tabel Departemen"
+                    description="Daftar department yang tersedia"
+                    columns={DEPARTMENT_COLUMNS}
+                    data={department.departments?.data || []}
+                    isLoading={department.isLoading}
+                    pagination={department.departments ? {
+                        from: department.departments.meta?.from,
+                        to: department.departments.meta?.to,
+                        total: department.departments.meta?.total,
+                        current_page: department.departments.meta?.current_page,
+                        last_page: department.departments.meta?.last_page
+                    } : null}
+                    onPageChange={department.setCurrentPage}
+                    currentPage={department.currentPage}
+                    onSearch={department.setSearch}
+                    search={department.search}
+                    searchPlaceholder="Cari department..."
+                    emptyStateIcon={Stethoscope}
+                    emptyStateText="Tidak ada data department ditemukan"
+                    renderRow={(item) =>
+                        <DepartmentRows item={item} canEdit={department.canEdit}
+                                        setOpenModal={department.setOpenModal}/>
+                    }
+                    showSearch={true}
+                    selectable={department.canDelete}
+                    selectedIds={department.safeSelectedIds}
+                    onToggleOne={department.toggleOne}
+                    onToggleAll={department.toggleAll}
+                    allSelected={department.allSelected}
+                />
+            </div>
 
 
             <Modal
-                open={openModal}
-                onOpenChange={setOpenModal}
-                title={departmentValue ? "Edit Departemen" : "Tambah Departemen"}
-                description={departmentValue ? "Ubah informasi department" : "Tambahkan department baru ke sistem."}
-                onSubmit={handleSubmit(onSubmit)}
-                submitText={departmentValue ? "Simpan Perubahan" : "Tambah Departemen"}
-                isLoading={isSubmitting}
+                open={department.openModal}
+                onOpenChange={department.setOpenModal}
+                title={department.departmentValue ? "Edit Departemen" : "Tambah Departemen"}
+                description={department.departmentValue ? "Ubah informasi department" : "Tambahkan department baru ke sistem."}
+                onSubmit={department.handleSubmit(department.onSubmit)}
+                submitText={department.departmentValue ? "Simpan Perubahan" : "Tambah Departemen"}
+                isLoading={department.formState.isSubmitting}
             >
-                <div className="space-y-5 py-2">
-                    <div className="space-y-2.5">
-                        <Label htmlFor="name" className="text-sm font-semibold">Nama <span
-                            className="text-destructive">*</span></Label>
-                        <Input id="name" placeholder="Contoh: ICU"
-                               {...register("name", {required: "Nama department tidak boleh kosong"})}
-                        />
-                        {errors.name &&
-                            <p className="text-sm text-destructive">{errors.name.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="description">
-                            Deskripsi
-                            <span className="text-destructive">*</span>
-                        </Label>
-                        <Textarea id="description"
-                                  {...register("description",)}
-                        />
-                        {errors.description &&
-                            <p className="text-sm text-destructive">{errors.description.message}</p>}
-                    </div>
-                </div>
+                <DepartmentModalFormContent register={department.register}
+                                            errors={department.errors}
+                />
             </Modal>
 
 
             <Modal
-                open={openDeleteModal}
-                onOpenChange={setOpenDeleteModal}
-                title="Hapus Departemen"
-                description="Tindakan ini tidak dapat dibatalkan. Departemen akan dihapus permanen."
-                onSubmit={() => deleteDepartment(departmentValue.id)}
-                submitText="Hapus Departemen"
+                open={department.openDeleteModal}
+                onOpenChange={department.setOpenDeleteModal}
+                title="Hapus department"
+                description="Tindakan ini tidak dapat dibatalkan. department akan dihapus permanen."
+                onSubmit={() => department.bulkDeleteDepartment(department.selectedIds)}
+                submitText="Hapus department"
                 type="danger"
-                isLoading={isLoading}
+                isLoading={department.formState.isSubmitting}
             >
-                <div className="space-y-4 py-2">
-                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                        <div className="flex gap-3">
-                            <div className="shrink-0">
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
-                                    <Trash2 className="w-5 h-5 text-destructive"/>
-                                </div>
-                            </div>
-                            <div className="flex-1 space-y-1">
-                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus department: <span
-                                    className="font-semibold text-foreground">{departmentValue?.name}</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <DepartmentDeleteModalContent departmentValue={department.departmentValue}
+                                              selectedIds={department.selectedIds}
+                                              departments={department.departments}
+                />
             </Modal>
         </>
     )

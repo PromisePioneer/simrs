@@ -23,31 +23,25 @@ export const POLI_COLUMNS = [
 
 
 export const DEPARTMENT_COLUMNS = [
-    {key: 'no', label: 'No', width: '5%'},
-    {key: 'name', label: 'Nama', width: '25%'},
-    {key: 'description', label: 'Deskripsi', width: '25%'},
-    {key: 'actions', label: 'Action', width: '15%', align: 'right'},
+    {key: 'name', label: 'Nama', width: '300px'},
+    {key: 'description', label: 'Deskripsi', width: '200px'}
 ];
 
 
 export const ROOM_TYPE_COLUMNS = [
-    {key: 'no', label: 'No', width: '5%'},
-    {key: 'code', label: 'Kode', width: '10%'},
-    {key: 'name', label: 'Nama', width: '15%'},
-    {key: 'capacity', label: 'Kapasitas', width: '10%'},
-    {key: 'rate_per_night', label: 'Tarif/Malam', width: '15%'},
-    {key: 'actions', label: 'Aksi', width: '10%', align: 'right'},
+    {key: 'code', label: 'Kode', width: '300px'},
+    {key: 'name', label: 'Nama', width: '200px'},
+    {key: 'capacity', label: 'Kapasitas', width: '200px'},
+    {key: 'rate_per_night', label: 'Tarif/Malam', width: '200px'},
 ];
 
 export const DISEASE_COLUMNS = [
-    {key: 'no', label: 'No', width: '5%'},
-    {key: 'code', label: 'Kode', width: '10%'},
-    {key: 'name', label: 'Nama', width: '10%'},
-    {key: 'symptoms', label: 'Gejala', width: '15%'},
-    {key: 'description', label: 'Deskripsi', width: '10%'},
-    {key: 'status', label: 'Status', width: '10%'},
+    {key: 'code', label: 'Kode', width: '300px'},
+    {key: 'name', label: 'Nama', width: '200px'},
+    {key: 'symptoms', label: 'Gejala', width: '200px'},
+    {key: 'description', label: 'Deskripsi', width: '200px'},
+    {key: 'status', label: 'Status', width: '200px'},
     {key: 'valid_code', label: 'Valid', width: '15%'},
-    {key: 'actions', label: 'Aksi', width: '10%', align: 'right'},
 ];
 
 
@@ -58,3 +52,4 @@ export const DISEASE_STATUS_BADGE = {
         className: "bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
     },
 };
+

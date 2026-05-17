@@ -1,34 +1,38 @@
 import {Label} from "@shared/components/ui/label.jsx";
 import {Input} from "@shared/components/ui/input.jsx";
+import {Textarea} from "@shared/components/ui/textarea.jsx";
 import {Trash2} from "lucide-react";
 
 
-export const PoliModalFormContent = ({register, errors}) => {
+export const DepartmentModalFormContent = ({register, errors}) => {
     return (
         <div className="space-y-5 py-2">
             <div className="space-y-2.5">
                 <Label htmlFor="name" className="text-sm font-semibold">Nama <span
                     className="text-destructive">*</span></Label>
-                <Input id="name" placeholder="Contoh: Umum, Gigi, Jantung, Kandungan"
-                       {...register("name", {required: "Nama Poli tidak boleh kosong"})}
+                <Input id="name" placeholder="Contoh: ICU"
+                       {...register("name", {required: "Nama department tidak boleh kosong"})}
                 />
                 {errors.name &&
                     <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
-            <div className="space-y-2.5">
-                <Label htmlFor="consultation_fee" className="text-sm font-semibold">Tarif Konsultasi
-                    (Rp)</Label>
-                <Input id="consultation_fee" type="number" min="0" step="1000"
-                       placeholder="Contoh: 150000"
-                       {...register("consultation_fee")}
+            <div className="space-y-2">
+                <Label htmlFor="description">
+                    Deskripsi
+                    <span className="text-destructive">*</span>
+                </Label>
+                <Textarea id="description"
+                          {...register("description",)}
                 />
+                {errors.description &&
+                    <p className="text-sm text-destructive">{errors.description.message}</p>}
             </div>
         </div>
-    );
+    )
 }
 
 
-export const PoliDeleteModalContent = ({poliValue, selectedIds, poliData}) => {
+export const DepartmentDeleteModalContent = ({departmentValue, selectedIds, departments}) => {
     return (
         <div className="space-y-4 py-2">
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
@@ -43,19 +47,19 @@ export const PoliDeleteModalContent = ({poliValue, selectedIds, poliData}) => {
                         <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
 
                         {/* Jika hapus satu item */}
-                        {poliValue && selectedIds.length <= 1 ? (
+                        {departmentValue && selectedIds.length <= 1 ? (
                             <p className="text-sm text-muted-foreground">
-                                Anda akan menghapus poli: <span
-                                className="font-semibold text-foreground">{poliValue?.name}</span>
+                                Anda akan menghapus Departemen: <span
+                                className="font-semibold text-foreground">{departmentValue?.name}</span>
                             </p>
                         ) : (
                             /* Jika hapus banyak item */
                             <div className="text-sm text-muted-foreground space-y-1">
                                 <p>Anda akan menghapus <span
-                                    className="font-semibold text-foreground">{selectedIds.length} poli</span>:
+                                    className="font-semibold text-foreground">{selectedIds.length} Departemen</span>:
                                 </p>
                                 <ul className="mt-2 space-y-1 max-h-40 overflow-y-auto">
-                                    {poliData?.data
+                                    {departments?.data
                                         ?.filter(d => selectedIds.includes(d.id))
                                         .map(d => (
                                             <li key={d.id} className="flex items-center gap-2">

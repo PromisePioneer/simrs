@@ -95,9 +95,9 @@ export const useDepartmentStore = create((set, get) => ({
         try {
             await apiCall.delete("api/v1/departments/bulk", {data: {ids}});
             set({selectedIds: []});
-            await get().fetchPoli({perPage: 20});
+            await get().fetchDepartments({perPage: 20});
             get().setOpenDeleteModal();
-            toast.success("Berhasil menghapus Poli.");
+            toast.success("Berhasil menghapus Departemen.");
         } catch (e) {
             toast.error(e.response?.data?.message || 'Operasi Gagal');
             throw e;

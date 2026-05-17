@@ -1,10 +1,16 @@
 import {useDepartmentStore} from "@features/settings/index.js";
 import {useForm} from "react-hook-form";
 import {useEffect} from "react";
+import {PERMISSIONS} from "@shared/constants/index.js";
+import {usePermission} from "@shared/hooks/index.js";
 
 
 export const useDepartment = () => {
     const store = useDepartmentStore();
+
+    const allIds = store.departments?.data?.map((a) => a.id) ?? [];
+    const allSelected = allIds.length > 0 && allIds.every((id) => store.selectedIds.includes(id));
+    const {hasPermission} = usePermission();
 
 
     const {
@@ -53,5 +59,18 @@ export const useDepartment = () => {
     };
 
 
-    return {}
+    return {
+        ...store,
+        allSelected,
+        register, handleSubmit, formState,
+        safeSelectedIds: Array.isArray(store.selectedIds) ? store.selectedIds : [],
+        canCreate: hasPermission(PERMISSIONS.DEPARTMENT.CREATE),
+        canEdit: hasPermission(PERMISSIONS.DEPARTMENT.EDIT),
+        canDelete: hasPermission(PERMISSIONS.DEPARTMENT.DELETE),
+        toggleAll: () => store.setSelectedIds(allSelected ? [] : allIds),
+        toggleOne: (id) => store.setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+        ),
+        onSubmit
+    }
 }
