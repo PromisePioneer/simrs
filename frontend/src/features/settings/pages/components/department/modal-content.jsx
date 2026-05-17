@@ -22,7 +22,7 @@ export const DepartmentModalFormContent = ({register, errors}) => {
                     <span className="text-destructive">*</span>
                 </Label>
                 <Textarea id="description"
-                          {...register("description",)}
+                          {...register("description")}
                 />
                 {errors.description &&
                     <p className="text-sm text-destructive">{errors.description.message}</p>}

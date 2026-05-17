@@ -24,6 +24,7 @@ class DepartmentController extends BaseCrudController
 
     public function store(DepartmentRequest $request): JsonResponse
     {
+
         $this->authorize('create', $this->policyClass);
         $result = $this->service->store($request->validated());
         return response()->json(new DepartmentResource($result), 201);
@@ -32,7 +33,7 @@ class DepartmentController extends BaseCrudController
     public function update(DepartmentRequest $request, string $id): JsonResponse
     {
         $this->authorize('update', $this->policyClass);
-        $result = $this->service->update($request->validated(), $id);
+        $result = $this->service->update( $id, $request->validated());
         return response()->json(new DepartmentResource($result));
     }
 }

@@ -35,7 +35,7 @@ function DepartmentPage() {
                 </div>
                 <Button
                     className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                    onClick={() => setOpenModal()}
+                    onClick={() => department.setOpenModal()}
                     size="lg"
                 >
                     <Plus className="w-4 h-4"/> Tambah Departemen
@@ -113,7 +113,7 @@ function DepartmentPage() {
                 isLoading={department.formState.isSubmitting}
             >
                 <DepartmentModalFormContent register={department.register}
-                                            errors={department.errors}
+                                            errors={department.formState.errors}
                 />
             </Modal>
 

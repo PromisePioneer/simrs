@@ -52,7 +52,7 @@ export const useDepartment = () => {
 
     const onSubmit = async (data) => {
         if (store.departmentValue) {
-            await store.updateDepartment(store.departmentValue.id, data);
+            await store.updateDepartment(data,store.departmentValue.id);
         } else {
             await store.createDepartment(data);
         }
