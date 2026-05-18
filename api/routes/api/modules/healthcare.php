@@ -63,6 +63,7 @@ Route::middleware(['module:Rawat Jalan'])->group(function () {
     });
 
     Route::apiResource('diseases', DiseaseController::class);
+    Route::delete('diseases/bulk', [DiseaseController::class, 'destroy']);
 });
 
 // ── Basic & Pro ──────────────────────────────────────────────────────────────

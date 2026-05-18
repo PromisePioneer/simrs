@@ -53,3 +53,16 @@ export const DISEASE_STATUS_BADGE = {
     },
 };
 
+
+export const DISEASE_DEFAULT_VALUES = {
+    code: "",
+    name: "",
+    symptoms: "",
+    description: "",
+    status: "not_contagious",
+    valid_code: "1",
+    accpdx: "Y",
+    asterisk: "0",
+    im: "0",
+};
+

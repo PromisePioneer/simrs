@@ -11,6 +11,12 @@ export const useDiseaseStore = create((set, get) => ({
     openDeleteModal: false,
     openRestoreModal: false,
     diseaseValue: null,
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setCurrentPage: (currentPage) => {
         set({currentPage: currentPage});
     },
@@ -86,14 +92,16 @@ export const useDiseaseStore = create((set, get) => ({
             console.log(e)
         }
     },
-    deleteDisease: async (id) => {
+    bulkDeleteDisease: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/diseases/${id}`);
-            toast.success("Data berhasil di hapus");
-            set({openDeleteModal: false});
+            await apiCall.delete("api/v1/diseases/bulk", {data: {ids}});
+            set({selectedIds: []});
             await get().fetchDiseases({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Penyakit.");
         } catch (e) {
-            toast.error(e.response.data.msessage || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
-    }
+    },
 }));
