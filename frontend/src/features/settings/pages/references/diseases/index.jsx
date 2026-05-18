@@ -32,7 +32,7 @@ function DiseasePage() {
                     </div>
                 </div>
                 <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        onClick={() => setOpenModal()} size="lg">
+                        onClick={() => disease.setOpenModal()} size="lg">
                     <Plus className="w-4 h-4"/> Tambah Penyakit
                 </Button>
             </div>
@@ -67,7 +67,7 @@ function DiseasePage() {
                     description="Daftar penyakit yang tersedia"
                     columns={DISEASE_COLUMNS}
                     data={disease.diseases?.data || []}
-                    isLoading={isLoading}
+                    isLoading={disease.isLoading}
                     pagination={disease.diseases ? {
                         from: disease.diseases.meta?.from,
                         to: disease.diseases.meta?.to,

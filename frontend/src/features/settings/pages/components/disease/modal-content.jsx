@@ -3,6 +3,7 @@ import {Input} from "@shared/components/ui/input.jsx";
 import {Controller} from "react-hook-form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@shared/components/ui/select.jsx";
 import {Trash2} from "lucide-react";
+import {Textarea} from "@shared/components/ui/textarea.jsx";
 
 export const DiseaseModalFormContent = ({register, control, errors}) => {
     return (
