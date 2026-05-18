@@ -3,7 +3,7 @@ import {usePatientStore} from "@features/patients";
 import {
     UserRoundCog,
     Plus,
-    Activity,
+    Activity, Trash2,
 } from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import {useEffect} from "react";
@@ -11,30 +11,13 @@ import DataTable from "@shared/components/common/data-table.jsx";
 import {Link} from "@tanstack/react-router";
 import {PatientRow} from "@features/patients/pages/components/patient-row.jsx";
 import {PATIENT_COLUMNS} from "@features/patients/constants/index.js";
+import {usePatient} from "@features/patients/hooks/usePatient.js";
+import Modal from "@shared/components/common/modal.jsx";
+import {PoliDeleteModalContent} from "@features/settings/pages/components/poli/modal-content.jsx";
+import {PatientDeleteModalContent} from "@features/patients/components/modal-content.jsx";
 
 function PatientPage() {
-
-    const {
-        isLoading,
-        fetchPatients,
-        patients,
-        currentPage,
-        setCurrentPage,
-        setOpenModal,
-        search,
-        setSearch,
-    } = usePatientStore();
-
-    useEffect(() => {
-        fetchPatients({perPage: 20});
-    }, [currentPage, search]);
-
-    const renderRow = (patient, index) => {
-        return (
-            <PatientRow key={patient.id} patients={patients} patient={patient} index={index}/>
-        );
-    };
-
+    const patient = usePatient();
     return (
         <>
             <SettingPage>
@@ -71,30 +54,80 @@ function PatientPage() {
 
                 {/* Data Table */}
                 <div className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    {patient.canDelete && patient.selectedIds.length > 0 && (
+                        <div
+                            className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {patient.selectedIds.length} Pasien dipilih
+                            </span>
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                className="ml-auto gap-2"
+                                onClick={() => patient.setOpenDeleteModal()}
+                            >
+                                <Trash2 className="h-4 w-4"/>
+                                Hapus yang Dipilih
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => patient.setSelectedIds([])}
+                            >
+                                Batal
+                            </Button>
+                        </div>
+                    )}
                     <DataTable
                         title="Data Pasien"
                         description="Kelola dan atur data pasien"
                         columns={PATIENT_COLUMNS}
-                        data={patients?.data || []}
-                        isLoading={isLoading}
-                        pagination={patients ? {
-                            from: patients.meta?.from,
-                            to: patients.meta?.to,
-                            total: patients.meta?.total,
-                            current_page: patients.meta?.current_page,
-                            last_page: patients.meta?.last_page
+                        data={patient.patients?.data || []}
+                        isLoading={patient.isLoading}
+                        pagination={patient.patients ? {
+                            from: patient.patients.meta?.from,
+                            to: patient.patients.meta?.to,
+                            total: patient.patients.meta?.total,
+                            current_page: patient.patients.meta?.current_page,
+                            last_page: patient.patients.meta?.last_page
                         } : null}
-                        onPageChange={setCurrentPage}
-                        currentPage={currentPage}
-                        onSearch={setSearch}
-                        search={search}
+                        onPageChange={patient.setCurrentPage}
+                        currentPage={patient.currentPage}
+                        onSearch={patient.setSearch}
+                        search={patient.search}
                         searchPlaceholder="Cari nama pasien, nomor rekam medis..."
                         emptyStateIcon={UserRoundCog}
                         emptyStateText="Belum ada data pasien"
-                        renderRow={renderRow}
+                        renderRow={(item) =>
+                            <PatientRow key={item.id} item={item} canEdit={patient.canEdit}/>
+                        }
                         showSearch={true}
+                        selectable={patient.canDelete}
+                        selectedIds={patient.safeSelectedIds}
+                        onToggleOne={patient.toggleOne}
+                        onToggleAll={patient.toggleAll}
+                        allSelected={patient.allSelected}
                     />
                 </div>
+
+
+                <Modal
+                    open={patient.openDeleteModal}
+                    onOpenChange={patient.setOpenDeleteModal}
+                    title="Hapus Poli"
+                    description="Tindakan ini tidak dapat dibatalkan. Poli akan dihapus permanen."
+                    onSubmit={() => patient.bulkDeletePatient(patient.selectedIds)}
+                    submitText="Hapus Poli"
+                    type="danger"
+                    isLoading={patient.isLoading}
+                >
+
+                    <PatientDeleteModalContent patientValue={patient.patientValue}
+                                               selectedIds={patient.selectedIds}
+                                               patients={patient.patients}
+                    />
+
+                </Modal>
             </SettingPage>
         </>
     );
