@@ -12,6 +12,12 @@ export const useRoomTypeStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
     deleteLoading: false,
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setSearch: (search) => {
         set({search});
     },
@@ -83,16 +89,16 @@ export const useRoomTypeStore = create((set, get) => ({
             toast.error(e?.response?.data?.message || "Operasi Gagal");
         }
     },
-    deleteRoomType: async (id) => {
+    bulkDeleteRoomType: async (ids) => {
         try {
-            set({deleteLoading: true});
-            await apiCall.delete(`/api/v1/room-types/${id}`);
-            toast.success("Berhasil menghapus data.");
-            set({openDeleteModal: false, deleteLoading: false});
+            await apiCall.delete("api/v1/room-types/bulk", {data: {ids}});
+            set({selectedIds: []});
             await get().fetchRoomTypes({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Tipe Ruangan.");
         } catch (e) {
-            set({deleteLoading: false});
-            toast.error(e?.response?.data?.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
     },
 }));

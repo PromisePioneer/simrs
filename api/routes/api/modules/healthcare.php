@@ -84,7 +84,10 @@ Route::middleware(['module:Master'])->group(function () {
     Route::delete('degrees/bulk', [DegreeController::class, 'destroy']);
 
     Route::apiResource('professions', ProfessionController::class);
+
+
     Route::apiResource('room-types', RoomTypeController::class);
+    Route::delete('room-types/bulk', [RoomTypeController::class, 'destroy']);
 
     Route::prefix('specializations')->group(function () {
         Route::get('/', [SpecializationController::class, 'index']);
