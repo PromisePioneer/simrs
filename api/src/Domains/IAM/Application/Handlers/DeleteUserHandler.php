@@ -4,22 +4,17 @@ declare(strict_types=1);
 
 namespace Domains\IAM\Application\Handlers;
 
-use Domains\IAM\Application\Commands\DeleteUserCommand;
-use Domains\IAM\Domain\Exceptions\UserNotFoundException;
+use Domains\IAM\Commands\DeleteUserCommand;
 use Domains\IAM\Domain\Repository\UserRepositoryInterface;
 
-final class DeleteUserHandler
+final readonly class DeleteUserHandler
 {
     public function __construct(
-        private readonly UserRepositoryInterface $repository,
+        private UserRepositoryInterface $repository,
     ) {}
 
-    /**
-     * @throws UserNotFoundException
-     */
     public function handle(DeleteUserCommand $command): void
     {
-        $this->repository->findById($command->userId);
-        $this->repository->delete($command->userId);
+        $this->repository->bulkDelete($command->userIds);
     }
 }

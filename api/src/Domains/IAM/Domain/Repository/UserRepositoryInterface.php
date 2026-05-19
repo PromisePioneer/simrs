@@ -13,7 +13,12 @@ interface UserRepositoryInterface
 
     public function update(User $user): void;
 
-    public function delete(string $id): void;
+    /**
+     * Hapus banyak user sekaligus berdasarkan array of ID.
+     *
+     * @param string[] $ids
+     */
+    public function bulkDelete(array $ids): void;
 
     /**
      * @throws UserNotFoundException

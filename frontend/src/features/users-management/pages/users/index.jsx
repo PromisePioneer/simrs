@@ -1,146 +1,16 @@
 import ContentHeader from "@shared/components/ui/content-header.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
-import {Pencil, Plus, Shield, Trash2, Phone, MapPin, MailCheck, MailWarning} from "lucide-react";
+import {Plus, Shield, Trash2} from "lucide-react";
 import DataTable from "@shared/components/common/data-table.jsx";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Badge} from "@shared/components/ui/badge.jsx";
-import {USER_COLUMNS, useUserStore} from "@features/users-management";
-import {useEffect} from "react";
-import {Avatar, AvatarImage, AvatarFallback} from "@shared/components/ui/avatar.jsx";
+import {USER_COLUMNS} from "@features/users-management";
 import {Link} from "@tanstack/react-router";
-import {getInitials} from "@shared/hooks";
 import Modal from "@shared/components/common/modal.jsx";
-import {asset} from "@shared/services/apiCall.js";
+import {useUserIndex} from "@features/users-management/hooks/user/useUserIndex.js";
+import {UserRow} from "@features/users-management/components/users/user-row.jsx";
+import {UserDeleteModalContent} from "@features/users-management/components/users/modal-content.jsx";
 
 function UserPage() {
-    const {
-        fetchUsers,
-        isLoading,
-        userData,
-        search,
-        columns,
-        currentPage,
-        setCurrentPage,
-        openDeleteModal,
-        setOpenDeleteModal,
-        userValue,
-        deleteUser,
-        openDeleteModalLoading,
-        setSearch
-    } = useUserStore();
-
-
-    useEffect(() => {
-        fetchUsers({perPage: 20});
-    }, [search, currentPage]);
-
-    const getRoleBadgeVariant = (roleName) => {
-        const role = roleName?.toLowerCase();
-        if (role?.includes('super admin')) return 'destructive';
-        if (role?.includes('owner')) return 'default';
-        return 'outline';
-    };
-
-    const renderRow = (user, index) => (
-        <TableRow key={user.id} className="group hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {Number(userData.meta?.from) + Number(index)}
-            </TableCell>
-
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <Avatar className="h-11 w-11 ring-2 ring-background shadow-md">
-                        {user.profile_picture ? (
-                            <AvatarImage
-                                src={asset(user.profile_picture)}
-                                alt={user.name}
-                                className="object-cover"
-                            />
-                        ) : (
-                            <AvatarFallback className="bg-teal-600 text-white font-semibold">
-                                {getInitials(user.name)}
-                            </AvatarFallback>
-                        )}
-                    </Avatar>
-                    <div className="flex flex-col gap-1">
-                        <Link
-                            to="/settings/users-management/users/$id/detail"
-                            params={{id: user.id}}
-                            className="text-sm font-semibold hover:text-primary transition-colors flex items-center gap-1.5"
-                        >
-                            {user.name}
-                        </Link>
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            {user.email_verified_at
-                                ? <MailCheck className="w-4 h-4 text-teal-600"/>
-                                : <MailWarning className="w-4 h-4 text-amber-400"/>}
-                            <span className="font-mono">{user.email}</span>
-                        </div>
-                    </div>
-                </div>
-            </TableCell>
-
-            <TableCell>
-                <Badge
-                    variant={getRoleBadgeVariant(user.roles[0]?.name)}
-                    className="font-medium"
-                >
-                    {user.roles[0]?.name || 'No Role'}
-                </Badge>
-            </TableCell>
-
-            <TableCell>
-                {user.phone ? (
-                    <div className="flex items-center gap-2 text-sm">
-                        <Phone className="h-3.5 w-3.5 text-muted-foreground"/>
-                        <span className="font-medium">{user.phone}</span>
-                    </div>
-                ) : (
-                    <Badge variant="outline" className="text-xs gap-1">
-                        <Phone className="h-3 w-3"/>
-                        Not set
-                    </Badge>
-                )}
-            </TableCell>
-
-            <TableCell>
-                {user.address ? (
-                    <div className="flex items-start gap-2 text-sm max-w-[250px]">
-                        <MapPin className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0"/>
-                        <span className="line-clamp-2 text-muted-foreground">{user.address}</span>
-                    </div>
-                ) : (
-                    <Badge variant="outline" className="text-xs gap-1">
-                        <MapPin className="h-3 w-3"/>
-                        Not set
-                    </Badge>
-                )}
-            </TableCell>
-
-            <TableCell className="text-right">
-                <div className="flex justify-end gap-1 ">
-                    <Button asChild
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                    >
-                        <Link to={`/settings/users-management/users/${user.id}`}>
-                            <Pencil className="h-4 w-4"/>
-                        </Link>
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
-                        onClick={() => setOpenDeleteModal(user.id)}
-                    >
-                        <Trash2 className="h-4 w-4"/>
-                    </Button>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
-
+    const user = useUserIndex();
     return (
         <div className="space-y-6 p-6">
             {/* Header Section */}
@@ -157,58 +27,80 @@ function UserPage() {
                 </Link>
             </div>
 
-            <DataTable
-                title="User"
-                description="Daftar lengkap semua pengguna"
-                columns={USER_COLUMNS}
-                data={userData.data}
-                isLoading={isLoading}
-                pagination={userData ? {
-                    from: userData.meta?.from,
-                    to: userData.meta?.to,
-                    total: userData.meta?.total,
-                    current_page: userData.meta?.current_page,
-                    last_page: userData.meta?.last_page
-                } : null}
-                onPageChange={setCurrentPage}
-                currentPage={currentPage}
-                onSearch={setSearch}
-                searchPlaceholder="Search users by name or email..."
-                emptyStateIcon={Shield}
-                emptyStateText="No users found"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+
+            <div>
+                {user.canDelete && user.selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {user.selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => user.setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => user.setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
+                <DataTable
+                    title="User"
+                    description="Daftar lengkap semua pengguna"
+                    columns={USER_COLUMNS}
+                    data={user.userData.data}
+                    isLoading={user.isLoading}
+                    pagination={user.userData ? {
+                        from: user.userData.meta?.from,
+                        to: user.userData.meta?.to,
+                        total: user.userData.meta?.total,
+                        current_page: user.userData.meta?.current_page,
+                        last_page: user.userData.meta?.last_page
+                    } : null}
+                    onPageChange={user.setCurrentPage}
+                    currentPage={user.currentPage}
+                    onSearch={user.setSearch}
+                    searchPlaceholder="Search users by name or email..."
+                    emptyStateIcon={Shield}
+                    emptyStateText="No users found"
+                    renderRow={(item) =>
+                        <UserRow item={item}
+                                 canEdit={user.canEdit}
+                                 getRoleBadgeVariant={user.getRoleBadgeVariant}/>
+                    }
+                    showSearch={true}
+                    selectable={user.canDelete}
+                    selectedIds={user.safeSelectedIds}
+                    onToggleOne={user.toggleOne}
+                    onToggleAll={user.toggleAll}
+                    allSelected={user.allSelected}
+                />
+            </div>
 
             {/* Delete Modal */}
             <Modal
-                open={openDeleteModal}
-                onOpenChange={setOpenDeleteModal}
-                title="Delete User"
-                description="Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus akun pengguna secara permanen."
-                onSubmit={deleteUser}
-                submitText="Delete"
-                isLoading={openDeleteModalLoading}
+                open={user.openDeleteModal}
+                onOpenChange={user.setOpenDeleteModal}
+                title="Hapus User"
+                description="Tindakan ini tidak dapat dibatalkan. User akan dihapus permanen."
+                onSubmit={() => user.bulkDeleteUser(user.selectedIds)}
+                submitText="Hapus User"
                 type="danger"
+                isLoading={user.isLoading}
             >
-                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                        <div className="p-2 bg-destructive/20 rounded-full">
-                            <Trash2 className="h-5 w-5 text-destructive"/>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium mb-1">
-                                Anda akan menghapus:
-                            </p>
-                            <p className="text-sm font-semibold text-destructive">
-                                {userValue?.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-2">
-                                {userValue?.email}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <UserDeleteModalContent userValue={user.userValue}
+                                        selectedIds={user.selectedIds}
+                                        userData={user.userData}
+                />
             </Modal>
         </div>
     );

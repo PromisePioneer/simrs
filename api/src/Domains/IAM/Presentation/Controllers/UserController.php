@@ -7,7 +7,7 @@ namespace Domains\IAM\Presentation\Controllers;
 use App\Models\User as EloquentUser;
 use App\Services\Tenant\TenantContext;
 use App\Traits\ApiResponse;
-use Domains\IAM\Application\Commands\DeleteUserCommand;
+use Domains\IAM\Commands\DeleteUserCommand;
 use Domains\IAM\Application\Commands\UpdateUserCommand;
 use Domains\IAM\Application\DTO\UpdateUserDTO;
 use Domains\IAM\Application\Handlers\CreateUserHandler;
@@ -20,6 +20,7 @@ use Domains\IAM\Domain\Exceptions\UserLimitExceededException;
 use Domains\IAM\Domain\Exceptions\UserNotFoundException;
 use Domains\IAM\DTO\CreateUserDTO;
 use Domains\IAM\Infrastructure\Services\UserFileUploadService;
+use Domains\IAM\Presentation\Requests\BulkDeleteUserRequest;
 use Domains\IAM\Presentation\Requests\CreateUserRequest;
 use Domains\IAM\Presentation\Requests\UpdateUserRequest;
 use Domains\IAM\Presentation\Resources\UserResource;
@@ -190,19 +191,17 @@ class UserController extends Controller
         }
     }
 
-    // ── DELETE /users/{user} ──────────────────────────────────────────────────
+    // ── DELETE /users (bulk) ──────────────────────────────────────────────────
 
-    public function destroy(EloquentUser $user): JsonResponse
+    public function bulkDestroy(BulkDeleteUserRequest $request): JsonResponse
     {
-        $this->authorize('delete', $user);
+        $this->authorize('delete', EloquentUser::class);
 
-        try {
-            $this->deleteHandler->handle(new DeleteUserCommand($user->id));
-            return $this->successResponse(null, 'User berhasil dihapus.');
+        $ids = $request->validated('ids');
 
-        } catch (UserNotFoundException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        $this->deleteHandler->handle(new DeleteUserCommand($ids));
+
+        return $this->successResponse(null, count($ids) . ' user berhasil dihapus.');
     }
 
     // ── GET /users/me ─────────────────────────────────────────────────────────

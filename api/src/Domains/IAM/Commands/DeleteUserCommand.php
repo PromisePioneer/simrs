@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Domains\IAM\Application\Commands;
+namespace Domains\IAM\Commands;
 
 final class DeleteUserCommand
 {
+    /**
+     * @param string[] $userIds
+     */
     public function __construct(
-        public readonly string $userId,
+        public readonly array $userIds,
     ) {}
 }

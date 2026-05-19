@@ -82,9 +82,14 @@ final class EloquentUserRepository implements UserRepositoryInterface
         });
     }
 
-    public function delete(string $id): void
+    /**
+     * Hapus banyak user sekaligus dalam satu query.
+     *
+     * @param string[] $ids
+     */
+    public function bulkDelete(array $ids): void
     {
-        EloquentUser::findOrFail($id)->delete();
+        EloquentUser::whereIn('id', $ids)->delete();
     }
 
     public function findById(string $id): User

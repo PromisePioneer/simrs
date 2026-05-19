@@ -29,7 +29,14 @@ Route::middleware(['module:Setting'])->group(function () {
         Route::get('/tenant/{tenant}', [RoleController::class, 'getByTenant']);
     });
 
-    Route::apiResource('users', UserController::class);
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::post('/', [UserController::class, 'store']);
+        Route::get('me', [UserController::class, 'me']);
+        Route::get('{user}', [UserController::class, 'show']);
+        Route::put('{user}', [UserController::class, 'update']);
+        Route::delete('bulk', [UserController::class, 'bulkDestroy']);
+    });
 
     Route::prefix('modules')->group(function () {
         Route::get('/data', [ModuleController::class, 'data']);
