@@ -10,4 +10,5 @@ export const ROLE_COLUMNS = [
     {key: "name", label: "Nama", width: "300px"},
     {key: "type", label: "Tipe", width: "200px"},
     {key: "created_at", label: "Tgl. Dibuat", width: "200px"},
+    {key: "action", label: "Action", width: "200px"},
 ];

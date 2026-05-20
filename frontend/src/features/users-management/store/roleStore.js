@@ -16,7 +16,12 @@ export const useRoleStore = create((set, get) => ({
     selectedPermissions: [],
     permissionSearch: "",
     rolesByTenantId: [],
-
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setPermissionSearch: (search) => set({permissionSearch: search}),
     setCurrentPage: (page) => set({currentPage: page}),
     setSearch: (search) => set({search}),
@@ -35,17 +40,17 @@ export const useRoleStore = create((set, get) => ({
         }
         set({openPermissionModal: !get().openPermissionModal});
     },
-
     setOpenModal: async (id = null) => {
-        if (id) await get().showRole(id);
+        if (id) {
+            await get().showRole(id);
+        } else {
+            set({roleValue: null}); // ← reset roleValue saat tambah baru
+        }
         set({openModal: !get().openModal});
     },
-
-    setOpenDeleteModal: async (id) => {
-        await get().showRole(id);
+    setOpenDeleteModal: async () => {
         set({openDeleteModal: !get().openDeleteModal});
     },
-
     fetchRoles: async ({perPage = null} = {}) => {
         set({isLoading: true});
         try {

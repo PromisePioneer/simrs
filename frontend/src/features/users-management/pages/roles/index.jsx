@@ -1,10 +1,5 @@
-import {ROLE_COLUMNS, useRoleStore} from "@features/users-management";
-import {useForm} from "react-hook-form";
-import {useEffect, useMemo} from "react";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Lock, Pencil, Plus, Settings, Shield, Trash2} from "lucide-react";
-import {Badge} from "@shared/components/ui/badge.jsx";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {ROLE_COLUMNS} from "@features/users-management";
+import {Plus, Shield, Trash2} from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
@@ -13,204 +8,12 @@ import {Input} from "@shared/components/ui/input.jsx";
 import {ScrollArea} from "@shared/components/ui/scroll-area.jsx";
 import {Checkbox} from "@shared/components/ui/checkbox.jsx";
 import ContentHeader from "@shared/components/ui/content-header.jsx";
-import {Link} from "@tanstack/react-router";
+import {useRole} from "@features/users-management/hooks/useRole.js";
+import {RoleRow} from "@features/users-management/components/roles/role-row.jsx";
+import {RoleModalFormContent} from "@features/users-management/components/roles/modal-content.jsx";
 
 function RolePage() {
-    const {
-        fetchRoles,
-        fetchPermissions,
-        roleData,
-        permissionsData,
-        isLoading,
-        search,
-        roleValue,
-        setOpenDeleteModal,
-        setOpenModal,
-        openModal,
-        openDeleteModal,
-        createRole,
-        updateRole,
-        currentPage,
-        setCurrentPage,
-        openPermissionModal,
-        setOpenPermissionModal,
-        assignPermissions,
-        selectedPermissions,
-        setSelectedPermissions,
-        setSearch,
-        permissionSearch,
-        setPermissionSearch,
-        deleteRole,
-    } = useRoleStore();
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: {errors, isSubmitting}
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            name: ""
-        }
-    });
-
-    useEffect(() => {
-        if (roleValue) {
-            reset({
-                name: roleValue.name || ""
-            });
-        } else {
-            reset({
-                name: ""
-            });
-        }
-    }, [roleValue, reset]);
-
-    useEffect(() => {
-        if (openPermissionModal && roleValue?.permissions) {
-            const currentPermissions = roleValue.permissions.map(p => p.uuid);
-            setSelectedPermissions(currentPermissions);
-        }
-    }, [roleValue, openPermissionModal, setSelectedPermissions]);
-
-    useEffect(() => {
-        fetchRoles({perPage: 20});
-        fetchPermissions();
-    }, [currentPage, search, fetchRoles, fetchPermissions]);
-
-    const filteredPermissions = useMemo(() => {
-        if (!permissionsData) return [];
-        return permissionsData.data.filter(permission =>
-            permission.name.toLowerCase().includes(permissionSearch.toLowerCase())
-        );
-    }, [permissionsData, permissionSearch]);
-
-    const onSubmit = async (data) => {
-        if (!roleValue) {
-            await createRole(data);
-        } else {
-            await updateRole(data);
-        }
-    };
-
-    const renderRow = (role, index) => {
-        const isGlobalRole = role.tenant_id === null;
-        const canModify = !isGlobalRole;
-        return (
-            <TableRow key={role.uuid} className="hover:bg-muted/50 transition-colors">
-                <TableCell className="font-medium text-muted-foreground">
-                    {Number(roleData.meta?.from) + Number(index)}
-                </TableCell>
-                <TableCell>
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                            <Shield className="w-5 h-5 text-primary"/>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-foreground">
-                                {role.name}
-                            </span>
-                            {isGlobalRole && (
-                                <span className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                                    <Lock className="w-3 h-3"/>
-                                    System Role
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                </TableCell>
-                <TableCell>
-                    <Badge
-                        variant={isGlobalRole ? 'destructive' : 'default'}
-                        className="font-medium"
-                    >
-                        {isGlobalRole ? 'Global' : 'Tenant'}
-                    </Badge>
-                </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                    {new Date(role.created_at).toLocaleDateString('id-ID', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    })}
-                </TableCell>
-                <TableCell className="text-right">
-                    <div className="flex justify-end gap-1">
-                        <TooltipProvider>
-                            {canModify && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                                            onClick={() => setOpenPermissionModal(role.uuid)}
-                                        >
-                                            <Settings className="h-4 w-4"/>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Assign Permissions</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-
-                            {canModify && (
-                                <>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                                onClick={() => setOpenModal(role.uuid)}
-                                            >
-                                                <Pencil className="h-4 w-4"/>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Edit Role</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                                onClick={() => setOpenDeleteModal(role.uuid)}
-                                            >
-                                                <Trash2 className="h-4 w-4"/>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Delete Role</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </>
-                            )}
-
-                            {!canModify && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <div className="flex items-center justify-center h-9 px-3">
-                                            <Lock className="h-4 w-4 text-muted-foreground"/>
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Peran sistem tidak dapat dimodifikasi</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                        </TooltipProvider>
-                    </div>
-                </TableCell>
-            </TableRow>
-        );
-    };
+    const role = useRole();
 
     return (
         <div className="space-y-6 p-6">
@@ -220,47 +23,103 @@ function RolePage() {
                     title="Peran Pengguna"
                     description="Manajemen Peran Pengguna Kelola dan atur anggota tim Anda"
                 />
-                <Link to="/master/user/create">
-                    <Button className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow">
-                        <Plus className="w-4 h-4"/>
-                        Tambah
-                    </Button>
-                </Link>
+                <Button onClick={() => role.setOpenModal()}
+                        className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow">
+                    <Plus className="w-4 h-4"/>
+                    Tambah
+                </Button>
             </div>
 
-            {/* Data Table */}
-            <DataTable
-                title="Data Peran Pengguna"
-                description="Kelola dan atur peran pengguna di seluruh sistem"
-                columns={ROLE_COLUMNS}
-                data={roleData.data}
-                isLoading={isLoading}
-                pagination={roleData ? {
-                    from: roleData.meta?.from,
-                    to: roleData.meta?.to,
-                    total: roleData.meta?.total,
-                    current_page: roleData.meta?.current_page,
-                    last_page: roleData.meta?.last_page
-                } : null}
-                onPageChange={setCurrentPage}
-                currentPage={currentPage}
-                onSearch={setSearch}
-                searchPlaceholder="Cari peran pengguna..."
-                emptyStateIcon={Shield}
-                emptyStateText="Data tidak ditemukan"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+
+            <div>
+                {role.canDelete && role.selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {role.selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => role.setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => role.setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
+
+
+                {/* Data Table */}
+                <DataTable
+                    title="Data Peran Pengguna"
+                    description="Kelola dan atur peran pengguna di seluruh sistem"
+                    columns={ROLE_COLUMNS}
+                    data={role.roleData.data}
+                    isLoading={role.isLoading}
+                    pagination={role.roleData ? {
+                        from: role.roleData.meta?.from,
+                        to: role.roleData.meta?.to,
+                        total: role.roleData.meta?.total,
+                        current_page: role.roleData.meta?.current_page,
+                        last_page: role.roleData.meta?.last_page
+                    } : null}
+                    getRowId={(row) => row.uuid}
+                    onPageChange={role.setCurrentPage}
+                    currentPage={role.currentPage}
+                    onSearch={role.setSearch}
+                    searchPlaceholder="Cari peran pengguna..."
+                    emptyStateIcon={Shield}
+                    emptyStateText="Data tidak ditemukan"
+                    renderRow={(item) => (
+                        <RoleRow
+                            item={item}
+                            canEdit={role.canEdit}
+                            setOpenModal={role.setOpenModal}
+                            setOpenPermissionModal={role.setOpenPermissionModal}
+                        />
+                    )}
+                    showSearch={true}
+                    selectable={role.canDelete}
+                    selectedIds={role.safeSelectedIds}
+                    isRowSelectable={(item) => item.tenant_id !== null}
+                    onToggleOne={(id) => {
+                        const item = (role.roleData.data ?? []).find(r => r.uuid === id);
+                        if (!item || item.tenant_id === null) return; // ← block global role
+                        role.toggleOne(id);
+                    }}
+                    onToggleAll={() => {
+                        const selectableIds = (role.roleData.data ?? [])
+                            .filter(r => r.tenant_id !== null)
+                            .map(r => r.uuid);
+                        role.toggleAll(selectableIds);
+                    }}
+                    allSelected={
+                        (role.roleData.data ?? []).filter(r => r.tenant_id !== null).length > 0 &&
+                        (role.roleData.data ?? [])
+                            .filter(r => r.tenant_id !== null)
+                            .every(r => role.safeSelectedIds.includes(r.uuid))
+                    }
+                />
+            </div>
 
             {/* Assign Permissions Modal */}
             <Modal
-                open={openPermissionModal}
-                onOpenChange={setOpenPermissionModal}
+                open={role.openPermissionModal}
+                onOpenChange={role.setOpenPermissionModal}
                 title="Assign Permissions"
-                description={`Manage permissions for: ${roleValue?.name || ''}`}
-                onSubmit={assignPermissions}
+                description={`Manage permissions for: ${role.roleValue?.name || ''}`}
+                onSubmit={role.assignPermissions}
                 submitText="Save Permissions"
-                isLoading={isLoading}
+                isLoading={role.isLoading}
                 size="lg"
             >
                 <div className="space-y-4 py-2">
@@ -272,8 +131,8 @@ function RolePage() {
                         <Input
                             id="permission-search"
                             placeholder="Search for permissions..."
-                            value={permissionSearch}
-                            onChange={(e) => setPermissionSearch(e.target.value)}
+                            value={role.permissionSearch}
+                            onChange={(e) => role.setPermissionSearch(e.target.value)}
                             className="h-10"
                         />
                     </div>
@@ -285,12 +144,12 @@ function RolePage() {
                                 Available Permissions
                             </Label>
                             <span className="text-xs text-muted-foreground">
-                                    {selectedPermissions.length} selected
+                                    {role.selectedPermissions.length} selected
                                 </span>
                         </div>
 
                         <ScrollArea className="h-[400px] w-full rounded-lg border bg-muted/30 p-4">
-                            {filteredPermissions.length === 0 ? (
+                            {role.filteredPermissions.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center h-32 text-center">
                                     <Shield className="w-8 h-8 text-muted-foreground mb-2"/>
                                     <p className="text-sm text-muted-foreground">
@@ -299,15 +158,15 @@ function RolePage() {
                                 </div>
                             ) : (
                                 <div className="space-y-3">
-                                    {filteredPermissions.map((permission) => (
+                                    {role.filteredPermissions.map((permission) => (
                                         <div
                                             key={permission.uuid}
                                             className="flex items-start space-x-3 p-3 rounded-lg hover:bg-background/80 transition-colors border border-transparent hover:border-border"
                                         >
                                             <Checkbox
                                                 id={permission.uuid}
-                                                checked={selectedPermissions.includes(permission.uuid)}
-                                                onCheckedChange={() => setSelectedPermissions(permission.uuid)}
+                                                checked={role.selectedPermissions.includes(permission.uuid)}
+                                                onCheckedChange={() => role.setSelectedPermissions(permission.uuid)}
                                                 className="mt-1"
                                             />
                                             <div className="flex-1 space-y-1">
@@ -334,7 +193,7 @@ function RolePage() {
                     <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
                         <p className="text-xs text-muted-foreground">
                                 <span className="font-semibold text-foreground">
-                                    {selectedPermissions.length}
+                                    {role.selectedPermissions.length}
                                 </span>
                             permissions will be assigned to this role
                         </p>
@@ -344,48 +203,27 @@ function RolePage() {
 
             {/* Create/Edit Modal */}
             <Modal
-                open={openModal}
-                onOpenChange={setOpenModal}
-                title={roleValue ? "Edit Role" : "Tambah Role Baru"}
-                description={roleValue ? "Edit informasi peran yang ada." : "Tambahkan peran baru dengan hak akses khusus ke sistem Anda."}
-                onSubmit={handleSubmit(onSubmit)}
-                submitText={roleValue ? "Update Role" : "Tambah Role"}
-                isLoading={isSubmitting}
+                open={role.openModal}
+                onOpenChange={role.setOpenModal}
+                title={role.roleValue ? "Edit Role" : "Tambah Role Baru"}
+                description={role.roleValue ? "Edit informasi peran yang ada." : "Tambahkan peran baru dengan hak akses khusus ke sistem Anda."}
+                onSubmit={role.handleSubmit(role.onSubmit)}
+                submitText={role.roleValue ? "Update Role" : "Tambah Role"}
+                isLoading={role.formState.isSubmitting}
             >
-                <div className="space-y-2.5">
-                    <Label htmlFor="name" className="text-sm font-semibold">
-                        Nama<span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                        id="name"
-                        name="name"
-                        placeholder="e.g., Content Manager"
-                        {...register("name", {
-                            required: "Nama tidak boleh kosong",
-                        })}
-                        className="h-11"
-                    />
-                    {errors.name && (
-                        <p className="text-xs text-destructive">
-                            {errors.name.message}
-                        </p>
-                    )}
-                    <p className="text-xs text-muted-foreground">
-                        Pilih nama yang deskriptif untuk peran ini.
-                    </p>
-                </div>
+                <RoleModalFormContent register={role.register} errors={role.formState.errors}/>
             </Modal>
 
             {/* Delete Modal */}
             <Modal
-                open={openDeleteModal}
-                onOpenChange={setOpenDeleteModal}
+                open={role.openDeleteModal}
+                onOpenChange={role.setOpenDeleteModal}
                 title="Hapus Peran"
                 description="Tindakan ini tidak dapat dibatalkan. Ini akan menghapus peran tersebut secara permanen."
-                onSubmit={() => deleteRole(roleValue?.uuid)}
+                onSubmit={() => role.deleteRole(role.roleValue?.uuid)}
                 submitText="Hapus Peran"
                 type="danger"
-                isLoading={isLoading}
+                isLoading={role.isLoading}
             >
                 <div className="space-y-4 py-2">
                     <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
@@ -403,7 +241,7 @@ function RolePage() {
                                 <p className="text-sm text-muted-foreground">
                                     You are about to delete the role:{" "}
                                     <span className="font-semibold text-foreground">
-                                            {roleValue?.name}
+                                            {role.roleValue?.name}
                                         </span>
                                 </p>
                             </div>

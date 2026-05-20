@@ -33,6 +33,7 @@ function DataTable({
                        showSearch = true,
 
 
+                       isRowSelectable,
                        selectable = false,
                        selectedIds = [],
                        onToggleOne,
@@ -128,13 +129,19 @@ function DataTable({
                                         <TableRow className={selectedIds.includes(getRowId(item)) ? "bg-muted/50" : ""}>
                                             {selectable && (
                                                 <TableCell onClick={(e) => e.stopPropagation()}>
-                                                    <Checkbox
-                                                        checked={selectedIds.includes(getRowId(item))}
-                                                        onCheckedChange={() => {
-                                                            console.log('checkbox clicked, id:', getRowId(item));
-                                                            onToggleOne(getRowId(item))
-                                                        }}
-                                                    />
+                                                    {isRowSelectable ? isRowSelectable(item) ? (
+                                                        <Checkbox
+                                                            checked={selectedIds.includes(getRowId(item))}
+                                                            onCheckedChange={() => onToggleOne(getRowId(item))}
+                                                        />
+                                                    ) : (
+                                                        <div className="w-4 h-4"/>
+                                                    ) : (
+                                                        <Checkbox
+                                                            checked={selectedIds.includes(getRowId(item))}
+                                                            onCheckedChange={() => onToggleOne(getRowId(item))}
+                                                        />
+                                                    )}
                                                 </TableCell>
                                             )}
                                             {renderRow(item, index)}
@@ -143,7 +150,8 @@ function DataTable({
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={columns.length + (selectable ? 1 : 0)} className="text-center py-16">
+                                    <TableCell colSpan={columns.length + (selectable ? 1 : 0)}
+                                               className="text-center py-16">
                                         <div className="flex flex-col items-center gap-3 text-gray-400">
                                             {EmptyIcon && (
                                                 <div
