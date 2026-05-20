@@ -10,7 +10,6 @@ import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import ContentHeader from "@shared/components/ui/content-header.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 import SettingPage from "@features/settings/pages/index.jsx";
-import {useMedicineRackStore} from "@features/medicine";
 import {
     MultiSelect,
     MultiSelectContent,
@@ -26,155 +25,22 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@shared/components/ui/dialog.jsx";
-import {useEffect, useState} from "react";
-import {useTenantStore} from "@shared/store";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@shared/components/ui/select.jsx";
+import {useMedicineWarehouseForm} from "@features/medicine/hooks/useMedicineWarehouseForm.js";
 
 function MedicineWarehouseForm(opts) {
-    const {id} = useParams(opts);
-    const isEditMode = !!id;
-    const navigate = useNavigate();
-
-    const {
-        showMedicineWarehouse,
-        createMedicineWarehouse,
-        updateMedicineWarehouse,
-        medicineWarehouseValue,
-    } = useMedicineWarehouseStore();
-
-    const {
-        fetchUnassignedRacks,
-        createMedicineRack,
-        isLoading,
-        unassignedRacks
-    } = useMedicineRackStore();
-
-    const {
-        fetchTenants,
-        tenants,
-        userData
-    } = useTenantStore();
-
-    const isUserHasTenant = userData?.tenant_id;
-
-    const [isRackDialogOpen, setIsRackDialogOpen] = useState(false);
-    const [isLoadingData, setIsLoadingData] = useState(false);
-    const [newRackData, setNewRackData] = useState({
-        code: "",
-        name: ""
-    });
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: {errors, isSubmitting},
-        control,
-        setValue,
-        watch
-    } = useForm({
-        mode: "all",
-        reValidateMode: "onChange",
-        defaultValues: {
-            code: "",
-            name: "",
-            tenant_id: "",
-            racks: [] // Ganti dari rack jadi racks
-        }
-    });
-
-    useEffect(() => {
-        const loadData = async () => {
-            setIsLoadingData(true);
-            await fetchTenants();
-            await fetchUnassignedRacks();
-
-            if (isEditMode && id) {
-                await showMedicineWarehouse(id);
-            }
-
-            setIsLoadingData(false);
-        };
-
-        loadData();
-    }, [id, isEditMode]);
-
-// Populate form saat medicineWarehouseValue berubah
-    useEffect(() => {
-        if (medicineWarehouseValue && isEditMode) {
-            const rackIds = medicineWarehouseValue.racks?.map(rack => {
-                return rack.id;
-            });
-
-            reset({
-                code: medicineWarehouseValue.code || "",
-                name: medicineWarehouseValue.name || "",
-                tenant_id: medicineWarehouseValue.tenant_id?.toString() || "",
-                racks: rackIds || [],
-            });
-        }
-    }, [medicineWarehouseValue, isEditMode, reset]);
-
-    const availableRacks = isEditMode && medicineWarehouseValue?.racks
-        ? [
-            ...unassignedRacks,
-            ...medicineWarehouseValue.racks.filter(
-                assignedRack => !unassignedRacks.some(unassigned => unassigned.id === assignedRack.id)
-            )
-        ]
-        : unassignedRacks;
-
-
-    const onSubmit = async (data) => {
-        let result;
-
-        if (isEditMode) {
-            result = await updateMedicineWarehouse(id, data);
-        } else {
-            result = await createMedicineWarehouse(data);
-        }
-
-        if (result.success) {
-            navigate({
-                to: '/settings/medicines',
-                search: {tab: 'medicine_warehouses'}
-            });
-        }
-    };
-
-    const handleCreateRack = async () => {
-        try {
-            if (!createMedicineRack) {
-                return;
-            }
-            const createdRack = await createMedicineRack(newRackData);
-            if (createdRack?.id) {
-                const currentRackIds = watch("racks") || [];
-                setValue("racks", [...currentRackIds, createdRack.id]);
-            }
-            setIsRackDialogOpen(false);
-            setNewRackData({code: "", name: ""});
-            if (fetchUnassignedRacks) {
-                await fetchUnassignedRacks();
-            }
-        } catch (error) {
-            console.error("Failed to create rack:", error);
-        }
-    };
-
-    const hasRacks = unassignedRacks && unassignedRacks.length > 0;
-
+    const medicineWarehouseForm = useMedicineWarehouseForm(opts);
 
     return (
         <>
             <SettingPage>
                 <div className="space-y-6">
                     <ContentHeader
-                        title={isEditMode ? "Edit Gudang" : "Tambah Gudang Baru"}
-                        description={isEditMode ? "Perbarui informasi gudang" : "Tambahkan gudang baru ke sistem"}
+                        title={medicineWarehouseForm.isEditMode ? "Edit Gudang" : "Tambah Gudang Baru"}
+                        description={medicineWarehouseForm.isEditMode ? "Perbarui informasi gudang" : "Tambahkan gudang baru ke sistem"}
                     />
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={medicineWarehouseForm.handleSubmit(medicineWarehouseForm.onSubmit)}>
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <Link
@@ -198,15 +64,15 @@ function MedicineWarehouseForm(opts) {
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <div className="grid gap-4 md:grid-cols-3">
-                                        {!userData?.tenant_id && (
+                                        {!medicineWarehouseForm.userData?.tenant_id && (
                                             <div className="space-y-2">
                                                 <Label htmlFor="tenant_id">
                                                     Tenant/Klinik <span className="text-destructive">*</span>
                                                 </Label>
                                                 <Controller
                                                     name="tenant_id"
-                                                    control={control}
-                                                    rules={{required: !isUserHasTenant && "Tenant wajib dipilih"}}
+                                                    control={medicineWarehouseForm.control}
+                                                    rules={{required: !medicineWarehouseForm.isUserHasTenant && "Tenant wajib dipilih"}}
                                                     render={({field}) => (
                                                         <div className="relative">
                                                             <Select
@@ -219,8 +85,8 @@ function MedicineWarehouseForm(opts) {
                                                                 </SelectTrigger>
 
                                                                 <SelectContent>
-                                                                    {tenants?.length ? (
-                                                                        tenants.map((tenant) => (
+                                                                    {medicineWarehouseForm.tenants?.length ? (
+                                                                        medicineWarehouseForm.tenants.map((tenant) => (
                                                                             <SelectItem
                                                                                 key={tenant.id}
                                                                                 value={tenant.id.toString()}
@@ -255,8 +121,8 @@ function MedicineWarehouseForm(opts) {
                                                         </div>
                                                     )}
                                                 />
-                                                {errors.tenant_id && (
-                                                    <p className="text-sm text-destructive">{errors.tenant_id.message}</p>
+                                                {medicineWarehouseForm.formState.errors.tenant_id && (
+                                                    <p className="text-sm text-destructive">{medicineWarehouseForm.formState.errors.tenant_id.message}</p>
                                                 )}
                                             </div>
                                         )}
@@ -269,12 +135,12 @@ function MedicineWarehouseForm(opts) {
                                                 id="code"
                                                 placeholder="Kode"
                                                 maxLength={16}
-                                                {...register("code", {
+                                                {...medicineWarehouseForm.register("code", {
                                                     required: "Kode wajib diisi",
                                                 })}
                                             />
-                                            {errors.code && (
-                                                <p className="text-sm text-destructive">{errors.code.message}</p>
+                                            {medicineWarehouseForm.formState.errors.code && (
+                                                <p className="text-sm text-destructive">{medicineWarehouseForm.formState.errors.code.message}</p>
                                             )}
                                         </div>
                                         <div className="space-y-2">
@@ -284,10 +150,10 @@ function MedicineWarehouseForm(opts) {
                                             <Input
                                                 id="name"
                                                 placeholder="Masukkan nama gudang"
-                                                {...register("name", {required: "Nama gudang wajib diisi"})}
+                                                {...medicineWarehouseForm.register("name", {required: "Nama gudang wajib diisi"})}
                                             />
-                                            {errors.name && (
-                                                <p className="text-sm text-destructive">{errors.name.message}</p>
+                                            {medicineWarehouseForm.formState.errors.name && (
+                                                <p className="text-sm text-destructive">{medicineWarehouseForm.formState.errors.name.message}</p>
                                             )}
                                         </div>
                                     </div>
@@ -299,14 +165,14 @@ function MedicineWarehouseForm(opts) {
                                                 Rak yg tersedia <span className="text-destructive">*</span>
                                             </Label>
 
-                                            {isLoading ? (
+                                            {medicineWarehouseForm.isLoading ? (
                                                 <div className="text-sm text-muted-foreground">Memuat data rak...</div>
-                                            ) : hasRacks ? (
+                                            ) : medicineWarehouseForm.hasRacks ? (
                                                 <div className="space-y-3">
                                                     <div className="flex items-center gap-2">
                                                         <Controller
                                                             name="racks"
-                                                            control={control}
+                                                            control={medicineWarehouseForm.control}
                                                             rules={{
                                                                 required: "Minimal satu rak harus dipilih",
                                                                 validate: (value) =>
@@ -323,7 +189,7 @@ function MedicineWarehouseForm(opts) {
                                                                     </MultiSelectTrigger>
                                                                     <MultiSelectContent>
                                                                         <MultiSelectGroup>
-                                                                            {availableRacks?.map((rack) => (
+                                                                            {medicineWarehouseForm.availableRacks?.map((rack) => (
                                                                                 <MultiSelectItem key={rack.id}
                                                                                                  value={rack.id}>
                                                                                     {rack.name} - {rack.code}
@@ -338,14 +204,14 @@ function MedicineWarehouseForm(opts) {
                                                             type="button"
                                                             variant="outline"
                                                             size="icon"
-                                                            onClick={() => setIsRackDialogOpen(true)}
+                                                            onClick={() => medicineWarehouseForm.medicineWarehouseForm.setIsRackDialogOpen(true)}
                                                             title="Tambah rak baru"
                                                         >
                                                             <Plus className="w-4 h-4"/>
                                                         </Button>
                                                     </div>
-                                                    {errors.racks && (
-                                                        <p className="text-sm text-destructive">{errors.racks.message}</p>
+                                                    {medicineWarehouseForm.formState.errors.racks && (
+                                                        <p className="text-sm text-destructive">{medicineWarehouseForm.formState.errors.racks.message}</p>
                                                     )}
                                                 </div>
                                             ) : (
@@ -360,7 +226,7 @@ function MedicineWarehouseForm(opts) {
                                                     </div>
                                                     <Button
                                                         type="button"
-                                                        onClick={() => setIsRackDialogOpen(true)}
+                                                        onClick={() => medicineWarehouseForm.setIsRackDialogOpen(true)}
                                                         className="gap-2"
                                                     >
                                                         <Plus className="w-4 h-4"/>
@@ -382,9 +248,10 @@ function MedicineWarehouseForm(opts) {
                                         Batal
                                     </Button>
                                 </Link>
-                                <Button type="submit" className="gap-2" disabled={isSubmitting}>
+                                <Button type="submit" className="gap-2"
+                                        disabled={medicineWarehouseForm.formState.isSubmitting}>
                                     <Save className="w-4 h-4"/>
-                                    {isSubmitting ? "Menyimpan..." : "Simpan"}
+                                    {medicineWarehouseForm.formState.isSubmitting ? "Menyimpan..." : "Simpan"}
                                 </Button>
                             </div>
                         </div>
@@ -392,7 +259,8 @@ function MedicineWarehouseForm(opts) {
                 </div>
             </SettingPage>
 
-            <Dialog open={isRackDialogOpen} onOpenChange={setIsRackDialogOpen}>
+            <Dialog open={medicineWarehouseForm.isRackDialogOpen}
+                    onOpenChange={medicineWarehouseForm.setIsRackDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
@@ -411,8 +279,11 @@ function MedicineWarehouseForm(opts) {
                             <Input
                                 id="rack_code"
                                 placeholder="Contoh: R001"
-                                value={newRackData.code}
-                                onChange={(e) => setNewRackData({...newRackData, code: e.target.value})}
+                                value={medicineWarehouseForm.newRackData.code}
+                                onChange={(e) => medicineWarehouseForm.setNewRackData({
+                                    ...medicineWarehouseForm.newRackData,
+                                    code: e.target.value
+                                })}
                                 maxLength={16}
                             />
                         </div>
@@ -423,8 +294,11 @@ function MedicineWarehouseForm(opts) {
                             <Input
                                 id="rack_name"
                                 placeholder="Contoh: Rak Lantai 1"
-                                value={newRackData.name}
-                                onChange={(e) => setNewRackData({...newRackData, name: e.target.value})}
+                                value={medicineWarehouseForm.newRackData.name}
+                                onChange={(e) => medicineWarehouseForm.setNewRackData({
+                                    ...medicineWarehouseForm.newRackData,
+                                    name: e.target.value
+                                })}
                             />
                         </div>
                     </div>
@@ -433,16 +307,16 @@ function MedicineWarehouseForm(opts) {
                             type="button"
                             variant="outline"
                             onClick={() => {
-                                setIsRackDialogOpen(false);
-                                setNewRackData({code: "", name: ""});
+                                medicineWarehouseForm.setIsRackDialogOpen(false);
+                                medicineWarehouseForm.setNewRackData({code: "", name: ""});
                             }}
                         >
                             Batal
                         </Button>
                         <Button
                             type="button"
-                            onClick={handleCreateRack}
-                            disabled={!newRackData.code || !newRackData.name}
+                            onClick={medicineWarehouseForm.handleCreateRack}
+                            disabled={!medicineWarehouseForm.newRackData.code || !medicineWarehouseForm.newRackData.name}
                             className="gap-2"
                         >
                             <Save className="w-4 h-4"/>

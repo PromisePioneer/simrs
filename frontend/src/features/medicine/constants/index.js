@@ -50,8 +50,8 @@ export const MEDICINE_CATEGORIES_COLUMNS = [
 
 export const MEDICINE_WAREHOUSE_COLUMNS = [
     {key: "code", label: "Kode", width: "300px"},
-    {key: "name", label: "Nama", width: "200px"},
-    {key: "rack", label: "rak", width: "200px"},
+    {key: "name", label: "Nama", width: "300px"},
+    {key: "rack", label: "rak", width: "300px"},
 ];
 
 
