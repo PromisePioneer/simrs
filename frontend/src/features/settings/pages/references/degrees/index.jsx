@@ -83,7 +83,11 @@ function DegreePage() {
                     searchPlaceholder="Cari gelar..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data gelar ditemukan"
-                    renderRow={(item) => DegreeRow(item, degree.canEdit, degree.setOpenModal)}
+                    renderRow={(item) => <DegreeRow item={item}
+                                                    canEdit={degree.canEdit}
+                                                    setOpenModal={degree.setOpenModal}
+                    />
+                    }
                     showSearch={true}
                     selectable={degree.canDelete}
                     selectedIds={degree.safeSelectedIds}
