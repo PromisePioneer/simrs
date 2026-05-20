@@ -43,9 +43,8 @@ export const MEDICINE_BATCH_COLUMNS = [
 
 
 export const MEDICINE_CATEGORIES_COLUMNS = [
-    {key: "no", label: "No", width: "5%"},
-    {key: "name", label: "Nama"},
-    {key: "actions", label: "Aksi", width: "10%", align: "right"},
+    {key: "name", label: "Nama", width: "300px"},
+    {key: "type", label: "Tipe", width: "200px"},
 ];
 
 

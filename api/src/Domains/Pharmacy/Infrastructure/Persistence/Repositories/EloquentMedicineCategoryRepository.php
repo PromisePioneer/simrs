@@ -9,7 +9,9 @@ use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineCategoryModel;
 
 class EloquentMedicineCategoryRepository implements MedicineCategoryRepositoryInterface
 {
-    public function __construct(private MedicineCategoryModel $model) {}
+    public function __construct(private MedicineCategoryModel $model)
+    {
+    }
 
     public function getCategories(array $filters = [], ?int $perPage = null): ?object
     {
@@ -44,5 +46,11 @@ class EloquentMedicineCategoryRepository implements MedicineCategoryRepositoryIn
         $category = $this->findById($id);
         $category->delete();
         return $category;
+    }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->model->query()->whereIn('id', $ids)->delete();
     }
 }

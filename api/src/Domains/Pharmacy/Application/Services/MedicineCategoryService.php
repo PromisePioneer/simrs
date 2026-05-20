@@ -37,4 +37,10 @@ readonly class MedicineCategoryService
     {
         return $this->categoryRepository->destroy($id);
     }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->categoryRepository->bulkDelete(ids: $ids);
+    }
 }

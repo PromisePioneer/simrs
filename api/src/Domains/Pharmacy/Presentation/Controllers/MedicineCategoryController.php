@@ -47,10 +47,10 @@ class MedicineCategoryController extends Controller
         return $this->successResponse(data: $data, message: 'Kategori berhasil diperbarui.');
     }
 
-    public function destroy(MedicineCategoryModel $medicineCategory): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $this->authorize('delete', $medicineCategory);
-        $this->categoryService->destroy(id: $medicineCategory->id);
-        return $this->successResponse(data: $medicineCategory, message: 'Kategori berhasil dihapus.');
+        $this->authorize('delete', MedicineCategoryModel::class);
+        $this->categoryService->bulkDelete($request->ids);
+        return $this->successResponse(message: 'Kategori berhasil dihapus.');
     }
 }

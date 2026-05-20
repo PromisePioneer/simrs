@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['module:Electronic Medical Record'])->group(function () {
     Route::prefix('pharmacy')->group(function () {
         Route::apiResource('medicine-categories', MedicineCategoryController::class);
+        Route::delete('medicine-categories/bulk', [MedicineCategoryController::class, 'destroy']);
+
+
         Route::apiResource('medicine-warehouses', MedicineWarehouseController::class);
         Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
 
