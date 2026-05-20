@@ -117,4 +117,10 @@ readonly class MedicineService
     {
         return $this->medicineRepository->getReadyStocksMedicine($search);
     }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->medicineRepository->bulkDelete(ids: $ids);
+    }
 }

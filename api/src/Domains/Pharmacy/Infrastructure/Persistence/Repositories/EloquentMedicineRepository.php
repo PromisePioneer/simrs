@@ -9,7 +9,9 @@ use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineModel;
 
 class EloquentMedicineRepository implements MedicineRepositoryInterface
 {
-    public function __construct(private MedicineModel $model) {}
+    public function __construct(private MedicineModel $model)
+    {
+    }
 
     public function getMedicines(array $filters = [], ?int $perPage = null): ?object
     {
@@ -83,5 +85,11 @@ class EloquentMedicineRepository implements MedicineRepositoryInterface
         }
 
         return $query->get();
+    }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->model->query()->whereIn('id', $ids)->delete();
     }
 }

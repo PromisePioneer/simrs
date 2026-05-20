@@ -26,6 +26,7 @@ Route::middleware(['module:Electronic Medical Record'])->group(function () {
 
         Route::get('/medicines/ready-stocks', [MedicineController::class, 'getReadyStocksMedicine']);
         Route::get('/medicines/search-with-stock', [MedicineController::class, 'searchWithStock']);
+        Route::delete('/medicines/bulk', [MedicineController::class, 'destroy']);
         Route::apiResource('/medicines', MedicineController::class);
 
         Route::prefix('medicine-racks')->group(function () {

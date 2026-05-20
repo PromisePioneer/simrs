@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import {create} from "zustand";
 import apiCall from "@/shared/services/apiCall.js";
-import { toast } from "sonner";
+import {toast} from "sonner";
 
 export const useMedicineStore = create((set, get) => ({
     isLoading: false,
@@ -12,25 +12,30 @@ export const useMedicineStore = create((set, get) => ({
     isDeleteLoading: false,
     success: false,
     readyStockMedicines: [],
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
 
     setOpenDeleteModal: async (id) => {
         if (id) await get().showMedicine(id);
-        set({ openDeleteModal: !get().openDeleteModal });
+        set({openDeleteModal: !get().openDeleteModal});
     },
-    setCurrentPage: (page) => set({ currentPage: page }),
-    setSearch: (searchValue) => set({ search: searchValue }),
+    setCurrentPage: (page) => set({currentPage: page}),
+    setSearch: (searchValue) => set({search: searchValue}),
 
-    fetchMedicines: async ({ perPage = null } = {}) => {
+    fetchMedicines: async ({perPage = null} = {}) => {
         try {
-            set({ isLoading: true, medicines: null });
-            const { search, currentPage } = get();
-            const params = { page: currentPage };
+            set({isLoading: true, medicines: null});
+            const {search, currentPage} = get();
+            const params = {page: currentPage};
             if (perPage) params.per_page = perPage;
             if (search?.trim()) params.search = search;
-            const response = await apiCall.get("/api/v1/pharmacy/medicines", { params });
-            set({ medicines: response.data, isLoading: false });
+            const response = await apiCall.get("/api/v1/pharmacy/medicines", {params});
+            set({medicines: response.data, isLoading: false});
         } catch (e) {
-            set({ isLoading: false });
+            set({isLoading: false});
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
@@ -38,7 +43,7 @@ export const useMedicineStore = create((set, get) => ({
     fetchReadyStockMedicine: async () => {
         try {
             const response = await apiCall.get("/api/v1/pharmacy/medicines/ready-stocks");
-            set({ readyStockMedicines: response.data });
+            set({readyStockMedicines: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi gagal");
         }
@@ -58,7 +63,7 @@ export const useMedicineStore = create((set, get) => ({
         try {
             const response = await apiCall.post("/api/v1/pharmacy/medicines", data);
             toast.success("Berhasil menambahkan obat baru.");
-            return set({ success: true, data: response.data });
+            return set({success: true, data: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
@@ -68,7 +73,7 @@ export const useMedicineStore = create((set, get) => ({
         try {
             const response = await apiCall.put(`/api/v1/pharmacy/medicines/${id}`, data);
             toast.success("Berhasil mengubah obat.");
-            return { success: true, data: response.data };
+            return {success: true, data: response.data};
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
@@ -77,22 +82,21 @@ export const useMedicineStore = create((set, get) => ({
     showMedicine: async (id) => {
         try {
             const response = await apiCall.get(`/api/v1/pharmacy/medicines/${id}`);
-            set({ medicineValue: response.data });
+            set({medicineValue: response.data});
         } catch (e) {
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
-
-    deleteMedicine: async (id) => {
-        set({ isDeleteLoading: true });
+    bulkDeleteMedicine: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/pharmacy/medicines/${id}`);
-            toast.success("Berhasil menghapus obat.");
-            set({ openDeleteModal: false, isDeleteLoading: false });
-            await get().fetchMedicines({ perPage: 20 });
+            await apiCall.delete("api/v1/pharmacy/medicines/bulk", {data: {ids}});
+            set({selectedIds: []});
+            await get().fetchMedicines({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Obat.");
         } catch (e) {
-            set({ isDeleteLoading: false });
-            toast.error(e.response?.data?.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
     },
 }));

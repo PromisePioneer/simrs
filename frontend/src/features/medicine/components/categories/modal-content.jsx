@@ -71,14 +71,14 @@ export const MedicineCategoryDeleteModalContent = ({medicineCategoryValue, selec
                         {/* Jika hapus satu item */}
                         {medicineCategoryValue && selectedIds.length <= 1 ? (
                             <p className="text-sm text-muted-foreground">
-                                Anda akan menghapus poli: <span
+                                Anda akan menghapus kategori: <span
                                 className="font-semibold text-foreground">{medicineCategoryValue?.name}</span>
                             </p>
                         ) : (
                             /* Jika hapus banyak item */
                             <div className="text-sm text-muted-foreground space-y-1">
                                 <p>Anda akan menghapus <span
-                                    className="font-semibold text-foreground">{selectedIds.length} poli</span>:
+                                    className="font-semibold text-foreground">{selectedIds.length} kategori</span>:
                                 </p>
                                 <ul className="mt-2 space-y-1 max-h-40 overflow-y-auto">
                                     {medicineCategories?.data

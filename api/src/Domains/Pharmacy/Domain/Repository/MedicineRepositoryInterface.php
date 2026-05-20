@@ -14,4 +14,6 @@ interface MedicineRepositoryInterface
     public function findLastSequence(): ?object;
     public function getNextBatchFEFO(object $medicine): ?object;
     public function getReadyStocksMedicine(): ?object;
+
+    public function bulkDelete(array $ids);
 }

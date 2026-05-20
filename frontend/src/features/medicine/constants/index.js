@@ -23,12 +23,10 @@ export const getAvailableUnitsForRow = (units = [], currentIndex) => {
 
 
 export const MEDICINE_COLUMNS = [
-    {key: "no", label: "No", width: "5%"},
-    {key: "sku", label: "SKU"},
-    {key: "name", label: "Nama"},
-    {key: "type", label: "Tipe"},
-    {key: "stock_amount", label: "Stok"},
-    {key: "actions", label: "Aksi", width: "10%", align: "right"},
+    {key: "sku", label: "SKU", width: "300px"},
+    {key: "name", label: "Nama", width: "200px"},
+    {key: "type", label: "Tipe", width: "200px"},
+    {key: "stock_amount", label: "Stok", width: "200px"},
 ];
 
 

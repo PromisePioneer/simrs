@@ -33,7 +33,7 @@ class MedicineController extends Controller
     {
         $this->authorize('create', MedicineModel::class);
         $data = $this->medicineService->store(data: $request->validated());
-        return $this->successResponse(data: $data, message: 'Product created successfully.');
+        return $this->successResponse(data: $data, message: 'Medicine created successfully.');
     }
 
     public function show(MedicineModel $medicine): JsonResponse
@@ -48,14 +48,14 @@ class MedicineController extends Controller
     {
         $this->authorize('update', $medicine);
         $data = $this->medicineService->update(data: $request->validated(), medicine: $medicine);
-        return $this->successResponse(data: $data, message: 'Product updated successfully.');
+        return $this->successResponse(data: $data, message: 'Medicine updated successfully.');
     }
 
-    public function destroy(MedicineModel $medicine): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $this->authorize('delete', $medicine);
-        $this->medicineService->destroy(medicine: $medicine);
-        return $this->successResponse(data: $medicine, message: 'Product deleted successfully.');
+        $this->authorize('delete', MedicineModel::class);
+        $this->medicineService->bulkDelete($request->ids);
+        return $this->successResponse(message: 'Medicine deleted successfully.');
     }
 
     public function getReadyStocksMedicine(Request $request): JsonResponse
