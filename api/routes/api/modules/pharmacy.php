@@ -19,6 +19,9 @@ Route::middleware(['module:Electronic Medical Record'])->group(function () {
 
 
         Route::apiResource('medicine-warehouses', MedicineWarehouseController::class);
+        Route::delete('/medicine-warehouses/bulk', [MedicineWarehouseController::class, 'destroy']);
+
+
         Route::apiResource('medicine-unit-types', MedicineUnitTypeController::class);
 
         Route::get('/medicines/ready-stocks', [MedicineController::class, 'getReadyStocksMedicine']);

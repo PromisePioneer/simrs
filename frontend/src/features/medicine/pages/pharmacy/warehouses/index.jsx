@@ -1,102 +1,16 @@
-import {useMedicineWarehouseStore} from "@features/medicine";
-import {useEffect} from "react";
-import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
-import {Award, Pencil, Pill, Plus, Trash2, Archive} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {Award, Plus, Archive, Trash2} from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
 import DataTable from "@shared/components/common/data-table.jsx";
 import Modal from "@shared/components/common/modal.jsx";
 import {Link} from "@tanstack/react-router";
 import {MEDICINE_WAREHOUSE_COLUMNS} from "@features/medicine/constants/index.js";
+import {useMedicineWarehouseIndex} from "@features/medicine/hooks/useMedicineWarehouseIndex.js";
+import {MedicineWarehouseRow} from "@features/medicine/components/warehouses/medicine-warehouse-row.jsx";
+import {MedicineWarehouseDeleteModalContent} from "@features/medicine/components/warehouses/modal-content.jsx";
 
 
 function MedicineWarehousePage() {
-
-    const {
-        isLoading,
-        search,
-        setSearch,
-        medicineWarehouses,
-        currentPage,
-        setCurrentPage,
-        fetchMedicineWarehouses,
-        deleteMedicineWarehouse,
-        medicineWarehouseValue,
-        setOpenDeleteModal,
-        openDeleteModal,
-    } = useMedicineWarehouseStore();
-
-
-    useEffect(() => {
-        fetchMedicineWarehouses({perPage: 20});
-    }, [currentPage, search])
-
-    const renderRow = (medicineWarehouse, index) => (
-        <TableRow key={medicineWarehouse.id} className="hover:bg-muted/50 transition-colors">
-            <TableCell className="font-medium text-muted-foreground">
-                {medicineWarehouses.from + index}
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.code}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Pill className="w-5 h-5 text-primary"/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.name}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                        <Archive/>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-foreground">{medicineWarehouse.racks_count}</span>
-                    </div>
-                </div>
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex gap-1 justify-end items-center">
-                    <TooltipProvider>
-                        <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link to={`/pharmacy/warehouse/${medicineWarehouse.id}`}>
-                                        <Button variant="ghost" size="sm"
-                                                className="h-9 w-9 p-0 hover:bg-primary/10 hover:text-primary"
-                                        >
-                                            <Pencil className="h-4 w-4"/>
-                                        </Button>
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Edit Gudang</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm"
-                                            className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive"
-                                            onClick={() => setOpenDeleteModal(medicineWarehouse.id)}
-                                    >
-                                        <Trash2 className="h-4 w-4"/>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Delete Gudang</p></TooltipContent>
-                            </Tooltip>
-                        </>
-                    </TooltipProvider>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
-
+    const medicineWarehouse = useMedicineWarehouseIndex();
 
     return (
         <>
@@ -128,55 +42,79 @@ function MedicineWarehousePage() {
                 </Button>
             </div>
 
-            <DataTable
-                title="Daftar gudang"
-                description="Daftar Gudang yang tersedia"
-                columns={MEDICINE_WAREHOUSE_COLUMNS}
-                data={medicineWarehouses?.data || []}
-                isLoading={isLoading}
-                pagination={medicineWarehouses ? {
-                    from: medicineWarehouses.from, to: medicineWarehouses.to, total: medicineWarehouses.total,
-                    current_page: medicineWarehouses.current_page, last_page: medicineWarehouses.last_page
-                } : null}
-                onPageChange={setCurrentPage}
-                currentPage={currentPage}
-                onSearch={setSearch}
-                search={search}
-                searchPlaceholder="Cari gudang..."
-                emptyStateIcon={Archive}
-                emptyStateText="Tidak ada data gudang ditemukan"
-                renderRow={renderRow}
-                showSearch={true}
-            />
+
+            <div>
+
+                {medicineWarehouse.canDelete && medicineWarehouse.selectedIds.length > 0 && (
+                    <div
+                        className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
+                            <span className="text-sm font-medium text-destructive">
+                                {medicineWarehouse.selectedIds.length} Gelar dipilih
+                            </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="ml-auto gap-2"
+                            onClick={() => medicineWarehouse.setOpenDeleteModal()}
+                        >
+                            <Trash2 className="h-4 w-4"/>
+                            Hapus yang Dipilih
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => medicineWarehouse.setSelectedIds([])}
+                        >
+                            Batal
+                        </Button>
+                    </div>
+                )}
+
+                <DataTable
+                    title="Daftar gudang"
+                    description="Daftar Gudang yang tersedia"
+                    columns={MEDICINE_WAREHOUSE_COLUMNS}
+                    data={medicineWarehouse.medicineWarehouses?.data || []}
+                    isLoading={medicineWarehouse.isLoading}
+                    pagination={medicineWarehouse.medicineWarehouses ? {
+                        from: medicineWarehouse.medicineWarehouses.from,
+                        to: medicineWarehouse.medicineWarehouses.to,
+                        total: medicineWarehouse.medicineWarehouses.total,
+                        current_page: medicineWarehouse.medicineWarehouses.current_page,
+                        last_page: medicineWarehouse.medicineWarehouses.last_page
+                    } : null}
+                    onPageChange={medicineWarehouse.setCurrentPage}
+                    currentPage={medicineWarehouse.currentPage}
+                    onSearch={medicineWarehouse.setSearch}
+                    search={medicineWarehouse.search}
+                    searchPlaceholder="Cari gudang..."
+                    emptyStateIcon={Archive}
+                    emptyStateText="Tidak ada data gudang ditemukan"
+                    renderRow={(item) => <MedicineWarehouseRow item={item} canEdit={medicineWarehouse.canEdit}/>}
+                    showSearch={true}
+                    selectable={medicineWarehouse.canDelete}
+                    selectedIds={medicineWarehouse.safeSelectedIds}
+                    onToggleOne={medicineWarehouse.toggleOne}
+                    onToggleAll={medicineWarehouse.toggleAll}
+                    allSelected={medicineWarehouse.allSelected}
+                />
+            </div>
 
             {/* Modal Degree: Delete */}
             <Modal
-                open={openDeleteModal}
-                onOpenChange={setOpenDeleteModal}
-                title="Hapus gudang"
-                description="Tindakan ini tidak dapat dibatalkan. gudang akan dihapus permanen."
-                onSubmit={() => deleteMedicineWarehouse(medicineWarehouseValue.id)}
-                submitText="Hapus gudang"
+                open={medicineWarehouse.openDeleteModal}
+                onOpenChange={medicineWarehouse.setOpenDeleteModal}
+                title="Hapus Warehouse"
+                description="Tindakan ini tidak dapat dibatalkan. Warehouse akan dihapus permanen."
+                onSubmit={() => medicineWarehouse.bulkDeleteMedicineWarehouse(medicineWarehouse.selectedIds)}
+                submitText="Hapus Warehouse"
                 type="danger"
-                isLoading={isLoading}
+                isLoading={medicineWarehouse.isLoading}
             >
-                <div className="space-y-4 py-2">
-                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                        <div className="flex gap-3">
-                            <div className="shrink-0">
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 rounded-full bg-destructive/20">
-                                    <Trash2 className="w-5 h-5 text-destructive"/>
-                                </div>
-                            </div>
-                            <div className="flex-1 space-y-1">
-                                <p className="text-sm font-semibold text-foreground">Konfirmasi Penghapusan</p>
-                                <p className="text-sm text-muted-foreground">Anda akan menghapus gudang: <span
-                                    className="font-semibold text-foreground">{medicineWarehouseValue?.name}</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <MedicineWarehouseDeleteModalContent medicineWarehouseValue={medicineWarehouse.medicineWarehouseValue}
+                                                     selectedIds={medicineWarehouse.selectedIds}
+                                                     medicineWarehouses={medicineWarehouse.medicineWarehouses}
+                />
             </Modal>
         </>
     )

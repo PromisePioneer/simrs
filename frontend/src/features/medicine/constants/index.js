@@ -49,11 +49,9 @@ export const MEDICINE_CATEGORIES_COLUMNS = [
 
 
 export const MEDICINE_WAREHOUSE_COLUMNS = [
-    {key: "no", label: "No", width: "5%"},
-    {key: "code", label: "Kode"},
-    {key: "name", label: "Nama"},
-    {key: "rack", label: "rak"},
-    {key: "actions", label: "Aksi", width: "10%", align: "right"},
+    {key: "code", label: "Kode", width: "300px"},
+    {key: "name", label: "Nama", width: "200px"},
+    {key: "rack", label: "rak", width: "200px"},
 ];
 
 

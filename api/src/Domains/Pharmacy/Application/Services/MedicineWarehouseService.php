@@ -11,13 +11,15 @@ use Illuminate\Http\Request;
 
 readonly class MedicineWarehouseService
 {
-    public function __construct(private MedicineWarehouseRepositoryInterface $warehouseRepository) {}
+    public function __construct(private MedicineWarehouseRepositoryInterface $warehouseRepository)
+    {
+    }
 
     public function getWarehouses(Request $request): object
     {
         return $this->warehouseRepository->getWarehouses(
             filters: $request->only(['search']),
-            perPage:(int) $request->input('per_page'),
+            perPage: (int)$request->input('per_page'),
         );
     }
 
@@ -35,5 +37,10 @@ readonly class MedicineWarehouseService
     public function destroy(MedicineWarehouseModel $warehouse): object
     {
         return $this->warehouseRepository->destroy($warehouse->id);
+    }
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->warehouseRepository->bulkDelete(ids: $ids);
     }
 }

@@ -48,10 +48,10 @@ class MedicineWarehouseController extends Controller
         return $this->successResponse(data: $data, message: 'Gudang berhasil diperbarui.');
     }
 
-    public function destroy(MedicineWarehouseModel $medicineWarehouse): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $this->authorize('delete', $medicineWarehouse);
-        $this->warehouseService->destroy(warehouse: $medicineWarehouse);
-        return $this->successResponse(data: $medicineWarehouse, message: 'Gudang berhasil dihapus.');
+        $this->authorize('delete', MedicineWarehouseModel::class);
+        $this->warehouseService->bulkDelete(ids: $request->ids);
+        return $this->successResponse(message: 'Gudang berhasil dihapus.');
     }
 }

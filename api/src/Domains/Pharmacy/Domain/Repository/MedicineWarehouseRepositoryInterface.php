@@ -7,8 +7,14 @@ namespace Domains\Pharmacy\Domain\Repository;
 interface MedicineWarehouseRepositoryInterface
 {
     public function getWarehouses(array $filters = [], ?int $perPage = null): object;
+
     public function findById(string $id): object;
+
     public function store(array $data): object;
+
     public function update(string $id, array $data): object;
+
     public function destroy(string $id): object;
+
+    public function bulkDelete(array $ids);
 }

@@ -7,9 +7,11 @@ namespace Domains\Pharmacy\Infrastructure\Persistence\Repositories;
 use Domains\Pharmacy\Domain\Repository\MedicineWarehouseRepositoryInterface;
 use Domains\Pharmacy\Infrastructure\Persistence\Models\MedicineWarehouseModel;
 
-class EloquentMedicineWarehouseRepository implements MedicineWarehouseRepositoryInterface
+readonly class EloquentMedicineWarehouseRepository implements MedicineWarehouseRepositoryInterface
 {
-    public function __construct(private MedicineWarehouseModel $model) {}
+    public function __construct(private MedicineWarehouseModel $model)
+    {
+    }
 
     public function getWarehouses(array $filters = [], ?int $perPage = null): object
     {
@@ -44,5 +46,10 @@ class EloquentMedicineWarehouseRepository implements MedicineWarehouseRepository
         $warehouse = $this->findById($id);
         $warehouse->delete();
         return $warehouse;
+    }
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->model->whereIn('id', $ids)->delete();
     }
 }
