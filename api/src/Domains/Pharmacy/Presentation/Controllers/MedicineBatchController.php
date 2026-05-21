@@ -48,9 +48,9 @@ class MedicineBatchController extends Controller
         return $this->successResponse(data: $data, message: 'Batch berhasil diperbarui.');
     }
 
-    public function destroy(MedicineBatchModel $medicineBatch): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $medicineBatch->delete();
-        return $this->successResponse(data: $medicineBatch, message: 'Batch berhasil dihapus.');
+        $this->batchService->bulkDelete(ids: $request->ids);
+        return $this->successResponse(message: 'Batch berhasil dihapus.');
     }
 }

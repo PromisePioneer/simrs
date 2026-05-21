@@ -55,4 +55,10 @@ class MedicineBatchService
     {
         return $this->batchRepository->update(data: $data, id: $batch->id);
     }
+
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->batchRepository->bulkDelete(ids: $ids);
+    }
 }

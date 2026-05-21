@@ -43,6 +43,11 @@ export const useMedicineWarehouseStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
+    fetchMedicineWarehouseOptions: async (search) => {
+        const res = await apiCall.get("/api/v1/pharmacy/medicine-warehouses", {params: {search}});
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map((b) => ({value: b.id, label: b.name}));
+    },
 
     createMedicineWarehouse: async (data) => {
         try {

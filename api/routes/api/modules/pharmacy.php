@@ -40,7 +40,7 @@ Route::middleware(['module:Electronic Medical Record'])->group(function () {
             Route::get('/medicine/{medicine}', [MedicineBatchController::class, 'index']);
             Route::post('/', [MedicineBatchController::class, 'store']);
             Route::put('/{medicineBatch}', [MedicineBatchController::class, 'update']);
-            Route::delete('/{medicineBatch}', [MedicineBatchController::class, 'destroy']);
+            Route::delete('/bulk', [MedicineBatchController::class, 'destroy']);
         });
 
         Route::prefix('medicine-batch-stocks')->group(function () {

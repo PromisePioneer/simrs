@@ -68,6 +68,12 @@ export const PERMISSIONS = {
         EDIT: 'Mengubah Rak Obat',
         DELETE: 'Menghapus Rak Obat',
     },
+    MEDICINE_BATCH: {
+        VIEW: 'Melihat Batch Obat',
+        CREATE: 'Menambahkan Batch Obat',
+        EDIT: 'Mengubah Batch Obat',
+        DELETE: 'Menghapus Batch Obat'
+    },
     POLI: {
         VIEW: 'Melihat Poli',
         CREATE: 'Membuat Poli',

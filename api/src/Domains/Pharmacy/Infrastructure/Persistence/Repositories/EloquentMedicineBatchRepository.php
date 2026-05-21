@@ -97,4 +97,9 @@ readonly class EloquentMedicineBatchRepository implements MedicineBatchRepositor
                 ->first();
         });
     }
+
+    public function bulkDelete(array $ids)
+    {
+        $this->model->query()->whereIn('id', $ids)->delete();
+    }
 }

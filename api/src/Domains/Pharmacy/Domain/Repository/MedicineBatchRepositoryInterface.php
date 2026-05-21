@@ -11,4 +11,6 @@ interface MedicineBatchRepositoryInterface
     public function store(array $data): object;
     public function update(array $data, string $id): object;
     public function findLastSequence(string $medicineId): ?object;
+
+    public function bulkDelete(array $ids);
 }

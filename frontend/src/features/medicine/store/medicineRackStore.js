@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import {create} from "zustand";
 import apiCall from "@/shared/services/apiCall.js";
-import { toast } from "sonner";
+import {toast} from "sonner";
 
 export const useMedicineRackStore = create((set, get) => ({
     isLoading: false,
@@ -12,54 +12,59 @@ export const useMedicineRackStore = create((set, get) => ({
     openModal: false,
     openDeleteModal: false,
 
-    setOpenModal: (open) => set({ openModal: open }),
-    setOpenDeleteModal: (open) => set({ openDeleteModal: open }),
-    setCurrentPage: (page) => set({ currentPage: page }),
-    setSearch: (search) => set({ search }),
+    setOpenModal: (open) => set({openModal: open}),
+    setOpenDeleteModal: (open) => set({openDeleteModal: open}),
+    setCurrentPage: (page) => set({currentPage: page}),
+    setSearch: (search) => set({search}),
 
-    fetchMedicineRacks: async ({ perPage = null } = {}) => {
+    fetchMedicineRacks: async ({perPage = null} = {}) => {
         try {
-            set({ isLoading: true, medicineRacks: null });
-            const { search, currentPage } = get();
-            const params = { page: currentPage };
+            set({isLoading: true, medicineRacks: null});
+            const {search, currentPage} = get();
+            const params = {page: currentPage};
             if (perPage) params.per_page = perPage;
             if (search?.trim()) params.search = search;
-            const response = await apiCall.get("/api/v1/pharmacy/medicine-racks", { params });
-            set({ medicineRacks: response.data, isLoading: false });
+            const response = await apiCall.get("/api/v1/pharmacy/medicine-racks", {params});
+            set({medicineRacks: response.data, isLoading: false});
         } catch (e) {
-            set({ isLoading: false });
+            set({isLoading: false});
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
 
-    fetchUnassignedRacks: async ({ perPage = null } = {}) => {
+    fetchUnassignedRacks: async ({perPage = null} = {}) => {
         try {
-            set({ isLoading: true, unassignedRacks: null });
-            const { search, currentPage } = get();
-            const params = { page: currentPage };
+            set({isLoading: true, unassignedRacks: null});
+            const {search, currentPage} = get();
+            const params = {page: currentPage};
             if (perPage) params.per_page = perPage;
             if (search?.trim()) params.search = search;
-            const response = await apiCall.get("/api/v1/pharmacy/medicine-racks/unassigned-racks", { params });
-            set({ unassignedRacks: response.data, isLoading: false });
+            const response = await apiCall.get("/api/v1/pharmacy/medicine-racks/unassigned-racks", {params});
+            set({unassignedRacks: response.data, isLoading: false});
         } catch (e) {
-            set({ isLoading: false });
+            set({isLoading: false});
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
 
     fetchByMedicineWarehouse: async (warehouseId) => {
         try {
-            set({ isLoading: true, racksByMedicineWarehouse: null });
+            set({isLoading: true, racksByMedicineWarehouse: null});
             const response = await apiCall.get(
                 `/api/v1/pharmacy/medicine-racks/racks-by-warehouses/${warehouseId}`
             );
-            set({ racksByMedicineWarehouse: response.data, isLoading: false });
+            set({racksByMedicineWarehouse: response.data, isLoading: false});
         } catch (e) {
-            set({ isLoading: false });
+            set({isLoading: false});
             toast.error(e.response?.data?.message || "Operasi Gagal");
         }
     },
 
+    fetchByMedicineWarehouseOptions: async (warehouseId, search) => {
+        const res = await apiCall.get(`/api/v1/pharmacy/medicine-racks/racks-by-warehouses/${warehouseId}`, {params: {search}});
+        const data = res.data?.data ?? res.data ?? [];
+        return data.map((b) => ({value: b.id, label: b.name}));
+    },
     createMedicineRack: async (data) => {
         try {
             const response = await apiCall.post("/api/v1/pharmacy/medicine-racks", data);

@@ -31,12 +31,11 @@ export const MEDICINE_COLUMNS = [
 
 
 export const MEDICINE_BATCH_COLUMNS = [
-    {key: "no", label: "No", width: "5%"},
-    {key: "sku", label: "SKU"},
-    {key: "name", label: "Nama"},
-    {key: "type", label: "Tipe"},
-    {key: "stock_amount", label: "Stok"},
-    {key: "actions", label: "Aksi", width: "10%", align: "right"},
+    {key: "batch_number", label: "Nomor Batch", width: "300px"},
+    {key: "rack", label: "Rak", width: "200px"},
+    {key: "warehouse", label: "Gudang", width: "200px"},
+    {key: "date", label: "Tanggal", width: "200px"},
+    {key: "stock_amount", label: "Stok", width: "200px"},
 ];
 
 
