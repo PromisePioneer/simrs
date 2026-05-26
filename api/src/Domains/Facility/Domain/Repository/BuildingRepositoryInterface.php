@@ -11,4 +11,6 @@ interface BuildingRepositoryInterface
     public function store(array $data): object;
     public function update(string $id, array $data): bool;
     public function destroy(string $id): bool;
+
+    public function bulkDelete(array $ids);
 }

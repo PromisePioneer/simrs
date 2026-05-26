@@ -43,7 +43,7 @@ function PoliPage() {
                     <div
                         className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
                             <span className="text-sm font-medium text-destructive">
-                                {poli.selectedIds.length} Gelar dipilih
+                                {poli.selectedIds.length} Poli dipilih
                             </span>
                         <Button
                             variant="destructive"

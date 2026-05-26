@@ -112,6 +112,9 @@ Route::middleware(['module:Master'])->group(function () {
 Route::middleware(['module:Rawat Inap'])->group(function () {
     Route::prefix('facilities')->group(function () {
         Route::apiResource('buildings', BuildingController::class);
+        Route::delete('buildings/bulk-destroy', [BuildingController::class, 'destroy']);
+
+
         Route::apiResource('wards', WardController::class);
         Route::apiResource('rooms', RoomController::class);
         Route::apiResource('beds', BedController::class);

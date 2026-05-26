@@ -43,4 +43,9 @@ readonly class EloquentBuildingRepository implements BuildingRepositoryInterface
     {
         return $this->model->destroy($id);
     }
+
+    public function bulkDelete(array $ids): void
+    {
+        $this->model->whereIn('id', $ids)->delete();
+    }
 }

@@ -11,6 +11,12 @@ export const useBuildingStore = create((set, get) => ({
     openDeleteModal: false,
     openRestoreModal: false,
     buildingValue: {},
+    isDeleting: false,
+    selectedIds: [],
+    setSelectedIds: (ids) => set((state) => ({
+        selectedIds: typeof ids === 'function' ? ids(state.selectedIds) : ids
+    })),
+    setIsDeleting: () => set({isDeleting: !get().isDeleting}),
     setCurrentPage: (currentPage) => {
         set({currentPage: currentPage});
     },
@@ -23,13 +29,6 @@ export const useBuildingStore = create((set, get) => ({
         }
         set({openModal: !get().openModal});
     },
-    columns: () => ([
-        {key: 'no', label: 'No', width: '5%'},
-        {key: 'name', label: 'Nama Ruangan', width: '25%'},
-        {key: 'ward', label: 'Ward', width: '25%'},
-        {key: 'description', label: 'Deskripsi', width: '25%'},
-        {key: 'actions', label: 'Action', width: '15%', align: 'right'},
-    ]),
     setOpenDeleteModal: async (id = null) => {
         if (id) {
             await get().showBuilding(id);
@@ -92,14 +91,16 @@ export const useBuildingStore = create((set, get) => ({
             console.log(e)
         }
     },
-    deleteBuilding: async (id) => {
+    deleteBuilding: async (ids) => {
         try {
-            await apiCall.delete(`/api/v1/facilities/buildings/${id}`);
-            toast.success("Data berhasil di hapus");
-            set({openDeleteModal: false});
+            await apiCall.delete(`api/v1/facilities/buildings/bulk-destroy`, {data: {ids}});
+            set({selectedIds: []});
             await get().fetchBuildings({perPage: 20});
+            get().setOpenDeleteModal();
+            toast.success("Berhasil menghapus Gedung.");
         } catch (e) {
-            toast.error(e.response.data.message || "Operasi Gagal");
+            toast.error(e.response?.data?.message || 'Operasi Gagal');
+            throw e;
         }
-    }
+    },
 }));

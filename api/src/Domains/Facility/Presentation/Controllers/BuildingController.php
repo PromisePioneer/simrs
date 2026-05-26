@@ -49,10 +49,10 @@ class BuildingController extends Controller
         return $this->successResponse(message: 'Data berhasil disimpan');
     }
 
-    public function destroy(BuildingModel $building): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $this->authorize('delete', $building);
-        $this->buildingService->destroy(building: $building);
-        return $this->successResponse(data: $building, message: 'Data berhasil dihapus');
+        $this->authorize('delete', BuildingModel::class);
+        $this->buildingService->bulkDelete(ids: $request->ids);
+        return $this->successResponse(message: 'Data berhasil dihapus');
     }
 }

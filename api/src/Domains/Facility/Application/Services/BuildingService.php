@@ -35,4 +35,8 @@ class BuildingService
     {
         return $this->buildingRepository->destroy(id: $building->id);
     }
+    public function bulkDelete(array $ids): void
+    {
+        $this->buildingRepository->bulkDelete(ids: $ids);
+    }
 }

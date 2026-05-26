@@ -1,19 +1,26 @@
 export const WARD_COLUMNS = [
-    { key: "no", label: "No", width: "5%" },
-    { key: "name", label: "Nama", width: "25%" },
-    { key: "department", label: "Departemen", width: "25%" },
-    { key: "rooms", label: "Ruangan", width: "25%" },
-    { key: "actions", label: "Aksi", width: "15%", align: "right" },
+    {key: "no", label: "No", width: "5%"},
+    {key: "name", label: "Nama", width: "25%"},
+    {key: "department", label: "Departemen", width: "25%"},
+    {key: "rooms", label: "Ruangan", width: "25%"},
+    {key: "actions", label: "Aksi", width: "15%", align: "right"},
 ];
 
 export const ROOM_COLUMNS = [
-    { key: "no", label: "No", width: "5%" },
-    { key: "name", label: "Nama", width: "25%" },
-    { key: "type", label: "Tipe", width: "20%" },
-    { key: "capacity", label: "Kapasitas", width: "15%" },
-    { key: "actions", label: "Aksi", width: "15%", align: "right" },
+    {key: "no", label: "No", width: "5%"},
+    {key: "name", label: "Nama", width: "25%"},
+    {key: "type", label: "Tipe", width: "20%"},
+    {key: "capacity", label: "Kapasitas", width: "15%"},
+    {key: "actions", label: "Aksi", width: "15%", align: "right"},
 ];
 
+
+export const BUILDING_COLUMNS = [
+    {key: '', label: '', width: '1px'},
+    {key: 'name', label: 'Nama Ruangan', width: '300px'},
+    {key: 'ward', label: 'Ward', width: '200px'},
+    {key: 'description', label: 'Deskripsi', width: '200px'},
+]
 export const BED_STATUS = {
     AVAILABLE: "available",
     OCCUPIED: "occupied",

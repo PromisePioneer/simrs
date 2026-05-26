@@ -40,7 +40,7 @@ function DataTable({
                        onToggleAll,
                        getRowId = (row) => row.id,
                        allSelected = null,
-                       filterSlot
+                       filterSlot,
                    }) {
 
     return (
@@ -126,16 +126,20 @@ function DataTable({
                             ) : data && data.length > 0 ? (
                                 data.map((item, index) => (
                                     <Fragment key={getRowId(item)}>
-                                        <TableRow className={selectedIds.includes(getRowId(item)) ? "bg-muted/50" : ""}>
-                                            {selectable && (
+                                        {renderRow(
+                                            item,
+                                            index,
+                                            selectable ? (
                                                 <TableCell onClick={(e) => e.stopPropagation()}>
-                                                    {isRowSelectable ? isRowSelectable(item) ? (
-                                                        <Checkbox
-                                                            checked={selectedIds.includes(getRowId(item))}
-                                                            onCheckedChange={() => onToggleOne(getRowId(item))}
-                                                        />
-                                                    ) : (
-                                                        <div className="w-4 h-4"/>
+                                                    {isRowSelectable ? (
+                                                        isRowSelectable(item) ? (
+                                                            <Checkbox
+                                                                checked={selectedIds.includes(getRowId(item))}
+                                                                onCheckedChange={() => onToggleOne(getRowId(item))}
+                                                            />
+                                                        ) : (
+                                                            <div className="w-4 h-4"/>
+                                                        )
                                                     ) : (
                                                         <Checkbox
                                                             checked={selectedIds.includes(getRowId(item))}
@@ -143,9 +147,8 @@ function DataTable({
                                                         />
                                                     )}
                                                 </TableCell>
-                                            )}
-                                            {renderRow(item, index)}
-                                        </TableRow>
+                                            ) : null
+                                        )}
                                     </Fragment>
                                 ))
                             ) : (
