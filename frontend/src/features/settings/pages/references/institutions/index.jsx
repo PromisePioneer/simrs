@@ -90,9 +90,11 @@ function InstitutionPage() {
                         searchPlaceholder="Search payment methods..."
                         emptyStateIcon={CreditCard}
                         emptyStateText="No data found"
-                        renderRow={(item) => <InstitutionRow item={item}
-                                                             canEdit={institution.canEdit}
-                                                             setOpenModal={institution.setOpenModal}/>}
+                        renderRow={(item, index, checkboxCell) => <InstitutionRow item={item}
+                                                                                  checkboxCell={checkboxCell}
+                                                                                  canEdit={institution.canEdit}
+                                                                                  setOpenModal={institution.setOpenModal}/>
+                        }
                         showSearch={true}
                         selectable={institution.canDelete}
                         selectedIds={institution.safeSelectedIds}

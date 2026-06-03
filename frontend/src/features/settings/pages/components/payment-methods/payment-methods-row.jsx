@@ -1,12 +1,11 @@
 import {CreditCard} from "lucide-react";
-import {Button} from "@shared/components/ui/button.jsx";
-import {TableCell} from "@shared/components/ui/table.jsx";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 
 
-export const PaymentMethodsRow = (item, canEdit, setOpenModal) => {
+export const PaymentMethodsRow = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -32,7 +31,7 @@ export const PaymentMethodsRow = (item, canEdit, setOpenModal) => {
                     </div>
                 </div>
             </TableCell>
-        </>
+        </TableRow>
     );
 
 }

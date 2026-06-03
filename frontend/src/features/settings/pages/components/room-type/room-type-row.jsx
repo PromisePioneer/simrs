@@ -1,12 +1,13 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Badge} from "@shared/components/ui/badge.jsx";
 
 
 const formatCurrency = (value) =>
     `Rp ${Number(value ?? 0).toLocaleString("id-ID")}`;
-export const RoomTypeRow = ({item, canEdit, setOpenModal}) => {
+export const RoomTypeRow = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -34,6 +35,6 @@ export const RoomTypeRow = ({item, canEdit, setOpenModal}) => {
                     <span className="text-muted-foreground text-sm">—</span>
                 )}
             </TableCell>
-        </>
+        </TableRow>
     )
 }

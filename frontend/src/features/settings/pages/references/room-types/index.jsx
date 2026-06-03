@@ -91,8 +91,9 @@ function RoomTypePage() {
                     searchPlaceholder="Cari Tipe Ruangan..."
                     emptyStateIcon={MirrorRectangular}
                     emptyStateText="Tidak ada data Tipe Ruangan ditemukan"
-                    renderRow={(item) =>
+                    renderRow={(item, index, checkboxCell) =>
                         <RoomTypeRow item={item}
+                                     checkboxCell={checkboxCell}
                                      canEdit={roomType.canEdit}
                                      setOpenModal={roomType.setOpenModal}
                         />

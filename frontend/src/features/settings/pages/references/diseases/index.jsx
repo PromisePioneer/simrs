@@ -82,10 +82,12 @@ function DiseasePage() {
                     searchPlaceholder="Cari kode atau nama penyakit..."
                     emptyStateIcon={Stethoscope}
                     emptyStateText="Tidak ada data penyakit ditemukan"
-                    renderRow={(item) =>
+                    renderRow={(item, index, checkboxCell) =>
                         <DiseaseRow item={item}
                                     canEdit={disease.canEdit}
-                                    setOpenModal={disease.setOpenModal}/>
+                                    setOpenModal={disease.setOpenModal}
+                                    checkboxCell={checkboxCell}
+                        />
                     }
                     showSearch={true}
                     selectable={disease.canDelete}

@@ -4,9 +4,10 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/
 import {Button} from "@shared/components/ui/button.jsx";
 
 
-export const InstitutionRow = ({item, canEdit, setOpenModal}) => {
+export const InstitutionRow = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -30,7 +31,7 @@ export const InstitutionRow = ({item, canEdit, setOpenModal}) => {
                     </div>
                 </div>
             </TableCell>
-        </>
+        </TableRow>
 
     );
 }

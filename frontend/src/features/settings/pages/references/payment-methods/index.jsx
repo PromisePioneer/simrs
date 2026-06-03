@@ -47,7 +47,7 @@ function PaymentMethodPage() {
                     <div
                         className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2.5 animate-in transition-all">
                             <span className="text-sm font-medium text-destructive">
-                                {paymentMethod.selectedIds.length} Gelar dipilih
+                                {paymentMethod.selectedIds.length} Metode Pembayaran dipilih
                             </span>
                         <Button
                             variant="destructive"
@@ -88,12 +88,14 @@ function PaymentMethodPage() {
                     searchPlaceholder="Cari metode pembayaran..."
                     emptyStateIcon={CreditCard}
                     emptyStateText="No payment methods found"
-                    renderRow={(item) =>
-                        PaymentMethodsRow(
-                            item,
-                            paymentMethod.canEdit,
-                            paymentMethod.setOpenModal
-                        )}
+                    renderRow={(item, index, checkboxCell) =>
+                        <PaymentMethodsRow
+                            item={item}
+                            checkboxCell={checkboxCell}
+                            canEdit={paymentMethod.canEdit}
+                            setOpenModal={paymentMethod.setOpenModal}
+                        />
+                    }
                     showSearch={true}
                     selectable={paymentMethod.canDelete}
                     selectedIds={paymentMethod.safeSelectedIds}

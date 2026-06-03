@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialiteController;
 use Domains\IAM\Presentation\Controllers\ModuleController;
 use Domains\IAM\Presentation\Controllers\PermissionController;
 use Domains\IAM\Presentation\Controllers\RoleController;
@@ -43,4 +44,7 @@ Route::middleware(['module:Setting'])->group(function () {
         Route::apiResource('/', ModuleController::class)->except(['index']);
         Route::put('/updated-module', [ModuleController::class, 'updatedModule']);
     });
+
+
+    Route::get('auth/google/redirect', [SocialiteController::class, 'redirectToGoogle']);
 });

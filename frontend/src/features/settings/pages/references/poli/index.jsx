@@ -80,7 +80,13 @@ function PoliPage() {
                     searchPlaceholder="Cari Poli..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data Poli ditemukan"
-                    renderRow={(item) => <PoliRow item={item} canEdit={poli.canEdit} setOpenModal={poli.setOpenModal}/>}
+                    renderRow={(item, index, checkboxCell) =>
+                        <PoliRow item={item}
+                                 checkboxCell={checkboxCell}
+                                 canEdit={poli.canEdit}
+                                 setOpenModal={poli.setOpenModal}
+                        />
+                    }
                     showSearch={true}
                     selectable={poli.canDelete}
                     selectedIds={poli.safeSelectedIds}

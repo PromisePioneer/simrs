@@ -89,8 +89,8 @@ function DepartmentPage() {
                     searchPlaceholder="Cari department..."
                     emptyStateIcon={Stethoscope}
                     emptyStateText="Tidak ada data department ditemukan"
-                    renderRow={(item) =>
-                        <DepartmentRows item={item} canEdit={department.canEdit}
+                    renderRow={(item, index, checkboxCell) =>
+                        <DepartmentRows item={item} checkboxCell={checkboxCell} canEdit={department.canEdit}
                                         setOpenModal={department.setOpenModal}/>
                     }
                     showSearch={true}

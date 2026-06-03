@@ -108,7 +108,7 @@ function ReferencesPage() {
     if (!hasAnyTabAccess) {
         return (
             <SettingPage>
-                <div className="min-h-[400px] flex items-center justify-center">
+                <div className="min-h-100 flex items-center justify-center">
                     <div className="text-center">
                         <ShieldAlert className="w-16 h-16 mx-auto text-red-500 mb-4"/>
                         <h2 className="text-2xl font-semibold mb-2">Akses Ditolak</h2>

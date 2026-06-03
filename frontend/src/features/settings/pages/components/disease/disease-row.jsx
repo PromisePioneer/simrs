@@ -1,11 +1,12 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Stethoscope} from "lucide-react";
 import {Badge} from "@shared/components/ui/badge.jsx";
 import {DISEASE_STATUS_BADGE} from "@features/settings/pages/constants/index.js";
 
-export const DiseaseRow = ({item, canEdit, setOpenModal}) => {
+export const DiseaseRow = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -47,6 +48,6 @@ export const DiseaseRow = ({item, canEdit, setOpenModal}) => {
                 </Badge>
             </TableCell>
 
-        </>
+        </TableRow>
     );
 }

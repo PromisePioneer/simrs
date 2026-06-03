@@ -1,10 +1,11 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Award} from "lucide-react";
 
 
-export const PoliRow = ({item, canEdit, setOpenModal}) => {
+export const PoliRow = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -24,6 +25,6 @@ export const PoliRow = ({item, canEdit, setOpenModal}) => {
                     {item.consultation_fee ? `Rp ${Number(item.consultation_fee).toLocaleString('id-ID')}` : '-'}
                 </span>
             </TableCell>
-        </>
+        </TableRow>
     )
 }

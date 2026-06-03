@@ -83,9 +83,10 @@ function DegreePage() {
                     searchPlaceholder="Cari gelar..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data gelar ditemukan"
-                    renderRow={(item) => <DegreeRow item={item}
-                                                    canEdit={degree.canEdit}
-                                                    setOpenModal={degree.setOpenModal}
+                    renderRow={(item, index, checkboxCell) => <DegreeRow item={item}
+                                                                         canEdit={degree.canEdit}
+                                                                         setOpenModal={degree.setOpenModal}
+                                                                         checkboxCell={checkboxCell}
                     />
                     }
                     showSearch={true}

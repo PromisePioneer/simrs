@@ -1,9 +1,10 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Stethoscope} from "lucide-react";
 
-export const DepartmentRows = ({item, canEdit, setOpenModal}) => {
+export const DepartmentRows = ({item, checkboxCell, canEdit, setOpenModal}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -25,6 +26,6 @@ export const DepartmentRows = ({item, canEdit, setOpenModal}) => {
                     </div>
                 </div>
             </TableCell>
-        </>
+        </TableRow>
     )
 }
