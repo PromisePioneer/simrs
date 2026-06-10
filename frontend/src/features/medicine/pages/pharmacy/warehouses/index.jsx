@@ -90,7 +90,9 @@ function MedicineWarehousePage() {
                     searchPlaceholder="Cari gudang..."
                     emptyStateIcon={Archive}
                     emptyStateText="Tidak ada data gudang ditemukan"
-                    renderRow={(item) => <MedicineWarehouseRow item={item} canEdit={medicineWarehouse.canEdit}/>}
+                    renderRow={(item, index, checkboxCell) => <MedicineWarehouseRow item={item}
+                                                                                    checkboxCell={checkboxCell}
+                                                                                    canEdit={medicineWarehouse.canEdit}/>}
                     showSearch={true}
                     selectable={medicineWarehouse.canDelete}
                     selectedIds={medicineWarehouse.safeSelectedIds}

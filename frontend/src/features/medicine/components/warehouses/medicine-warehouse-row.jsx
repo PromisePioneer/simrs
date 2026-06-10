@@ -1,13 +1,14 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Archive, Pill} from "lucide-react";
-import {Link, useNavigate} from "@tanstack/react-router";
+import {useNavigate} from "@tanstack/react-router";
 
-export const MedicineWarehouseRow = ({item, canEdit}) => {
+export const MedicineWarehouseRow = ({item, canEdit, checkboxCell}) => {
 
     const navigate = useNavigate();
 
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && navigate({
@@ -50,6 +51,6 @@ export const MedicineWarehouseRow = ({item, canEdit}) => {
                     </div>
                 </div>
             </TableCell>
-        </>
+        </TableRow>
     );
 }

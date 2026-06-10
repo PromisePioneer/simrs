@@ -1,12 +1,13 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Badge} from "@shared/components/ui/badge.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 import {Link} from "@tanstack/react-router";
 import {Warehouse} from "lucide-react";
 
-export const MedicineRow = ({item, canEdit}) => {
+export const MedicineRow = ({item, checkboxCell, canEdit}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-col">
@@ -45,6 +46,6 @@ export const MedicineRow = ({item, canEdit}) => {
                     </Link>
                 </Button>
             </TableCell>
-        </>
+        </TableRow>
     );
 }

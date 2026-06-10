@@ -86,9 +86,10 @@ function MedicineCategoriesPage() {
                     searchPlaceholder="Cari kategori obat ..."
                     emptyStateIcon={Award}
                     emptyStateText="Tidak ada data kategori obat ditemukan"
-                    renderRow={(item) => <MedicineCategoryRow
+                    renderRow={(item, index, checkboxCell) => <MedicineCategoryRow
                         item={item}
                         canEdit={medicineCategory.canEdit}
+                        checkboxCell={checkboxCell}
                         setOpenModal={medicineCategory.setOpenModal}
                     />}
                     showSearch={true}

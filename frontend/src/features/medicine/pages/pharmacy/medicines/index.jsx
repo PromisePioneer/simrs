@@ -84,7 +84,8 @@ function MedicinePage() {
                     searchPlaceholder="Cari obat..."
                     emptyStateIcon={Archive}
                     emptyStateText="Tidak ada daftar obat ditemukan"
-                    renderRow={(item) => <MedicineRow item={item} canEdit={medicine.canEdit}/>}
+                    renderRow={(item, index, checkboxCell) => <MedicineRow item={item} canEdit={medicine.canEdit}
+                                                                           checkboxCell={checkboxCell}/>}
                     showSearch={true}
                     selectable={medicine.canDelete}
                     selectedIds={medicine.safeSelectedIds}

@@ -16,241 +16,164 @@ class PharmacySafetyController
     use ApiResponse;
 
     public function __construct(
-        private readonly PharmacyBatchTracingService $batchTracingService,
+        private readonly PharmacyBatchTracingService $batchService,
         private readonly PharmacyRecallManagementService $recallService,
         private readonly PharmacyHighAlertService $highAlertService,
     ) {}
 
-    // ================================================================
-    // BATCH TRACING
-    // ================================================================
+    // ── BATCH TRACING ────────────────────────────────────────────────
 
-    /**
-     * Trace batch: siapa mendapat obat dengan batch/lot tertentu
-     */
-    public function traceBatch(Request $request, string $medicineId, string $batchNumber): JsonResponse
+    public function traceBatch(string $medicineId, string $batchNumber): JsonResponse
     {
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->batchTracingService->traceBatch($tenantId, $medicineId, $batchNumber);
-        return $this->successResponse($result);
-    }
-
-    /**
-     * Pasien yang menerima batch tertentu (untuk identifikasi dampak recall)
-     */
-    public function getAffectedPatients(Request $request, string $medicineId, string $batchNumber): JsonResponse
-    {
-        $tenantId = auth()->user()->tenant_id;
-        $patients = $this->batchTracingService->getAffectedPatients($tenantId, $medicineId, $batchNumber);
-        return $this->successResponse(['patients' => $patients]);
-    }
-
-    /**
-     * Riwayat distribusi satu obat
-     */
-    public function getMedicineDistributionHistory(Request $request, string $medicineId): JsonResponse
-    {
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->batchTracingService->getMedicineDistributionHistory(
-            $tenantId, $medicineId,
-            $request->query('start_date'),
-            $request->query('end_date')
+        return $this->successResponse(
+            $this->batchService->traceBatch(auth()->user()->tenant_id, $medicineId, $batchNumber)
         );
-        return $this->successResponse($result);
     }
 
-    /**
-     * Status expiry semua batch aktif di gudang
-     */
-    public function getBatchExpiryStatus(Request $request, string $warehouseId): JsonResponse
+    public function affectedPatients(string $medicineId, string $batchNumber): JsonResponse
     {
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->batchTracingService->getBatchExpiryStatus($tenantId, $warehouseId);
-        return $this->successResponse(['batches' => $result]);
+        return $this->successResponse([
+            'patients' => $this->batchService->getAffectedPatients(auth()->user()->tenant_id, $medicineId, $batchNumber),
+        ]);
     }
 
-    // ================================================================
-    // RECALL MANAGEMENT
-    // ================================================================
+    public function distributionHistory(Request $request, string $medicineId): JsonResponse
+    {
+        return $this->successResponse(
+            $this->batchService->getMedicineDistributionHistory(
+                auth()->user()->tenant_id, $medicineId,
+                $request->query('from'), $request->query('to')
+            )
+        );
+    }
 
-    /**
-     * Inisiasi recall baru
-     */
+    public function expiryStatus(string $warehouseId): JsonResponse
+    {
+        return $this->successResponse([
+            'batches' => $this->batchService->getBatchExpiryStatus($warehouseId),
+        ]);
+    }
+
+    // ── RECALL ───────────────────────────────────────────────────────
+
     public function initiateRecall(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'medicine_id' => 'required|uuid',
-            'batch_number' => 'nullable|string',
-            'recall_type' => 'required|in:bpom_mandatory,manufacturer,internal',
-            'recall_class' => 'nullable|in:class_i,class_ii,class_iii',
-            'recall_reason' => 'required|string|max:500',
-            'recall_detail' => 'nullable|string',
-            'action_required' => 'nullable|string',
-            'bpom_recall_number' => 'nullable|string',
-            'bpom_notification_date' => 'nullable|date',
-            'recall_deadline' => 'nullable|date',
+        $data = $request->validate([
+            'medicine_id'           => 'required|uuid',
+            'batch_number'          => 'nullable|string',
+            'recall_type'           => 'required|in:bpom_mandatory,manufacturer,internal',
+            'recall_class'          => 'nullable|in:class_i,class_ii,class_iii',
+            'recall_reason'         => 'required|string|max:500',
+            'recall_detail'         => 'nullable|string',
+            'action_required'       => 'nullable|string',
+            'bpom_recall_number'    => 'nullable|string',
+            'bpom_notification_date'=> 'nullable|date',
+            'recall_deadline'       => 'nullable|date',
         ]);
-
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->recallService->initiateRecall($tenantId, $validated);
-        return $this->successResponse($result, 201);
-    }
-
-    /**
-     * Daftar recall aktif
-     */
-    public function getActiveRecalls(): JsonResponse
-    {
-        $tenantId = auth()->user()->tenant_id;
-        $recalls = $this->recallService->getActiveRecalls($tenantId);
-        return $this->successResponse(['recalls' => $recalls]);
-    }
-
-    /**
-     * Laporan detail recall
-     */
-    public function getRecallReport(string $recallId): JsonResponse
-    {
-        $report = $this->recallService->getRecallReport($recallId);
-        return $this->successResponse($report);
-    }
-
-    /**
-     * Update status handling dampak recall
-     */
-    public function updateImpactStatus(Request $request, string $impactId): JsonResponse
-    {
-        $validated = $request->validate([
-            'status' => 'required|in:patient_notified,recovered,not_recoverable,pending',
-            'quantity_recovered' => 'nullable|integer|min:0',
-            'notes' => 'nullable|string',
-        ]);
-
-        $result = $this->recallService->updateImpactStatus(
-            $impactId,
-            $validated['status'],
-            $validated['quantity_recovered'] ?? 0,
-            $validated['notes'] ?? null
+        return $this->successResponse(
+            $this->recallService->initiateRecall(auth()->user()->tenant_id, $data), 201
         );
-        return $this->successResponse($result);
     }
 
-    /**
-     * Selesaikan recall
-     */
+    public function activeRecalls(): JsonResponse
+    {
+        return $this->successResponse([
+            'recalls' => $this->recallService->getActiveRecalls(auth()->user()->tenant_id),
+        ]);
+    }
+
+    public function recallReport(string $recallId): JsonResponse
+    {
+        return $this->successResponse($this->recallService->getRecallReport($recallId));
+    }
+
+    public function updateImpact(Request $request, string $impactId): JsonResponse
+    {
+        $data = $request->validate([
+            'status'             => 'required|in:patient_notified,recovered,not_recoverable,pending',
+            'quantity_recovered' => 'nullable|integer|min:0',
+            'notes'              => 'nullable|string',
+        ]);
+        return $this->successResponse(
+            $this->recallService->updateImpactStatus($impactId, $data['status'], $data['quantity_recovered'] ?? 0, $data['notes'] ?? null)
+        );
+    }
+
     public function completeRecall(Request $request, string $recallId): JsonResponse
     {
-        $validated = $request->validate([
-            'completion_notes' => 'required|string',
-        ]);
-
-        $result = $this->recallService->completeRecall($recallId, $validated['completion_notes']);
-        return $this->successResponse($result);
+        $data = $request->validate(['completion_notes' => 'required|string']);
+        return $this->successResponse($this->recallService->completeRecall($recallId, $data['completion_notes']));
     }
 
-    // ================================================================
-    // HIGH ALERT & LASA
-    // ================================================================
+    // ── HIGH ALERT & LASA ────────────────────────────────────────────
 
-    /**
-     * Klasifikasikan obat sebagai High Alert
-     */
     public function classifyHighAlert(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'medicine_id' => 'required|uuid',
-            'alert_level' => 'required|in:high_alert,narcotics,psychotropics,precursor,cytotoxic,look_alike,sound_alike,electrolyte_concentrate',
-            'warning_label' => 'nullable|string|max:255',
-            'storage_requirement' => 'nullable|string|max:500',
-            'dispensing_precaution' => 'nullable|string',
-            'double_check_required' => 'boolean',
+        $data = $request->validate([
+            'medicine_id'              => 'required|uuid',
+            'alert_level'              => 'required|in:high_alert,narcotics,psychotropics,precursor,cytotoxic,electrolyte_concentrate',
+            'warning_label'            => 'nullable|string|max:255',
+            'storage_requirement'      => 'nullable|string|max:500',
+            'dispensing_precaution'    => 'nullable|string',
+            'double_check_required'    => 'boolean',
             'requires_special_storage' => 'boolean',
-            'visual_alert_color' => 'nullable|string|max:10',
+            'visual_alert_color'       => 'nullable|string|max:10',
         ]);
-
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->highAlertService->classifyHighAlert($tenantId, $validated);
-        return $this->successResponse($result, 201);
+        return $this->successResponse(
+            $this->highAlertService->classifyHighAlert(auth()->user()->tenant_id, $data), 201
+        );
     }
 
-    /**
-     * Daftar High Alert
-     */
-    public function getHighAlertList(Request $request): JsonResponse
+    public function highAlertList(Request $request): JsonResponse
     {
-        $tenantId = auth()->user()->tenant_id;
-        $level = $request->query('level');
-        $list = $this->highAlertService->getHighAlertList($tenantId, $level);
-        return $this->successResponse(['high_alerts' => $list]);
+        return $this->successResponse([
+            'high_alerts' => $this->highAlertService->getHighAlertList(auth()->user()->tenant_id, $request->query('level')),
+        ]);
     }
 
-    /**
-     * Cek High Alert untuk beberapa obat sekaligus (saat dispensing)
-     */
     public function checkHighAlert(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'medicine_ids' => 'required|array|min:1',
-            'medicine_ids.*' => 'uuid',
+        $data = $request->validate(['medicine_ids' => 'required|array|min:1', 'medicine_ids.*' => 'uuid']);
+        return $this->successResponse([
+            'alerts' => $this->highAlertService->checkHighAlert(auth()->user()->tenant_id, $data['medicine_ids']),
         ]);
-
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->highAlertService->checkHighAlert($tenantId, $validated['medicine_ids']);
-        return $this->successResponse(['alerts' => $result]);
     }
 
-    /**
-     * Nonaktifkan High Alert
-     */
     public function deactivateHighAlert(string $medicineId): JsonResponse
     {
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->highAlertService->deactivateHighAlert($tenantId, $medicineId);
-        return $this->successResponse($result);
+        return $this->successResponse(
+            $this->highAlertService->deactivateHighAlert(auth()->user()->tenant_id, $medicineId)
+        );
     }
 
-    /**
-     * Daftarkan pasangan LASA
-     */
-    public function registerLASAPair(Request $request): JsonResponse
+    public function registerLASA(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'medicine_a_id' => 'required|uuid',
-            'medicine_b_id' => 'required|uuid|different:medicine_a_id',
-            'lasa_type' => 'required|in:look_alike,sound_alike,both',
-            'similarity_reason' => 'nullable|string|max:500',
+        $data = $request->validate([
+            'medicine_a_id'               => 'required|uuid',
+            'medicine_b_id'               => 'required|uuid|different:medicine_a_id',
+            'lasa_type'                   => 'required|in:look_alike,sound_alike,both',
+            'similarity_reason'           => 'nullable|string|max:500',
             'requires_tall_man_lettering' => 'boolean',
-            'tall_man_lettering_a' => 'nullable|string|max:255',
-            'tall_man_lettering_b' => 'nullable|string|max:255',
+            'tall_man_lettering_a'        => 'nullable|string|max:255',
+            'tall_man_lettering_b'        => 'nullable|string|max:255',
         ]);
-
-        $tenantId = auth()->user()->tenant_id;
-        $result = $this->highAlertService->registerLASAPair($tenantId, $validated);
-        return $this->successResponse($result, 201);
+        return $this->successResponse(
+            $this->highAlertService->registerLASAPair(auth()->user()->tenant_id, $data), 201
+        );
     }
 
-    /**
-     * Daftar LASA aktif
-     */
-    public function getLASAList(): JsonResponse
+    public function lasaList(): JsonResponse
     {
-        $tenantId = auth()->user()->tenant_id;
-        $list = $this->highAlertService->getLASAList($tenantId);
-        return $this->successResponse(['lasa_pairs' => $list]);
+        return $this->successResponse([
+            'lasa_pairs' => $this->highAlertService->getLASAList(auth()->user()->tenant_id),
+        ]);
     }
 
-    /**
-     * Cek peringatan LASA untuk obat dalam resep (saat dispensing)
-     */
-    public function checkLASAWarnings(Request $request): JsonResponse
+    public function checkLASA(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'medicine_ids' => 'required|array|min:1',
-            'medicine_ids.*' => 'uuid',
+        $data = $request->validate(['medicine_ids' => 'required|array|min:1', 'medicine_ids.*' => 'uuid']);
+        return $this->successResponse([
+            'warnings' => $this->highAlertService->checkLASAWarnings(auth()->user()->tenant_id, $data['medicine_ids']),
         ]);
-
-        $tenantId = auth()->user()->tenant_id;
-        $warnings = $this->highAlertService->checkLASAWarnings($tenantId, $validated['medicine_ids']);
-        return $this->successResponse(['warnings' => $warnings]);
     }
 }
