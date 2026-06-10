@@ -180,4 +180,44 @@ class User extends Authenticatable
     {
         return $this->hasOne(RegistrationInstitutionModel::class, 'id', 'sip_institution_id');
     }
+
+    public function getFullNameWithDegreesAttribute(): string
+    {
+        $prefix = $this->prefixes->pluck('name')->join(' ');
+        $suffix = $this->suffixes->pluck('name')->join(', ');
+
+        return trim(($prefix ? $prefix . ' ' : '') . $this->name . ($suffix ? ', ' . $suffix : ''));
+    }
+
+    public function scopeSameTenant($query): object
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return $query->with(['roles', 'prefixes', 'suffixes']);
+        }
+
+        $activeTenantId = $user->getActiveTenantId();
+
+        if (!$activeTenantId) {
+            return $query->with(['roles', 'prefixes', 'suffixes']);
+        }
+
+        // Set permission team id dulu
+        setPermissionsTeamId($activeTenantId);
+
+        return $query
+            ->where('users.tenant_id', $activeTenantId)
+            ->with([
+                'roles' => function ($query) use ($activeTenantId) {
+                    // PENTING: Harus join ke pivot table model_has_roles
+                    $query->where(function ($q) use ($activeTenantId) {
+                        $q->whereNull('roles.tenant_id')
+                            ->orWhere('roles.tenant_id', $activeTenantId);
+                    });
+                },
+                'prefixes',
+                'suffixes'
+            ]);
+    }
 }

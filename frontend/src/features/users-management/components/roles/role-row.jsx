@@ -1,15 +1,16 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Lock, Settings, Shield} from "lucide-react";
 import {Badge} from "@shared/components/ui/badge.jsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 
 
-export const RoleRow = ({item, canEdit, setOpenModal, setOpenPermissionModal}) => {
+export const RoleRow = ({item, canEdit, setOpenModal, setOpenPermissionModal, checkboxCell}) => {
     const isGlobalRole = item.tenant_id === null;
     const canModify = !isGlobalRole;
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canModify && setOpenModal(item.uuid)}>
@@ -53,25 +54,23 @@ export const RoleRow = ({item, canEdit, setOpenModal, setOpenPermissionModal}) =
                 className="hover:cursor-pointer"
                 onClick={() => canModify && setOpenModal(item.uuid)}>
                 <TooltipProvider>
-                    {canModify && (
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
-                                    onClick={() => setOpenPermissionModal(item.uuid)}
-                                >
-                                    <Settings className="h-4 w-4"/>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Assign Permissions</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    )}
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+                                onClick={() => setOpenPermissionModal(item.uuid)}
+                            >
+                                <Settings className="h-4 w-4"/>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Assign Permissions</p>
+                        </TooltipContent>
+                    </Tooltip>
                 </TooltipProvider>
             </TableCell>
-        </>
+        </TableRow>
     );
 }

@@ -11,6 +11,7 @@ use Domains\Subscriptions\Domain\Repository\OrderRepositoryInterface;
 use Domains\Subscriptions\Domain\Repository\PlanRepositoryInterface;
 use Domains\Subscriptions\Domain\Repository\SubscriptionPaymentRepositoryInterface;
 use Domains\Subscriptions\Domain\Repository\SubscriptionRepositoryInterface;
+use Domains\Subscriptions\Infrastructure\Listeners\AssignFreePlanOnTenantCreated;
 use Domains\Subscriptions\Infrastructure\Persistence\Repositories\EloquentOrderRepository;
 use Domains\Subscriptions\Infrastructure\Persistence\Repositories\EloquentPlanRepository;
 use Domains\Subscriptions\Infrastructure\Persistence\Repositories\EloquentSubscriptionPaymentRepository;
@@ -19,6 +20,8 @@ use Domains\Subscriptions\Infrastructure\Services\XenditPaymentService;
 use Domains\Subscriptions\Presentation\Controllers\OrderController;
 use Domains\Subscriptions\Presentation\Controllers\PlanController;
 use Domains\Subscriptions\Presentation\Controllers\SubscriptionController;
+use Domains\Tenant\Domain\Events\TenantCreated;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class SubscriptionsServiceProvider extends ServiceProvider
@@ -66,5 +69,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/Presentation/routes/subscriptions.php');
+
+        // ── Event Listeners ───────────────────────────────────────────────────────
+        Event::listen(TenantCreated::class, AssignFreePlanOnTenantCreated::class);
     }
 }

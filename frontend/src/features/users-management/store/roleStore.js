@@ -27,16 +27,32 @@ export const useRoleStore = create((set, get) => ({
     setSearch: (search) => set({search}),
 
     setSelectedPermissions: (permissionUuid) => {
-        set((state) => ({
-            selectedPermissions: state.selectedPermissions.includes(permissionUuid)
-                ? state.selectedPermissions.filter((id) => id !== permissionUuid)
-                : [...state.selectedPermissions, permissionUuid],
-        }));
+        // Handle both single UUID (toggle) and array of UUIDs (set)
+        if (Array.isArray(permissionUuid)) {
+            set({selectedPermissions: permissionUuid});
+        } else {
+            set((state) => ({
+                selectedPermissions: state.selectedPermissions.includes(permissionUuid)
+                    ? state.selectedPermissions.filter((id) => id !== permissionUuid)
+                    : [...state.selectedPermissions, permissionUuid],
+            }));
+        }
     },
 
     setOpenPermissionModal: async (id) => {
         if (id) {
             await get().showRole(id);
+            // Load current permissions after role is loaded
+            setTimeout(() => {
+                const role = get().roleValue;
+                if (role?.permissions) {
+                    const permissionUuids = role.permissions.map(p => p.uuid);
+                    set({selectedPermissions: permissionUuids});
+                }
+            }, 0);
+        } else {
+            // Reset permissions when closing modal
+            set({selectedPermissions: []});
         }
         set({openPermissionModal: !get().openPermissionModal});
     },
@@ -74,7 +90,6 @@ export const useRoleStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     fetchPermissions: async () => {
         try {
             const response = await apiCall.get("/api/v1/permissions");
@@ -83,7 +98,6 @@ export const useRoleStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     showRole: async (roleUuid) => {
         try {
             const response = await apiCall.get(`/api/v1/roles/${roleUuid}`);
@@ -92,20 +106,22 @@ export const useRoleStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     assignPermissions: async () => {
+        set({isLoading: true});
         try {
-            await apiCall.put(`/api/v1/roles/${get().roleValue.uuid}`, {
+            const response = await apiCall.put(`/api/v1/roles/${get().roleValue.uuid}`, {
                 permissions: get().selectedPermissions,
                 name: get().roleValue.name,
             });
             toast.success("Permissions berhasil diassign.");
-            set({openPermissionModal: false});
+            // Update roleValue with the fresh response that includes updated permissions
+            set({roleValue: response.data, openPermissionModal: false, isLoading: false});
+            await get().fetchRoles({perPage: 20});
         } catch (e) {
+            set({isLoading: false});
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     createRole: async (data) => {
         set({isLoading: true});
         try {
@@ -118,7 +134,6 @@ export const useRoleStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     updateRole: async (data) => {
         set({isLoading: true});
         try {
@@ -130,7 +145,6 @@ export const useRoleStore = create((set, get) => ({
             toast.error(e.response?.data?.message || "Terjadi kesalahan");
         }
     },
-
     deleteRole: async (id) => {
         set({isLoading: true});
         try {

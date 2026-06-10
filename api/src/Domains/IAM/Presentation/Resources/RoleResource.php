@@ -16,6 +16,11 @@ class RoleResource extends JsonResource
             'tenant_id' => $this->tenant_id,
             'name' => $this->name,
             'guard_name' => $this->guard_name,
+            'permissions' => $this->permissions->map(fn($p) => [
+                'uuid' => $p->uuid,
+                'name' => $p->name,
+                'description' => $p->description,
+            ])->values(),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

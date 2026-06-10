@@ -11,14 +11,14 @@ use Domains\Inpatient\Presentation\Controllers\BedAssignmentController;
 use Domains\Inpatient\Presentation\Controllers\InpatientAdmissionController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyCareController;
 use Domains\Inpatient\Presentation\Controllers\InpatientDailyMedicationController;
-use Domains\MasterData\Persentation\Controllers\DegreeController;
-use Domains\MasterData\Persentation\Controllers\DepartmentController;
-use Domains\MasterData\Persentation\Controllers\DiseaseController;
-use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
-use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
-use Domains\MasterData\Persentation\Controllers\PoliController;
-use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionController;
-use Domains\MasterData\Persentation\Controllers\RoomTypeController;
+use Domains\MasterData\Presentation\Controllers\DegreeController;
+use Domains\MasterData\Presentation\Controllers\DepartmentController;
+use Domains\MasterData\Presentation\Controllers\DiseaseController;
+use Domains\MasterData\Presentation\Controllers\PaymentMethodController;
+use Domains\MasterData\Presentation\Controllers\PaymentMethodTypeController;
+use Domains\MasterData\Presentation\Controllers\PoliController;
+use Domains\MasterData\Presentation\Controllers\RegistrationInstitutionController;
+use Domains\MasterData\Presentation\Controllers\RoomTypeController;
 use Domains\MedicalWork\Presentation\Controllers\DoctorScheduleController;
 use Domains\MedicalWork\Presentation\Controllers\ProfessionController;
 use Domains\MedicalWork\Presentation\Controllers\SpecializationController;
@@ -151,3 +151,4 @@ Route::middleware(['module:Electronic Medical Record'])->group(function () {
         Route::post('/medication-dispensing/{prescription}', [PrescriptionController::class, 'medicationDispensing']);
     });
 });
+

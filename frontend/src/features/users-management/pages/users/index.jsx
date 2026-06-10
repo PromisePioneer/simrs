@@ -72,10 +72,12 @@ function UserPage() {
                     searchPlaceholder="Search users by name or email..."
                     emptyStateIcon={Shield}
                     emptyStateText="No users found"
-                    renderRow={(item) =>
+                    renderRow={(item, index, checkboxCell) =>
                         <UserRow item={item}
                                  canEdit={user.canEdit}
-                                 getRoleBadgeVariant={user.getRoleBadgeVariant}/>
+                                 getRoleBadgeVariant={user.getRoleBadgeVariant}
+                                 checkboxCell={checkboxCell}
+                        />
                     }
                     showSearch={true}
                     selectable={user.canDelete}

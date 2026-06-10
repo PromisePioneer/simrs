@@ -27,4 +27,23 @@ class RoleService extends BaseCrudService
     {
         return $this->repository->getByTenant($tenantId);
     }
+
+    public function update(string $id, array $data): object
+    {
+        $record = $this->repository->findById($id);
+        
+        // Extract permissions from data
+        $permissions = $data['permissions'] ?? [];
+        unset($data['permissions']);
+        
+        // Update role attributes
+        $record->update($data);
+        
+        // Sync permissions if provided
+        if (!empty($permissions)) {
+            $record->syncPermissions($permissions);
+        }
+        
+        return $record->fresh();
+    }
 }

@@ -79,12 +79,13 @@ function RolePage() {
                     searchPlaceholder="Cari peran pengguna..."
                     emptyStateIcon={Shield}
                     emptyStateText="Data tidak ditemukan"
-                    renderRow={(item) => (
+                    renderRow={(item, index, checkboxCell) => (
                         <RoleRow
                             item={item}
                             canEdit={role.canEdit}
                             setOpenModal={role.setOpenModal}
                             setOpenPermissionModal={role.setOpenPermissionModal}
+                            checkboxCell={checkboxCell}
                         />
                     )}
                     showSearch={true}

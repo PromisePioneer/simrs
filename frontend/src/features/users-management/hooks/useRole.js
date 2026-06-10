@@ -43,13 +43,6 @@ export const useRole = () => {
     }, [store.roleValue, reset]);
 
     useEffect(() => {
-        if (store.openPermissionModal && store.roleValue?.permissions) {
-            const currentPermissions = store.roleValue.permissions.map(p => p.uuid);
-            store.setSelectedPermissions(currentPermissions);
-        }
-    }, [store.roleValue, store.openPermissionModal, store.setSelectedPermissions]);
-
-    useEffect(() => {
         store.fetchRoles({perPage: 20});
         store.fetchPermissions();
     }, [store.currentPage, store.search, store.fetchRoles, store.fetchPermissions]);

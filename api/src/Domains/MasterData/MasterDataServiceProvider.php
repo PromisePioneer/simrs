@@ -34,21 +34,21 @@ use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPaymentMet
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentPoliRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRegistrationInstitutionRepository;
 use Domains\MasterData\Infrastructure\Persistent\Repositories\EloquentRoomTypeRepository;
-use Domains\MasterData\Persentation\Controllers\DegreeController;
-use Domains\MasterData\Persentation\Controllers\DepartmentController;
-use Domains\MasterData\Persentation\Controllers\DiseaseController;
-use Domains\MasterData\Persentation\Controllers\PaymentMethodController;
-use Domains\MasterData\Persentation\Controllers\PaymentMethodTypeController;
-use Domains\MasterData\Persentation\Controllers\PoliController;
-use Domains\MasterData\Persentation\Controllers\RegistrationInstitutionController;
-use Domains\MasterData\Persentation\Controllers\RoomTypeController;
-use Domains\MasterData\Persentation\Policies\DegreePolicy;
-use Domains\MasterData\Persentation\Policies\DepartmentPolicy;
-use Domains\MasterData\Persentation\Policies\DiseasePolicy;
-use Domains\MasterData\Persentation\Policies\PaymentMethodTypePolicy;
-use Domains\MasterData\Persentation\Policies\PoliPolicy;
-use Domains\MasterData\Persentation\Policies\RegistrationInstitutionPolicy;
-use Domains\MasterData\Persentation\Policies\RoomTypePolicy;
+use Domains\MasterData\Presentation\Controllers\DegreeController;
+use Domains\MasterData\Presentation\Controllers\DepartmentController;
+use Domains\MasterData\Presentation\Controllers\DiseaseController;
+use Domains\MasterData\Presentation\Controllers\PaymentMethodController;
+use Domains\MasterData\Presentation\Controllers\PaymentMethodTypeController;
+use Domains\MasterData\Presentation\Controllers\PoliController;
+use Domains\MasterData\Presentation\Controllers\RegistrationInstitutionController;
+use Domains\MasterData\Presentation\Controllers\RoomTypeController;
+use Domains\MasterData\Presentation\Policies\DegreePolicy;
+use Domains\MasterData\Presentation\Policies\DepartmentPolicy;
+use Domains\MasterData\Presentation\Policies\DiseasePolicy;
+use Domains\MasterData\Presentation\Policies\PaymentMethodTypePolicy;
+use Domains\MasterData\Presentation\Policies\PoliPolicy;
+use Domains\MasterData\Presentation\Policies\RegistrationInstitutionPolicy;
+use Domains\MasterData\Presentation\Policies\RoomTypePolicy;
 use Illuminate\Support\Facades\Gate;
 
 class MasterDataServiceProvider extends ServiceProvider

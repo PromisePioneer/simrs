@@ -1,19 +1,16 @@
 import SettingPage from "@features/settings/pages/index.jsx";
-import {usePatientStore} from "@features/patients";
 import {
     UserRoundCog,
     Plus,
     Activity, Trash2,
 } from "lucide-react";
 import {Button} from "@shared/components/ui/button.jsx";
-import {useEffect} from "react";
 import DataTable from "@shared/components/common/data-table.jsx";
 import {Link} from "@tanstack/react-router";
 import {PatientRow} from "@features/patients/pages/components/patient-row.jsx";
 import {PATIENT_COLUMNS} from "@features/patients/constants/index.js";
 import {usePatient} from "@features/patients/hooks/usePatient.js";
 import Modal from "@shared/components/common/modal.jsx";
-import {PoliDeleteModalContent} from "@features/settings/pages/components/poli/modal-content.jsx";
 import {PatientDeleteModalContent} from "@features/patients/components/modal-content.jsx";
 
 function PatientPage() {
@@ -98,8 +95,8 @@ function PatientPage() {
                         searchPlaceholder="Cari nama pasien, nomor rekam medis..."
                         emptyStateIcon={UserRoundCog}
                         emptyStateText="Belum ada data pasien"
-                        renderRow={(item) =>
-                            <PatientRow key={item.id} item={item} canEdit={patient.canEdit}/>
+                        renderRow={(item, index, checkboxCell) =>
+                            <PatientRow item={item} canEdit={patient.canEdit} checkboxCell={checkboxCell}/>
                         }
                         showSearch={true}
                         selectable={patient.canDelete}

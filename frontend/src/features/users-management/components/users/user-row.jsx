@@ -1,4 +1,4 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@shared/components/ui/avatar.jsx";
 import {asset} from "@shared/services/index.js";
 import {getInitials} from "@shared/hooks/index.js";
@@ -6,12 +6,13 @@ import {Link, useNavigate} from "@tanstack/react-router";
 import {MailWarning, MailCheck, Phone, MapPin} from "lucide-react";
 import {Badge} from "@shared/components/ui/badge.jsx";
 
-export const UserRow = ({item, canEdit, getRoleBadgeVariant}) => {
+export const UserRow = ({item, canEdit, getRoleBadgeVariant, checkboxCell}) => {
 
     const navigate = useNavigate();
 
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && navigate({
@@ -101,6 +102,6 @@ export const UserRow = ({item, canEdit, getRoleBadgeVariant}) => {
                     </Badge>
                 )}
             </TableCell>
-        </>
+        </TableRow>
     );
 }
