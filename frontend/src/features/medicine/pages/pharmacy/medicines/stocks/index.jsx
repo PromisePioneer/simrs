@@ -103,10 +103,11 @@ function MedicineStocks(opts) {
                     searchPlaceholder="Cari obat..."
                     emptyStateIcon={Archive}
                     emptyStateText="Tidak ada data obat ditemukan"
-                    renderRow={(item) => <MedicineStockRow item={item}
-                                                           canEdit={medicineStock.canEdit}
-                                                           setOpenModal={medicineStock.setOpenModal}
-                                                           setOpenDeleteModal={medicineStock.setOpenDeleteModal}
+                    renderRow={(item, index, checkboxCell) => <MedicineStockRow item={item}
+                                                                                checkboxCell={checkboxCell}
+                                                                                canEdit={medicineStock.canEdit}
+                                                                                setOpenModal={medicineStock.setOpenModal}
+                                                                                setOpenDeleteModal={medicineStock.setOpenDeleteModal}
                     />}
                     showSearch={true}
                     selectable={medicineStock.canDelete}

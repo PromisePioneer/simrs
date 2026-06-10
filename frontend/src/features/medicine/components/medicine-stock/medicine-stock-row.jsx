@@ -1,13 +1,14 @@
-import {TableCell} from "@shared/components/ui/table.jsx";
+import {TableCell, TableRow} from "@shared/components/ui/table.jsx";
 import {format} from "date-fns";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@shared/components/ui/tooltip.jsx";
 import {Button} from "@shared/components/ui/button.jsx";
 import {Pencil, Trash2} from "lucide-react";
 
 
-export const MedicineStockRow = ({item, canEdit, setOpenModal}) => {
+export const MedicineStockRow = ({item, canEdit, setOpenModal, checkboxCell}) => {
     return (
-        <>
+        <TableRow>
+            {checkboxCell}
             <TableCell
                 className="hover:cursor-pointer"
                 onClick={() => canEdit && setOpenModal(item.id)}>
@@ -50,6 +51,6 @@ export const MedicineStockRow = ({item, canEdit, setOpenModal}) => {
                 onClick={() => canEdit && setOpenModal(item.id)}>
                 <span className="font-semibold text-foreground">{item.stock?.stock_amount}</span>
             </TableCell>
-        </>
+        </TableRow>
     );
 }
