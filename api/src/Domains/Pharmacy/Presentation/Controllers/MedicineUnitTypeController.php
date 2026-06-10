@@ -19,7 +19,9 @@ class MedicineUnitTypeController extends Controller
 
     public function __construct(
         private readonly MedicineUnitTypeService $unitTypeService
-    ) {}
+    )
+    {
+    }
 
     public function index(Request $request): JsonResponse
     {

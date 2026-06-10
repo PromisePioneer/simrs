@@ -6,6 +6,7 @@ use Domains\Pharmacy\Presentation\Controllers\MedicineCategoryController;
 use Domains\Pharmacy\Presentation\Controllers\MedicineController;
 use Domains\Pharmacy\Presentation\Controllers\MedicineRackController;
 use Domains\Pharmacy\Presentation\Controllers\MedicineStockMovementController;
+use Domains\Pharmacy\Presentation\Controllers\MedicineSupplierController;
 use Domains\Pharmacy\Presentation\Controllers\MedicineUnitTypeController;
 use Domains\Pharmacy\Presentation\Controllers\MedicineWarehouseController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 // ── Pro only ──────────────────────────────────────────────────────────────────
 Route::middleware(['module:Electronic Medical Record'])->group(function () {
     Route::prefix('pharmacy')->group(function () {
+
+        Route::apiResource('medicine-suppliers', MedicineSupplierController::class);
+        Route::delete('medicine-suppliers/bulk-delete', [MedicineSupplierController::class, 'destroy']);
+
         Route::apiResource('medicine-categories', MedicineCategoryController::class);
         Route::delete('medicine-categories/bulk', [MedicineCategoryController::class, 'destroy']);
 

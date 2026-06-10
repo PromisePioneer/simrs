@@ -10,6 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
+
+        Schema::create('medicine_suppliers', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->string('name');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('is_active');
+        });
+
         Schema::create('medicine_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->nullable()->constrained('tenants')->cascadeOnDelete();
@@ -60,6 +70,7 @@ return new class extends Migration {
         Schema::create('medicine_batches', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('supplier_id')->constrained('medicine_suppliers')->cascadeOnDelete();
             $table->foreignUuid('medicine_id')->constrained()->cascadeOnDelete();
             $table->string('batch_number');
             $table->bigInteger('sequence');
@@ -94,8 +105,8 @@ return new class extends Migration {
             $table->foreignUuid('batch_id')->constrained('medicine_batches')->cascadeOnDelete();
             $table->foreignUuid('warehouse_id')->constrained('medicine_warehouses')->cascadeOnDelete();
             $table->foreignUuid('rack_id')->nullable()->constrained('medicine_racks')->nullOnDelete();
-            $table->enum('type', ['in', 'out', 'adjustment', 'transfer']);
-            $table->integer('quantity');
+            $table->enum('type', ['in', 'out', 'adjustment', 'transfer', 'opname', 'retur']);
+            $table->decimal('quantity', 12, 2);
             $table->string('reference_type')->nullable();
             $table->uuid('reference_id')->nullable();
             $table->text('notes')->nullable();
